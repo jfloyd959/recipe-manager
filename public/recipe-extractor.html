@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Extractor - Extract from Markdown</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #2c5282;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border-left: 4px solid #4299e1;
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-top: 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #3182ce;
+        }
+
+        button:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .download-btn {
+            background: #38a169;
+        }
+
+        .download-btn:hover {
+            background: #2f855a;
+        }
+
+        .status {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .status.loading {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .status.success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status.error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .results {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .recipe-preview {
+            max-height: 400px;
+            overflow-y: auto;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .ingredient-list {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .ingredient-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 4px;
+            border-left: 3px solid #4299e1;
+        }
+
+        .ingredient-name {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .ingredient-type {
+            color: #4a5568;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🛡️ Recipe Extractor - Markdown to CSV</h1>
+
+        <div class="section">
+            <h2>📋 Extract Countermeasure Recipes</h2>
+            <p>Extract detailed recipe information from COUNTERMEASURES.md and generate CSV data for missing recipes.
+            </p>
+
+            <div class="button-group">
+                <button onclick="extractRecipes()" id="extractBtn">
+                    🔍 Extract Recipes from Markdown
+                </button>
+                <button onclick="downloadCSV()" id="downloadBtn" disabled class="download-btn">
+                    📥 Download Countermeasure CSV
+                </button>
+                <button onclick="downloadIngredientCSV()" id="downloadIngredientBtn" disabled class="download-btn">
+                    📥 Download Ingredient CSV
+                </button>
+                <button onclick="downloadAnalysis()" id="downloadAnalysisBtn" disabled class="download-btn">
+                    📊 Download Analysis Report
+                </button>
+            </div>
+
+            <div id="status" class="status" style="display: none;"></div>
+        </div>
+
+        <div id="results" class="results" style="display: none;">
+            <h2>📈 Extraction Results</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalRecipes">0</div>
+                    <div class="stat-label">Total Recipes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalIngredients">0</div>
+                    <div class="stat-label">New Ingredients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="countermeasureTypes">0</div>
+                    <div class="stat-label">Countermeasure Types</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="variantsPerType">0</div>
+                    <div class="stat-label">Variants per Type</div>
+                </div>
+            </div>
+
+            <h3>🎯 Recipe Preview (First 10 recipes)</h3>
+            <div id="recipePreview" class="recipe-preview"></div>
+
+            <h3>🧱 New Ingredients Extracted</h3>
+            <div id="ingredientList" class="ingredient-list"></div>
+        </div>
+    </div>
+
+    <script src="extract-recipes.js?v=6"></script>
+    <script>
+        let extractedData = null;
+
+        function showStatus(message, type = 'loading') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            statusEl.style.display = 'block';
+        }
+
+        function hideStatus() {
+            document.getElementById('status').style.display = 'none';
+        }
+
+        async function extractRecipes() {
+            try {
+                showStatus('Loading COUNTERMEASURES.md and extracting recipes...', 'loading');
+                document.getElementById('extractBtn').disabled = true;
+
+                const extractor = new RecipeExtractor();
+                extractedData = await extractor.extractRecipes();
+
+                showStatus(`Successfully extracted ${extractedData.summary.totalRecipes} recipes and ${extractedData.summary.totalNewIngredients} ingredients!`, 'success');
+
+                // Enable download buttons
+                document.getElementById('downloadBtn').disabled = false;
+                document.getElementById('downloadIngredientBtn').disabled = false;
+                document.getElementById('downloadAnalysisBtn').disabled = false;
+
+                // Show results
+                displayResults(extractedData);
+
+                setTimeout(hideStatus, 3000);
+            } catch (error) {
+                console.error('Extraction failed:', error);
+                showStatus(`Extraction failed: ${error.message}`, 'error');
+            } finally {
+                document.getElementById('extractBtn').disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            const resultsEl = document.getElementById('results');
+            resultsEl.style.display = 'block';
+
+            // Update stats
+            document.getElementById('totalRecipes').textContent = data.summary.totalRecipes;
+            document.getElementById('totalIngredients').textContent = data.summary.totalNewIngredients;
+            document.getElementById('countermeasureTypes').textContent = data.summary.countermeasureTypes;
+            document.getElementById('variantsPerType').textContent = data.summary.variantsPerType;
+
+            // Show recipe preview
+            const previewLines = data.csvData.split('\n').slice(0, 11); // Header + first 10 recipes
+            document.getElementById('recipePreview').textContent = previewLines.join('\n');
+
+            // Show ingredient list
+            const ingredientListEl = document.getElementById('ingredientList');
+            ingredientListEl.innerHTML = '';
+
+            for (const [name, ingredient] of data.newIngredients) {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'ingredient-item';
+                itemEl.innerHTML = `
+                    <div class="ingredient-name">${name}</div>
+                    <div class="ingredient-type">[${ingredient.materialType}] - ${ingredient.function}</div>
+                `;
+                ingredientListEl.appendChild(itemEl);
+            }
+        }
+
+        function downloadCSV() {
+            if (!extractedData) return;
+
+            const blob = new Blob([extractedData.csvData], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'extracted_countermeasure_recipes.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showStatus('Countermeasure recipes CSV downloaded successfully!', 'success');
+            setTimeout(hideStatus, 2000);
+        }
+
+        function downloadIngredientCSV() {
+            if (!extractedData) return;
+
+            const blob = new Blob([extractedData.ingredientCSV], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'extracted_ingredient_recipes.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showStatus('Ingredient recipes CSV downloaded successfully!', 'success');
+            setTimeout(hideStatus, 2000);
+        }
+
+        function downloadAnalysis() {
+            if (!extractedData) return;
+
+            const extractor = new RecipeExtractor();
+            extractor.extractedRecipes = extractedData.countermeasureRecipes;
+            const analysis = extractor.generateAnalysis();
+
+            const analysisText = `# Recipe Extraction Analysis Report
+
+## Overview
+- Total Countermeasure Recipes: ${analysis.overview.totalCountermeasureRecipes}
+- Total New Ingredients: ${analysis.overview.totalNewIngredients}
+- Average Ingredients per Recipe: ${analysis.overview.averageIngredientsPerRecipe.toFixed(2)}
+
+## Recipes by Type
+${Object.entries(analysis.byType).map(([type, count]) => `- ${type}: ${count} recipes`).join('\n')}
+
+## Recipes by Tier
+${Object.entries(analysis.byTier).map(([tier, count]) => `- ${tier}: ${count} recipes`).join('\n')}
+
+## Recipes by Size
+${Object.entries(analysis.bySize).map(([size, count]) => `- ${size}: ${count} recipes`).join('\n')}
+
+## New Ingredients Extracted
+${Array.from(extractedData.newIngredients.keys()).map(name => `- ${name}`).join('\n')}
+`;
+
+            const blob = new Blob([analysisText], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'recipe_extraction_analysis.md';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showStatus('Analysis report downloaded successfully!', 'success');
+            setTimeout(hideStatus, 2000);
+        }
+
+        // Auto-load on page load for convenience
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Recipe Extractor loaded. Click "Extract Recipes" to begin.');
+        });
+    </script>
+</body>
+
+</html>

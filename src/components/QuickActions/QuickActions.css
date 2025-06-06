@@ -1,0 +1,87 @@
+.quick-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.primary-action {
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    font-weight: 600;
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+.primary-action:hover {
+    background: linear-gradient(135deg, #45a049 0%, #4caf50 100%);
+}
+
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.dropdown-toggle:hover {
+    background: linear-gradient(135deg, #1976d2 0%, #2196f3 100%);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    min-width: 160px;
+    margin-top: 5px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    color: #e0e0e0;
+    border-radius: 0;
+    font-weight: normal;
+}
+
+.dropdown-menu button:hover {
+    background: #333;
+    transform: none;
+    box-shadow: none;
+}
+
+.dropdown-menu button:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.dropdown-menu button:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

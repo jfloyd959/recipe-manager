@@ -1,0 +1,88 @@
+.smart-suggestions {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.smart-suggestions h3 {
+    margin-top: 0;
+    color: #ff9800;
+}
+
+.no-suggestions {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.suggestion-item {
+    background: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.suggestion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.suggestion-type {
+    background: #2196f3;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.suggestion-confidence {
+    color: #4caf50;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.suggestion-description {
+    color: #e0e0e0;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.suggested-changes {
+    background: #1a1a1a;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.change-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.change-item strong {
+    color: #2196f3;
+    min-width: 100px;
+}
+
+.apply-suggestion {
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    padding: 8px 16px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.apply-suggestion:disabled {
+    background: #555;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.apply-suggestion:not(:disabled):hover {
+    background: linear-gradient(135deg, #45a049 0%, #4caf50 100%);
+}

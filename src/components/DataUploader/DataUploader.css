@@ -1,0 +1,33 @@
+.data-uploader {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.data-uploader h1 {
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.upload-section {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.upload-section h2 {
+    color: #e0e0e0;
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.upload-section p {
+    color: #888;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}

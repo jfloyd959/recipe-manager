@@ -1,0 +1,95 @@
+.filter-panel {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-header h3 {
+    margin: 0;
+    color: #e0e0e0;
+    font-size: 18px;
+}
+
+.clear-filters {
+    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.clear-filters:hover {
+    background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    display: block;
+    color: #e0e0e0;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.filter-group input,
+.filter-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: #2a2a2a;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.filter-group input::placeholder {
+    color: #888;
+}
+
+.filter-stats {
+    background: #2a2a2a;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.filter-stats h4 {
+    margin: 0 0 10px 0;
+    color: #2196f3;
+    font-size: 16px;
+}
+
+.stat-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-label {
+    color: #888;
+    font-size: 13px;
+}
+
+.stat-value {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 14px;
+}

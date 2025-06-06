@@ -1,0 +1,152 @@
+.dependency-tree {
+    width: 100%;
+    height: 600px;
+    overflow-y: auto;
+}
+
+.tree-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.collapse-all,
+.expand-all {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.tree-content {
+    font-family: 'Courier New', monospace;
+}
+
+.tree-node {
+    margin-bottom: 2px;
+}
+
+.node-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 3px;
+    transition: background 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.node-content:hover {
+    background: #2a2a2a;
+}
+
+.node-content.missing {
+    background: rgba(244, 67, 54, 0.1);
+    border-left-color: #f44336;
+}
+
+.node-content.tier-1 {
+    border-left-color: #4caf50;
+}
+
+.node-content.tier-2 {
+    border-left-color: #8bc34a;
+}
+
+.node-content.tier-3 {
+    border-left-color: #ff9800;
+}
+
+.node-content.tier-4 {
+    border-left-color: #ff5722;
+}
+
+.node-content.tier-5 {
+    border-left-color: #e91e63;
+}
+
+.expand-toggle {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+}
+
+.expand-toggle:hover {
+    background: #333;
+    color: #e0e0e0;
+}
+
+.node-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.node-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.node-name {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.node-quantity {
+    color: #2196f3;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.tier-badge {
+    background: #333;
+    color: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.node-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.construction-time,
+.functional-purpose,
+.missing-indicator,
+.resource-indicator {
+    color: #888;
+    background: #2a2a2a;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.missing-indicator {
+    color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+}
+
+.resource-indicator {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.node-children {
+    margin-left: 16px;
+    border-left: 1px solid #333;
+    padding-left: 8px;
+}

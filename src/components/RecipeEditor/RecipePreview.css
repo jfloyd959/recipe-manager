@@ -1,0 +1,154 @@
+.recipe-preview {
+    position: sticky;
+    top: 20px;
+}
+
+.recipe-preview h3 {
+    margin-top: 0;
+    color: #2196f3;
+}
+
+.preview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.output-info h4 {
+    margin: 0 0 10px 0;
+    color: #e0e0e0;
+    font-size: 18px;
+}
+
+.output-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.tier-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.tier-1 {
+    background: #4caf50;
+}
+
+.tier-2 {
+    background: #8bc34a;
+}
+
+.tier-3 {
+    background: #ff9800;
+}
+
+.tier-4 {
+    background: #ff5722;
+}
+
+.tier-5 {
+    background: #e91e63;
+}
+
+.output-type {
+    background: #333;
+    color: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.recipe-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-item label {
+    color: #888;
+    font-size: 14px;
+}
+
+.stat-item span {
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+.ingredients-preview h5 {
+    margin: 0 0 8px 0;
+    color: #888;
+    font-size: 14px;
+}
+
+.ingredients-preview .ingredient-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ingredients-preview .ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: #2a2a2a;
+    border-radius: 3px;
+}
+
+.functional-info,
+.planet-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.functional-info label,
+.planet-info label {
+    color: #888;
+    font-size: 14px;
+}
+
+.validation-issues {
+    background: #2a1a1a;
+    border: 1px solid #442;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.validation-issues h5 {
+    margin: 0 0 8px 0;
+    color: #ff9800;
+}
+
+.issue {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.issue.error {
+    background: #441a1a;
+    border-left: 3px solid #f44336;
+}
+
+.issue.warning {
+    background: #2a2a1a;
+    border-left: 3px solid #ff9800;
+}
+
+.issue-type {
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-right: 10px;
+}

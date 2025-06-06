@@ -1,0 +1,179 @@
+.dependency-viewer {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dependency-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.dependency-header h1 {
+    color: #e0e0e0;
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.controls-panel {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.control-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    color: #e0e0e0;
+    font-weight: 600;
+    min-width: 120px;
+}
+
+.control-group select {
+    flex: 1;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 5px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.view-toggle button {
+    background: #2a2a2a;
+    border: none;
+    padding: 10px 20px;
+    color: #e0e0e0;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.view-toggle button.active {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.view-toggle button:hover:not(.active) {
+    background: #333;
+}
+
+.dependency-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+.analysis-panel {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.analysis-panel h3 {
+    margin-top: 0;
+    color: #2196f3;
+}
+
+.analysis-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metric-label {
+    color: #888;
+    font-size: 14px;
+}
+
+.metric-value {
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+.bottlenecks,
+.missing-recipes {
+    margin-top: 20px;
+}
+
+.bottlenecks h4,
+.missing-recipes h4 {
+    margin: 0 0 10px 0;
+    color: #ff9800;
+}
+
+.bottleneck-item {
+    background: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.missing-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.missing-tag {
+    background: #f44336;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.visualization-panel {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 600px;
+}
+
+@media (max-width: 1024px) {
+    .dependency-content {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-panel {
+        position: static;
+        order: 2;
+    }
+
+    .control-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .control-group label {
+        min-width: auto;
+    }
+}

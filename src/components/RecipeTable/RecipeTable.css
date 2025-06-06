@@ -1,0 +1,147 @@
+.recipe-table {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.recipe-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recipe-table th,
+.recipe-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+.recipe-table th {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+}
+
+.recipe-table th:hover {
+    background: #333;
+}
+
+.recipe-table th.sortable::after {
+    content: ' ↕️';
+    opacity: 0.5;
+}
+
+.recipe-table th.sort-asc::after {
+    content: ' ↑';
+    opacity: 1;
+}
+
+.recipe-table th.sort-desc::after {
+    content: ' ↓';
+    opacity: 1;
+}
+
+.recipe-table td {
+    color: #e0e0e0;
+}
+
+.recipe-table tbody tr:hover {
+    background: #2a2a2a;
+}
+
+.status-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tier-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tier-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.ingredients-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 300px;
+}
+
+.ingredient-tag {
+    background: #333;
+    color: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.more-ingredients {
+    background: #2196f3;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: rgba(33, 150, 243, 0.2);
+}
+
+.delete-btn:hover {
+    background: rgba(244, 67, 54, 0.2);
+}
+
+@media (max-width: 768px) {
+
+    .recipe-table th,
+    .recipe-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .ingredients-preview {
+        max-width: 200px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
