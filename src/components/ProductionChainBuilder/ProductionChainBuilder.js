@@ -17,6 +17,7 @@ const ProductionChainBuilder = () => {
     const [hoveredResource, setHoveredResource] = useState(null);
     const [showChainAnalysis, setShowChainAnalysis] = useState(false);
     const [filter, setFilter] = useState('missing');
+    const [outputTypeFilter, setOutputTypeFilter] = useState('all');
     const [suggestionsFor, setSuggestionsFor] = useState(null);
     const [showUsageAnalysis, setShowUsageAnalysis] = useState(false);
     const [selectedIngredientUsage, setSelectedIngredientUsage] = useState(null);
@@ -110,6 +111,17 @@ const ProductionChainBuilder = () => {
 
         return allResourcesArray;
     }, [components, ingredients, rawResources]);
+
+    // Get available output types for filtering
+    const availableOutputTypes = useMemo(() => {
+        const outputTypes = new Set();
+        allResources.forEach(resource => {
+            if (resource.outputType && resource.outputType !== 'BASIC RESOURCE') {
+                outputTypes.add(resource.outputType);
+            }
+        });
+        return ['all', ...Array.from(outputTypes).sort()];
+    }, [allResources]);
 
     // Calculate completion status for an ingredient (recursive)
     const calculateCompletionStatus = (ingredientName, visited = new Set()) => {
@@ -519,54 +531,59 @@ const ProductionChainBuilder = () => {
         );
     };
 
-    // Filter ingredients that need production chains (only show ingredients, not raw materials or ship components)
+    // Filter all resources that have recipes (everything except BASIC RESOURCE)
     const targetIngredients = useMemo(() => {
-        console.log('ProductionChainBuilder: Filtering target ingredients', {
+        console.log('ProductionChainBuilder: Filtering target resources with recipes', {
             allResourcesCount: allResources.length,
             recipesCount: recipes.length,
             filter,
-            sortBy
+            outputTypeFilter,
+            sortBy,
+            availableOutputTypes: availableOutputTypes.length
         });
 
         let debugCount = 0;
-        let ingredientCount = 0;
+        let resourceCount = 0;
 
         const filtered = allResources.filter(resource => {
-            // Only process ingredients
-            const isIngredient = resource.type === 'ingredient' || resource.outputType === 'INGREDIENT';
-            if (!isIngredient) return false;
+            // Include all resources that have recipes (exclude only BASIC RESOURCE)
+            const hasRecipe = resource.outputType && resource.outputType !== 'BASIC RESOURCE';
+            if (!hasRecipe) return false;
 
-            ingredientCount++; // Count how many ingredients we're processing
+            // Apply output type filter
+            if (outputTypeFilter !== 'all' && resource.outputType !== outputTypeFilter) {
+                return false;
+            }
+
+            resourceCount++; // Count how many resources we're processing
 
             const actualCompletionStatus = calculateCompletionStatus(resource.name);
             let shouldInclude = false;
 
-            // TEMPORARILY OVERRIDE: Show all ingredients regardless of filter to test
-            if (filter === 'missing') {
-                shouldInclude = true; // Force include all for debugging
-            } else {
-                switch (filter) {
-                    case 'missing':
-                        shouldInclude = actualCompletionStatus === 'missing';
-                        break;
-                    case 'incomplete':
-                        shouldInclude = actualCompletionStatus === 'incomplete';
-                        break;
-                    case 'complete':
-                        shouldInclude = actualCompletionStatus === 'complete';
-                        break;
-                    case 'all':
-                    default:
-                        shouldInclude = true;
-                        break;
-                }
+            // Apply completion status filter
+            switch (filter) {
+                case 'missing':
+                    shouldInclude = actualCompletionStatus === 'missing';
+                    break;
+                case 'incomplete':
+                    shouldInclude = actualCompletionStatus === 'incomplete';
+                    break;
+                case 'complete':
+                    shouldInclude = actualCompletionStatus === 'complete';
+                    break;
+                case 'all':
+                default:
+                    shouldInclude = true;
+                    break;
             }
 
             // Debug log first few items to see what's happening
             if (debugCount < 10) {
                 console.log(`Filter Debug ${debugCount + 1}: ${resource.name}`, {
                     actualStatus: actualCompletionStatus,
+                    outputType: resource.outputType,
                     filter: filter,
+                    outputTypeFilter: outputTypeFilter,
                     match: actualCompletionStatus === filter,
                     shouldInclude: shouldInclude
                 });
@@ -619,12 +636,12 @@ const ProductionChainBuilder = () => {
             }
         });
 
-        console.log('ProductionChainBuilder: Filtered and Sorted INGREDIENT count:', sorted.length);
-        console.log('ProductionChainBuilder: Total ingredients processed:', ingredientCount);
+        console.log('ProductionChainBuilder: Filtered and Sorted RESOURCE count:', sorted.length);
+        console.log('ProductionChainBuilder: Total resources processed:', resourceCount);
 
-        // Log some sample ingredients
+        // Log some sample resources
         if (sorted.length > 0) {
-            console.log('Sample filtered INGREDIENTS:', sorted.slice(0, 3).map(r => ({
+            console.log('Sample filtered RESOURCES:', sorted.slice(0, 3).map(r => ({
                 name: r.name,
                 type: r.type,
                 outputType: r.outputType,
@@ -639,14 +656,12 @@ const ProductionChainBuilder = () => {
             console.log('Available types in allResources:', types);
             console.log('Available outputTypes in allResources:', outputTypes);
 
-            const ingredientTypeCount = allResources.filter(r => r.type === 'ingredient').length;
-            const ingredientOutputTypeCount = allResources.filter(r => r.outputType === 'INGREDIENT').length;
-            console.log('Total ingredient type resources found:', ingredientTypeCount);
-            console.log('Total INGREDIENT outputType resources found:', ingredientOutputTypeCount);
+            const resourcesWithRecipeCount = allResources.filter(r => r.outputType && r.outputType !== 'BASIC RESOURCE').length;
+            console.log('Total resources with recipes found:', resourcesWithRecipeCount);
         }
 
         return sorted;
-    }, [allResources, recipes, filter, sortBy, ingredientUsageStats]);
+    }, [allResources, recipes, filter, outputTypeFilter, sortBy, ingredientUsageStats]);
 
     // Calculate completion stats
     const completionStats = useMemo(() => {
@@ -1812,6 +1827,7 @@ const ProductionChainBuilder = () => {
             console.log('🔍 Starting recursive tier validation...');
 
             // Helper function to recursively find all raw resources in a production chain
+            // Enhanced to return tier, PlanetTypes, and Factions information
             const rawResourcesCache = new Map(); // Optimization: Cache results to avoid duplicate calculations
             const findRawResourcesInChain = (recordName, visited = new Set()) => {
                 // Check cache first
@@ -1830,11 +1846,13 @@ const ProductionChainBuilder = () => {
                     return []; // Record not found
                 }
 
-                // If this is a raw material, return it
+                // If this is a raw material, return it with all metadata
                 if (record.OutputType === 'BASIC RESOURCE') {
                     const result = [{
                         name: recordName,
-                        tier: parseInt(record.OutputTier) || 0
+                        tier: parseInt(record.OutputTier) || 0,
+                        planetTypes: (record.PlanetTypes || '').trim(),
+                        factions: (record.Factions || '').trim()
                     }];
                     rawResourcesCache.set(recordName, result);
                     return result;
@@ -1858,64 +1876,123 @@ const ProductionChainBuilder = () => {
             let tierCorrections = 0;
             const tierCorrectionLog = [];
 
-            // Check each non-raw record with chunked processing to prevent timeout
+            // ENHANCED TIER VALIDATION: Consider ALL ingredient tiers, not just raw resources
+            console.log('🔧 Enhanced tier validation: considering ALL ingredient tiers...');
+
+            const recalculateAllTiers = () => {
+                let changed = true;
+                let iterations = 0;
+                const maxIterations = 10; // Prevent infinite loops
+                let totalCorrections = 0;
+
+                // Keep iterating until no more changes (handles nested dependencies)
+                while (changed && iterations < maxIterations) {
+                    changed = false;
+                    iterations++;
+                    console.log(`🔄 Tier calculation iteration ${iterations}...`);
+
+                    Array.from(uniqueRecords.values()).forEach(record => {
+                        const outputType = (record.OutputType || '').toUpperCase();
+
+                        // Only recalculate COMPONENT and INGREDIENT tiers
+                        if (outputType !== 'COMPONENT' && outputType !== 'INGREDIENT') {
+                            return;
+                        }
+
+                        const name = record.OutputName;
+                        const currentTier = parseInt(record.OutputTier || 1);
+
+                        // Get all ingredients and their tiers
+                        const ingredientTiers = [];
+
+                        // Check all ingredient slots
+                        for (let i = 1; i <= 9; i++) {
+                            const ingredientName = record[`Ingredient${i}`];
+                            if (ingredientName && ingredientName.trim()) {
+                                const ingredientRecord = uniqueRecords.get(ingredientName.trim());
+                                if (ingredientRecord) {
+                                    const ingTier = parseInt(ingredientRecord.OutputTier || 1);
+                                    ingredientTiers.push(ingTier);
+                                }
+                            }
+                        }
+
+                        if (ingredientTiers.length > 0) {
+                            const maxIngredientTier = Math.max(...ingredientTiers);
+
+                            // Component tier should be >= highest ingredient tier
+                            if (currentTier < maxIngredientTier) {
+                                const oldTier = currentTier;
+                                record.OutputTier = maxIngredientTier.toString();
+
+                                tierCorrectionLog.push({
+                                    item: name,
+                                    oldTier: oldTier,
+                                    newTier: maxIngredientTier,
+                                    outputType: outputType,
+                                    correctionType: 'INGREDIENT_BASED'
+                                });
+
+                                totalCorrections++;
+                                changed = true;
+
+                                if (totalCorrections <= 15) { // Log first 15 for visibility
+                                    console.log(`📈 ${outputType}: ${name} T${oldTier} → T${maxIngredientTier} (ingredient-based)`);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                console.log(`✅ Enhanced tier recalculation complete after ${iterations} iterations. ${totalCorrections} corrections made.`);
+                return totalCorrections;
+            };
+
+            // Run the enhanced tier recalculation
+            const enhancedCorrections = recalculateAllTiers();
+            tierCorrections = enhancedCorrections;
+
+            // FALLBACK: Also run the old raw resource validation for any remaining issues
+            console.log('🔄 Running fallback raw resource tier validation...');
+
             const allRecords = Array.from(uniqueRecords.values()).filter(record =>
                 record.OutputType !== 'BASIC RESOURCE' && record.OutputName
             );
-            const chunkSize = 50; // Process 50 records at a time
 
-            console.log(`Processing ${allRecords.length} records for tier validation in chunks of ${chunkSize}...`);
+            allRecords.forEach(record => {
+                const outputType = record.OutputType || '';
+                if (!['COMPONENT', 'INGREDIENT'].includes(outputType)) {
+                    return;
+                }
 
-            for (let i = 0; i < allRecords.length; i += chunkSize) {
-                const chunk = allRecords.slice(i, Math.min(i + chunkSize, allRecords.length));
-                const progress = Math.round((i / allRecords.length) * 100);
+                // Find all raw resources used in this item's production chain
+                const rawResourcesUsed = findRawResourcesInChain(record.OutputName);
 
-                console.log(`⏳ Tier validation progress: ${progress}% (${i}/${allRecords.length})`);
+                if (rawResourcesUsed.length > 0) {
+                    const maxRawTier = Math.max(...rawResourcesUsed.map(r => r.tier));
+                    const currentTier = parseInt(record.OutputTier) || 0;
 
-                chunk.forEach(record => {
-                    // IMPORTANT: Only apply tier corrections to COMPONENT and INGREDIENT types
-                    // Final components and other resource types should NOT have their tiers modified
-                    const outputType = record.OutputType || '';
-                    if (!['COMPONENT', 'INGREDIENT'].includes(outputType)) {
-                        // Skip tier correction for this resource type
-                        return;
+                    if (currentTier < maxRawTier) {
+                        const oldTier = currentTier;
+                        record.OutputTier = maxRawTier.toString();
+                        tierCorrections++;
+
+                        const rawResourceNames = rawResourcesUsed.map(r => `${r.name} (T${r.tier})`).join(', ');
+                        tierCorrectionLog.push({
+                            item: record.OutputName,
+                            oldTier: oldTier,
+                            newTier: maxRawTier,
+                            rawResources: rawResourceNames,
+                            outputType: outputType,
+                            correctionType: 'RAW_RESOURCE_BASED'
+                        });
+
+                        console.log(`🔧 Fallback correction (${outputType}): ${record.OutputName} T${oldTier} → T${maxRawTier} (raw resource fallback)`);
                     }
+                }
+            });
 
-                    // Find all raw resources used in this item's production chain
-                    const rawResourcesUsed = findRawResourcesInChain(record.OutputName);
-
-                    if (rawResourcesUsed.length > 0) {
-                        // Find the highest tier raw resource
-                        const maxRawTier = Math.max(...rawResourcesUsed.map(r => r.tier));
-                        const currentTier = parseInt(record.OutputTier) || 0;
-
-                        if (currentTier < maxRawTier) {
-                            // Tier violation! Need to correct it
-                            const oldTier = currentTier;
-                            record.OutputTier = maxRawTier.toString();
-                            tierCorrections++;
-
-                            const rawResourceNames = rawResourcesUsed.map(r => `${r.name} (T${r.tier})`).join(', ');
-                            tierCorrectionLog.push({
-                                item: record.OutputName,
-                                oldTier: oldTier,
-                                newTier: maxRawTier,
-                                rawResources: rawResourceNames,
-                                outputType: outputType // Track what type was corrected
-                            });
-
-                            if (tierCorrections <= 10) { // Only log first 10 to avoid spam
-                                console.log(`Tier correction (${outputType}): ${record.OutputName} T${oldTier} → T${maxRawTier} (uses: ${rawResourceNames})`);
-                            }
-                        }
-                    }
-                });
-
-                // Yield control to prevent browser timeout
-                await new Promise(resolve => setTimeout(resolve, 10));
-            }
-
-            console.log(`Applied ${tierCorrections} tier corrections based on raw resource dependencies (COMPONENT/INGREDIENT only)`);
+            console.log(`Applied ${tierCorrections} total tier corrections (enhanced + fallback validation)`);
 
             // Log summary of tier corrections
             if (tierCorrectionLog.length > 0) {
@@ -1938,6 +2015,109 @@ const ProductionChainBuilder = () => {
                     tierDistribution[key] = (tierDistribution[key] || 0) + 1;
                 });
                 console.log('Tier correction distribution:', tierDistribution);
+            }
+
+            // STEP 4.5: Inherit PlanetTypes and Factions from Raw Resources
+            console.log('🌍 Inheriting PlanetTypes and Factions from raw resources...');
+
+            let planetFactionInheritances = 0;
+            const planetFactionLog = [];
+
+            const inheritPlanetTypesAndFactions = () => {
+                Array.from(uniqueRecords.values()).forEach(record => {
+                    const outputType = (record.OutputType || '').toUpperCase();
+
+                    // Only process COMPONENT and INGREDIENT types (not BASIC RESOURCE)
+                    if (outputType !== 'COMPONENT' && outputType !== 'INGREDIENT') {
+                        return;
+                    }
+
+                    // Find all raw resources used in this item's production chain
+                    const rawResourcesUsed = findRawResourcesInChain(record.OutputName);
+
+                    if (rawResourcesUsed.length > 0) {
+                        // Collect unique planet types and factions
+                        const allPlanetTypes = new Set();
+                        const allFactions = new Set();
+
+                        rawResourcesUsed.forEach(rawResource => {
+                            if (rawResource.planetTypes) {
+                                // Split by semicolon and add each planet type
+                                rawResource.planetTypes.split(';').forEach(planetType => {
+                                    const trimmed = planetType.trim();
+                                    if (trimmed) allPlanetTypes.add(trimmed);
+                                });
+                            }
+                            if (rawResource.factions) {
+                                // Split by semicolon and add each faction
+                                rawResource.factions.split(';').forEach(faction => {
+                                    const trimmed = faction.trim();
+                                    if (trimmed) allFactions.add(trimmed);
+                                });
+                            }
+                        });
+
+                        // Combine inherited data
+                        const inheritedPlanetTypes = Array.from(allPlanetTypes).sort().join(';');
+                        const inheritedFactions = Array.from(allFactions).sort().join(';');
+
+                        // Only update if we have inherited data and it's different from current
+                        let updated = false;
+                        const oldPlanetTypes = record.PlanetTypes || '';
+                        const oldFactions = record.Factions || '';
+
+                        if (inheritedPlanetTypes && inheritedPlanetTypes !== oldPlanetTypes) {
+                            record.PlanetTypes = inheritedPlanetTypes;
+                            updated = true;
+                        }
+
+                        if (inheritedFactions && inheritedFactions !== oldFactions) {
+                            record.Factions = inheritedFactions;
+                            updated = true;
+                        }
+
+                        if (updated) {
+                            planetFactionInheritances++;
+                            planetFactionLog.push({
+                                item: record.OutputName,
+                                outputType: outputType,
+                                oldPlanetTypes: oldPlanetTypes,
+                                newPlanetTypes: inheritedPlanetTypes,
+                                oldFactions: oldFactions,
+                                newFactions: inheritedFactions,
+                                rawResourcesUsed: rawResourcesUsed.map(r => r.name).join(', ')
+                            });
+
+                            console.log(`🌍 ${outputType}: ${record.OutputName} inherited planets: ${inheritedPlanetTypes}, factions: ${inheritedFactions}`);
+                        }
+                    }
+                });
+            };
+
+            // Run the planet types and factions inheritance
+            inheritPlanetTypesAndFactions();
+
+            console.log(`✅ Planet/Faction inheritance complete. ${planetFactionInheritances} items updated.`);
+
+            // Log summary of planet/faction inheritance
+            if (planetFactionLog.length > 0) {
+                console.log('🌍 Planet/Faction Inheritance Summary:');
+                console.log(`Total items updated: ${planetFactionLog.length}`);
+
+                // Show first 5 inheritance examples
+                planetFactionLog.slice(0, 5).forEach(inheritance => {
+                    console.log(`  • ${inheritance.item}: inherited from [${inheritance.rawResourcesUsed}]`);
+                    if (inheritance.newPlanetTypes !== inheritance.oldPlanetTypes) {
+                        console.log(`    Planets: "${inheritance.oldPlanetTypes}" → "${inheritance.newPlanetTypes}"`);
+                    }
+                    if (inheritance.newFactions !== inheritance.oldFactions) {
+                        console.log(`    Factions: "${inheritance.oldFactions}" → "${inheritance.newFactions}"`);
+                    }
+                });
+
+                if (planetFactionLog.length > 5) {
+                    console.log(`  ... and ${planetFactionLog.length - 5} more inheritance updates`);
+                }
             }
 
             // STEP 5: Calculate ProductionSteps for each item
@@ -2176,10 +2356,219 @@ const ProductionChainBuilder = () => {
             link.click();
             document.body.removeChild(link);
 
+            // Generate Claim Stake Tier Report after cleanup
+            console.log('🏗️ Generating Claim Stake Tier Report with corrected tiers...');
+
+            const generateClaimStakeTierReport = () => {
+                // Group resources by tier using the corrected tier values
+                const tierGroups = {};
+                const maxTier = 5; // Assuming tiers 1-5
+
+                for (let tier = 1; tier <= maxTier; tier++) {
+                    tierGroups[tier] = {
+                        rawResources: [],
+                        components: [],
+                        totalItems: 0
+                    };
+                }
+
+                // Proper production steps calculation (same as BuildingManager)
+                const calculateActualProductionSteps = (record, allRecords, visited = new Set()) => {
+                    const recordId = record.OutputName;
+                    if (visited.has(recordId)) return 0; // Prevent infinite loops
+                    visited.add(recordId);
+
+                    let maxSteps = 0;
+
+                    // Check ingredients
+                    for (let i = 1; i <= 9; i++) {
+                        const ingredient = record[`Ingredient${i}`];
+                        if (ingredient && ingredient.trim()) {
+                            const ingredientRecord = allRecords.find(r => r.OutputName === ingredient.trim());
+
+                            if (ingredientRecord) {
+                                const ingredientType = (ingredientRecord.OutputType || '').toUpperCase();
+                                if (ingredientType === 'BASIC RESOURCE' || ingredientType === 'RAW_MATERIAL' || ingredientType === 'RAW RESOURCE') {
+                                    maxSteps = Math.max(maxSteps, 1);
+                                } else {
+                                    maxSteps = Math.max(maxSteps, 1 + calculateActualProductionSteps(ingredientRecord, allRecords, new Set(visited)));
+                                }
+                            }
+                        }
+                    }
+
+                    return maxSteps;
+                };
+
+                // Create a unique items map to prevent duplicates
+                const uniqueItems = new Map();
+
+                // Categorize all records by tier (CLAIM STAKE FOCUS: Raw resources + Components ≤2 production steps only)
+                cleanedRecords.forEach(record => {
+                    const name = record.OutputName;
+                    const tier = parseInt(record.OutputTier || 1);
+                    const outputType = (record.OutputType || '').toUpperCase();
+
+                    if (!name || tier < 1 || tier > maxTier) return;
+
+                    // Calculate ACTUAL production steps using proper recursive algorithm
+                    const actualProductionSteps = calculateActualProductionSteps(record, cleanedRecords);
+
+                    // CLAIM STAKE FILTER: Only include items relevant to claim stakes
+                    const isRawResource = outputType === 'BASIC RESOURCE' || outputType === 'RAW_MATERIAL' || outputType === 'RAW RESOURCE';
+                    const isSimpleComponent = outputType === 'COMPONENT' && actualProductionSteps <= 2 && actualProductionSteps > 0;
+
+                    // Skip ingredients and complex components (>2 production steps or 0 steps)
+                    if (!isRawResource && !isSimpleComponent) {
+                        return;
+                    }
+
+                    // Use name as unique key to prevent duplicates
+                    if (uniqueItems.has(name)) {
+                        return; // Skip duplicate
+                    }
+
+                    // Normalize faction formatting (handle both ; and , separators)
+                    let factions = record.Factions || '';
+                    if (factions) {
+                        // Normalize to semicolon separator and clean up
+                        factions = factions.replace(/,/g, ';').replace(/\s+/g, '').trim();
+                    }
+
+                    const item = {
+                        name: name,
+                        tier: tier,
+                        type: outputType,
+                        resourceType: record.ResourceType || '',
+                        usageCategory: record.UsageCategory || '',
+                        planetTypes: record.PlanetTypes || '',
+                        factions: factions,
+                        productionSteps: actualProductionSteps
+                    };
+
+                    uniqueItems.set(name, item);
+
+                    if (isRawResource) {
+                        tierGroups[tier].rawResources.push(item);
+                    } else if (isSimpleComponent) {
+                        tierGroups[tier].components.push(item);
+                    }
+
+                    tierGroups[tier].totalItems++;
+                });
+
+                // Generate markdown report
+                const timestamp = new Date().toISOString().split('T')[0];
+                let markdown = `# 🏗️ Claim Stake Tier Unlock Report\n\n`;
+                markdown += `**Generated:** ${timestamp} (with CSV Cleanup)\n`;
+                markdown += `**Total Tier Corrections Made:** ${tierCorrectionLog.length}\n\n`;
+
+                if (tierCorrectionLog.length > 0) {
+                    markdown += `## 🔧 Tier Corrections Applied\n\n`;
+                    markdown += `The following items had their tiers corrected to match their ingredient requirements:\n\n`;
+                    tierCorrectionLog.slice(0, 20).forEach(change => {
+                        const correctionType = change.correctionType === 'INGREDIENT_BASED' ? '(ingredient-based)' : '(raw resource-based)';
+                        markdown += `- **${change.item}** (${change.outputType}): T${change.oldTier} → T${change.newTier} ${correctionType}\n`;
+                    });
+                    if (tierCorrectionLog.length > 20) {
+                        markdown += `- ... and ${tierCorrectionLog.length - 20} more corrections\n`;
+                    }
+                    markdown += `\n---\n\n`;
+                }
+
+                markdown += `## 📋 Summary by Tier (Claim Stake Extractable/Manufacturable Only)\n\n`;
+                markdown += `*This report focuses only on resources that can be extracted or manufactured on claim stakes:*\n`;
+                markdown += `*- Raw Resources: Extractable directly from claim stake nodes*\n`;
+                markdown += `*- Components: Manufacturable on claim stakes (≤2 production steps)*\n\n`;
+
+                // Summary table
+                markdown += `| Tier | Raw Resources | Simple Components (≤2 steps) | Total |\n`;
+                markdown += `|------|---------------|-------------------------------|-------|\n`;
+
+                for (let tier = 1; tier <= maxTier; tier++) {
+                    const group = tierGroups[tier];
+                    markdown += `| **T${tier}** | ${group.rawResources.length} | ${group.components.length} | **${group.totalItems}** |\n`;
+                }
+
+                markdown += `\n---\n\n`;
+
+                // Detailed breakdown by tier
+                for (let tier = 1; tier <= maxTier; tier++) {
+                    const group = tierGroups[tier];
+                    if (group.totalItems === 0) continue;
+
+                    markdown += `## 🏭 Tier ${tier} Unlock (${group.totalItems} total items)\n\n`;
+
+                    if (group.rawResources.length > 0) {
+                        markdown += `### 🌍 Raw Resources (${group.rawResources.length})\n\n`;
+                        markdown += `*These raw resources become available on claim stakes at Tier ${tier}.*\n\n`;
+
+                        // Group by planet types for better organization
+                        const planetGroups = {};
+                        group.rawResources.forEach(resource => {
+                            const planets = resource.planetTypes || 'Unknown';
+                            if (!planetGroups[planets]) planetGroups[planets] = [];
+                            planetGroups[planets].push(resource);
+                        });
+
+                        Object.entries(planetGroups).forEach(([planets, resources]) => {
+                            markdown += `**${planets}:**\n`;
+                            resources.sort((a, b) => a.name.localeCompare(b.name)).forEach(resource => {
+                                const factionInfo = resource.factions ? ` (${resource.factions})` : '';
+                                const usage = resource.usageCategory ? ` - ${resource.usageCategory}` : '';
+                                markdown += `- ${resource.name}${factionInfo}${usage}\n`;
+                            });
+                            markdown += `\n`;
+                        });
+                    }
+
+                    if (group.components.length > 0) {
+                        markdown += `### ⚙️ Simple Components (${group.components.length})\n\n`;
+                        markdown += `*These components can be manufactured on Tier ${tier} claim stakes (≤2 production steps).*\n\n`;
+
+                        // Group by production steps first, then by resource type
+                        const stepGroups = {};
+                        group.components.forEach(comp => {
+                            const steps = comp.productionSteps || 0;
+                            if (!stepGroups[steps]) stepGroups[steps] = [];
+                            stepGroups[steps].push(comp);
+                        });
+
+                        Object.entries(stepGroups).sort(([a], [b]) => parseInt(a) - parseInt(b)).forEach(([steps, components]) => {
+                            markdown += `**${steps} Production Step${steps === '1' ? '' : 's'}:**\n`;
+                            components.sort((a, b) => a.name.localeCompare(b.name)).forEach(comp => {
+                                const factionInfo = comp.factions ? ` (${comp.factions})` : '';
+                                const usage = comp.usageCategory ? ` - ${comp.usageCategory}` : '';
+                                markdown += `- ${comp.name}${factionInfo}${usage}\n`;
+                            });
+                            markdown += `\n`;
+                        });
+                    }
+
+                    markdown += `---\n\n`;
+                }
+
+                // Download the report
+                const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `claim_stake_tier_report_${timestamp}.md`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                return tierGroups;
+            };
+
+            // Generate the report
+            generateClaimStakeTierReport();
+
             // Show summary
             const tierCorrectionSummary = tierCorrectionLog.length > 0
-                ? `\n• Tier corrections made:\n  ${tierCorrectionLog.slice(0, 3).map(c =>
-                    `${c.item}: T${c.oldTier} → T${c.newTier}`
+                ? `\n• Enhanced tier corrections made:\n  ${tierCorrectionLog.slice(0, 3).map(c =>
+                    `${c.item}: T${c.oldTier} → T${c.newTier} (${c.correctionType?.toLowerCase() || 'corrected'})`
                 ).join('\n  ')}${tierCorrectionLog.length > 3 ? `\n  ... and ${tierCorrectionLog.length - 3} more` : ''}`
                 : '';
 
@@ -2189,13 +2578,16 @@ const ProductionChainBuilder = () => {
                 `• Removed ${duplicatesRemoved.length} duplicates\n` +
                 `• Added ${missingIngredients.size} missing ingredients\n` +
                 `• Marked ${completedRecipesMarked} recipes as complete\n` +
-                `• Applied ${tierCorrections} tier corrections (recursive validation)${tierCorrectionSummary}\n` +
+                `• Applied ${tierCorrections} enhanced tier corrections (ingredient + raw resource based)${tierCorrectionSummary}\n` +
                 `• Calculated ProductionSteps for all ${cleanedRecords.length} items\n` +
                 `• Marked ${unusedRawCount} unused raw resources (NOT_USED=TRUE)\n` +
                 `• Removed ${beforeRemoval - afterRemoval} COMPONENT/INGREDIENT entries without recipes\n` +
                 `• Final CSV has ${cleanedRecords.length} entries\n\n` +
-                `📁 Downloaded as: finalComponentList_cleaned.csv\n\n` +
-                `✅ Your CSV is now clean and ready to use!\n\n` +
+                `📁 Downloaded files:\n` +
+                `  • finalComponentList_cleaned.csv\n` +
+                `  • claim_stake_tier_report_${new Date().toISOString().split('T')[0]}.md\n\n` +
+                `✅ Your CSV is now clean and ready to use!\n` +
+                `🏗️ Claim stake tier report generated with corrected tiers!\n\n` +
                 `💡 Check the console for detailed logs of all changes made.`
             );
 
@@ -2848,7 +3240,21 @@ ${orphanedResources.ingredients.map((item, index) =>
                         <option value="missing">❌ Missing Recipes</option>
                         <option value="incomplete">⚠️ Incomplete</option>
                         <option value="complete">✅ Complete</option>
-                        <option value="all">📋 All Ingredients</option>
+                        <option value="all">📋 All Resources</option>
+                    </select>
+
+                    <select
+                        value={outputTypeFilter}
+                        onChange={(e) => setOutputTypeFilter(e.target.value)}
+                        className="filter-select"
+                        style={{ marginLeft: '0.5rem' }}
+                    >
+                        <option value="all">🏷️ All Types</option>
+                        {availableOutputTypes.filter(type => type !== 'all').map(type => (
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
+                        ))}
                     </select>
 
                     <select
@@ -2910,26 +3316,7 @@ ${orphanedResources.ingredients.map((item, index) =>
                         📊 Analyze CSV
                     </button>
 
-                    <button onClick={markAllUserRecipesAsComplete} className="mark-complete-btn">
-                        ✅ Mark All User Recipes as Complete
-                    </button>
 
-                    <button
-                        onClick={completeWorkflowCycle}
-                        className="workflow-btn"
-                        style={{
-                            background: 'linear-gradient(45deg, #28a745, #20c997)',
-                            border: '2px solid #20c997',
-                            color: 'white',
-                            fontWeight: 'bold',
-                            padding: '0.5rem 1rem',
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                        }}
-                    >
-                        🔄 Complete Workflow: Mark → Export → Reload
-                    </button>
 
                     <button
                         onClick={createProductionChainsForOrphans}
@@ -3659,12 +4046,12 @@ ${orphanedResources.ingredients.map((item, index) =>
 
                 {/* Ingredient Selection */}
                 <div className="ingredient-selection">
-                    <h3>🎯 Select Ingredient to Build Production Chain ({targetIngredients.length})</h3>
+                    <h3>🎯 Select Resource to Build Production Chain ({targetIngredients.length})</h3>
 
                     {/* Debug information when no ingredients are found */}
                     {targetIngredients.length === 0 && (
                         <div className="debug-info">
-                            <p>No ingredients found. Debug info:</p>
+                            <p>No resources found. Debug info:</p>
                             <ul>
                                 <li>Components loaded: {components.length}</li>
                                 <li>Raw resources loaded: {rawResources.length}</li>
@@ -3706,7 +4093,7 @@ ${orphanedResources.ingredients.map((item, index) =>
                             borderRadius: '8px'
                         }}>
                             <div className="pagination-info">
-                                <span>Showing {Math.min(currentPage * itemsPerPage + 1, targetIngredients.length)} - {Math.min((currentPage + 1) * itemsPerPage, targetIngredients.length)} of {targetIngredients.length} ingredients</span>
+                                <span>Showing {Math.min(currentPage * itemsPerPage + 1, targetIngredients.length)} - {Math.min((currentPage + 1) * itemsPerPage, targetIngredients.length)} of {targetIngredients.length} resources</span>
                             </div>
 
                             <div className="pagination-controls-group">
@@ -3780,90 +4167,84 @@ ${orphanedResources.ingredients.map((item, index) =>
                                             {actualCompletionStatus === 'circular' && '🔄'}
                                         </div>
 
-                                        <div className="ingredient-info">
-                                            <div className="ingredient-name" title={ingredient.name}>
-                                                {ingredient.name}
-                                            </div>
-                                            <div className="ingredient-meta">
-                                                <span className={`tier-badge tier-${ingredient.tier}`}>
-                                                    T{ingredient.tier}
-                                                </span>
-                                                <span className="ingredient-type">{ingredient.category}</span>
-                                                <span className="completion-status" title={`Actual Status: ${actualCompletionStatus}`}>
-                                                    {actualCompletionStatus}
-                                                </span>
-                                                <span className="ingredient-count" title={`Number of ingredients in recipe`}>
-                                                    📦 {ingredient.ingredients?.length || 0} ingredients
-                                                </span>
-                                                <span className="usage-count" title={`Used in ${usageStats.usageCount} recipes (${usageStats.totalQuantityUsed} total quantity)`}>
-                                                    📊 {usageStats.usageCount} uses
-                                                </span>
+                                        <div className="ingredient-content">
+                                            <div className="ingredient-info">
+                                                <div className="ingredient-name" title={ingredient.name}>
+                                                    {ingredient.name}
+                                                </div>
+                                                <div className="ingredient-meta">
+                                                    <span className={`tier-badge tier-${ingredient.tier}`}>
+                                                        T{ingredient.tier}
+                                                    </span>
+                                                    <span className="ingredient-type">{ingredient.category}</span>
+                                                    <span className="completion-status" title={`Actual Status: ${actualCompletionStatus}`}>
+                                                        {actualCompletionStatus}
+                                                    </span>
+                                                    <span className="ingredient-count" title={`Number of ingredients in recipe`}>
+                                                        📦 {ingredient.ingredients?.length || 0} ingredients
+                                                    </span>
+                                                    <span className="usage-count" title={`Used in ${usageStats.usageCount} recipes (${usageStats.totalQuantityUsed} total quantity)`}>
+                                                        📊 {usageStats.usageCount} uses
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div className="ingredient-actions">
-                                            <button
-                                                className="usage-btn"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleShowUsageAnalysis(ingredient.name);
-                                                }}
-                                                title="View recipe usage"
-                                                disabled={usageStats.usageCount === 0}
-                                            >
-                                                📈
-                                            </button>
-                                            <button
-                                                className="suggestions-btn"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleShowSuggestions(ingredient.name);
-                                                }}
-                                                title="Get AI suggestions"
-                                            >
-                                                🤖
-                                            </button>
-                                            <button
-                                                className="visualize-complete-btn"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    visualizeCompleteProductionChain(ingredient.name);
-                                                }}
-                                                title="Visualize Complete Production Chain"
-                                                style={{
-                                                    backgroundColor: '#17a2b8',
-                                                    color: 'white',
-                                                    border: 'none',
-                                                    padding: '6px 8px',
-                                                    borderRadius: '4px',
-                                                    cursor: 'pointer',
-                                                    fontSize: '12px',
-                                                    marginLeft: '4px'
-                                                }}
-                                            >
-                                                🔗
-                                            </button>
-                                            {actualCompletionStatus === 'complete' && (
+                                        <div className="ingredient-actions-section">
+                                            <div className="ingredient-actions">
                                                 <button
-                                                    className="visualize-btn"
+                                                    className="usage-btn"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        handleIngredientSelect(ingredient.name);
+                                                        handleShowUsageAnalysis(ingredient.name);
                                                     }}
-                                                    title="Visualize & Edit Production Chain"
+                                                    title="View recipe usage"
+                                                    disabled={usageStats.usageCount === 0}
+                                                >
+                                                    📈
+                                                </button>
+                                                <button
+                                                    className="visualize-complete-btn"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        visualizeCompleteProductionChain(ingredient.name);
+                                                    }}
+                                                    title="Visualize Complete Production Chain"
                                                     style={{
-                                                        backgroundColor: '#4CAF50',
+                                                        backgroundColor: '#17a2b8',
                                                         color: 'white',
                                                         border: 'none',
                                                         padding: '6px 8px',
                                                         borderRadius: '4px',
                                                         cursor: 'pointer',
-                                                        fontSize: '12px'
+                                                        fontSize: '12px',
+                                                        marginLeft: '4px'
                                                     }}
                                                 >
-                                                    🔍 View
+                                                    🔗
                                                 </button>
-                                            )}
+                                                {actualCompletionStatus === 'complete' && (
+                                                    <button
+                                                        className="visualize-btn"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleIngredientSelect(ingredient.name);
+                                                        }}
+                                                        title="Visualize & Edit Production Chain"
+                                                        style={{
+                                                            backgroundColor: '#4CAF50',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            padding: '6px 8px',
+                                                            borderRadius: '4px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '12px'
+                                                        }}
+                                                    >
+                                                        🔍 View
+                                                    </button>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 );

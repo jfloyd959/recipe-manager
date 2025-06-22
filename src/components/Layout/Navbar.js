@@ -9,7 +9,10 @@ const Navbar = () => {
         { path: '/', label: 'Dashboard', icon: '📊' },
         { path: '/upload', label: 'Import Data', icon: '📁' },
         { path: '/editor', label: 'Recipe Editor', icon: '✏️' },
+        { path: '/buildings', label: 'Buildings', icon: '🏗️' },
+        { path: '/building-recipes', label: 'Building Recipes', icon: '🍳' },
         { path: '/production-chains', label: 'Production Chains', icon: '🏭' },
+        { path: '/resource-balancer', label: 'Resource Balancer', icon: '🎯' },
         { path: '/dependencies', label: 'Dependencies', icon: '🔗' },
         { path: '/complete-system', label: 'Complete System', icon: '🚀' }
     ];

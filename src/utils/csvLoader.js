@@ -86,6 +86,9 @@ const parseCSVData = (csvText) => {
             });
         }
 
+        // Check if this resource needs usage increase from CSV
+        const needsUsageIncrease = (item.NEEDS_USAGE_INCREASE || '').toUpperCase() === 'TRUE';
+
         // Create the base recipe object
         const baseRecipe = {
             id: item.OutputID || `recipe_${Date.now()}_${i}`,
@@ -102,7 +105,8 @@ const parseCSVData = (csvText) => {
             isFinalized: completionStatus === 'complete',
             completionStatus: completionStatus,
             category: outputType,
-            subtype: subtype
+            subtype: subtype,
+            needsUsageIncrease: needsUsageIncrease
         };
 
         // Add to recipes array (for Recipe Editor)
