@@ -1,0 +1,797 @@
+.recipe-complexity-analyzer
+{
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    color: #212529;
+}
+
+.analyzer-header
+{
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+}
+
+.analyzer-header h2
+{
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: white;
+    /* Changed to white for header on gradient background */
+}
+
+.analyzer-header p
+{
+    font-size: 1.1em;
+    opacity: 0.9;
+    color: white;
+    /* Changed to white for header on gradient background */
+    margin: 5px 0;
+}
+
+.analyzer-header small
+{
+    color: #f8f9fa;
+    /* Light color for small text on gradient background */
+}
+
+/* Summary Cards */
+.summary-cards
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-card
+{
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #007bff;
+    transition: transform 0.3s ease;
+}
+
+.summary-card:hover
+{
+    transform: translateY(-2px);
+}
+
+.summary-card.critical
+{
+    border-left-color: #dc3545;
+}
+
+.summary-card.warning
+{
+    border-left-color: #ffc107;
+}
+
+.summary-card.success
+{
+    border-left-color: #28a745;
+}
+
+.summary-card h4
+{
+    color: #495057;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.summary-card .value
+{
+    font-size: 2em;
+    font-weight: bold;
+    color: #1a252f;
+    /* Darker color for better contrast */
+}
+
+.summary-card .label
+{
+    color: #495057;
+    /* Darker color for better contrast */
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Filters */
+.filters
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.filter-group
+{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label
+{
+    font-weight: 600;
+    color: #1a252f;
+    /* Darker color for better contrast */
+    font-size: 0.9em;
+}
+
+.checkbox-label
+{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]
+{
+    margin: 0;
+}
+
+.filter-group select
+{
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: white;
+    min-width: 120px;
+}
+
+.filter-group input[type="text"]
+{
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 250px;
+}
+
+/* Analysis Sections */
+.analysis-section
+{
+    margin-bottom: 40px;
+}
+
+.analysis-section h3
+{
+    color: #1a252f;
+    /* Darker color for better contrast */
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+/* Ship Size Grid */
+.ship-size-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.ship-size-card
+{
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    transition: transform 0.3s ease;
+}
+
+.ship-size-card:hover
+{
+    transform: translateY(-2px);
+}
+
+.ship-size-card h4
+{
+    color: #1a252f;
+    /* Darker color for better contrast */
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.ship-size-stats
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stat
+{
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.stat .value
+{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.stat .label
+{
+    font-size: 0.8em;
+    color: #343a40;
+    /* Darker color for better contrast */
+    margin-top: 5px;
+}
+
+/* Problematic Recipes */
+.problematic-recipes
+{
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.recipe-item
+{
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #dc3545;
+    transition: transform 0.2s ease;
+}
+
+.recipe-item:hover
+{
+    transform: translateX(5px);
+}
+
+.recipe-item h5
+{
+    color: #1a252f;
+    /* Darker color for better contrast */
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.recipe-stats
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.recipe-stat
+{
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.recipe-stat .value
+{
+    font-weight: bold;
+    color: #dc3545;
+    font-size: 1.2em;
+}
+
+.recipe-stat .label
+{
+    font-size: 0.8em;
+    color: #495057;
+    /* Darker color for better contrast */
+    margin-top: 2px;
+}
+
+/* Issues and Suggestions */
+.issues-list,
+.suggestions
+{
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.suggestions
+{
+    background: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.issues-list ul,
+.suggestions ul
+{
+    margin: 0;
+    padding-left: 20px;
+}
+
+.issues-list li
+{
+    color: #856404;
+    /* Much darker color for better contrast */
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.suggestions li
+{
+    color: #0c5460;
+    /* Much darker color for better contrast */
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.suggestions strong
+{
+    color: #0c5460;
+    /* Much darker color for better contrast */
+    font-weight: 600;
+}
+
+.suggestions em
+{
+    color: #343a40;
+    /* Much darker color for better contrast */
+    font-style: italic;
+}
+
+/* Loading State */
+.loading
+{
+    text-align: center;
+    padding: 40px;
+    color: #495057;
+    /* Darker color for better contrast */
+}
+
+.spinner
+{
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin
+{
+    0%
+    {
+        transform: rotate(0deg);
+    }
+
+    100%
+    {
+        transform: rotate(360deg);
+    }
+}
+
+/* No Data State */
+.no-data
+{
+    text-align: center;
+    padding: 40px;
+    color: #495057;
+    /* Darker color for better contrast */
+}
+
+.no-data h3
+{
+    margin-bottom: 10px;
+    color: #343a40;
+    /* Darker color for better contrast */
+}
+
+/* Export Section */
+.export-section
+{
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.export-btn
+{
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.export-btn:hover
+{
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.export-btn:active
+{
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px)
+{
+    .recipe-complexity-analyzer
+    {
+        padding: 10px;
+    }
+
+    .analyzer-header h2
+    {
+        font-size: 2em;
+    }
+
+    .summary-cards
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .filters
+    {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ship-size-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .ship-size-stats
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .recipe-stats
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .export-btn
+    {
+        margin: 5px;
+        width: 100%;
+    }
+}
+
+/* Scrollbar Styling */
+.problematic-recipes::-webkit-scrollbar
+{
+    width: 8px;
+}
+
+.problematic-recipes::-webkit-scrollbar-track
+{
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.problematic-recipes::-webkit-scrollbar-thumb
+{
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.problematic-recipes::-webkit-scrollbar-thumb:hover
+{
+    background: #a8a8a8;
+}
+
+/* Building Costs Toggle */
+.building-costs-toggle
+{
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.toggle-container
+{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-container input[type="checkbox"]
+{
+    display: none;
+}
+
+.toggle-slider
+{
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 24px;
+    transition: background-color 0.3s;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.toggle-slider::before
+{
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+.toggle-container input[type="checkbox"]:checked+.toggle-slider
+{
+    background-color: #007bff;
+}
+
+.toggle-container input[type="checkbox"]:checked+.toggle-slider::before
+{
+    transform: translateX(26px);
+}
+
+.toggle-label
+{
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #343a40;
+}
+
+.toggle-label small
+{
+    font-weight: normal;
+    color: #495057;
+    margin-top: 4px;
+    line-height: 1.3;
+}
+
+/* Building Impact Display */
+.building-impact
+{
+    margin: 8px 0;
+    padding: 8px;
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.building-impact strong
+{
+    color: #1976d2;
+}
+
+/* Building Resources List */
+.building-resources-list
+{
+    background: #e8f5e8;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    line-height: 1.4;
+    color: #2e7d32;
+    max-height: 80px;
+    overflow-y: auto;
+    border: 1px solid #c8e6c9;
+}
+
+/* Recipe Stats - Additional styling for building costs */
+.recipe-stat.building-related
+{
+    background: #e8f5e8;
+    border-left: 3px solid #4caf50;
+}
+
+.recipe-stat.building-related .label
+{
+    color: #2e7d32;
+    font-weight: 500;
+}
+
+/* Basic Resources List - Enhanced styling */
+.basic-resources-list
+{
+    background: #f5f5f5;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 8px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    line-height: 1.4;
+    max-height: 100px;
+    overflow-y: auto;
+    color: #343a40;
+}
+
+/* Analysis Mode Indicator */
+.analysis-mode-indicator
+{
+    display: inline-block;
+    padding: 4px 8px;
+    background: #007bff;
+    color: white;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.analysis-mode-indicator.with-buildings
+{
+    background: #28a745;
+}
+
+.analysis-mode-indicator.without-buildings
+{
+    background: #6c757d;
+}
+
+/* Recipe Controls */
+.recipe-controls
+{
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-controls .filter-group label
+{
+    color: #1a252f !important;
+    font-weight: 600 !important;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.recipe-controls input,
+.recipe-controls select
+{
+    border: 1px solid #ced4da !important;
+    background: white !important;
+    color: #212529 !important;
+    font-size: 14px;
+}
+
+.recipe-controls input:focus,
+.recipe-controls select:focus
+{
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    outline: none;
+}
+
+/* Ship Size Context Panel */
+.ship-size-context
+{
+    background: #2a2a2a !important;
+    color: #ffffff !important;
+}
+
+.ship-size-context h4
+{
+    color: #ffffff !important;
+}
+
+.ship-size-context strong
+{
+    color: #ffffff !important;
+}
+
+/* No Issues Message */
+.no-issues
+{
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.no-issues span
+{
+    color: #155724 !important;
+    font-weight: 500;
+}
+
+/* Improved text contrast throughout */
+.basic-resources-list
+{
+    color: #212529 !important;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    margin-top: 5px;
+    border: 1px solid #e9ecef;
+}
+
+/* Building impact text */
+.building-impact
+{
+    color: #212529 !important;
+}
+
+.building-impact strong
+{
+    color: #212529 !important;
+}
+
+/* Buildings used section improvements */
+.buildings-used-section strong
+{
+    color: #212529 !important;
+}
+
+/* Complexity Analysis Box Improvements */
+.complexity-analysis-box
+{
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+.complexity-analysis-box.needs-trimming
+{
+    background: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.complexity-analysis-box.within-limits
+{
+    background: #d4edda;
+    border-color: #c3e6cb;
+}
+
+/* Ensure all text in complexity analysis has good contrast */
+.complexity-analysis-box strong
+{
+    color: #212529 !important;
+}
+
+.complexity-analysis-box div[style*="color"]
+{
+    color: #212529 !important;
+}

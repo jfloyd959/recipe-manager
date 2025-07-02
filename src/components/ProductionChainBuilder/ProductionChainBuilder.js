@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRecipes } from '../../context/RecipeContext';
 import RecipeSuggestionEngine from './RecipeSuggestionEngine';
-import IngredientSelector from './IngredientSelector';
 import ProductionChainTree from './ProductionChainTree';
 import ResourceTooltip from './ResourceTooltip';
 import './ProductionChainBuilder.css';
@@ -16,7 +15,7 @@ const ProductionChainBuilder = () => {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [hoveredResource, setHoveredResource] = useState(null);
     const [showChainAnalysis, setShowChainAnalysis] = useState(false);
-    const [filter, setFilter] = useState('missing');
+    const [filter, setFilter] = useState('all'); // Changed from 'missing' to 'all' to show all recipes
     const [outputTypeFilter, setOutputTypeFilter] = useState('all');
     const [suggestionsFor, setSuggestionsFor] = useState(null);
     const [showUsageAnalysis, setShowUsageAnalysis] = useState(false);
@@ -24,21 +23,233 @@ const ProductionChainBuilder = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [sortBy, setSortBy] = useState('name'); // Add sorting state
+    const [searchTerm, setSearchTerm] = useState(''); // Input field value
+    const [activeSearchTerm, setActiveSearchTerm] = useState(''); // Actually applied search filter
 
-    // Get all available resources with proper naming
+    // Column resizing state
+    const [isResizing, setIsResizing] = useState(false);
+    const [resizingColumn, setResizingColumn] = useState(null);
+    const [startX, setStartX] = useState(0);
+    const [startWidth, setStartWidth] = useState(0);
+
+    // Local loading state for async operations
+    const [isLoadingProductionChain, setIsLoadingProductionChain] = useState(false);
+    const [isAnalyzingChain, setIsAnalyzingChain] = useState(false);
+
+    // Debounced search effect - only trigger search after user stops typing for 500ms
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setActiveSearchTerm(searchTerm);
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchTerm]);
+
+    // Handle Enter key for immediate search
+    const handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            setActiveSearchTerm(searchTerm);
+        }
+    };
+
+    // Handle search clear
+    const handleClearSearch = () => {
+        setSearchTerm('');
+        setActiveSearchTerm('');
+    };
+
+    // Helper function to extract ingredients from recipe format
+    const extractIngredientsFromRecipe = (recipe) => {
+        const ingredients = [];
+
+        // Handle both new and old recipe formats
+        if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+            return recipe.ingredients.filter(ing => ing && ing.name);
+        }
+
+        // Handle old format with Ingredient1, Ingredient2, etc.
+        for (let i = 1; i <= 20; i++) {
+            const ingredient = recipe[`Ingredient${i}`];
+            if (ingredient && ingredient.trim()) {
+                ingredients.push({ name: ingredient.trim() });
+            }
+        }
+
+        return ingredients;
+    };
+
+    // Column resizing functions
+    const handleMouseDown = (e, columnIndex) => {
+        // Only trigger resize if clicking near the right edge of the header
+        const th = e.target.closest('th');
+        if (!th) return;
+
+        const rect = th.getBoundingClientRect();
+        const rightEdgeThreshold = 8; // 8px from the right edge
+        const distanceFromRightEdge = rect.right - e.clientX;
+
+        // Only start resizing if clicking within the resize handle area
+        if (distanceFromRightEdge > rightEdgeThreshold) {
+            return; // Not clicking on resize handle
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        setIsResizing(true);
+        setResizingColumn(columnIndex);
+        setStartX(e.clientX);
+        setStartWidth(th.offsetWidth);
+
+        // Add visual feedback
+        th.classList.add('resizing');
+        const table = th.closest('.production-chain-table');
+        if (table) {
+            table.classList.add('resizing');
+        }
+
+        // Prevent text selection during resize
+        document.body.style.userSelect = 'none';
+        document.body.style.cursor = 'col-resize';
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isResizing || resizingColumn === null) return;
+
+        e.preventDefault();
+        const diff = e.clientX - startX;
+        const newWidth = Math.max(50, startWidth + diff); // Minimum width of 50px
+
+        // Find the column header and update its width
+        const table = document.querySelector('.production-chain-table');
+        if (table) {
+            const th = table.querySelectorAll('th')[resizingColumn];
+            if (th) {
+                th.style.width = newWidth + 'px';
+                th.style.minWidth = newWidth + 'px';
+
+                // Also update all cells in this column to maintain consistent width
+                const columnCells = table.querySelectorAll(`td:nth-child(${resizingColumn + 1})`);
+                columnCells.forEach(cell => {
+                    cell.style.width = newWidth + 'px';
+                    cell.style.minWidth = newWidth + 'px';
+                });
+            }
+        }
+    };
+
+    const handleMouseUp = () => {
+        if (!isResizing) return;
+
+        setIsResizing(false);
+        setResizingColumn(null);
+
+        // Remove visual feedback
+        const table = document.querySelector('.production-chain-table');
+        if (table) {
+            const resizingTh = table.querySelector('th.resizing');
+            if (resizingTh) {
+                resizingTh.classList.remove('resizing');
+            }
+            table.classList.remove('resizing');
+        }
+
+        // Restore normal cursor and text selection
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+    };
+
+    // Add event listeners for column resizing
+    useEffect(() => {
+        if (isResizing) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+
+            return () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+            };
+        }
+    }, [isResizing, resizingColumn, startX, startWidth, handleMouseMove, handleMouseUp]);
+
+    // Get all available resources with proper naming - Updated to work with CSV data
     const allResources = useMemo(() => {
         const resources = new Map();
 
-        console.log('ProductionChainBuilder: Processing resources', {
+        console.log('ProductionChainBuilder: Processing resources from recipes', {
+            recipesCount: recipes.length,
             componentsCount: components.length,
             ingredientsCount: ingredients.length,
             rawResourcesCount: rawResources.length
         });
 
-        // Add components
+        // Debug: Show first few recipes
+        if (recipes.length > 0) {
+            console.log('First 3 recipes:', recipes.slice(0, 3).map(r => ({
+                OutputName: r.OutputName,
+                OutputType: r.OutputType,
+                OutputTier: r.OutputTier,
+                Ingredient1: r.Ingredient1,
+                Ingredient2: r.Ingredient2
+            })));
+
+            // Debug: Find all photon missiles
+            const photonMissiles = recipes.filter(r => r.OutputName && r.OutputName.toLowerCase().includes('photon missile'));
+            console.log('=== PHOTON MISSILES DEBUG ===');
+            console.log(`Found ${photonMissiles.length} photon missiles:`, photonMissiles.map(r => ({
+                name: r.OutputName,
+                type: r.OutputType,
+                tier: r.OutputTier,
+                hasIngredient1: !!r.Ingredient1,
+                hasIngredient2: !!r.Ingredient2,
+                ingredient1: r.Ingredient1,
+                ingredient2: r.Ingredient2
+            })));
+        }
+
+        // Process all recipes from CSV data
+        recipes.forEach((recipe, index) => {
+            const name = recipe.OutputName || recipe.outputName;
+            if (name) {
+                const outputType = recipe.OutputType || recipe.outputType || 'UNKNOWN';
+                let resourceType = 'component'; // default
+
+                // Determine resource type based on OutputType
+                if (outputType === 'BASIC RESOURCE') {
+                    resourceType = 'raw';
+                } else if (outputType === 'INGREDIENT') {
+                    resourceType = 'ingredient';
+                } else {
+                    resourceType = 'component';
+                }
+
+                resources.set(name, {
+                    ...recipe,
+                    name: name,
+                    type: resourceType,
+                    tier: recipe.OutputTier || recipe.outputTier || 1,
+                    category: outputType,
+                    outputType: outputType,
+                    ingredients: extractIngredientsFromRecipe(recipe) // Extract ingredients from recipe format
+                });
+
+                // Debug log first few resources with more detail
+                if (index < 5) {
+                    console.log(`Resource ${index + 1} added:`, {
+                        name,
+                        outputType: outputType,
+                        resourceType: resourceType,
+                        tier: recipe.OutputTier || recipe.outputTier || 1,
+                        ingredientsCount: extractIngredientsFromRecipe(recipe).length
+                    });
+                }
+            }
+        });
+
+        // Also add legacy data if available (for backward compatibility)
         components.forEach((comp, index) => {
             const name = comp.outputName || comp.name;
-            if (name) {
+            if (name && !resources.has(name)) {
                 resources.set(name, {
                     ...comp,
                     name: name,
@@ -46,23 +257,12 @@ const ProductionChainBuilder = () => {
                     tier: comp.outputTier || comp.tier || 1,
                     category: comp.outputType || comp.category || 'COMPONENT'
                 });
-
-                // Debug log first few components with more detail
-                if (index < 3) {
-                    console.log('Component added:', {
-                        name,
-                        outputType: comp.outputType,
-                        completionStatus: comp.completionStatus,
-                        ingredientsCount: comp.ingredients?.length || 0
-                    });
-                }
             }
         });
 
-        // Add ingredients (this is where INGREDIENT types are stored)
         ingredients.forEach((ing, index) => {
             const name = ing.outputName || ing.name;
-            if (name) {
+            if (name && !resources.has(name)) {
                 resources.set(name, {
                     ...ing,
                     name: name,
@@ -70,23 +270,12 @@ const ProductionChainBuilder = () => {
                     tier: ing.outputTier || ing.tier || 1,
                     category: ing.outputType || ing.category || 'INGREDIENT'
                 });
-
-                // Debug log first few ingredients with more detail
-                if (index < 3) {
-                    console.log('Ingredient added:', {
-                        name,
-                        outputType: ing.outputType,
-                        completionStatus: ing.completionStatus,
-                        ingredientsCount: ing.ingredients?.length || 0
-                    });
-                }
             }
         });
 
-        // Add raw resources
         rawResources.forEach((raw, index) => {
             const name = raw.outputName || raw.name;
-            if (name) {
+            if (name && !resources.has(name)) {
                 resources.set(name, {
                     ...raw,
                     name: name,
@@ -94,23 +283,25 @@ const ProductionChainBuilder = () => {
                     tier: raw.tier || raw.outputTier || 0,
                     category: 'BASIC RESOURCE'
                 });
-
-                // Debug log first few raw resources
-                if (index < 3) {
-                    console.log('Raw resource added:', name, {
-                        tier: raw.tier,
-                        outputTier: raw.outputTier,
-                        finalTier: raw.tier || raw.outputTier || 0
-                    });
-                }
             }
         });
 
         const allResourcesArray = Array.from(resources.values()).sort((a, b) => a.name.localeCompare(b.name));
         console.log('ProductionChainBuilder: Total resources processed:', allResourcesArray.length);
 
+        // Log sample resources to verify structure
+        if (allResourcesArray.length > 0) {
+            console.log('Sample resources:', allResourcesArray.slice(0, 3).map(r => ({
+                name: r.name,
+                type: r.type,
+                outputType: r.outputType,
+                tier: r.tier,
+                ingredientsCount: r.ingredients?.length || 0
+            })));
+        }
+
         return allResourcesArray;
-    }, [components, ingredients, rawResources]);
+    }, [recipes, components, ingredients, rawResources]);
 
     // Get available output types for filtering
     const availableOutputTypes = useMemo(() => {
@@ -531,6 +722,41 @@ const ProductionChainBuilder = () => {
         );
     };
 
+    // Helper functions for ship size filtering - moved here to avoid initialization errors
+    const getShipSizesUsingIngredient = (ingredientName) => {
+        const shipSizes = new Set();
+        const shipSizePattern = /(XXXS|XXS|XS|S|M|L|CAP|CMD|CLASS8|TTN)/;
+
+        // Find all recipes that use this ingredient
+        const recipesUsingIngredient = recipes.filter(recipe => {
+            if (!recipe.ingredients || !Array.isArray(recipe.ingredients)) return false;
+            return recipe.ingredients.some(ing => {
+                const ingName = ing?.name || ing?.ingredient || ing?.outputName;
+                return ingName === ingredientName;
+            });
+        });
+
+        // Extract ship sizes from recipe names
+        recipesUsingIngredient.forEach(recipe => {
+            const recipeName = recipe.outputName || recipe.OutputName || '';
+            const match = recipeName.match(shipSizePattern);
+            if (match) {
+                shipSizes.add(match[1]);
+            }
+        });
+
+        return Array.from(shipSizes);
+    };
+
+    // Helper function to check if ingredient is used in small/medium ships only (XXXS to M)
+    const isUsedInSmallMediumShipsOnly = (ingredientName) => {
+        const shipSizes = getShipSizesUsingIngredient(ingredientName);
+        const largeShipSizes = ['L', 'CAP', 'CMD', 'CLASS8', 'TTN'];
+
+        // Return true if ingredient is used AND not used in any large ships
+        return shipSizes.length > 0 && !shipSizes.some(size => largeShipSizes.includes(size));
+    };
+
     // Filter all resources that have recipes (everything except BASIC RESOURCE)
     const targetIngredients = useMemo(() => {
         console.log('ProductionChainBuilder: Filtering target resources with recipes', {
@@ -552,6 +778,11 @@ const ProductionChainBuilder = () => {
 
             // Apply output type filter
             if (outputTypeFilter !== 'all' && resource.outputType !== outputTypeFilter) {
+                return false;
+            }
+
+            // Apply search filter
+            if (activeSearchTerm.trim() && !resource.name.toLowerCase().includes(activeSearchTerm.toLowerCase())) {
                 return false;
             }
 
@@ -590,11 +821,31 @@ const ProductionChainBuilder = () => {
                 debugCount++;
             }
 
+            // Special debug for photon missiles
+            if (resource.name && resource.name.toLowerCase().includes('photon missile')) {
+                console.log(`🚀 PHOTON MISSILE FILTER: ${resource.name}`, {
+                    actualStatus: actualCompletionStatus,
+                    outputType: resource.outputType,
+                    hasRecipe: resource.outputType && resource.outputType !== 'BASIC RESOURCE',
+                    filter: filter,
+                    shouldInclude: shouldInclude,
+                    ingredientsCount: resource.ingredients?.length || 0,
+                    ingredients: resource.ingredients
+                });
+            }
+
             return shouldInclude;
         });
 
         // Apply sorting
         const sorted = [...filtered].sort((a, b) => {
+            // First, prioritize small/medium ship ingredients (XXXS to M)
+            const aIsSmallMedium = a.outputType === 'INGREDIENT' ? isUsedInSmallMediumShipsOnly(a.name) : false;
+            const bIsSmallMedium = b.outputType === 'INGREDIENT' ? isUsedInSmallMediumShipsOnly(b.name) : false;
+
+            if (aIsSmallMedium && !bIsSmallMedium) return -1; // a comes first
+            if (!aIsSmallMedium && bIsSmallMedium) return 1;  // b comes first
+
             switch (sortBy) {
                 case 'name':
                     return a.name.localeCompare(b.name);
@@ -661,7 +912,7 @@ const ProductionChainBuilder = () => {
         }
 
         return sorted;
-    }, [allResources, recipes, filter, outputTypeFilter, sortBy, ingredientUsageStats]);
+    }, [allResources, recipes, filter, outputTypeFilter, sortBy, ingredientUsageStats, activeSearchTerm]);
 
     // Calculate completion stats
     const completionStats = useMemo(() => {
@@ -921,25 +1172,62 @@ const ProductionChainBuilder = () => {
         };
     };
 
-    // Handle ingredient selection and build its production chain
-    const handleIngredientSelect = (ingredientName) => {
+    // Handle ingredient selection and build its production chain - ASYNC VERSION
+    const handleIngredientSelect = async (ingredientName) => {
+        // Prevent multiple simultaneous analyses
+        if (isAnalyzingChain) {
+            console.log('Chain analysis already in progress, ignoring click');
+            return;
+        }
+
         console.log('=== Ingredient Selection Debug ===');
         console.log('Selected ingredient:', ingredientName);
 
-        setSelectedIngredient(ingredientName);
-        const chain = buildProductionChain(ingredientName);
-        console.log('Built production chain:', chain);
+        try {
+            setIsAnalyzingChain(true);
+            setSelectedIngredient(ingredientName);
+            setShowChainAnalysis(true);
 
-        setCurrentProductionChain(chain);
-        setShowChainAnalysis(true);
+            // Show loading state while building chain
+            setCurrentProductionChain({ name: ingredientName, loading: true });
 
-        console.log('State should be set to:', {
-            selectedIngredient: ingredientName,
-            showChainAnalysis: true,
-            chainMissing: chain?.missing,
-            chainIncomplete: chain?.incomplete,
-            chainActualStatus: chain?.actualCompletionStatus
-        });
+            // Build chain asynchronously with timeout protection
+            const chain = await Promise.race([
+                buildProductionChainAsync(ingredientName),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Chain analysis timed out')), 15000)
+                )
+            ]);
+
+            console.log('Built production chain:', {
+                name: chain.name,
+                depth: chain.depth,
+                totalNodes: chain.totalNodes,
+                status: chain.actualCompletionStatus
+            });
+
+            setCurrentProductionChain(chain);
+
+            console.log('State should be set to:', {
+                selectedIngredient: ingredientName,
+                showChainAnalysis: true,
+                chainMissing: chain?.missing,
+                chainIncomplete: chain?.incomplete,
+                chainActualStatus: chain?.actualCompletionStatus
+            });
+        } catch (error) {
+            console.error('Error building production chain for selection:', error);
+            setCurrentProductionChain({
+                name: ingredientName,
+                error: true,
+                errorMessage: error.message.includes('timed out')
+                    ? 'Chain analysis timed out - too complex'
+                    : error.message
+            });
+        } finally {
+            setIsAnalyzingChain(false);
+        }
+
         console.log('=== End Ingredient Selection Debug ===');
     };
 
@@ -1232,70 +1520,259 @@ const ProductionChainBuilder = () => {
         setShowChainAnalysis(false);
     };
 
-    // Load existing production chain for editing
-    const editProductionChain = (ingredientName) => {
+    // Async version of buildProductionChain to prevent timeouts with better performance
+    const buildProductionChainAsync = async (ingredientName, visited = new Set(), depth = 0, maxDepth = 15) => {
+        // Early termination for very deep chains to prevent timeouts
+        if (depth > maxDepth) {
+            console.warn(`Production chain for ${ingredientName} terminated at depth ${depth} to prevent timeout`);
+            return {
+                name: ingredientName,
+                tooDeep: true,
+                depth: depth,
+                message: `Chain too deep (>${maxDepth} levels)`
+            };
+        }
+
+        // More frequent and longer delays to prevent browser freezing
+        if (depth > 0 && depth % 2 === 0) {
+            await new Promise(resolve => setTimeout(resolve, 25)); // Increased delay
+        }
+
+        // Additional delay for very deep chains
+        if (depth > 8) {
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+
+        if (visited.has(ingredientName)) {
+            return { name: ingredientName, circular: true, depth: depth };
+        }
+        visited.add(ingredientName);
+
+        const resource = allResources.find(r => r.name === ingredientName);
+        if (!resource) return { name: ingredientName, missing: true, notFound: true, depth: depth };
+
+        if (resource.type === 'raw') {
+            return {
+                name: ingredientName,
+                type: 'raw',
+                tier: 0,
+                category: resource.category,
+                planetSources: resource.planetSources,
+                isComplete: true,
+                depth: depth
+            };
+        }
+
+        // Use the same recipe selection logic as calculateCompletionStatus
+        const allRecipes = recipes.filter(r => r.outputName === ingredientName);
+        const allRecipesIncludingNew = [...allRecipes, ...newRecipes.filter(r => r.outputName === ingredientName)];
+
+        let recipe = null;
+
+        if (allRecipesIncludingNew.length > 0) {
+            const recipesWithIngredients = allRecipesIncludingNew.filter(r => r.ingredients && r.ingredients.length > 0);
+            if (recipesWithIngredients.length > 0) {
+                recipe = recipesWithIngredients[0];
+            } else {
+                recipe = allRecipesIncludingNew[0];
+            }
+        }
+
+        if (!recipe || !recipe.ingredients) {
+            return {
+                name: ingredientName,
+                type: resource.type,
+                tier: resource.tier,
+                category: resource.category,
+                isComplete: false,
+                missing: true,
+                needsRecipe: true,
+                actualCompletionStatus: 'missing',
+                depth: depth
+            };
+        }
+
+        // Process ingredients asynchronously with better chunking
+        const ingredientChains = [];
+        const validIngredients = recipe.ingredients.filter(ing => ing && ing.name);
+
+        // Process ingredients in smaller batches to prevent blocking
+        const batchSize = 3;
+        for (let i = 0; i < validIngredients.length; i += batchSize) {
+            const batch = validIngredients.slice(i, i + batchSize);
+
+            // Process batch in parallel but with delay between batches
+            const batchPromises = batch.map(ing =>
+                buildProductionChainAsync(ing.name, new Set(visited), depth + 1, maxDepth)
+            );
+
+            const batchResults = await Promise.all(batchPromises);
+            ingredientChains.push(...batchResults);
+
+            // Delay between batches to prevent overwhelming the browser
+            if (i + batchSize < validIngredients.length) {
+                await new Promise(resolve => setTimeout(resolve, 15));
+            }
+        }
+
+        const isComplete = ingredientChains.every(chain => chain && chain.isComplete);
+        const maxTier = Math.max(0, ...ingredientChains.map(chain => chain?.tier || 0));
+        const actualCompletionStatus = calculateCompletionStatus(ingredientName);
+
+        return {
+            name: ingredientName,
+            type: resource.type,
+            tier: resource.tier,
+            category: resource.category,
+            recipe: recipe,
+            ingredients: ingredientChains,
+            isComplete: actualCompletionStatus === 'complete',
+            missing: actualCompletionStatus === 'missing',
+            incomplete: actualCompletionStatus === 'incomplete',
+            actualCompletionStatus,
+            tierValid: resource.tier > maxTier,
+            constructionTime: recipe.constructionTime,
+            planetDependencies: [...new Set(ingredientChains.flatMap(chain => chain?.planetDependencies || []))],
+            depth: depth,
+            totalNodes: 1 + ingredientChains.reduce((sum, chain) => sum + (chain?.totalNodes || 0), 0)
+        };
+    };
+
+    // Load existing production chain for editing - IMPROVED ASYNC VERSION
+    const editProductionChain = async (ingredientName) => {
         console.log('=== Edit Production Chain Debug ===');
         console.log('Loading production chain for editing:', ingredientName);
 
-        const chain = buildProductionChain(ingredientName);
-        console.log('Built chain for editing:', chain);
+        try {
+            // Show loading state
+            setIsLoadingProductionChain(true);
 
-        // Convert the production chain to editable recipes
-        const loadedRecipes = [];
+            // Build production chain asynchronously with timeout protection
+            console.log('Building production chain asynchronously...');
+            const startTime = Date.now();
 
-        const convertChainToRecipes = (chainNode, depth = 0) => {
-            if (!chainNode || chainNode.type === 'raw' || chainNode.circular) {
-                return;
+            const chain = await Promise.race([
+                buildProductionChainAsync(ingredientName),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Production chain building timed out after 30 seconds')), 30000)
+                )
+            ]);
+
+            const buildTime = Date.now() - startTime;
+            console.log(`Built chain for editing in ${buildTime}ms:`, {
+                name: chain.name,
+                depth: chain.depth,
+                totalNodes: chain.totalNodes,
+                tooDeep: chain.tooDeep
+            });
+
+            // Handle special cases
+            if (chain.tooDeep) {
+                alert(`⚠️ Production chain for "${ingredientName}" is very complex (depth > 15 levels).\n\nShowing simplified version. Some deep dependencies may be truncated to prevent browser timeout.`);
             }
 
-            if (chainNode.recipe && chainNode.recipe.ingredients) {
-                // Convert existing recipe to editable format
-                const editableRecipe = {
-                    id: `edit-${chainNode.recipe.id || Date.now()}-${depth}`,
-                    outputName: chainNode.name,
-                    outputType: chainNode.recipe.outputType || 'INGREDIENT',
-                    outputTier: chainNode.recipe.outputTier || chainNode.tier || 1,
-                    resourceType: chainNode.recipe.resourceType || 'INGREDIENT',
-                    functionalPurpose: chainNode.recipe.functionalPurpose || 'PRODUCTION',
-                    constructionTime: chainNode.recipe.constructionTime || 60,
-                    ingredients: Array(9).fill(null), // Start with empty slots
-                    fromEdit: true // Flag to indicate this came from editing
-                };
+            if (chain.circular) {
+                alert(`⚠️ Circular dependency detected in production chain for "${ingredientName}".\n\nSome recipes may be incomplete due to circular references.`);
+            }
 
-                // Fill in existing ingredients
-                chainNode.recipe.ingredients.forEach((ingredient, index) => {
-                    if (index < 9 && ingredient && ingredient.name) {
-                        editableRecipe.ingredients[index] = {
-                            name: ingredient.name,
-                            quantity: ingredient.quantity || 1
+            // Convert the production chain to editable recipes
+            const loadedRecipes = [];
+            let conversionErrors = 0;
+
+            const convertChainToRecipes = (chainNode, depth = 0) => {
+                if (!chainNode || chainNode.type === 'raw' || chainNode.circular || chainNode.tooDeep) {
+                    return;
+                }
+
+                try {
+                    if (chainNode.recipe && chainNode.recipe.ingredients) {
+                        // Convert existing recipe to editable format
+                        const editableRecipe = {
+                            id: `edit-${chainNode.recipe.id || Date.now()}-${depth}`,
+                            outputName: chainNode.name,
+                            outputType: chainNode.recipe.outputType || 'INGREDIENT',
+                            outputTier: chainNode.recipe.outputTier || chainNode.tier || 1,
+                            resourceType: chainNode.recipe.resourceType || 'INGREDIENT',
+                            functionalPurpose: chainNode.recipe.functionalPurpose || 'PRODUCTION',
+                            constructionTime: chainNode.recipe.constructionTime || 60,
+                            ingredients: Array(9).fill(null), // Start with empty slots
+                            fromEdit: true // Flag to indicate this came from editing
                         };
+
+                        // Fill in existing ingredients
+                        chainNode.recipe.ingredients.forEach((ingredient, index) => {
+                            if (index < 9 && ingredient && ingredient.name) {
+                                editableRecipe.ingredients[index] = {
+                                    name: ingredient.name,
+                                    quantity: ingredient.quantity || 1
+                                };
+                            }
+                        });
+
+                        loadedRecipes.push(editableRecipe);
                     }
-                });
 
-                console.log(`Converted recipe for ${chainNode.name}:`, editableRecipe);
-                loadedRecipes.push(editableRecipe);
+                    // Recursively process ingredients
+                    if (chainNode.ingredients && chainNode.ingredients.length > 0) {
+                        chainNode.ingredients.forEach(ingredient => {
+                            convertChainToRecipes(ingredient, depth + 1);
+                        });
+                    }
+                } catch (error) {
+                    console.error(`Error converting recipe for ${chainNode.name}:`, error);
+                    conversionErrors++;
+                }
+            };
+
+            convertChainToRecipes(chain);
+
+            console.log(`Converted ${loadedRecipes.length} recipes with ${conversionErrors} errors`);
+            console.log('=== End Edit Production Chain Debug ===');
+
+            // Load recipes into the editor
+            setNewRecipes(loadedRecipes);
+            setShowChainAnalysis(false);
+
+            // Show a detailed message about what was loaded
+            const recipeNames = loadedRecipes.map(r => r.outputName).join(', ');
+            let message = `✅ Successfully loaded ${loadedRecipes.length} recipes for editing!\n\n`;
+            message += `📋 Recipes: ${recipeNames}\n\n`;
+            message += `⏱️ Build time: ${buildTime}ms\n`;
+            if (chain.totalNodes) {
+                message += `🔗 Total chain nodes: ${chain.totalNodes}\n`;
+            }
+            if (chain.depth) {
+                message += `🏗️ Maximum depth: ${chain.depth} levels\n`;
+            }
+            if (conversionErrors > 0) {
+                message += `⚠️ ${conversionErrors} conversion errors (check console)\n`;
+            }
+            message += `\n💡 You can now edit ingredients, tiers, and save changes.`;
+
+            alert(message);
+
+        } catch (error) {
+            console.error('Error building production chain:', error);
+            let errorMessage = `❌ Error loading production chain for "${ingredientName}"\n\n`;
+
+            if (error.message.includes('timed out')) {
+                errorMessage += `⏱️ The production chain is too complex and timed out.\n\n`;
+                errorMessage += `💡 Try:\n`;
+                errorMessage += `• Building smaller sub-chains first\n`;
+                errorMessage += `• Using the "Create New" option instead\n`;
+                errorMessage += `• Checking for circular dependencies\n`;
+            } else {
+                errorMessage += `📋 Error details: ${error.message}\n\n`;
+                errorMessage += `💡 This might be due to:\n`;
+                errorMessage += `• Missing recipe data\n`;
+                errorMessage += `• Circular dependencies\n`;
+                errorMessage += `• Very complex production chains\n`;
             }
 
-            // Recursively process ingredients
-            if (chainNode.ingredients && chainNode.ingredients.length > 0) {
-                chainNode.ingredients.forEach(ingredient => {
-                    convertChainToRecipes(ingredient, depth + 1);
-                });
-            }
-        };
-
-        convertChainToRecipes(chain);
-
-        console.log('All loaded recipes:', loadedRecipes);
-        console.log('=== End Edit Production Chain Debug ===');
-
-        // Load recipes into the editor
-        setNewRecipes(loadedRecipes);
-        setShowChainAnalysis(false);
-
-        // Show a message about what was loaded
-        const recipeNames = loadedRecipes.map(r => r.outputName).join(', ');
-        alert(`✅ Loaded ${loadedRecipes.length} recipes for editing: ${recipeNames}\n\nYou can now edit ingredients, tiers, and save changes.`);
+            alert(errorMessage);
+        } finally {
+            setIsLoadingProductionChain(false);
+        }
     };
 
     // Apply suggestion from the suggestion engine
@@ -1399,6 +1876,634 @@ const ProductionChainBuilder = () => {
         document.body.removeChild(link);
 
         console.log(`Exported ${recipes.length} recipes to CSV`);
+    };
+
+    // Export current production chain to CSV
+    const exportProductionChainToCSV = () => {
+        if (!currentProductionChain || newRecipes.length === 0) {
+            alert('No production chain available to export. Please select a resource and build a production chain first.');
+            return;
+        }
+
+        const headers = [
+            'OutputID', 'OutputName', 'OutputType', 'OutputTier', 'ConstructionTime',
+            'PlanetTypes', 'Factions', 'ResourceType', 'FunctionalPurpose', 'UsageCategory',
+            'Ingredient1', 'Quantity1', 'Ingredient2', 'Quantity2', 'Ingredient3', 'Quantity3',
+            'Ingredient4', 'Quantity4', 'Ingredient5', 'Quantity5', 'Ingredient6', 'Quantity6',
+            'Ingredient7', 'Quantity7', 'Ingredient8', 'Quantity8', 'Ingredient9', 'Quantity9',
+            'CompletionStatus', 'InternalRecipeID'
+        ];
+
+        // Helper function to convert name to kebab-case
+        const toKebabCase = (str) => {
+            return str.toLowerCase()
+                .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and dashes
+                .replace(/\s+/g, '-') // Replace spaces with dashes
+                .replace(/-+/g, '-') // Replace multiple dashes with single dash
+                .replace(/^-|-$/g, ''); // Remove leading/trailing dashes
+        };
+
+        // Helper function to generate outputId based on type and name
+        const generateOutputId = (outputName, outputType) => {
+            const kebabName = toKebabCase(outputName);
+
+            switch (outputType) {
+                case 'INGREDIENT':
+                    return `ingredient-${kebabName}`;
+                case 'COMPONENT':
+                    return `component-${kebabName}`;
+                case 'SHIP_COMPONENTS':
+                    return `ship-component-${kebabName}`;
+                case 'COUNTERMEASURES':
+                    return `countermeasure-${kebabName}`;
+                default:
+                    return kebabName;
+            }
+        };
+
+        const csvData = newRecipes.map((recipe, index) => {
+            // Generate outputId in the same format as existing CSV
+            const outputId = generateOutputId(recipe.outputName, recipe.outputType);
+
+            // Create array with basic recipe info
+            const row = [
+                outputId, // Use generated kebab-case ID
+                recipe.outputName,
+                recipe.outputType,
+                recipe.outputTier || '',
+                recipe.constructionTime || '',
+                recipe.planetTypes || '',
+                recipe.factions || '',
+                recipe.resourceType || '',
+                recipe.functionalPurpose || '',
+                recipe.usageCategory || ''
+            ];
+
+            // Add ingredient/quantity pairs (up to 9 ingredients)
+            for (let i = 0; i < 9; i++) {
+                if (recipe.ingredients[i]) {
+                    row.push(recipe.ingredients[i].name || ''); // Ingredient
+                    row.push(recipe.ingredients[i].quantity || 1); // Quantity
+                } else {
+                    row.push(''); // Empty ingredient
+                    row.push(''); // Empty quantity
+                }
+            }
+
+            // Add completion status and internal ID
+            row.push(recipe.completionStatus || 'missing');
+            row.push(recipe.id); // Internal tracking ID
+
+            return row;
+        });
+
+        // Combine headers and data
+        const csvContent = [headers, ...csvData]
+            .map(row => row.map(cell => `"${cell}"`).join(','))
+            .join('\n');
+
+        // Create and download the file
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+
+        // Use the selected ingredient name in the filename
+        const selectedResourceName = selectedIngredient || 'production-chain';
+        const safeFileName = toKebabCase(selectedResourceName);
+        link.setAttribute('download', `${safeFileName}-production-chain.csv`);
+
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        console.log(`Exported ${newRecipes.length} production chain recipes for "${selectedIngredient}" to CSV`);
+        alert(`✅ Exported ${newRecipes.length} recipes from "${selectedIngredient}" production chain to CSV!`);
+    };
+
+    // Helper function to extract ingredients from recipe (needed for production chain analysis)
+    const extractIngredients = (recipe) => {
+        const ingredients = [];
+
+        console.log(`[DEBUG] Extracting ingredients from recipe: ${recipe.OutputName || recipe.outputName}`);
+        console.log(`[DEBUG] Recipe structure:`, {
+            hasIngredientsArray: !!recipe.ingredients,
+            ingredientsArrayLength: recipe.ingredients ? recipe.ingredients.length : 0,
+            ingredient1: recipe.Ingredient1,
+            ingredient2: recipe.Ingredient2,
+            ingredient3: recipe.Ingredient3,
+            allKeys: Object.keys(recipe).filter(key => key.toLowerCase().includes('ingredient'))
+        });
+
+        // Handle both new and old recipe formats
+        if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+            console.log(`[DEBUG] Using new format (ingredients array) for ${recipe.OutputName || recipe.outputName}`);
+            const filtered = recipe.ingredients.filter(ing => {
+                const name = ing.name || ing.ingredient || ing.outputName;
+                return name && name.trim();
+            }).map(ing => ({
+                name: ing.name || ing.ingredient || ing.outputName,
+                quantity: ing.quantity || ing.amount || 1
+            }));
+            console.log(`[DEBUG] Filtered ingredients:`, filtered);
+            return filtered;
+        }
+
+        // Handle old format with Ingredient1, Ingredient2, etc.
+        console.log(`[DEBUG] Using old format (Ingredient1, Ingredient2, etc.) for ${recipe.OutputName || recipe.outputName}`);
+        for (let i = 1; i <= 9; i++) {
+            const ingredient = recipe[`Ingredient${i}`];
+            if (ingredient && ingredient.trim()) {
+                console.log(`[DEBUG] Found Ingredient${i}: ${ingredient}`);
+                ingredients.push({ name: ingredient.trim() });
+            }
+        }
+
+        console.log(`[DEBUG] Final extracted ingredients for ${recipe.OutputName || recipe.outputName}:`, ingredients);
+        return ingredients;
+    };
+
+    // NEW: Export existing production chain directly from CSV data (no editing required)
+    const exportExistingProductionChain = (ingredientName) => {
+        if (!ingredientName) {
+            alert('Please select an ingredient first.');
+            return;
+        }
+
+        console.log(`Analyzing existing production chain for: ${ingredientName}`);
+
+        // Build the complete production chain from existing CSV data
+        const chainRecipes = new Map();
+        const visited = new Set();
+
+        const collectChainRecipes = (itemName, depth = 0) => {
+            console.log(`[DEBUG] Collecting chain recipes for: ${itemName} (depth: ${depth})`);
+
+            if (visited.has(itemName) || depth > 10) {
+                console.log(`[DEBUG] Skipping ${itemName} - already visited or max depth reached`);
+                return;
+            }
+            visited.add(itemName);
+
+            // Find the recipe for this item
+            const recipe = recipes.find(r => (r.OutputName || r.outputName) === itemName);
+            if (!recipe) {
+                console.log(`[DEBUG] No recipe found for: ${itemName}`);
+                return;
+            }
+
+            console.log(`[DEBUG] Found recipe for ${itemName}:`, {
+                outputName: recipe.OutputName || recipe.outputName,
+                outputType: recipe.OutputType || recipe.outputType,
+                hasIngredient1: !!recipe.Ingredient1,
+                hasIngredient2: !!recipe.Ingredient2,
+                ingredient1Value: recipe.Ingredient1,
+                ingredient2Value: recipe.Ingredient2
+            });
+
+            // Add this recipe to the chain
+            chainRecipes.set(itemName, recipe);
+
+            // Recursively collect ingredient recipes
+            const ingredients = extractIngredients(recipe);
+            console.log(`[DEBUG] Extracted ${ingredients.length} ingredients from ${itemName}:`, ingredients.map(ing => ing.name));
+
+            ingredients.forEach(ingredient => {
+                if (ingredient && ingredient.name) {
+                    collectChainRecipes(ingredient.name, depth + 1);
+                }
+            });
+        };
+
+        // Start the collection
+        collectChainRecipes(ingredientName);
+
+        if (chainRecipes.size === 0) {
+            alert(`No production chain found for "${ingredientName}". This might be a basic resource or the recipe doesn't exist.`);
+            return;
+        }
+
+        console.log(`Found ${chainRecipes.size} recipes in production chain for ${ingredientName}`);
+
+        // Convert to array and prepare for CSV export
+        const chainRecipesArray = Array.from(chainRecipes.values());
+
+        // DEBUG: Show structure of first recipe to understand field names
+        if (chainRecipesArray.length > 0) {
+            const firstRecipe = chainRecipesArray[0];
+            console.log(`[DEBUG] FIRST RECIPE STRUCTURE:`, firstRecipe);
+            console.log(`[DEBUG] FIRST RECIPE KEYS:`, Object.keys(firstRecipe));
+            console.log(`[DEBUG] Looking for ingredient fields in first recipe:`);
+            Object.keys(firstRecipe).forEach(key => {
+                if (key.toLowerCase().includes('ingredient') || key.toLowerCase().includes('quantity')) {
+                    console.log(`[DEBUG] Found ingredient/quantity field: ${key} = ${firstRecipe[key]}`);
+                }
+            });
+        }
+
+        // Use the same CSV generation logic as the other export functions
+        const headers = [
+            'OutputID', 'OutputName', 'OutputType', 'OutputTier', 'ConstructionTime',
+            'PlanetTypes', 'Factions', 'ResourceType', 'FunctionalPurpose', 'UsageCategory',
+            'Ingredient1', 'Quantity1', 'Ingredient2', 'Quantity2', 'Ingredient3', 'Quantity3',
+            'Ingredient4', 'Quantity4', 'Ingredient5', 'Quantity5', 'Ingredient6', 'Quantity6',
+            'Ingredient7', 'Quantity7', 'Ingredient8', 'Quantity8', 'Ingredient9', 'Quantity9',
+            'CompletionStatus', 'InternalRecipeID'
+        ];
+
+        // Helper function to convert name to kebab-case
+        const toKebabCase = (str) => {
+            return str.toLowerCase()
+                .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and dashes
+                .replace(/\s+/g, '-') // Replace spaces with dashes
+                .replace(/-+/g, '-') // Replace multiple dashes with single dash
+                .replace(/^-|-$/g, ''); // Remove leading/trailing dashes
+        };
+
+        // Helper function to generate outputId based on type and name
+        const generateOutputId = (outputName, outputType) => {
+            const kebabName = toKebabCase(outputName);
+
+            switch (outputType) {
+                case 'INGREDIENT':
+                    return `ingredient-${kebabName}`;
+                case 'COMPONENT':
+                    return `component-${kebabName}`;
+                case 'SHIP_COMPONENTS':
+                    return `ship-component-${kebabName}`;
+                case 'COUNTERMEASURES':
+                    return `countermeasure-${kebabName}`;
+                default:
+                    return kebabName;
+            }
+        };
+
+        const csvData = chainRecipesArray.map((recipe, index) => {
+            console.log(`[DEBUG] Processing recipe ${index + 1}/${chainRecipesArray.length}: ${recipe.OutputName || recipe.outputName}`);
+
+            // Generate outputId in the same format as existing CSV
+            const outputId = generateOutputId(recipe.OutputName || recipe.outputName, recipe.OutputType || recipe.outputType);
+
+            // Create array with basic recipe info
+            const row = [
+                outputId,
+                recipe.OutputName || recipe.outputName,
+                recipe.OutputType || recipe.outputType,
+                recipe.OutputTier || recipe.outputTier || '',
+                recipe.ConstructionTime || recipe.constructionTime || '',
+                recipe.PlanetTypes || recipe.planetTypes || '',
+                recipe.Factions || recipe.factions || '',
+                recipe.ResourceType || recipe.resourceType || '',
+                recipe.FunctionalPurpose || recipe.functionalPurpose || '',
+                recipe.UsageCategory || recipe.usageCategory || ''
+            ];
+
+            // Only show detailed debugging for first few recipes to avoid console spam
+            if (index < 3) {
+                console.log(`[DEBUG] Recipe ${recipe.OutputName || recipe.outputName} ingredient fields check:`);
+                console.log(`[DEBUG] All recipe keys:`, Object.keys(recipe));
+                console.log(`[DEBUG] Recipe object sample:`, recipe);
+
+                const ingredientFields = {};
+                for (let i = 1; i <= 9; i++) {
+                    ingredientFields[`Ingredient${i}`] = recipe[`Ingredient${i}`];
+                    ingredientFields[`Quantity${i}`] = recipe[`Quantity${i}`];
+                }
+                console.log(`[DEBUG] Ingredient fields:`, ingredientFields);
+
+                // Check for alternative field names
+                const alternativeFields = {};
+                Object.keys(recipe).forEach(key => {
+                    if (key.toLowerCase().includes('ingredient') || key.toLowerCase().includes('quantity')) {
+                        alternativeFields[key] = recipe[key];
+                    }
+                });
+                console.log(`[DEBUG] Alternative ingredient/quantity fields:`, alternativeFields);
+            }
+
+            // Add ingredient/quantity pairs (up to 9 ingredients)
+            let ingredientCount = 0;
+
+            // Handle ingredients array format (new format)
+            if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+                if (index < 3) {
+                    console.log(`[DEBUG] Using ingredients array format for ${recipe.OutputName || recipe.outputName}`);
+                    console.log(`[DEBUG] Ingredients array:`, recipe.ingredients);
+                }
+
+                for (let i = 0; i < 9; i++) {
+                    if (i < recipe.ingredients.length) {
+                        const ingredient = recipe.ingredients[i];
+                        const ingredientName = ingredient.name || ingredient.ingredient || ingredient.outputName || '';
+                        const quantity = ingredient.quantity || ingredient.amount || 1;
+
+                        if (ingredientName) {
+                            if (index < 3) {
+                                console.log(`[DEBUG] Adding Ingredient${i + 1}: ${ingredientName}, Quantity: ${quantity}`);
+                            }
+                            row.push(ingredientName); // Ingredient
+                            row.push(quantity); // Quantity
+                            ingredientCount++;
+                        } else {
+                            row.push(''); // Empty ingredient
+                            row.push(''); // Empty quantity
+                        }
+                    } else {
+                        row.push(''); // Empty ingredient
+                        row.push(''); // Empty quantity
+                    }
+                }
+            } else {
+                // Handle old format with Ingredient1, Ingredient2, etc. (fallback)
+                if (index < 3) {
+                    console.log(`[DEBUG] Using old Ingredient1, Ingredient2 format for ${recipe.OutputName || recipe.outputName}`);
+                }
+
+                for (let i = 1; i <= 9; i++) {
+                    const ingredient = recipe[`Ingredient${i}`];
+                    const quantity = recipe[`Quantity${i}`];
+
+                    if (ingredient && ingredient.trim()) {
+                        if (index < 3) {
+                            console.log(`[DEBUG] Adding Ingredient${i}: ${ingredient.trim()}, Quantity: ${quantity || 1}`);
+                        }
+                        row.push(ingredient.trim()); // Ingredient
+                        row.push(quantity || 1); // Quantity
+                        ingredientCount++;
+                    } else {
+                        row.push(''); // Empty ingredient
+                        row.push(''); // Empty quantity
+                    }
+                }
+            }
+
+            console.log(`[DEBUG] Recipe ${recipe.OutputName || recipe.outputName} has ${ingredientCount} ingredients in CSV row`);
+
+            // Add completion status and internal ID
+            row.push(recipe.CompletionStatus || recipe.completionStatus || 'complete');
+            row.push(recipe.id || recipe.OutputID || recipe.outputID || ''); // Internal tracking ID
+
+            console.log(`[DEBUG] Final row length: ${row.length}, Expected: ${headers.length}`);
+            return row;
+        });
+
+        // Combine headers and data
+        const csvContent = [headers, ...csvData]
+            .map(row => row.map(cell => `"${cell}"`).join(','))
+            .join('\n');
+
+        // Create and download the file
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+
+        // Use the selected ingredient name in the filename
+        const safeFileName = toKebabCase(ingredientName);
+        link.setAttribute('download', `${safeFileName}-existing-production-chain.csv`);
+
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        console.log(`Exported ${chainRecipesArray.length} existing production chain recipes for "${ingredientName}" to CSV`);
+        alert(`✅ Exported ${chainRecipesArray.length} recipes from existing "${ingredientName}" production chain to CSV!`);
+    };
+
+    // NEW: Export ingredient optimization report for AI analysis
+
+    const exportIngredientOptimizationReport = () => {
+        console.log('Generating ingredient optimization report...');
+
+        // Get all INGREDIENT type recipes
+        const allIngredientRecipes = recipes.filter(recipe => {
+            const outputType = (recipe.outputType || recipe.OutputType || '').toUpperCase();
+            return outputType === 'INGREDIENT';
+        });
+
+        // Filter to only include ingredients used in XXXS to M ships (exclude L, CAP, CMD, CLASS8, TTN)
+        const ingredientRecipes = allIngredientRecipes.filter(recipe => {
+            const ingredientName = recipe.outputName || recipe.OutputName;
+            return isUsedInSmallMediumShipsOnly(ingredientName);
+        });
+
+        console.log(`Found ${allIngredientRecipes.length} total ingredient recipes`);
+        console.log(`Filtered to ${ingredientRecipes.length} ingredients used only in XXXS-M ships`);
+
+        if (ingredientRecipes.length === 0) {
+            alert('No ingredient recipes found to analyze.');
+            return;
+        }
+
+        // Analyze each ingredient's production chain
+        const ingredientAnalysis = ingredientRecipes.map(recipe => {
+            const ingredientName = recipe.outputName || recipe.OutputName;
+
+            // Build production chain for this ingredient
+            const chainRecipes = new Map();
+            const visited = new Set();
+            const rawResources = new Set();
+
+            const analyzeChain = (itemName, depth = 0) => {
+                if (visited.has(itemName) || depth > 10) return;
+                visited.add(itemName);
+
+                const itemRecipe = recipes.find(r => (r.OutputName || r.outputName) === itemName);
+                if (!itemRecipe) {
+                    // If no recipe found, assume it's a raw resource
+                    rawResources.add(itemName);
+                    return;
+                }
+
+                const outputType = (itemRecipe.outputType || itemRecipe.OutputType || '').toUpperCase();
+                if (outputType === 'BASIC RESOURCE') {
+                    rawResources.add(itemName);
+                }
+
+                chainRecipes.set(itemName, itemRecipe);
+
+                // Analyze ingredients
+                if (itemRecipe.ingredients && Array.isArray(itemRecipe.ingredients)) {
+                    itemRecipe.ingredients.forEach(ing => {
+                        const ingName = ing.name || ing.ingredient || ing.outputName;
+                        if (ingName) {
+                            analyzeChain(ingName, depth + 1);
+                        }
+                    });
+                }
+            };
+
+            analyzeChain(ingredientName);
+
+            return {
+                name: ingredientName,
+                tier: recipe.outputTier || recipe.OutputTier || 1,
+                directIngredients: recipe.ingredients || [],
+                chainSize: chainRecipes.size,
+                rawResourceCount: rawResources.size,
+                rawResources: Array.from(rawResources),
+                productionChain: Array.from(chainRecipes.values()),
+                needsOptimization: rawResources.size > 5,
+                usedInShipSizes: getShipSizesUsingIngredient(ingredientName) // Add ship size info
+            };
+        });
+
+        // Sort by raw resource count (most problematic first)
+        ingredientAnalysis.sort((a, b) => b.rawResourceCount - a.rawResourceCount);
+
+        // Get all unique raw resources across all ingredients
+        const allRawResources = new Set();
+        ingredientAnalysis.forEach(ing => {
+            ing.rawResources.forEach(res => allRawResources.add(res));
+        });
+
+        // Generate markdown report
+        let report = `# Ingredient Production Chain Optimization Report\n\n`;
+        report += `**Generated:** ${new Date().toLocaleString()}\n`;
+        report += `**Focus:** Small to Medium Ships (XXXS, XXS, XS, S, M)\n`;
+        report += `**Goal:** Reduce raw resource complexity while maintaining resource diversity\n`;
+        report += `**Scope:** Excluding Large ship ingredients (L, CAP, CMD, CLASS8, TTN) as they are intended to be complex\n\n`;
+
+        // Executive Summary
+        report += `## Executive Summary\n\n`;
+        report += `- **Total Ingredients in System:** ${allIngredientRecipes.length}\n`;
+        report += `- **Small/Medium Ship Ingredients Analyzed:** ${ingredientAnalysis.length}\n`;
+        report += `- **Ingredients Needing Optimization:** ${ingredientAnalysis.filter(ing => ing.needsOptimization).length}\n`;
+        report += `- **Total Unique Raw Resources:** ${allRawResources.size}\n`;
+        report += `- **Target:** Max 5 raw resources per ingredient\n`;
+        report += `- **Large Ship Ingredients Excluded:** ${allIngredientRecipes.length - ingredientRecipes.length} (complexity acceptable)\n\n`;
+
+        // Raw Resource Usage Analysis
+        report += `## Raw Resource Usage Analysis\n\n`;
+        const resourceUsage = {};
+        ingredientAnalysis.forEach(ing => {
+            ing.rawResources.forEach(res => {
+                if (!resourceUsage[res]) resourceUsage[res] = [];
+                resourceUsage[res].push(ing.name);
+            });
+        });
+
+        const sortedResources = Object.entries(resourceUsage)
+            .sort((a, b) => b[1].length - a[1].length)
+            .slice(0, 20); // Top 20 most used
+
+        report += `### Most Utilized Raw Resources (Top 20)\n\n`;
+        sortedResources.forEach(([resource, users], index) => {
+            report += `${index + 1}. **${resource}** - Used by ${users.length} ingredients\n`;
+        });
+        report += `\n`;
+
+        // Ingredient Analysis
+        report += `## Ingredient Optimization Targets\n\n`;
+        report += `### Critical Priority (>10 Raw Resources)\n\n`;
+
+        const criticalIngredients = ingredientAnalysis.filter(ing => ing.rawResourceCount > 10);
+        if (criticalIngredients.length > 0) {
+            criticalIngredients.forEach(ing => {
+                report += `#### ${ing.name} (Tier ${ing.tier})\n`;
+                report += `- **Current Raw Resources:** ${ing.rawResourceCount} (Target: 5)\n`;
+                report += `- **Reduction Needed:** ${ing.rawResourceCount - 5} resources\n`;
+                report += `- **Direct Ingredients:** ${ing.directIngredients.length}\n`;
+                report += `- **Production Chain Size:** ${ing.chainSize} recipes\n`;
+                report += `- **Used in Ship Sizes:** ${ing.usedInShipSizes.join(', ')}\n\n`;
+
+                report += `**Current Raw Resources:**\n`;
+                ing.rawResources.forEach(res => {
+                    const usageCount = resourceUsage[res]?.length || 0;
+                    report += `- ${res} (used by ${usageCount} ingredients)\n`;
+                });
+                report += `\n`;
+
+                report += `**Direct Recipe Ingredients:**\n`;
+                ing.directIngredients.forEach(ingredient => {
+                    const ingName = ingredient.name || ingredient.ingredient || ingredient.outputName;
+                    const quantity = ingredient.quantity || ingredient.amount || 1;
+                    report += `- ${ingName} (${quantity})\n`;
+                });
+                report += `\n`;
+
+                report += `**AI Optimization Task:**\n`;
+                report += `1. Identify which direct ingredients contribute most to raw resource complexity\n`;
+                report += `2. Suggest consolidation opportunities with other high-usage raw resources\n`;
+                report += `3. Recommend ingredient substitutions that reduce unique resource count\n`;
+                report += `4. Maintain functionality while achieving 5 or fewer raw resources\n\n`;
+                report += `---\n\n`;
+            });
+        } else {
+            report += `No ingredients require critical optimization.\n\n`;
+        }
+
+        report += `### High Priority (6-10 Raw Resources)\n\n`;
+        const highPriorityIngredients = ingredientAnalysis.filter(ing => ing.rawResourceCount >= 6 && ing.rawResourceCount <= 10);
+        if (highPriorityIngredients.length > 0) {
+            highPriorityIngredients.forEach(ing => {
+                report += `#### ${ing.name} (Tier ${ing.tier})\n`;
+                report += `- **Current Raw Resources:** ${ing.rawResourceCount} (Target: 5)\n`;
+                report += `- **Reduction Needed:** ${ing.rawResourceCount - 5} resources\n`;
+                report += `- **Direct Ingredients:** ${ing.directIngredients.map(i => i.name || i.ingredient || i.outputName).join(', ')}\n`;
+                report += `- **Raw Resources:** ${ing.rawResources.join(', ')}\n\n`;
+            });
+        } else {
+            report += `No ingredients in this priority level.\n\n`;
+        }
+
+        report += `### Optimized Ingredients (≤5 Raw Resources)\n\n`;
+        const optimizedIngredients = ingredientAnalysis.filter(ing => ing.rawResourceCount <= 5);
+        report += `**Count:** ${optimizedIngredients.length} ingredients already meet the target.\n\n`;
+        if (optimizedIngredients.length > 0) {
+            report += `**Examples of well-optimized ingredients:**\n`;
+            optimizedIngredients.slice(0, 10).forEach(ing => {
+                report += `- ${ing.name}: ${ing.rawResourceCount} raw resources\n`;
+            });
+            report += `\n`;
+        }
+
+        // Optimization Strategies
+        report += `## AI Optimization Strategies\n\n`;
+        report += `### 1. Resource Consolidation\n`;
+        report += `- Focus on ingredients using the top 10 most common raw resources\n`;
+        report += `- Prioritize substitutions that maintain resource diversity across all ingredients\n`;
+        report += `- Consider creating intermediate components that combine multiple raw resources\n\n`;
+
+        report += `### 2. Tier-Based Optimization\n`;
+        report += `- Higher tier ingredients can justify slightly more complexity\n`;
+        report += `- Lower tier ingredients should use fewer, more common resources\n`;
+        report += `- Maintain logical progression from simple to complex\n\n`;
+
+        report += `### 3. Functional Grouping\n`;
+        report += `- Group ingredients by similar functionality\n`;
+        report += `- Share common resource bases within functional groups\n`;
+        report += `- Avoid resource overlap between unrelated ingredient types\n\n`;
+
+        report += `## Resource Utilization Goals\n\n`;
+        report += `### Target Distribution\n`;
+        report += `- **All ${allRawResources.size} raw resources should remain in use**\n`;
+        report += `- **Each raw resource should be used by multiple ingredients**\n`;
+        report += `- **No ingredient should require more than 5 raw resources**\n`;
+        report += `- **Maintain logical production complexity scaling**\n\n`;
+
+        report += `### Success Metrics\n`;
+        report += `- Reduce average raw resources per ingredient to ≤4\n`;
+        report += `- Ensure all ${allRawResources.size} raw resources remain utilized\n`;
+        report += `- Maintain production chain logical flow\n`;
+        report += `- Preserve ingredient tier progression complexity\n\n`;
+
+        // Export the report
+        const blob = new Blob([report], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ingredient-optimization-report-${new Date().toISOString().split('T')[0]}.md`;
+        a.style.visibility = 'hidden';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        console.log(`Generated ingredient optimization report for ${ingredientAnalysis.length} ingredients`);
+        alert(`✅ Generated ingredient optimization report!\n\nAnalyzed: ${ingredientAnalysis.length} ingredients\nNeed optimization: ${ingredientAnalysis.filter(ing => ing.needsOptimization).length}\nTotal raw resources: ${allRawResources.size}`);
     };
 
     // Refresh completion status for all ingredients based on current recipe availability
@@ -3283,6 +4388,51 @@ ${orphanedResources.ingredients.map((item, index) =>
                     </button>
 
                     <button
+                        onClick={() => selectedIngredient ? exportExistingProductionChain(selectedIngredient) : alert('Please select an ingredient first')}
+                        className="export-existing-chain-header-btn"
+                        disabled={!selectedIngredient}
+                        style={{
+                            background: selectedIngredient
+                                ? 'linear-gradient(45deg, #28a745, #20c997)'
+                                : '#6c757d',
+                            border: selectedIngredient
+                                ? '2px solid #20c997'
+                                : '2px solid #6c757d',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '6px',
+                            cursor: selectedIngredient ? 'pointer' : 'not-allowed',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                            opacity: selectedIngredient ? 1 : 0.6,
+                            marginRight: '10px'
+                        }}
+                        title={selectedIngredient
+                            ? `Export existing production chain for ${selectedIngredient} from CSV data`
+                            : 'Select an ingredient first to export its production chain'}
+                    >
+                        🏭 Export Existing Chain
+                    </button>
+
+                    <button
+                        onClick={exportIngredientOptimizationReport}
+                        className="export-ingredient-optimization-btn"
+                        style={{
+                            background: 'linear-gradient(45deg, #6f42c1, #563d7c)',
+                            border: '2px solid #563d7c',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                        }}
+                        title="Generate AI optimization report for all INGREDIENT types to reduce raw resource complexity"
+                    >
+                        🤖 Export Ingredient Optimization Report
+                    </button>
+
+                    <button
                         onClick={handleCleanupCSV}
                         className="cleanup-btn"
                         style={{
@@ -3373,32 +4523,101 @@ ${orphanedResources.ingredients.map((item, index) =>
                     </div>
                     <div className="sidebar-content">
                         <div className="chain-summary">
-                            <div className="summary-item">
-                                <span className="label">Status:</span>
-                                <span className={`value ${currentProductionChain.actualCompletionStatus || 'missing'}`}>
-                                    {currentProductionChain.actualCompletionStatus === 'complete' && '✅ Complete'}
-                                    {currentProductionChain.actualCompletionStatus === 'incomplete' && '⚠️ Incomplete'}
-                                    {currentProductionChain.actualCompletionStatus === 'missing' && '❌ Missing Recipe'}
-                                    {currentProductionChain.circular && '🔄 Circular Dependency'}
-                                </span>
-                            </div>
-                            <div className="summary-item">
-                                <span className="label">Tier:</span>
-                                <span className={`tier-badge tier-${currentProductionChain.tier}`}>
-                                    T{currentProductionChain.tier}
-                                </span>
-                            </div>
-                            {currentProductionChain.missing && (
-                                <div className="summary-item">
-                                    <span className="label">Issue:</span>
-                                    <span className="value missing">No Recipe Exists</span>
+                            {/* Handle loading state */}
+                            {currentProductionChain.loading && (
+                                <div className="loading-state" style={{
+                                    textAlign: 'center',
+                                    padding: '2rem',
+                                    background: 'linear-gradient(45deg, #f8f9fa, #e9ecef)',
+                                    borderRadius: '8px',
+                                    margin: '1rem 0'
+                                }}>
+                                    <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⏳</div>
+                                    <div style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+                                        Analyzing Production Chain...
+                                    </div>
+                                    <div style={{ fontSize: '0.9rem', color: '#6c757d' }}>
+                                        This may take a moment for complex chains
+                                    </div>
                                 </div>
                             )}
-                            {currentProductionChain.incomplete && (
-                                <div className="summary-item">
-                                    <span className="label">Issue:</span>
-                                    <span className="value incomplete">Dependencies Missing</span>
+
+                            {/* Handle error state */}
+                            {currentProductionChain.error && (
+                                <div className="error-state" style={{
+                                    textAlign: 'center',
+                                    padding: '2rem',
+                                    background: 'linear-gradient(45deg, #f8d7da, #f5c6cb)',
+                                    borderRadius: '8px',
+                                    margin: '1rem 0',
+                                    border: '2px solid #dc3545'
+                                }}>
+                                    <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚠️</div>
+                                    <div style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#721c24' }}>
+                                        Analysis Failed
+                                    </div>
+                                    <div style={{ fontSize: '0.9rem', color: '#721c24' }}>
+                                        {currentProductionChain.errorMessage}
+                                    </div>
                                 </div>
+                            )}
+
+                            {/* Normal chain display */}
+                            {!currentProductionChain.loading && !currentProductionChain.error && (
+                                <>
+                                    <div className="summary-item">
+                                        <span className="label">Status:</span>
+                                        <span className={`value ${currentProductionChain.actualCompletionStatus || 'missing'}`}>
+                                            {currentProductionChain.actualCompletionStatus === 'complete' && '✅ Complete'}
+                                            {currentProductionChain.actualCompletionStatus === 'incomplete' && '⚠️ Incomplete'}
+                                            {currentProductionChain.actualCompletionStatus === 'missing' && '❌ Missing Recipe'}
+                                            {currentProductionChain.circular && '🔄 Circular Dependency'}
+                                            {currentProductionChain.tooDeep && '🔄 Chain Too Deep'}
+                                        </span>
+                                    </div>
+                                    <div className="summary-item">
+                                        <span className="label">Tier:</span>
+                                        <span className={`tier-badge tier-${currentProductionChain.tier}`}>
+                                            T{currentProductionChain.tier || 0}
+                                        </span>
+                                    </div>
+                                    {currentProductionChain.depth && (
+                                        <div className="summary-item">
+                                            <span className="label">Depth:</span>
+                                            <span className="value">
+                                                {currentProductionChain.depth} levels
+                                            </span>
+                                        </div>
+                                    )}
+                                    {currentProductionChain.totalNodes && (
+                                        <div className="summary-item">
+                                            <span className="label">Complexity:</span>
+                                            <span className="value">
+                                                {currentProductionChain.totalNodes} nodes
+                                            </span>
+                                        </div>
+                                    )}
+                                    {currentProductionChain.missing && (
+                                        <div className="summary-item">
+                                            <span className="label">Issue:</span>
+                                            <span className="value missing">No Recipe Exists</span>
+                                        </div>
+                                    )}
+                                    {currentProductionChain.incomplete && (
+                                        <div className="summary-item">
+                                            <span className="label">Issue:</span>
+                                            <span className="value incomplete">Dependencies Missing</span>
+                                        </div>
+                                    )}
+                                    {currentProductionChain.tooDeep && (
+                                        <div className="summary-item">
+                                            <span className="label">Warning:</span>
+                                            <span className="value warning">
+                                                {currentProductionChain.message || 'Chain truncated for performance'}
+                                            </span>
+                                        </div>
+                                    )}
+                                </>
                             )}
                         </div>
 
@@ -3419,23 +4638,29 @@ ${orphanedResources.ingredients.map((item, index) =>
                             {/* Edit button for complete production chains - OUTSIDE missing/incomplete condition */}
                             {currentProductionChain.actualCompletionStatus === 'complete' && (
                                 <button
-                                    onClick={() => editProductionChain(selectedIngredient)}
+                                    onClick={async () => await editProductionChain(selectedIngredient)}
                                     className="edit-chain-btn"
+                                    disabled={isLoadingProductionChain}
                                     style={{
-                                        background: 'linear-gradient(45deg, #007bff, #0056b3)',
-                                        border: '2px solid #0056b3',
+                                        background: isLoadingProductionChain
+                                            ? 'linear-gradient(45deg, #6c757d, #495057)'
+                                            : 'linear-gradient(45deg, #007bff, #0056b3)',
+                                        border: isLoadingProductionChain
+                                            ? '2px solid #495057'
+                                            : '2px solid #0056b3',
                                         color: 'white',
                                         padding: '1rem 2rem',
                                         borderRadius: '8px',
                                         fontWeight: 'bold',
-                                        cursor: 'pointer',
+                                        cursor: isLoadingProductionChain ? 'not-allowed' : 'pointer',
                                         marginBottom: '1rem',
                                         fontSize: '1rem',
                                         display: 'block',
-                                        width: '100%'
+                                        width: '100%',
+                                        opacity: isLoadingProductionChain ? 0.7 : 1
                                     }}
                                 >
-                                    ✏️ Edit Production Chain
+                                    {isLoadingProductionChain ? '⏳ Loading Production Chain...' : '✏️ Edit Production Chain'}
                                 </button>
                             )}
 
@@ -3479,6 +4704,58 @@ ${orphanedResources.ingredients.map((item, index) =>
                             >
                                 🤖 Get AI Recipe Suggestions
                             </button>
+
+                            {/* Export Existing Production Chain button - always available for complete chains */}
+                            <button
+                                onClick={() => exportExistingProductionChain(selectedIngredient)}
+                                className="export-existing-chain-sidebar-btn"
+                                disabled={!selectedIngredient}
+                                style={{
+                                    background: selectedIngredient
+                                        ? 'linear-gradient(45deg, #28a745, #20c997)'
+                                        : '#6c757d',
+                                    border: selectedIngredient
+                                        ? '2px solid #20c997'
+                                        : '2px solid #6c757d',
+                                    color: 'white',
+                                    padding: '0.8rem 1.5rem',
+                                    borderRadius: '6px',
+                                    fontWeight: 'bold',
+                                    cursor: selectedIngredient ? 'pointer' : 'not-allowed',
+                                    marginBottom: '1rem',
+                                    fontSize: '0.9rem',
+                                    width: '100%',
+                                    opacity: selectedIngredient ? 1 : 0.6
+                                }}
+                                title={selectedIngredient
+                                    ? `Export existing production chain for ${selectedIngredient} from CSV data`
+                                    : 'Select an ingredient first'}
+                            >
+                                📤 Export Existing Production Chain
+                            </button>
+
+                            {/* Export Edited Production Chain button - only show when editing */}
+                            {newRecipes.length > 0 && (
+                                <button
+                                    onClick={exportProductionChainToCSV}
+                                    className="export-edited-chain-sidebar-btn"
+                                    style={{
+                                        background: 'linear-gradient(45deg, #fd7e14, #e8590c)',
+                                        border: '2px solid #e8590c',
+                                        color: 'white',
+                                        padding: '0.8rem 1.5rem',
+                                        borderRadius: '6px',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer',
+                                        marginBottom: '1rem',
+                                        fontSize: '0.9rem',
+                                        width: '100%'
+                                    }}
+                                    title={`Export ${newRecipes.length} edited recipes from current editing session`}
+                                >
+                                    ✏️ Export Edited Chain ({newRecipes.length})
+                                </button>
+                            )}
                         </div>
 
                         {/* Buttons for missing/incomplete ingredients */}
@@ -3911,29 +5188,39 @@ ${orphanedResources.ingredients.map((item, index) =>
                         )}
 
                         <div className="recipes-spreadsheet">
+                            <div className="table-instructions" style={{
+                                fontSize: '0.8em',
+                                color: '#bbb',
+                                marginBottom: '8px',
+                                textAlign: 'right'
+                            }}>
+                                💡 Hover over column edges and drag to resize columns
+                            </div>
                             <table className="production-chain-table">
                                 <thead>
                                     <tr>
-                                        <th className="output-col">Output Name</th>
-                                        <th className="type-col">Type</th>
-                                        <th className="tier-col">Tier</th>
-                                        <th className="resource-type-col">Resource Type</th>
-                                        <th className="functional-purpose-col">Functional Purpose</th>
-                                        <th className="ingredient-col">Ingredient 1</th>
-                                        <th className="ingredient-col">Ingredient 2</th>
-                                        <th className="ingredient-col">Ingredient 3</th>
-                                        <th className="ingredient-col">Ingredient 4</th>
-                                        <th className="ingredient-col">Ingredient 5</th>
-                                        <th className="ingredient-col">Ingredient 6</th>
-                                        <th className="ingredient-col">Ingredient 7</th>
-                                        <th className="ingredient-col">Ingredient 8</th>
-                                        <th className="ingredient-col">Ingredient 9</th>
-                                        <th className="actions-col">Actions</th>
+                                        <th className="row-num-col" onMouseDown={(e) => handleMouseDown(e, 0)}>#</th>
+                                        <th className="output-col" onMouseDown={(e) => handleMouseDown(e, 1)}>Output Name</th>
+                                        <th className="type-col" onMouseDown={(e) => handleMouseDown(e, 2)}>Type</th>
+                                        <th className="tier-col" onMouseDown={(e) => handleMouseDown(e, 3)}>Tier</th>
+                                        <th className="resource-type-col" onMouseDown={(e) => handleMouseDown(e, 4)}>Resource Type</th>
+                                        <th className="functional-purpose-col" onMouseDown={(e) => handleMouseDown(e, 5)}>Functional Purpose</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 6)}>Ingredient 1</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 7)}>Ingredient 2</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 8)}>Ingredient 3</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 9)}>Ingredient 4</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 10)}>Ingredient 5</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 11)}>Ingredient 6</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 12)}>Ingredient 7</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 13)}>Ingredient 8</th>
+                                        <th className="ingredient-col" onMouseDown={(e) => handleMouseDown(e, 14)}>Ingredient 9</th>
+                                        <th className="actions-col" onMouseDown={(e) => handleMouseDown(e, 15)}>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {newRecipes.map(recipe => (
+                                    {newRecipes.map((recipe, rowIndex) => (
                                         <tr key={recipe.id} className="recipe-row">
+                                            <td className="row-num-cell">{rowIndex + 1}</td>
                                             <td className="output-cell">
                                                 <input
                                                     type="text"
@@ -3997,36 +5284,66 @@ ${orphanedResources.ingredients.map((item, index) =>
                                                 </select>
                                             </td>
                                             {/* 9 Ingredient Columns */}
-                                            {Array.from({ length: 9 }, (_, index) => (
-                                                <td key={index} className="ingredient-cell">
-                                                    <div className="ingredient-slot">
-                                                        {recipe.ingredients[index] ? (
-                                                            <div className="ingredient-selected">
-                                                                <span className="ingredient-name">
-                                                                    {recipe.ingredients[index].name}
-                                                                </span>
-                                                                <button
-                                                                    onClick={() => removeIngredientFromSlot(recipe.id, index)}
-                                                                    className="remove-ingredient-btn"
-                                                                    title="Remove ingredient"
-                                                                >
-                                                                    ×
-                                                                </button>
-                                                            </div>
-                                                        ) : (
-                                                            <div className="ingredient-selector-slot">
-                                                                <IngredientSelector
-                                                                    availableResources={allResources}
-                                                                    onAddIngredient={(name) => addIngredientToRecipe(recipe.id, index, name)}
-                                                                    onCreateNewComponent={createNewComponent}
-                                                                    placeholder={`Slot ${index + 1}`}
-                                                                    compact={true}
-                                                                />
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                            ))}
+                                            {Array.from({ length: 9 }, (_, index) => {
+                                                // Find which row this ingredient is defined in
+                                                const ingredientName = recipe.ingredients[index]?.name;
+                                                const ingredientRowIndex = ingredientName ?
+                                                    newRecipes.findIndex(r => (r.outputName || '').trim() === ingredientName.trim()) : -1;
+                                                const ingredientRowNumber = ingredientRowIndex >= 0 ? ingredientRowIndex + 1 : '?';
+
+                                                return (
+                                                    <td key={`ingredient-${recipe.id}-${index}`} className="ingredient-cell">
+                                                        <div className="ingredient-slot">
+                                                            {recipe.ingredients[index] ? (
+                                                                <div className="ingredient-selected">
+                                                                    <span className="row-reference">R{ingredientRowNumber}</span>
+                                                                    <span className="ingredient-name">
+                                                                        {recipe.ingredients[index].name}
+                                                                    </span>
+                                                                    <button
+                                                                        onClick={() => removeIngredientFromSlot(recipe.id, index)}
+                                                                        className="remove-ingredient-btn"
+                                                                        title="Remove ingredient"
+                                                                    >
+                                                                        ×
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="ingredient-selector-slot">
+                                                                    <select
+                                                                        onChange={(e) => {
+                                                                            if (e.target.value) {
+                                                                                addIngredientToRecipe(recipe.id, index, e.target.value);
+                                                                                e.target.value = ''; // Reset selection
+                                                                            }
+                                                                        }}
+                                                                        className="ingredient-dropdown"
+                                                                        style={{
+                                                                            width: '100%',
+                                                                            padding: '4px 8px',
+                                                                            fontSize: '12px',
+                                                                            border: '1px solid #ddd',
+                                                                            borderRadius: '4px',
+                                                                            backgroundColor: 'white'
+                                                                        }}
+                                                                    >
+                                                                        <option value="">{`Slot ${index + 1} - Select ingredient...`}</option>
+                                                                        {allResources
+                                                                            .filter(resource => resource.outputType !== 'BASIC RESOURCE')
+                                                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                                                            .map(resource => (
+                                                                                <option key={resource.name} value={resource.name}>
+                                                                                    {resource.name} (T{resource.tier || 1})
+                                                                                </option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                );
+                                            })}
                                             <td className="actions-cell">
                                                 <button
                                                     onClick={() => setNewRecipes(newRecipes.filter(r => r.id !== recipe.id))}
@@ -4046,7 +5363,7 @@ ${orphanedResources.ingredients.map((item, index) =>
 
                 {/* Ingredient Selection */}
                 <div className="ingredient-selection">
-                    <h3>🎯 Select Resource to Build Production Chain ({targetIngredients.length})</h3>
+                    <h3>🎯 Select Resource to Build Production Chain ({targetIngredients.length}{searchTerm ? ` filtered` : ''})</h3>
 
                     {/* Debug information when no ingredients are found */}
                     {targetIngredients.length === 0 && (
@@ -4072,13 +5389,76 @@ ${orphanedResources.ingredients.map((item, index) =>
                         </div>
                     )}
 
-                    <div className="ingredient-selector-container">
-                        <IngredientSelector
-                            availableResources={targetIngredients}
-                            onAddIngredient={(name) => handleIngredientSelect(name)}
-                            onCreateNewComponent={createNewComponent}
-                            placeholder="Search and select ingredient..."
-                        />
+                    <div className="ingredient-search-container">
+                        <div className="search-input-wrapper" style={{ position: 'relative' }}>
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onKeyDown={handleSearchKeyDown}
+                                placeholder="🔍 Search ingredients by name (Press Enter or wait 500ms)..."
+                                className="ingredient-search-input"
+                                style={{
+                                    width: '100%',
+                                    padding: '12px 16px',
+                                    fontSize: '16px',
+                                    border: activeSearchTerm !== searchTerm ? '2px solid #ffc107' : '2px solid #ddd',
+                                    borderRadius: '8px',
+                                    outline: 'none',
+                                    transition: 'border-color 0.2s',
+                                    marginBottom: '1rem',
+                                    background: activeSearchTerm !== searchTerm ? 'rgba(255, 193, 7, 0.1)' : 'white'
+                                }}
+                                onFocus={(e) => e.target.style.borderColor = activeSearchTerm !== searchTerm ? '#ffc107' : '#007bff'}
+                                onBlur={(e) => e.target.style.borderColor = activeSearchTerm !== searchTerm ? '#ffc107' : '#ddd'}
+                            />
+                            {searchTerm && (
+                                <button
+                                    onClick={handleClearSearch}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '12px',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'none',
+                                        border: 'none',
+                                        fontSize: '18px',
+                                        cursor: 'pointer',
+                                        color: '#999'
+                                    }}
+                                    title="Clear search"
+                                >
+                                    ×
+                                </button>
+                            )}
+                        </div>
+                        {activeSearchTerm && (
+                            <div className="search-results-info" style={{
+                                marginBottom: '1rem',
+                                padding: '8px 12px',
+                                background: 'rgba(0, 123, 255, 0.1)',
+                                border: '1px solid rgba(0, 123, 255, 0.2)',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                color: '#0056b3'
+                            }}>
+                                🔍 Showing {targetIngredients.length} results for "{activeSearchTerm}"
+                                {targetIngredients.length === 0 && " - try a different search term"}
+                            </div>
+                        )}
+                        {searchTerm && activeSearchTerm !== searchTerm && (
+                            <div className="search-pending-info" style={{
+                                marginBottom: '1rem',
+                                padding: '8px 12px',
+                                background: 'rgba(255, 193, 7, 0.1)',
+                                border: '1px solid rgba(255, 193, 7, 0.3)',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                color: '#856404'
+                            }}>
+                                ⏳ Search pending for "{searchTerm}" - Press Enter for immediate search
+                            </div>
+                        )}
                     </div>
 
                     {/* Pagination Controls */}
@@ -4157,8 +5537,12 @@ ${orphanedResources.ingredients.map((item, index) =>
                                 return (
                                     <div
                                         key={ingredient.name}
-                                        className={`ingredient-card ${selectedIngredient === ingredient.name ? 'selected' : ''}`}
+                                        className={`ingredient-card ${selectedIngredient === ingredient.name ? 'selected' : ''} ${isAnalyzingChain && selectedIngredient === ingredient.name ? 'analyzing' : ''}`}
                                         onClick={() => handleIngredientSelect(ingredient.name)}
+                                        style={{
+                                            opacity: isAnalyzingChain && selectedIngredient === ingredient.name ? 0.7 : 1,
+                                            cursor: isAnalyzingChain ? 'wait' : 'pointer'
+                                        }}
                                     >
                                         <div className="ingredient-status">
                                             {actualCompletionStatus === 'complete' && '✅'}
@@ -4244,6 +5628,28 @@ ${orphanedResources.ingredients.map((item, index) =>
                                                         🔍 View
                                                     </button>
                                                 )}
+
+                                                {/* Export Existing Production Chain button for ingredient cards */}
+                                                <button
+                                                    className="export-existing-chain-card-btn"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        exportExistingProductionChain(ingredient.name);
+                                                    }}
+                                                    title={`Export existing production chain for ${ingredient.name} from CSV data`}
+                                                    style={{
+                                                        backgroundColor: '#28a745',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        padding: '6px 8px',
+                                                        borderRadius: '4px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px',
+                                                        marginLeft: '4px'
+                                                    }}
+                                                >
+                                                    📤
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -4304,7 +5710,7 @@ ${orphanedResources.ingredients.map((item, index) =>
                                             const quantity = ingredient ? ingredient.quantity || 1 : 1;
 
                                             return (
-                                                <div key={index} className="usage-recipe-card">
+                                                <div key={`usage-${recipe.outputName || recipe.name}-${index}`} className="usage-recipe-card">
                                                     <div className="recipe-header">
                                                         <div className="recipe-name">
                                                             <span className="output-name">{recipe.outputName}</span>
@@ -4330,7 +5736,7 @@ ${orphanedResources.ingredients.map((item, index) =>
                                                             <div className="ingredients-chips">
                                                                 {recipe.ingredients.map((ing, ingIndex) => (
                                                                     <span
-                                                                        key={ingIndex}
+                                                                        key={`${ing.name}-${ingIndex}`}
                                                                         className={`ingredient-chip ${ing.name === selectedIngredientUsage.ingredientName ? 'highlighted' : ''}`}
                                                                     >
                                                                         {ing.name} ({ing.quantity || 1})

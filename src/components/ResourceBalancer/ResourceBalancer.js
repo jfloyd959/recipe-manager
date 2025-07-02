@@ -188,7 +188,8 @@ const ResourceBalancer = () => {
                         planetTypes: resourceDef?.PlanetTypes || resourceDef?.planetTypes || '',
                         needsUsageIncrease: manuallyFlagged.has(ingredientName) && !completedResources.has(ingredientName),
                         isManuallyFlagged: manuallyFlagged.has(ingredientName),
-                        isCompleted: completedResources.has(ingredientName)
+                        isCompleted: completedResources.has(ingredientName),
+                        isUnusedComponent: false // Will be updated after usage counting
                     });
                 }
 
@@ -229,9 +230,15 @@ const ResourceBalancer = () => {
                     planetTypes: recipe.PlanetTypes || recipe.planetTypes || '',
                     needsUsageIncrease: manuallyFlagged.has(outputName) && !completedResources.has(outputName),
                     isManuallyFlagged: manuallyFlagged.has(outputName),
-                    isCompleted: completedResources.has(outputName)
+                    isCompleted: completedResources.has(outputName),
+                    isUnusedComponent: outputType === 'COMPONENT' // Will be updated below based on usageCount
                 });
             }
+        });
+
+        // Final pass: Mark unused components
+        analysis.components.forEach(resource => {
+            resource.isUnusedComponent = resource.type === 'COMPONENT' && resource.usageCount === 0;
         });
 
         return analysis;
@@ -494,6 +501,8 @@ const ResourceBalancer = () => {
         switch (status) {
             case 'unused':
                 return resources.filter(r => r.usageCount === 0);
+            case 'unused-components':
+                return resources.filter(r => r.isUnusedComponent && r.usageCount === 0);
             case 'under-utilized':
                 return resources.filter(r => r.usageCount > 0 && r.usageCount < 5);
             case 'over-utilized':
@@ -2853,6 +2862,7 @@ const ResourceBalancer = () => {
                             <option value="needs-increase">⚠️ Needs Usage Increase</option>
                             <option value="completed">✅ Completed</option>
                             <option value="unused">🚫 Unused Resources</option>
+                            <option value="unused-components">🔧 Unused Components Only</option>
                             <option value="under-utilized">📉 Under-utilized (&lt; 5 uses)</option>
                             <option value="over-utilized">📈 Over-utilized (&gt; 20 uses)</option>
                             <option value="balanced">⚖️ Balanced (5-20 uses)</option>
@@ -2911,6 +2921,7 @@ const ResourceBalancer = () => {
                                     <div>Flagged: {getResourcesByStatus('components', 'needs-increase').length}</div>
                                     <div>Completed: {getResourcesByStatus('components', 'completed').length}</div>
                                     <div>Unused: {getResourcesByStatus('components', 'unused').length}</div>
+                                    <div style={{ color: '#e74c3c', fontWeight: 'bold' }}>🔧❌ Unused Components: {getResourcesByStatus('components', 'unused-components').length}</div>
                                     <div>Under-utilized: {getResourcesByStatus('components', 'under-utilized').length}</div>
                                     <div>Over-utilized: {getResourcesByStatus('components', 'over-utilized').length}</div>
                                 </div>
@@ -2969,6 +2980,45 @@ const ResourceBalancer = () => {
                         )}
 
                         <div className="top-resources">
+                            <div className="top-section">
+                                <h3>🔧❌ Unused Components</h3>
+                                <div className="resource-list">
+                                    {Array.from(usageAnalysis.components.values())
+                                        .filter(r => r.isUnusedComponent && r.usageCount === 0)
+                                        .slice(0, 10)
+                                        .map(resource => (
+                                            <div key={resource.name} className="resource-item unused-component">
+                                                <span className="resource-name">{resource.name}</span>
+                                                <span className="usage-count">0 uses</span>
+                                                <span className="resource-type">{resource.type}</span>
+                                                <span className="tier-info">T{resource.tier}</span>
+                                                <div className="resource-actions">
+                                                    <button
+                                                        className="btn-small btn-warning"
+                                                        onClick={() => {
+                                                            setActiveTab('components');
+                                                            setBalancingMode('unused-components');
+                                                        }}
+                                                    >
+                                                        View Details
+                                                    </button>
+                                                    <button
+                                                        className="btn-small btn-info"
+                                                        onClick={() => toggleManualFlag(resource.name)}
+                                                    >
+                                                        Flag for Review
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    {Array.from(usageAnalysis.components.values()).filter(r => r.isUnusedComponent && r.usageCount === 0).length === 0 && (
+                                        <div className="no-unused-components">
+                                            <span>✅ All components are being used in recipes!</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
                             <div className="top-section">
                                 <h3>⚠️ Manually Flagged Resources</h3>
                                 <div className="resource-list">
@@ -3032,7 +3082,7 @@ const ResourceBalancer = () => {
 
                         <div className="resources-grid">
                             {filteredResources.map(resource => (
-                                <div key={resource.name} className={`resource-card ${balancingMode} ${resource.isManuallyFlagged ? 'flagged' : ''} ${resource.isCompleted ? 'completed' : ''}`}>
+                                <div key={resource.name} className={`resource-card ${balancingMode} ${resource.isManuallyFlagged ? 'flagged' : ''} ${resource.isCompleted ? 'completed' : ''} ${resource.isUnusedComponent ? 'unused-component' : ''}`}>
                                     <div className="resource-header">
                                         <div className="resource-title">
                                             <input
@@ -3047,6 +3097,7 @@ const ResourceBalancer = () => {
                                             <span className="tier-badge">T{resource.tier}</span>
                                             {resource.isManuallyFlagged && <span className="flag-badge">⚠️</span>}
                                             {resource.isCompleted && <span className="complete-badge">✅</span>}
+                                            {resource.isUnusedComponent && <span className="unused-component-badge" title="Unused Component - Not used in any ingredient recipes">🔧❌</span>}
                                         </div>
                                     </div>
 
@@ -3099,6 +3150,18 @@ const ResourceBalancer = () => {
                                                         +{resource.usedInRecipes.length - 5} more...
                                                     </div>
                                                 )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {resource.isUnusedComponent && resource.usageCount === 0 && (
+                                        <div className="unused-component-notice">
+                                            <div className="notice-header">
+                                                <span className="notice-icon">🔧❌</span>
+                                                <strong>Unused Component</strong>
+                                            </div>
+                                            <div className="notice-message">
+                                                This component is not used in any ingredient recipes. Consider removing it from the system or finding ways to integrate it into existing recipes.
                                             </div>
                                         </div>
                                     )}

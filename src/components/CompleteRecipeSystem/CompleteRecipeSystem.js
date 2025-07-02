@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { generateCompleteRecipeSystem, validateCompleteSystem } from '../../utils/completeRecipeSystem';
-import { DocumentationRecipeParser } from '../../utils/documentationRecipeParser';
+// import { DocumentationRecipeParser } from '../../utils/documentationRecipeParser';
 import './CompleteRecipeSystem.css';
 
 const CompleteRecipeSystem = () => {
@@ -28,11 +28,11 @@ const CompleteRecipeSystem = () => {
             console.log('Generating documentation-based recipe system...');
 
             // Use new documentation parser
-            const docParser = new DocumentationRecipeParser();
-            const docBasedSystem = await docParser.generateAllRecipes(csvData);
+            // const docParser = new DocumentationRecipeParser();
+            // const docBasedSystem = await docParser.generateAllRecipes(csvData);
 
-            console.log('Documentation recipes generated:', docBasedSystem);
-            setDocumentationRecipes(docBasedSystem);
+            // console.log('Documentation recipes generated:', docBasedSystem);
+            // setDocumentationRecipes(docBasedSystem);
 
             // Also generate the original system for comparison/fallback
             const system = await generateCompleteRecipeSystem(csvData);

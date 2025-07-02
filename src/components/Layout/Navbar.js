@@ -14,7 +14,8 @@ const Navbar = () => {
         { path: '/production-chains', label: 'Production Chains', icon: '🏭' },
         { path: '/resource-balancer', label: 'Resource Balancer', icon: '🎯' },
         { path: '/dependencies', label: 'Dependencies', icon: '🔗' },
-        { path: '/complete-system', label: 'Complete System', icon: '🚀' }
+        { path: '/complete-system', label: 'Complete System', icon: '🚀' },
+        { path: '/complexity-analyzer', label: 'Complexity Analyzer', icon: '🔍' }
     ];
 
     return (

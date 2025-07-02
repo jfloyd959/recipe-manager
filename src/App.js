@@ -10,6 +10,7 @@ import ProductionChainBuilder from './components/ProductionChainBuilder/Producti
 import ResourceBalancer from './components/ResourceBalancer/ResourceBalancer';
 import BuildingManager from './components/BuildingManager/BuildingManager';
 import BuildingRecipes from './components/BuildingRecipes/BuildingRecipes';
+import RecipeComplexityAnalyzer from './components/RecipeComplexityAnalyzer/RecipeComplexityAnalyzer';
 import Navbar from './components/Layout/Navbar';
 import './App.css';
 
@@ -30,6 +31,7 @@ function App() {
               <Route path="/resource-balancer" element={<ResourceBalancer />} />
               <Route path="/dependencies" element={<DependencyViewer />} />
               <Route path="/complete-system" element={<CompleteRecipeSystem />} />
+              <Route path="/complexity-analyzer" element={<RecipeComplexityAnalyzer />} />
             </Routes>
           </main>
         </div>

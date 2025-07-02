@@ -1,6 +1,6 @@
 export const loadCSVFromPublic = async () => {
     try {
-        console.log('Attempting to load CSV from /finalComponentList.csv');
+        // console.log('Attempting to load CSV from /finalComponentList.csv');
         const response = await fetch('/finalComponentList.csv');
 
         if (!response.ok) {
@@ -73,18 +73,7 @@ const parseCSVData = (csvText) => {
         // Clean up extra spaces
         subtype = subtype.replace(/\s+/g, ' ').trim();
 
-        console.log(`Processing item: ${outputName}, Type: ${outputType}, Ingredients: ${extractedIngredients.length}, Status: ${completionStatus}`);
-
-        // Debug specifically for Electronics
-        if (outputName && outputName.toLowerCase().includes('electronics')) {
-            console.log('FOUND ELECTRONICS:', {
-                outputName,
-                outputType,
-                extractedIngredients,
-                completionStatus,
-                willBeAddedTo: outputType === 'COMPONENT' ? 'components' : outputType
-            });
-        }
+        // console.log(`Processing item: ${outputName}, Type: ${outputType}, Ingredients: ${extractedIngredients.length}, Status: ${completionStatus}`);
 
         // Check if this resource needs usage increase from CSV
         const needsUsageIncrease = (item.NEEDS_USAGE_INCREASE || '').toUpperCase() === 'TRUE';
@@ -172,7 +161,7 @@ const parseCSVData = (csvText) => {
             });
         }
         else {
-            console.warn(`Unknown OutputType: ${outputType} for item: ${outputName}`);
+            //console.warn(`Unknown OutputType: ${outputType} for item: ${outputName}`);
         }
     }
 
@@ -239,7 +228,7 @@ const extractIngredients = (item) => {
         }
 
         if (ingredients.length > 0) {
-            console.log(`Parsed ingredients from semicolon format for ${item.OutputName}:`, ingredients);
+            //console.log(`Parsed ingredients from semicolon format for ${item.OutputName}:`, ingredients);
 
             // Special debug for Access Control
             if (item.OutputName === 'Access Control') {

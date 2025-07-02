@@ -147,7 +147,7 @@ const ProductionChainTree = ({ chain, onResourceClick, onResourceHover, level = 
                 <div className="ingredients-tree">
                     <div className="tree-connector"></div>
                     {chain.ingredients.map((ingredient, index) => (
-                        <div key={index} className="ingredient-branch">
+                        <div key={`${ingredient.name || 'unknown'}-${index}`} className="ingredient-branch">
                             <div className="branch-connector">
                                 <div className="branch-line"></div>
                                 <div className="branch-node"></div>
