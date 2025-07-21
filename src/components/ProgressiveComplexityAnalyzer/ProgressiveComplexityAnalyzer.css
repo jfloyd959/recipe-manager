@@ -1,0 +1,441 @@
+.progressive-complexity-analyzer
+{
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header
+{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h2
+{
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.header p
+{
+    color: #666;
+    font-size: 14px;
+}
+
+.system-configuration
+{
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.config-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.config-card
+{
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.config-card h4
+{
+    margin: 0 0 10px 0;
+    color: #2563eb;
+    font-size: 16px;
+}
+
+.config-details p
+{
+    margin: 5px 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.config-details strong
+{
+    color: #333;
+}
+
+.analysis-controls
+{
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.control-group
+{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.control-group label
+{
+    font-weight: 500;
+    color: #333;
+}
+
+.control-group select
+{
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+.analyze-button
+{
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.analyze-button:hover:not(:disabled)
+{
+    background: #1d4ed8;
+}
+
+.analyze-button:disabled
+{
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.analysis-results
+{
+    margin-top: 30px;
+}
+
+.component-analysis
+{
+    background: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+}
+
+.component-analysis.has-issues
+{
+    border-left-color: #ef4444;
+}
+
+.component-analysis h4
+{
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.size-analysis-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.size-card
+{
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.size-card.compliant
+{
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.size-card.needs-attention
+{
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.size-card h5
+{
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.metrics
+{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.metric
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.metric.good
+{
+    background: #dcfce7;
+    color: #166534;
+}
+
+.metric.bad
+{
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.metric .label
+{
+    font-weight: 500;
+}
+
+.metric .value
+{
+    font-weight: 600;
+}
+
+.compliance-issues
+{
+    margin-top: 10px;
+}
+
+.warning
+{
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+}
+
+.compliance-issues details
+{
+    margin-top: 10px;
+}
+
+.compliance-issues summary
+{
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 5px;
+}
+
+.ingredient-list
+{
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+.ingredient-list li
+{
+    padding: 2px 0;
+    font-size: 11px;
+    color: #6b7280;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.recommendations
+{
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.recommendations h5
+{
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.recommendation
+{
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #6b7280;
+}
+
+.recommendation.high
+{
+    border-left-color: #ef4444;
+}
+
+.recommendation.medium
+{
+    border-left-color: #f59e0b;
+}
+
+.recommendation.low
+{
+    border-left-color: #10b981;
+}
+
+.rec-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rec-header h6
+{
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.priority
+{
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority.high
+{
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.priority.medium
+{
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.priority.low
+{
+    background: #f0fdf4;
+    color: #059669;
+}
+
+.recommendation p
+{
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 13px;
+}
+
+.suggestions
+{
+    margin-top: 15px;
+}
+
+.suggestions h6
+{
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 13px;
+}
+
+.suggestion
+{
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border-left: 3px solid #6b7280;
+}
+
+.suggestion strong
+{
+    color: #333;
+}
+
+.impact
+{
+    margin-top: 5px;
+    font-size: 11px;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.affected-ingredients
+{
+    margin-top: 5px;
+    font-size: 11px;
+    color: #4b5563;
+    padding: 5px;
+    background: #f3f4f6;
+    border-radius: 3px;
+}
+
+.affected-ingredients strong
+{
+    color: #374151;
+}
+
+/* Responsive design */
+@media (max-width: 768px)
+{
+    .progressive-complexity-analyzer
+    {
+        padding: 15px;
+    }
+
+    .config-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .size-analysis-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .control-group
+    {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .control-group select
+    {
+        min-width: auto;
+    }
+
+    .rec-header
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}

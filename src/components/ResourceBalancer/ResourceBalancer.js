@@ -43,6 +43,10 @@ const ResourceBalancer = () => {
     const [manuallyFlagged, setManuallyFlagged] = useState(new Set());
     const [completedResources, setCompletedResources] = useState(new Set());
 
+    // Local storage management
+    const [showClearStorageModal, setShowClearStorageModal] = useState(false);
+    const [storageInfo, setStorageInfo] = useState({});
+
     // Effect calculation state
     const [calculatedEffects, setCalculatedEffects] = useState(new Map());
     const [calculatingEffects, setCalculatingEffects] = useState(new Set());
@@ -113,6 +117,138 @@ const ResourceBalancer = () => {
 
     // Use loading state from context
     const loading = state.isLoading;
+
+    // Function to analyze localStorage data
+    const analyzeLocalStorage = () => {
+        const info = {};
+        let totalSize = 0;
+        let totalItems = 0;
+
+        // Check all localStorage keys related to the app
+        const appKeys = [
+            'recipe-data',
+            'recipes',
+            'resourceBalancerState',
+            'generated-buildings',
+            'building-recipes'
+        ];
+
+        appKeys.forEach(key => {
+            const data = localStorage.getItem(key);
+            if (data) {
+                const size = new Blob([data]).size;
+                totalSize += size;
+                try {
+                    const parsedData = JSON.parse(data);
+                    let itemCount = 0;
+
+                    if (Array.isArray(parsedData)) {
+                        itemCount = parsedData.length;
+                    } else if (typeof parsedData === 'object') {
+                        // Count items in object
+                        Object.keys(parsedData).forEach(objKey => {
+                            if (Array.isArray(parsedData[objKey])) {
+                                itemCount += parsedData[objKey].length;
+                            } else if (typeof parsedData[objKey] === 'object') {
+                                itemCount += Object.keys(parsedData[objKey]).length;
+                            } else {
+                                itemCount += 1;
+                            }
+                        });
+                    }
+
+                    info[key] = {
+                        size: size,
+                        sizeFormatted: formatBytes(size),
+                        itemCount: itemCount,
+                        exists: true,
+                        description: getKeyDescription(key)
+                    };
+                    totalItems += itemCount;
+                } catch (error) {
+                    info[key] = {
+                        size: size,
+                        sizeFormatted: formatBytes(size),
+                        itemCount: 0,
+                        exists: true,
+                        description: getKeyDescription(key),
+                        error: 'Unable to parse data'
+                    };
+                }
+            } else {
+                info[key] = {
+                    size: 0,
+                    sizeFormatted: '0 B',
+                    itemCount: 0,
+                    exists: false,
+                    description: getKeyDescription(key)
+                };
+            }
+        });
+
+        info.totals = {
+            size: totalSize,
+            sizeFormatted: formatBytes(totalSize),
+            itemCount: totalItems,
+            keysWithData: Object.values(info).filter(item => item.exists).length
+        };
+
+        return info;
+    };
+
+    // Helper function to format bytes
+    const formatBytes = (bytes) => {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    // Helper function to get key descriptions
+    const getKeyDescription = (key) => {
+        const descriptions = {
+            'recipe-data': 'Modified recipes, components, and raw resources',
+            'recipes': 'Recipe system data from Resource Balancer',
+            'resourceBalancerState': 'Resource Balancer settings and flags',
+            'generated-buildings': 'Generated buildings from Building Manager',
+            'building-recipes': 'Building recipes from Building Recipes manager'
+        };
+        return descriptions[key] || 'Unknown data type';
+    };
+
+    // Function to clear all localStorage
+    const clearAllLocalStorage = () => {
+        const appKeys = [
+            'recipe-data',
+            'recipes',
+            'resourceBalancerState',
+            'generated-buildings',
+            'building-recipes'
+        ];
+
+        appKeys.forEach(key => {
+            localStorage.removeItem(key);
+        });
+
+        // Reset state
+        setManuallyFlagged(new Set());
+        setCompletedResources(new Set());
+        setShowClearStorageModal(false);
+
+        // Show success message
+        alert('Local storage cleared successfully! The page will reload to refresh the data.');
+
+        // Reload the page to refresh all data
+        window.location.reload();
+    };
+
+    // Function to show clear storage modal
+    const showClearStorageInfo = () => {
+        const info = analyzeLocalStorage();
+        setStorageInfo(info);
+        setShowClearStorageModal(true);
+    };
 
 
 
@@ -236,13 +372,163 @@ const ResourceBalancer = () => {
             }
         });
 
-        // Final pass: Mark unused components
+        // Final pass: Mark unused components and unused ingredients
         analysis.components.forEach(resource => {
             resource.isUnusedComponent = resource.type === 'COMPONENT' && resource.usageCount === 0;
         });
 
+        // Mark ingredients as unused if they're not used in final ship configuration components
+        analysis.ingredients.forEach(resource => {
+            if (resource.type === 'INGREDIENT') {
+                // Check if this ingredient is used in any final ship configuration recipes
+                const finalShipOutputTypes = ['DRONE', 'HAB_ASSETS', 'SHIP_COMPONENTS', 'SHIP_MODULES', 'SHIP_WEAPONS', 'MISSILES', 'COUNTERMEASURES'];
+
+                const usedInFinalShipComponents = resource.usedInRecipes.some(usage => {
+                    const recipeType = (usage.recipeType || '').toUpperCase();
+                    return finalShipOutputTypes.includes(recipeType);
+                });
+
+                // Mark as unused if not used in final ship components
+                resource.isUnusedIngredient = !usedInFinalShipComponents;
+
+                // Debug logging for ingredient usage analysis
+                if (resource.usageCount > 0 && !usedInFinalShipComponents) {
+                    console.log(`🔍 Ingredient "${resource.name}" marked as unused (only used in non-final components):`, {
+                        usageCount: resource.usageCount,
+                        usedInTypes: [...new Set(resource.usedInRecipes.map(r => r.recipeType))],
+                        finalShipOutputTypes
+                    });
+                }
+            }
+        });
+
         return analysis;
     }, [allRecipes, manuallyFlagged, completedResources]);
+
+    // Missing ingredients analysis - ingredients referenced but not defined as components
+    const missingIngredients = useMemo(() => {
+        if (allRecipes.length === 0) return [];
+
+        const allOutputNames = new Set();
+        const allReferencedIngredients = new Set();
+
+        // Collect all OutputNames
+        allRecipes.forEach(recipe => {
+            const outputName = recipe.OutputName || recipe.outputName || recipe.name;
+            if (outputName && outputName.trim()) {
+                allOutputNames.add(outputName.trim());
+            }
+        });
+
+        // Collect all referenced ingredients
+        allRecipes.forEach(recipe => {
+            // Handle both old CSV format (Ingredient1, Ingredient2, etc.) and new context format (ingredients array)
+            if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+                recipe.ingredients.forEach(ing => {
+                    if (ing.name && ing.name.trim()) {
+                        const ingredientName = ing.name.trim();
+                        allReferencedIngredients.add(ingredientName);
+
+                        // Debug suspicious ingredients
+                        if (ingredientName === '1' || ingredientName.match(/^\d+$/)) {
+                            console.log('🐛 DEBUG: Found suspicious ingredient in array format:', {
+                                ingredient: ingredientName,
+                                recipe: recipe.OutputName || recipe.outputName || recipe.name,
+                                allIngredients: recipe.ingredients
+                            });
+                        }
+                    }
+                });
+            } else {
+                // Old format: Ingredient1, Ingredient2, etc. (skip Quantity columns)
+                for (let i = 1; i <= 9; i++) {
+                    const ingredient = recipe[`Ingredient${i}`];
+                    if (ingredient && ingredient.trim()) {
+                        const ingredientName = ingredient.trim();
+                        allReferencedIngredients.add(ingredientName);
+
+                        // Debug suspicious ingredients
+                        if (ingredientName === '1' || ingredientName.match(/^\d+$/)) {
+                            console.log('🐛 DEBUG: Found suspicious ingredient in CSV format:', {
+                                ingredient: ingredientName,
+                                recipe: recipe.OutputName || recipe.outputName || recipe.name,
+                                slot: i,
+                                allIngredientFields: {
+                                    Ingredient1: recipe.Ingredient1,
+                                    Quantity1: recipe.Quantity1,
+                                    Ingredient2: recipe.Ingredient2,
+                                    Quantity2: recipe.Quantity2,
+                                    Ingredient3: recipe.Ingredient3,
+                                    Quantity3: recipe.Quantity3
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        // Find ingredients that are referenced but don't exist as OutputNames
+        const missing = [];
+        allReferencedIngredients.forEach(ingredientName => {
+            if (!allOutputNames.has(ingredientName)) {
+                // Count how many times this missing ingredient is used
+                let usageCount = 0;
+                const usedInRecipes = [];
+
+                allRecipes.forEach(recipe => {
+                    let found = false;
+
+                    if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+                        recipe.ingredients.forEach((ing, index) => {
+                            if (ing.name && ing.name.trim() === ingredientName) {
+                                usageCount++;
+                                found = true;
+                                usedInRecipes.push({
+                                    recipeName: recipe.OutputName || recipe.outputName || recipe.name,
+                                    recipeType: recipe.OutputType || recipe.outputType || recipe.type,
+                                    slot: index + 1,
+                                    quantity: ing.quantity || 1
+                                });
+                            }
+                        });
+                    } else {
+                        for (let i = 1; i <= 9; i++) {
+                            const ingredient = recipe[`Ingredient${i}`];
+                            if (ingredient && ingredient.trim() === ingredientName) {
+                                usageCount++;
+                                found = true;
+                                usedInRecipes.push({
+                                    recipeName: recipe.OutputName || recipe.outputName || recipe.name,
+                                    recipeType: recipe.OutputType || recipe.outputType || recipe.type,
+                                    slot: i,
+                                    quantity: recipe[`Quantity${i}`] || 1
+                                });
+                            }
+                        }
+                    }
+                });
+
+                // Debug logging for suspicious ingredients
+                if (ingredientName === '1' || ingredientName.match(/^\d+$/)) {
+                    console.log('🐛 DEBUG: Found suspicious numeric ingredient:', {
+                        ingredient: ingredientName,
+                        usageCount,
+                        firstFewRecipes: usedInRecipes.slice(0, 3)
+                    });
+                }
+
+                missing.push({
+                    name: ingredientName,
+                    usageCount,
+                    usedInRecipes
+                });
+            }
+        });
+
+        // Sort by usage count (most used first)
+        return missing.sort((a, b) => b.usageCount - a.usageCount);
+    }, [allRecipes]);
 
     // Manual flagging functions
     const toggleManualFlag = (resourceName) => {
@@ -448,7 +734,7 @@ const ResourceBalancer = () => {
         return recommendations;
     };
 
-    // Generate substitute pools based on similar characteristics
+    // Generate substitute pools based on ComponentCategory + Tier for production chain analysis
     const generateSubstitutePools = (category) => {
         const categoryKey = getCategoryKey(category);
         if (!usageAnalysis[categoryKey]) return [];
@@ -456,39 +742,100 @@ const ResourceBalancer = () => {
         const resources = Array.from(usageAnalysis[categoryKey].values());
         const pools = {};
 
-        // Group by similar characteristics (tier group, resource type, usage category)
+        // Group by ComponentCategory + Tier for ingredient production chain analysis
         resources.forEach(resource => {
-            const getTierGroup = (tier) => {
-                if (tier >= 1 && tier <= 3) return 'T1-3';
-                if (tier >= 4 && tier <= 5) return 'T4-5';
-                return `T${tier}`;
-            };
+            // Get component category from the CSV data - need to find it from allRecipes
+            let componentCategory = 'Unknown';
 
-            const tierGroup = getTierGroup(resource.tier);
-            const poolKey = `${tierGroup}-${resource.resourceType}-${resource.usageCategory}`;
+            // Find the recipe that produces this resource to get its ComponentCategory
+            const producingRecipe = allRecipes.find(recipe =>
+                (recipe.OutputName || recipe.outputName) === resource.name &&
+                (recipe.OutputType || recipe.outputType || '').toUpperCase() === 'INGREDIENT'
+            );
+
+            if (producingRecipe) {
+                componentCategory = producingRecipe.ComponentCategory || 'Unknown';
+            }
+
+            // Create pool key: ComponentCategory + Tier
+            const poolKey = `${componentCategory}-T${resource.tier}`;
 
             if (!pools[poolKey]) {
                 pools[poolKey] = {
-                    name: `${tierGroup} ${resource.resourceType} (${resource.usageCategory})`,
-                    tierGroup: tierGroup,
-                    resourceType: resource.resourceType,
-                    usageCategory: resource.usageCategory,
+                    name: `${componentCategory} T${resource.tier}`,
+                    componentCategory: componentCategory,
+                    tier: resource.tier,
                     resources: [],
                     averageUsage: 0,
-                    totalUsage: 0
+                    totalUsage: 0,
+                    // Production chain analysis specific fields
+                    incompleteRecipes: [],
+                    availableRawResources: new Set(),
+                    availableComponents: new Set()
                 };
             }
 
             pools[poolKey].resources.push(resource);
             pools[poolKey].totalUsage += resource.usageCount;
+
+            // Track incomplete production chains for ingredients
+            if (categoryKey === 'ingredients' && resource.usageCount === 0) {
+                pools[poolKey].incompleteRecipes.push(resource.name);
+            }
         });
 
-        // Calculate averages and filter pools
+        // Calculate averages and analyze production chain gaps
         Object.values(pools).forEach(pool => {
             pool.averageUsage = pool.totalUsage / pool.resources.length;
+
+            // Find available raw resources and components for this tier combination
+            if (categoryKey === 'ingredients') {
+                const currentTier = pool.tier;
+
+                // Raw resources: same tier or up to 2 tiers below
+                const minTier = Math.max(1, currentTier - 2);
+                const maxTier = currentTier;
+
+                // Find raw resources in tier range
+                if (usageAnalysis.raw) {
+                    Array.from(usageAnalysis.raw.values()).forEach(rawResource => {
+                        if (rawResource.tier >= minTier && rawResource.tier <= maxTier) {
+                            // Check if this raw resource has the same component category
+                            const rawRecipe = allRecipes.find(recipe =>
+                                (recipe.OutputName || recipe.outputName) === rawResource.name &&
+                                (recipe.OutputType || recipe.outputType || '').toUpperCase() === 'BASIC RESOURCE'
+                            );
+
+                            if (rawRecipe && (rawRecipe.ComponentCategory === pool.componentCategory ||
+                                rawRecipe.ComponentCategory === 'Universal' ||
+                                !rawRecipe.ComponentCategory)) {
+                                pool.availableRawResources.add(rawResource.name);
+                            }
+                        }
+                    });
+                }
+
+                // Find components in tier range
+                if (usageAnalysis.components) {
+                    Array.from(usageAnalysis.components.values()).forEach(component => {
+                        if (component.tier >= minTier && component.tier <= maxTier) {
+                            const compRecipe = allRecipes.find(recipe =>
+                                (recipe.OutputName || recipe.outputName) === component.name &&
+                                (recipe.OutputType || recipe.outputType || '').toUpperCase() === 'COMPONENT'
+                            );
+
+                            if (compRecipe && (compRecipe.ComponentCategory === pool.componentCategory ||
+                                compRecipe.ComponentCategory === 'Universal' ||
+                                !compRecipe.ComponentCategory)) {
+                                pool.availableComponents.add(component.name);
+                            }
+                        }
+                    });
+                }
+            }
         });
 
-        return Object.values(pools).filter(pool => pool.resources.length > 1);
+        return Object.values(pools).filter(pool => pool.resources.length > 0);
     };
 
     // Get resources by balancing status
@@ -500,9 +847,16 @@ const ResourceBalancer = () => {
 
         switch (status) {
             case 'unused':
-                return resources.filter(r => r.usageCount === 0);
+                if (categoryKey === 'ingredients') {
+                    // For ingredients, consider them unused if they have 0 usage OR only used in non-final components
+                    return resources.filter(r => r.usageCount === 0 || r.isUnusedIngredient);
+                } else {
+                    return resources.filter(r => r.usageCount === 0);
+                }
             case 'unused-components':
                 return resources.filter(r => r.isUnusedComponent && r.usageCount === 0);
+            case 'unused-ingredients':
+                return resources.filter(r => r.isUnusedIngredient);
             case 'under-utilized':
                 return resources.filter(r => r.usageCount > 0 && r.usageCount < 5);
             case 'over-utilized':
@@ -2024,9 +2378,9 @@ const ResourceBalancer = () => {
         document.body.removeChild(link);
     };
 
-    // Multi-pool export function
+    // Multi-pool production chain analysis export
     const exportMultiPoolAnalysis = (selectedPoolNames) => {
-        console.log(`Exporting multi-pool analysis for: ${selectedPoolNames.join(', ')}`);
+        console.log(`Exporting production chain analysis for: ${selectedPoolNames.join(', ')}`);
         const timestamp = new Date().toISOString().split('T')[0];
 
         // Get all pools for the current category
@@ -2038,234 +2392,213 @@ const ResourceBalancer = () => {
             return;
         }
 
-        // Combine all resources from selected pools
-        const allResources = [];
-        const poolSummaries = [];
-
-        selectedPoolObjects.forEach(pool => {
-            poolSummaries.push({
-                name: pool.name,
-                tierGroup: pool.tierGroup,
-                resourceType: pool.resourceType,
-                usageCategory: pool.usageCategory,
-                totalResources: pool.resources.length,
-                averageUsage: pool.averageUsage,
-                totalUsage: pool.totalUsage
-            });
-
-            // Add all resources with pool identification
-            pool.resources.forEach(resource => {
-                allResources.push({
-                    ...resource,
-                    poolName: pool.name,
-                    poolTierGroup: pool.tierGroup
-                });
-            });
-        });
-
-        // Create comprehensive markdown content
+        // Create production chain focused markdown content
         const sections = [];
 
-        // Multi-Pool Summary Section
-        sections.push('# 📦 Multi-Pool Substitute Analysis Report\n');
-        sections.push(`**Selected Pools:** ${selectedPoolNames.length}`);
-        sections.push(`**Total Resources Analyzed:** ${allResources.length}`);
-        sections.push(`**Report Date:** ${timestamp}\n`);
-        sections.push('---\n');
+        // Header
+        sections.push('# 🏭 Production Chain Development Report\n');
+        sections.push(`**Generated:** ${timestamp}`);
+        sections.push(`**Category:** ${activeTab.replace('-', ' ').toUpperCase()}`);
+        sections.push(`**Selected Component Categories + Tiers:** ${selectedPoolNames.length}`);
+        sections.push(`**Total Pools Analyzed:** ${selectedPoolObjects.length}`);
+        sections.push(`**Purpose:** AI-assisted production chain completion\n`);
 
-        // Pool Summaries Section
-        sections.push('## 📋 Pool Summaries\n');
-        sections.push('| Pool Name | Tier Group | Resource Type | Usage Category | Total Resources | Average Usage | Total Pool Usage |');
-        sections.push('|-----------|------------|---------------|----------------|----------------|---------------|------------------|');
-        poolSummaries.forEach(pool => {
-            sections.push(`| ${pool.name} | ${pool.tierGroup} | ${pool.resourceType} | ${pool.usageCategory} | ${pool.totalResources} | ${Math.round(pool.averageUsage)} | ${pool.totalUsage} |`);
-        });
-        sections.push('');
+        // Instructions for AI
+        sections.push('## 🤖 Instructions for AI Agent\n');
+        sections.push('This report identifies ingredients that need production chains and provides the allowed resources for each tier/category combination.\n');
+        sections.push('**Production Chain Rules:**');
+        sections.push('- **3-6 production steps maximum** per ingredient');
+        sections.push('- **1-5 unique raw resources** per ingredient (avoid complexity)');
+        sections.push('- **Tier restrictions:** Ingredients can use resources from same tier or up to 2 tiers below');
+        sections.push('- **Prefer tier-appropriate complexity:** Higher tiers = more complex chains');
+        sections.push('- **Balance resource usage:** Use underutilized raw resources when possible');
+        sections.push('- **Follow logical progression:** Basic materials → Components → Ingredients\n');
 
-        // Combined Resource Analysis Section
-        sections.push('## 🔍 Cross-Pool Resource Analysis\n');
-        sections.push('| Resource Name | Pool Name | Tier Group | Tier | Direct Usage | Total Effect | Effect Multiplier | Status | Flagged | Completed | Cross Pool Opportunities |');
-        sections.push('|---------------|-----------|------------|------|--------------|--------------|-------------------|--------|---------|-----------|-------------------------|');
+        // Overall summary
+        let totalIncomplete = 0;
+        let totalPartial = 0;
+        let totalAvailableRaw = 0;
+        let totalAvailableComponents = 0;
 
-        // Sort resources by usage count to identify cross-pool balancing opportunities
-        allResources.sort((a, b) => b.usageCount - a.usageCount);
-
-        allResources.forEach(resource => {
-            // Look for balancing opportunities across pools
-            const sameTypeResources = allResources.filter(r =>
-                r.name !== resource.name &&
-                r.resourceType === resource.resourceType &&
-                r.usageCategory === resource.usageCategory &&
-                Math.abs(r.tier - resource.tier) <= 1 // Similar tier
-            );
-
-            const balanceOpportunities = sameTypeResources.filter(r =>
-                Math.abs(r.usageCount - resource.usageCount) > 5
-            ).length;
-
-            const effectData = calculatedEffects.get(resource.name);
-            const status = resource.isCompleted ? '✅ COMPLETED' : resource.isManuallyFlagged ? '⚠️ FLAGGED' : '⚪ NORMAL';
-            const flagged = resource.isManuallyFlagged ? '✅' : '❌';
-            const completed = resource.isCompleted ? '✅' : '❌';
-
-            sections.push(`| ${resource.name} | ${resource.poolName} | ${resource.poolTierGroup} | ${resource.tier} | ${resource.usageCount} | ${effectData ? effectData.totalEffect : 'Not Calculated'} | ${effectData ? effectData.effectMetrics.effectMultiplier : 'Not Calculated'} | ${status} | ${flagged} | ${completed} | ${balanceOpportunities} |`);
-        });
-        sections.push('');
-
-        // Cross-Pool Balancing Opportunities
-        sections.push('## ⚖️ Cross-Pool Balancing Opportunities\n');
-        sections.push('| High Usage Resource | Low Usage Resource | Usage Difference | High Pool | Low Pool | Same Type | Potential Swaps |');
-        sections.push('|--------------------|-------------------|------------------|-----------|----------|-----------|----------------|');
-
-        const balancingOpportunities = [];
-        allResources.forEach(highResource => {
-            if (highResource.usageCount > 10) {
-                const candidates = allResources.filter(lowResource =>
-                    lowResource.name !== highResource.name &&
-                    lowResource.usageCount < highResource.usageCount - 5 &&
-                    lowResource.resourceType === highResource.resourceType &&
-                    lowResource.usageCategory === highResource.usageCategory &&
-                    lowResource.poolName !== highResource.poolName // Different pools
-                );
-
-                candidates.forEach(lowResource => {
-                    balancingOpportunities.push({
-                        high: highResource,
-                        low: lowResource,
-                        difference: highResource.usageCount - lowResource.usageCount,
-                        potentialSwaps: Math.floor((highResource.usageCount - lowResource.usageCount) / 2)
-                    });
-                });
-            }
+        selectedPoolObjects.forEach(pool => {
+            totalIncomplete += pool.resources.filter(r => r.usageCount === 0).length;
+            totalPartial += pool.resources.filter(r => r.usageCount > 0 && r.usageCount < 3).length;
+            totalAvailableRaw += pool.availableRawResources.size;
+            totalAvailableComponents += pool.availableComponents.size;
         });
 
-        // Sort by potential impact
-        balancingOpportunities.sort((a, b) => b.difference - a.difference);
-        balancingOpportunities.slice(0, 20).forEach(opp => { // Top 20 opportunities
-            sections.push(`| ${opp.high.name} | ${opp.low.name} | ${opp.difference} | ${opp.high.poolName} | ${opp.low.poolName} | ✅ YES | ${opp.potentialSwaps} |`);
-        });
+        sections.push('## 📊 Production Chain Gap Summary\n');
+        sections.push(`| Category | Count | Description |`);
+        sections.push(`|----------|-------|-------------|`);
+        sections.push(`| **Missing Production Chains** | ${totalIncomplete} | Ingredients with 0 usage that need complete recipes |`);
+        sections.push(`| **Incomplete Production Chains** | ${totalPartial} | Ingredients with minimal usage (<3) that may need improvement |`);
+        sections.push(`| **Available Raw Resources** | ${totalAvailableRaw} | Raw resources available across all selected pools |`);
+        sections.push(`| **Available Components** | ${totalAvailableComponents} | Components available across all selected pools |`);
+        sections.push(`| **Component Categories** | ${new Set(selectedPoolObjects.map(p => p.componentCategory)).size} | Unique component categories in selection |\n`);
 
-        if (balancingOpportunities.length === 0) {
-            sections.push('| No cross-pool balancing opportunities found | - | - | - | - | - | - |');
-        }
-        sections.push('');
+        // Component category analysis
+        const componentCategories = [...new Set(selectedPoolObjects.map(p => p.componentCategory))];
 
-        // Pool Utilization Comparison
-        sections.push('## 📊 Pool Utilization Comparison\n');
-        sections.push('| Pool Name | Total Resources | Under-utilized (<5) | Well-utilized (5-20) | Over-utilized (>20) | Unused (0) | Average Usage |');
-        sections.push('|-----------|----------------|-------------------|-------------------|-------------------|------------|---------------|');
-        poolSummaries.forEach(pool => {
-            const poolResources = allResources.filter(r => r.poolName === pool.name);
-            const underUtilized = poolResources.filter(r => r.usageCount > 0 && r.usageCount < 5).length;
-            const wellUtilized = poolResources.filter(r => r.usageCount >= 5 && r.usageCount <= 20).length;
-            const overUtilized = poolResources.filter(r => r.usageCount > 20).length;
-            const unused = poolResources.filter(r => r.usageCount === 0).length;
+        if (componentCategories.length > 1) {
+            sections.push('## 🔧 Component Category Overview\n');
+            sections.push(`| Component Category | Tiers | Incomplete Ingredients | Available Resources |`);
+            sections.push(`|--------------------|-------|----------------------|-------------------|`);
 
-            sections.push(`| ${pool.name} | ${pool.totalResources} | ${underUtilized} | ${wellUtilized} | ${overUtilized} | ${unused} | ${Math.round(pool.averageUsage)} |`);
-        });
-        sections.push('');
+            componentCategories.forEach(category => {
+                const categoryPools = selectedPoolObjects.filter(p => p.componentCategory === category);
+                const categoryTiers = categoryPools.map(p => `T${p.tier}`).join(', ');
+                const categoryIncomplete = categoryPools.reduce((sum, p) => sum + p.resources.filter(r => r.usageCount === 0).length, 0);
+                const categoryResources = categoryPools.reduce((sum, p) => sum + p.availableRawResources.size + p.availableComponents.size, 0);
 
-        // Detailed Recipe Usage (Deduplicated)
-        sections.push('## 🧪 Detailed Recipe Usage\n');
-        sections.push('*Showing all resources from selected pools used in each recipe (deduplicated)*\n');
-        sections.push('| Recipe Name | Recipe Type | Resource Name | Pool Name | Ingredient Slot | Quantity | Resource Usage Count | Total Effect |');
-        sections.push('|-------------|-------------|---------------|-----------|----------------|----------|-------------------|--------------|');
-
-        // Create a map to deduplicate recipes and show all resources they use from selected pools
-        const recipeUsageMap = new Map();
-
-        allResources.forEach(resource => {
-            if (resource.usedInRecipes && resource.usedInRecipes.length > 0) {
-                resource.usedInRecipes.forEach(usage => {
-                    const recipeKey = `${usage.recipeName}`;
-
-                    if (!recipeUsageMap.has(recipeKey)) {
-                        recipeUsageMap.set(recipeKey, {
-                            recipeName: usage.recipeName,
-                            recipeType: usage.recipeType || '',
-                            resourceUsages: []
-                        });
-                    }
-
-                    const effectData = calculatedEffects.get(resource.name);
-
-                    recipeUsageMap.get(recipeKey).resourceUsages.push({
-                        resourceName: resource.name,
-                        poolName: resource.poolName,
-                        slot: usage.slot || '',
-                        quantity: usage.quantity || 1,
-                        resourceUsageCount: resource.usageCount,
-                        totalEffect: effectData ? effectData.totalEffect : 'Not Calculated'
-                    });
-                });
-            }
-        });
-
-        // Sort recipes by name for consistent output
-        const sortedRecipes = Array.from(recipeUsageMap.values()).sort((a, b) =>
-            a.recipeName.localeCompare(b.recipeName)
-        );
-
-        sortedRecipes.forEach(recipe => {
-            // Sort resource usages within each recipe by slot, then by resource name
-            recipe.resourceUsages.sort((a, b) => {
-                const slotA = parseInt(a.slot) || 999;
-                const slotB = parseInt(b.slot) || 999;
-                if (slotA !== slotB) return slotA - slotB;
-                return a.resourceName.localeCompare(b.resourceName);
+                sections.push(`| **${category}** | ${categoryTiers} | ${categoryIncomplete} | ${categoryResources} |`);
             });
+            sections.push('');
+        }
 
-            recipe.resourceUsages.forEach(usage => {
-                sections.push(`| ${recipe.recipeName} | ${recipe.recipeType} | ${usage.resourceName} | ${usage.poolName} | ${usage.slot} | ${usage.quantity} | ${usage.resourceUsageCount} | ${usage.totalEffect} |`);
-            });
-        });
-        sections.push('');
+        // Detailed pool analysis
+        selectedPoolObjects.forEach(pool => {
+            sections.push(`## 🏭 ${pool.name} Production Chain Analysis\n`);
 
-        // Recipe Substitution Opportunities
-        sections.push('## 🔄 Recipe Substitution Opportunities\n');
-        sections.push('*Recipes using multiple similar resources that could be balanced*\n');
-        sections.push('| Recipe Name | Current Resources Used | Potential Substitution | Estimated Swaps | Balance Impact |');
-        sections.push('|-------------|----------------------|----------------------|----------------|----------------|');
+            // Pool summary
+            sections.push(`**Component Category:** ${pool.componentCategory}`);
+            sections.push(`**Tier:** ${pool.tier} (can use resources T${Math.max(1, pool.tier - 2)}-T${pool.tier})`);
+            sections.push(`**Total Ingredients:** ${pool.resources.length}`);
 
-        let hasSubstitutionOpportunities = false;
+            // Incomplete ingredients that need production chains
+            const incompleteIngredients = pool.resources.filter(r => r.usageCount === 0);
+            const partialIngredients = pool.resources.filter(r => r.usageCount > 0 && r.usageCount < 3);
 
-        sortedRecipes.forEach(recipe => {
-            const currentResources = recipe.resourceUsages;
-            if (currentResources.length > 1) {
-                // Look for substitution opportunities within this recipe
-                const resourcesByType = {};
-                currentResources.forEach(usage => {
-                    const resource = allResources.find(r => r.name === usage.resourceName);
-                    if (resource) {
-                        const key = `${resource.resourceType}-${resource.usageCategory}`;
-                        if (!resourcesByType[key]) resourcesByType[key] = [];
-                        resourcesByType[key].push(usage);
+            if (incompleteIngredients.length > 0) {
+                sections.push(`\n### ❌ Missing Production Chains (${incompleteIngredients.length})\n`);
+                sections.push('*These ingredients have NO production chains defined and need complete recipes:*\n');
+                incompleteIngredients.forEach(ingredient => {
+                    sections.push(`- **${ingredient.name}** (T${ingredient.tier}) - 0 uses`);
+                });
+                sections.push('');
+            }
+
+            if (partialIngredients.length > 0) {
+                sections.push(`### ⚠️ Incomplete Production Chains (${partialIngredients.length})\n`);
+                sections.push('*These ingredients have minimal usage and may need production chain improvements:*\n');
+                partialIngredients.forEach(ingredient => {
+                    sections.push(`- **${ingredient.name}** (T${ingredient.tier}) - ${ingredient.usageCount} uses`);
+                });
+                sections.push('');
+            }
+
+            // Available resources for this tier/category
+            sections.push(`### ✅ Available Resources for ${pool.componentCategory} T${pool.tier}\n`);
+
+            if (pool.availableRawResources.size > 0) {
+                sections.push(`#### Raw Resources (${pool.availableRawResources.size} available)\n`);
+                sections.push(`*Tier range: T${Math.max(1, pool.tier - 2)}-T${pool.tier} • Category: ${pool.componentCategory}*\n`);
+
+                // Group raw resources by tier for better organization
+                const rawResourcesByTier = {};
+                Array.from(pool.availableRawResources).forEach(rawName => {
+                    const rawResource = usageAnalysis.raw?.get(rawName);
+                    if (rawResource) {
+                        const tier = rawResource.tier;
+                        if (!rawResourcesByTier[tier]) rawResourcesByTier[tier] = [];
+                        rawResourcesByTier[tier].push(`${rawName} (${rawResource.usageCount} uses)`);
                     }
                 });
 
-                // Find groups where multiple similar resources are used
-                Object.entries(resourcesByType).forEach(([type, usages]) => {
-                    if (usages.length > 1) {
-                        const highUsage = usages.sort((a, b) => b.resourceUsageCount - a.resourceUsageCount)[0];
-                        const lowUsage = usages.sort((a, b) => a.resourceUsageCount - b.resourceUsageCount)[0];
+                Object.keys(rawResourcesByTier).sort((a, b) => parseInt(a) - parseInt(b)).forEach(tier => {
+                    sections.push(`**T${tier} Raw Resources (${rawResourcesByTier[tier].length}):**`);
+                    rawResourcesByTier[tier].forEach(resource => {
+                        sections.push(`- ${resource}`);
+                    });
+                    sections.push('');
+                });
+            } else {
+                sections.push(`#### ⚠️ No Raw Resources Available\n`);
+                sections.push(`*No raw resources found for ${pool.componentCategory} T${pool.tier}. This may indicate a data issue.*\n`);
+            }
 
-                        if (highUsage.resourceUsageCount > lowUsage.resourceUsageCount + 3) {
-                            hasSubstitutionOpportunities = true;
-                            const potentialSwaps = Math.floor((highUsage.resourceUsageCount - lowUsage.resourceUsageCount) / 2);
-                            const resourcesList = usages.map(u => u.resourceName).join(', ');
-                            const substitution = `Replace ${highUsage.resourceName} with ${lowUsage.resourceName}`;
-                            const balanceImpact = `High: ${highUsage.resourceUsageCount} → Low: ${lowUsage.resourceUsageCount}`;
+            if (pool.availableComponents.size > 0) {
+                sections.push(`#### Components (${pool.availableComponents.size} available)\n`);
+                sections.push(`*Tier range: T${Math.max(1, pool.tier - 2)}-T${pool.tier} • Category: ${pool.componentCategory}*\n`);
 
-                            sections.push(`| ${recipe.recipeName} | ${resourcesList} | ${substitution} | ${potentialSwaps} | ${balanceImpact} |`);
-                        }
+                // Group components by tier
+                const componentsByTier = {};
+                Array.from(pool.availableComponents).forEach(compName => {
+                    const component = usageAnalysis.components?.get(compName);
+                    if (component) {
+                        const tier = component.tier;
+                        if (!componentsByTier[tier]) componentsByTier[tier] = [];
+                        componentsByTier[tier].push(`${compName} (${component.usageCount} uses)`);
                     }
+                });
+
+                Object.keys(componentsByTier).sort((a, b) => parseInt(a) - parseInt(b)).forEach(tier => {
+                    sections.push(`**T${tier} Components (${componentsByTier[tier].length}):**`);
+                    componentsByTier[tier].forEach(component => {
+                        sections.push(`- ${component}`);
+                    });
+                    sections.push('');
                 });
             }
+
+            // Production chain recommendations
+            sections.push(`### 🎯 Production Chain Recommendations\n`);
+
+            if (incompleteIngredients.length > 0) {
+                sections.push('**Complexity Guidelines for this tier:**');
+                if (pool.tier <= 2) {
+                    sections.push('- Simple chains: 3-4 steps, 2-3 raw resources');
+                    sections.push('- Focus on basic combinations and minimal processing');
+                } else if (pool.tier <= 4) {
+                    sections.push('- Moderate chains: 4-5 steps, 3-4 raw resources');
+                    sections.push('- Allow intermediate processing steps');
+                } else {
+                    sections.push('- Complex chains: 5-6 steps, 4-5 raw resources');
+                    sections.push('- Multiple processing stages and specialized resources');
+                }
+
+                sections.push('- **Prioritize underutilized raw resources** to balance usage');
+                sections.push('- **Use tier-appropriate resources** only');
+                sections.push('- **Build logical progression** from raw materials to final ingredient');
+                sections.push('- **Test resource availability** before finalizing chains\n');
+
+                // Sample production chain structure
+                sections.push('**Example Production Chain Structure:**');
+                sections.push('```');
+                sections.push('T1 Raw Resource A + T1 Raw Resource B → T2 Basic Component');
+                sections.push('T2 Basic Component + T2 Raw Resource C → T3 Intermediate Component');
+                sections.push(`T3 Intermediate Component + T${pool.tier} Raw Resource D → T${pool.tier} Final Ingredient`);
+                sections.push('```\n');
+            }
+
+            sections.push('---\n');
         });
 
-        if (!hasSubstitutionOpportunities) {
-            sections.push('| No substitution opportunities found | - | - | - | - |');
-        }
+        // Summary recommendations
+        sections.push('## 📋 Summary & AI Agent Tasks\n');
+
+        sections.push(`**Production Chain Development Status:**`);
+        sections.push(`- **${totalIncomplete} ingredients** need complete production chains`);
+        sections.push(`- **${totalPartial} ingredients** need production chain improvements`);
+        sections.push(`- **${selectedPoolObjects.length} component category + tier** combinations analyzed`);
+        sections.push(`- **${totalAvailableRaw} raw resources** available for use`);
+        sections.push(`- **${totalAvailableComponents} components** available for intermediate steps\n`);
+
+        sections.push(`**AI Agent Priority Tasks:**`);
+        sections.push(`1. **Create production chains** for ingredients with 0 usage (highest priority)`);
+        sections.push(`2. **Review and improve** chains for low-usage ingredients`);
+        sections.push(`3. **Ensure tier restrictions** are followed (max 2 tiers below current)`);
+        sections.push(`4. **Balance raw resource usage** across chains`);
+        sections.push(`5. **Test production chain viability** and resource availability`);
+        sections.push(`6. **Maintain 3-6 step complexity** with 1-5 unique raw resources`);
+        sections.push(`7. **Use component category appropriate** resources when possible\n`);
+
+        sections.push(`**Next Steps:**`);
+        sections.push(`1. Select a component category + tier combination to focus on`);
+        sections.push(`2. Use this report to identify available resources`);
+        sections.push(`3. Create production chains following the complexity guidelines`);
+        sections.push(`4. Update the CSV with new ingredient recipes`);
+        sections.push(`5. Test and validate the production chains`);
+        sections.push(`6. Export updated CSV for integration\n`);
 
         const markdownContent = sections.join('\n');
         const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8;' });
@@ -2273,7 +2606,7 @@ const ResourceBalancer = () => {
         const url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
 
-        const fileName = `multi_pool_analysis_${selectedPoolNames.length}_pools_${timestamp}.md`;
+        const fileName = `production_chain_analysis_${selectedPoolNames.length}_pools_${timestamp}.md`;
         link.setAttribute('download', fileName);
 
         link.style.visibility = 'hidden';
@@ -2281,7 +2614,7 @@ const ResourceBalancer = () => {
         link.click();
         document.body.removeChild(link);
 
-        console.log(`Multi-pool analysis exported: ${fileName}`);
+        console.log(`Production chain analysis exported: ${fileName}`);
     };
 
     // Handle multi-pool selection
@@ -2831,6 +3164,9 @@ const ResourceBalancer = () => {
                     <button className="btn-primary" onClick={exportBalancedCSV}>
                         📄 Export Balanced CSV
                     </button>
+                    <button className="btn-danger" onClick={showClearStorageInfo}>
+                        🗑️ Clear Storage
+                    </button>
                     <button className="btn-warning" onClick={exportBalancingReport}>
                         📋 Export Balancing Report
                     </button>
@@ -2863,6 +3199,7 @@ const ResourceBalancer = () => {
                             <option value="completed">✅ Completed</option>
                             <option value="unused">🚫 Unused Resources</option>
                             <option value="unused-components">🔧 Unused Components Only</option>
+                            <option value="unused-ingredients">🧪 Unused Ingredients Only</option>
                             <option value="under-utilized">📉 Under-utilized (&lt; 5 uses)</option>
                             <option value="over-utilized">📈 Over-utilized (&gt; 20 uses)</option>
                             <option value="balanced">⚖️ Balanced (5-20 uses)</option>
@@ -2934,8 +3271,26 @@ const ResourceBalancer = () => {
                                     <div>Flagged: {getResourcesByStatus('ingredients', 'needs-increase').length}</div>
                                     <div>Completed: {getResourcesByStatus('ingredients', 'completed').length}</div>
                                     <div>Unused: {getResourcesByStatus('ingredients', 'unused').length}</div>
+                                    <div style={{ color: '#e74c3c', fontWeight: 'bold' }}>❌ Missing Components: {missingIngredients.length}</div>
+                                    <div style={{ color: '#ff9500', fontWeight: 'bold' }}>🧪❌ Unused Ingredients: {getResourcesByStatus('ingredients', 'unused-ingredients').length}</div>
                                     <div>Under-utilized: {getResourcesByStatus('ingredients', 'under-utilized').length}</div>
                                     <div>Over-utilized: {getResourcesByStatus('ingredients', 'over-utilized').length}</div>
+                                </div>
+                            </div>
+
+                            <div className="stat-card" style={{ gridColumn: 'span 3', backgroundColor: '#f8f9fa', border: '2px solid #e74c3c' }}>
+                                <h3>🚫 Complete Unused Resource Summary</h3>
+                                <div className="stat-breakdown">
+                                    <div style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#e74c3c' }}>
+                                        Total Unused Across All Types: {
+                                            [...usageAnalysis.raw.values(), ...usageAnalysis.components.values(), ...usageAnalysis.ingredients.values()]
+                                                .filter(r => r.usageCount === 0).length
+                                        }
+                                    </div>
+                                    <div>📦 Unused Basic Resources: {Array.from(usageAnalysis.raw.values()).filter(r => r.usageCount === 0).length}</div>
+                                    <div>🔧 Unused Components: {Array.from(usageAnalysis.components.values()).filter(r => r.usageCount === 0).length}</div>
+                                    <div>🧪 Unused Ingredients: {Array.from(usageAnalysis.ingredients.values()).filter(r => r.usageCount === 0).length}</div>
+                                    <div style={{ color: '#e74c3c', fontWeight: 'bold' }}>❌ Missing Ingredients: {missingIngredients.length}</div>
                                 </div>
                             </div>
                         </div>
@@ -2981,12 +3336,29 @@ const ResourceBalancer = () => {
 
                         <div className="top-resources">
                             <div className="top-section">
-                                <h3>🔧❌ Unused Components</h3>
+                                <h3>🚫 All Unused Resources (Basic Resources, Components, Ingredients)</h3>
+                                <p className="section-description">
+                                    Complete list of all resources with 0 usage across all types
+                                </p>
                                 <div className="resource-list">
-                                    {Array.from(usageAnalysis.components.values())
-                                        .filter(r => r.isUnusedComponent && r.usageCount === 0)
-                                        .slice(0, 10)
-                                        .map(resource => (
+                                    {(() => {
+                                        // Collect ALL unused resources from all categories
+                                        const allUnusedResources = [
+                                            ...Array.from(usageAnalysis.raw.values()).filter(r => r.usageCount === 0),
+                                            ...Array.from(usageAnalysis.components.values()).filter(r => r.usageCount === 0),
+                                            ...Array.from(usageAnalysis.ingredients.values()).filter(r => r.usageCount === 0)
+                                        ];
+
+                                        // Sort by type then by name for better organization
+                                        allUnusedResources.sort((a, b) => {
+                                            if (a.type !== b.type) {
+                                                const typeOrder = { 'BASIC RESOURCE': 1, 'COMPONENT': 2, 'INGREDIENT': 3 };
+                                                return (typeOrder[a.type] || 4) - (typeOrder[b.type] || 4);
+                                            }
+                                            return a.name.localeCompare(b.name);
+                                        });
+
+                                        return allUnusedResources.map(resource => (
                                             <div key={resource.name} className="resource-item unused-component">
                                                 <span className="resource-name">{resource.name}</span>
                                                 <span className="usage-count">0 uses</span>
@@ -2996,8 +3368,15 @@ const ResourceBalancer = () => {
                                                     <button
                                                         className="btn-small btn-warning"
                                                         onClick={() => {
-                                                            setActiveTab('components');
-                                                            setBalancingMode('unused-components');
+                                                            // Navigate to appropriate tab based on type
+                                                            if (resource.type === 'BASIC RESOURCE') {
+                                                                setActiveTab('raw');
+                                                            } else if (resource.type === 'COMPONENT') {
+                                                                setActiveTab('components');
+                                                            } else {
+                                                                setActiveTab('ingredients');
+                                                            }
+                                                            setBalancingMode('unused');
                                                         }}
                                                     >
                                                         View Details
@@ -3010,10 +3389,66 @@ const ResourceBalancer = () => {
                                                     </button>
                                                 </div>
                                             </div>
+                                        ));
+                                    })()}
+                                    {(() => {
+                                        const totalUnused = [
+                                            ...Array.from(usageAnalysis.raw.values()).filter(r => r.usageCount === 0),
+                                            ...Array.from(usageAnalysis.components.values()).filter(r => r.usageCount === 0),
+                                            ...Array.from(usageAnalysis.ingredients.values()).filter(r => r.usageCount === 0)
+                                        ].length;
+
+                                        if (totalUnused === 0) {
+                                            return (
+                                                <div className="no-unused-components">
+                                                    <span>✅ All resources are being used in recipes!</span>
+                                                </div>
+                                            );
+                                        } else {
+                                            return (
+                                                <div className="unused-summary">
+                                                    <span>📊 Total unused resources: {totalUnused}</span>
+                                                </div>
+                                            );
+                                        }
+                                    })()}
+                                </div>
+                            </div>
+
+                            <div className="top-section">
+                                <h3>❌ Missing Ingredients</h3>
+                                <p className="section-description">
+                                    Complete list of ingredients referenced in recipes but not defined as individual components in the CSV
+                                </p>
+                                <div className="resource-list">
+                                    {missingIngredients
+                                        .sort((a, b) => b.usageCount - a.usageCount || a.name.localeCompare(b.name)) // Sort by usage count (highest first), then by name
+                                        .map(ingredient => (
+                                            <div key={ingredient.name} className="resource-item missing-ingredient">
+                                                <span className="resource-name">{ingredient.name}</span>
+                                                <span className="usage-count">{ingredient.usageCount} references</span>
+                                                <span className="resource-type">MISSING</span>
+                                                <div className="resource-actions">
+                                                    <button
+                                                        className="btn-small btn-warning"
+                                                        onClick={() => {
+                                                            console.log('Missing ingredient details:', ingredient);
+                                                            alert(`"${ingredient.name}" is used in ${ingredient.usageCount} recipes:\n\n${ingredient.usedInRecipes.map(r => `• ${r.recipeName} (${r.recipeType}) - Slot ${r.slot}`).join('\n')}`);
+                                                        }}
+                                                        title="Show which recipes use this missing ingredient"
+                                                    >
+                                                        Show Usage
+                                                    </button>
+                                                </div>
+                                            </div>
                                         ))}
-                                    {Array.from(usageAnalysis.components.values()).filter(r => r.isUnusedComponent && r.usageCount === 0).length === 0 && (
-                                        <div className="no-unused-components">
-                                            <span>✅ All components are being used in recipes!</span>
+                                    {missingIngredients.length === 0 ? (
+                                        <div className="no-missing-ingredients">
+                                            <span>✅ All referenced ingredients exist as individual components!</span>
+                                        </div>
+                                    ) : (
+                                        <div className="missing-summary">
+                                            <span>📊 Total missing ingredients: {missingIngredients.length}</span>
                                         </div>
                                     )}
                                 </div>
@@ -3021,10 +3456,20 @@ const ResourceBalancer = () => {
 
                             <div className="top-section">
                                 <h3>⚠️ Manually Flagged Resources</h3>
+                                <p className="section-description">
+                                    Complete list of all manually flagged resources across all types
+                                </p>
                                 <div className="resource-list">
                                     {[...usageAnalysis.raw.values(), ...usageAnalysis.components.values(), ...usageAnalysis.ingredients.values()]
                                         .filter(r => r.isManuallyFlagged && !r.isCompleted)
-                                        .slice(0, 10)
+                                        .sort((a, b) => {
+                                            // Sort by type then by name for better organization
+                                            if (a.type !== b.type) {
+                                                const typeOrder = { 'BASIC RESOURCE': 1, 'COMPONENT': 2, 'INGREDIENT': 3 };
+                                                return (typeOrder[a.type] || 4) - (typeOrder[b.type] || 4);
+                                            }
+                                            return a.name.localeCompare(b.name);
+                                        })
                                         .map(resource => (
                                             <div key={resource.name} className="resource-item flagged">
                                                 <span className="resource-name">{resource.name}</span>
@@ -3051,10 +3496,20 @@ const ResourceBalancer = () => {
 
                             <div className="top-section">
                                 <h3>✅ Completed Resources</h3>
+                                <p className="section-description">
+                                    Complete list of all marked-as-completed resources across all types
+                                </p>
                                 <div className="resource-list">
                                     {[...usageAnalysis.raw.values(), ...usageAnalysis.components.values(), ...usageAnalysis.ingredients.values()]
                                         .filter(r => r.isCompleted)
-                                        .slice(0, 10)
+                                        .sort((a, b) => {
+                                            // Sort by type then by name for better organization
+                                            if (a.type !== b.type) {
+                                                const typeOrder = { 'BASIC RESOURCE': 1, 'COMPONENT': 2, 'INGREDIENT': 3 };
+                                                return (typeOrder[a.type] || 4) - (typeOrder[b.type] || 4);
+                                            }
+                                            return a.name.localeCompare(b.name);
+                                        })
                                         .map(resource => (
                                             <div key={resource.name} className="resource-item completed">
                                                 <span className="resource-name">{resource.name}</span>
@@ -3082,7 +3537,7 @@ const ResourceBalancer = () => {
 
                         <div className="resources-grid">
                             {filteredResources.map(resource => (
-                                <div key={resource.name} className={`resource-card ${balancingMode} ${resource.isManuallyFlagged ? 'flagged' : ''} ${resource.isCompleted ? 'completed' : ''} ${resource.isUnusedComponent ? 'unused-component' : ''}`}>
+                                <div key={resource.name} className={`resource-card ${balancingMode} ${resource.isManuallyFlagged ? 'flagged' : ''} ${resource.isCompleted ? 'completed' : ''} ${resource.isUnusedComponent ? 'unused-component' : ''} ${resource.isUnusedIngredient ? 'unused-ingredient' : ''}`}>
                                     <div className="resource-header">
                                         <div className="resource-title">
                                             <input
@@ -3098,6 +3553,7 @@ const ResourceBalancer = () => {
                                             {resource.isManuallyFlagged && <span className="flag-badge">⚠️</span>}
                                             {resource.isCompleted && <span className="complete-badge">✅</span>}
                                             {resource.isUnusedComponent && <span className="unused-component-badge" title="Unused Component - Not used in any ingredient recipes">🔧❌</span>}
+                                            {resource.isUnusedIngredient && <span className="unused-ingredient-badge" title="Unused Ingredient - Only used in non-final ship components">🧪❌</span>}
                                         </div>
                                     </div>
 
@@ -3238,10 +3694,10 @@ const ResourceBalancer = () => {
                                 {/* Multi-Pool Selector */}
                                 <div className="multi-pool-selector">
                                     <div className="selector-header">
-                                        <h3>📦 Multi-Pool Analysis</h3>
+                                        <h3>🏭 Production Chain Analysis</h3>
                                         <div className="selector-controls">
                                             <span className="selection-count">
-                                                {selectedPools.size} of {currentSubstitutePools.length} pools selected
+                                                {selectedPools.size} of {currentSubstitutePools.length} category + tier combinations selected
                                             </span>
                                             <button
                                                 className="btn-small"
@@ -3263,10 +3719,10 @@ const ResourceBalancer = () => {
                                                 onClick={() => exportMultiPoolAnalysis(Array.from(selectedPools))}
                                                 disabled={selectedPools.size === 0}
                                                 title={selectedPools.size === 0 ?
-                                                    "Select pools to enable multi-pool export" :
-                                                    `Export combined analysis for ${selectedPools.size} selected pools`}
+                                                    "Select component categories + tiers to enable production chain analysis export" :
+                                                    `Export production chain analysis for ${selectedPools.size} selected category + tier combinations`}
                                             >
-                                                📊 Export Multi-Pool Analysis ({selectedPools.size})
+                                                🏭 Export Production Chain Analysis ({selectedPools.size})
                                             </button>
                                         </div>
                                     </div>
@@ -3281,9 +3737,10 @@ const ResourceBalancer = () => {
                                                 <div className="pool-selection-info">
                                                     <span className="pool-name">{pool.name}</span>
                                                     <span className="pool-summary">
-                                                        {pool.resources.length} resources •
+                                                        {pool.resources.length} ingredients •
                                                         Avg: {Math.round(pool.averageUsage)} uses •
-                                                        Effects: {pool.resources.filter(r => calculatedEffects.has(r.name)).length}/{pool.resources.length}
+                                                        Missing chains: {pool.resources.filter(r => r.usageCount === 0).length} •
+                                                        Available resources: {(pool.availableRawResources?.size || 0) + (pool.availableComponents?.size || 0)}
                                                     </span>
                                                 </div>
                                             </label>
@@ -3292,7 +3749,7 @@ const ResourceBalancer = () => {
                                 </div>
 
                                 <div className="substitute-pools">
-                                    <h3>🔄 Individual Pool Analysis</h3>
+                                    <h3>🔧 Component Category + Tier Analysis</h3>
                                     {currentSubstitutePools.map((pool, idx) => (
                                         <div key={idx} className="substitute-pool">
                                             <div className="pool-header">
@@ -3310,16 +3767,17 @@ const ResourceBalancer = () => {
                                                         onClick={() => exportSubstitutePoolAnalysis(pool)}
                                                         title="Export detailed analysis with full effect calculations"
                                                     >
-                                                        📊 Export Pool Analysis
+                                                        🏭 Export Production Chain Analysis
                                                     </button>
                                                 </div>
                                             </div>
                                             <div className="pool-stats">
-                                                <span>Average Usage: {Math.round(pool.averageUsage)}</span>
-                                                <span>Total Usage: {pool.totalUsage}</span>
-                                                <span>Resources: {pool.resources.length}</span>
-                                                <span>Tier Range: {Math.min(...pool.resources.map(r => r.tier))}-{Math.max(...pool.resources.map(r => r.tier))}</span>
-                                                <span>Effects calculated: {pool.resources.filter(r => calculatedEffects.has(r.name)).length}/{pool.resources.length}</span>
+                                                <span>Category: {pool.componentCategory || 'Unknown'}</span>
+                                                <span>Tier: T{pool.tier}</span>
+                                                <span>Ingredients: {pool.resources.length}</span>
+                                                <span>Missing chains: {pool.resources.filter(r => r.usageCount === 0).length}</span>
+                                                <span>Available raw resources: {pool.availableRawResources?.size || 0}</span>
+                                                <span>Available components: {pool.availableComponents?.size || 0}</span>
                                             </div>
                                             <div className="pool-resources">
                                                 {pool.resources.map(resource => (
@@ -3587,6 +4045,81 @@ const ResourceBalancer = () => {
                                 disabled={!swapFromResource || !swapToResource || selectedRecipesToSwap.size === 0}
                             >
                                 Swap in {selectedRecipesToSwap.size} Recipes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Clear Storage Modal */}
+            {showClearStorageModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ maxWidth: '600px' }}>
+                        <h2>Clear Local Storage</h2>
+                        <p>This will clear all locally stored data from the Recipe Manager application.</p>
+
+                        <div className="storage-info">
+                            <h3>Storage Analysis</h3>
+                            <div className="storage-summary">
+                                <p><strong>Total Data:</strong> {storageInfo.totals?.sizeFormatted}</p>
+                                <p><strong>Total Items:</strong> {storageInfo.totals?.itemCount}</p>
+                                <p><strong>Storage Keys:</strong> {storageInfo.totals?.keysWithData} of 5</p>
+                            </div>
+
+                            <div className="storage-details">
+                                <h4>What will be cleared:</h4>
+                                {Object.entries(storageInfo).filter(([key]) => key !== 'totals').map(([key, info]) => (
+                                    <div key={key} className={`storage-item ${info.exists ? 'has-data' : 'no-data'}`}>
+                                        <div className="storage-item-header">
+                                            <strong>{key}</strong>
+                                            <span className="storage-size">{info.sizeFormatted}</span>
+                                        </div>
+                                        <div className="storage-item-details">
+                                            <p>{info.description}</p>
+                                            {info.exists && (
+                                                <p><strong>Items:</strong> {info.itemCount}</p>
+                                            )}
+                                            {info.error && (
+                                                <p className="error-text">⚠️ {info.error}</p>
+                                            )}
+                                            {!info.exists && (
+                                                <p className="no-data-text">No data stored</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="warning-box">
+                                <h4>⚠️ Warning</h4>
+                                <p>This action will:</p>
+                                <ul>
+                                    <li>Remove all saved recipe modifications</li>
+                                    <li>Clear Resource Balancer settings and flags</li>
+                                    <li>Delete generated buildings and building recipes</li>
+                                    <li>Reset all manual configurations</li>
+                                    <li>Reload the page to refresh data from CSV files</li>
+                                </ul>
+                                <p><strong>This action cannot be undone.</strong></p>
+                            </div>
+                        </div>
+
+                        <div className="modal-actions">
+                            <button
+                                className="btn-secondary"
+                                onClick={() => setShowClearStorageModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="btn-danger"
+                                onClick={clearAllLocalStorage}
+                                style={{
+                                    backgroundColor: '#dc3545',
+                                    borderColor: '#dc3545'
+                                }}
+                            >
+                                Clear All Data
                             </button>
                         </div>
                     </div>

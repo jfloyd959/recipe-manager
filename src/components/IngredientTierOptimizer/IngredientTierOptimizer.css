@@ -1,0 +1,571 @@
+.ingredient-optimizer
+{
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.optimizer-header
+{
+    background: linear-gradient(135deg, #3730a3 0%, #5b21b6 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.optimizer-header h2
+{
+    margin: 0 0 10px 0;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+.optimizer-header p
+{
+    margin: 0;
+    font-size: 1.1em;
+    opacity: 0.95;
+}
+
+/* Configuration Panel */
+.configuration-panel
+{
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.configuration-panel h3
+{
+    margin: 0 0 25px 0;
+    color: #1f2937;
+    font-size: 1.4em;
+    font-weight: 600;
+    border-bottom: 2px solid #3730a3;
+    padding-bottom: 10px;
+}
+
+.config-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.config-group
+{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.config-group label
+{
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.95em;
+}
+
+.config-group select,
+.config-group input
+{
+    padding: 12px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #111827;
+    background: white;
+}
+
+.config-group select:focus,
+.config-group input:focus
+{
+    outline: none;
+    border-color: #3730a3;
+}
+
+.config-group small
+{
+    color: #6b7280;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.optimize-button
+{
+    background: linear-gradient(135deg, #3730a3 0%, #5b21b6 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.optimize-button:hover:not(:disabled)
+{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(55, 48, 163, 0.3);
+}
+
+.optimize-button:disabled
+{
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Target Summary */
+.target-summary
+{
+    background: #f3f4f6;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border-left: 4px solid #3730a3;
+}
+
+.target-summary h3
+{
+    margin: 0 0 15px 0;
+    color: #1f2937;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.target-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.target-item
+{
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.target-item .label
+{
+    color: #6b7280;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.target-item .value
+{
+    color: #111827;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+/* Loading */
+.loading
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.spinner
+{
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e5e7eb;
+    border-top: 4px solid #3730a3;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin
+{
+    0%
+    {
+        transform: rotate(0deg);
+    }
+
+    100%
+    {
+        transform: rotate(360deg);
+    }
+}
+
+/* Optimization Results */
+.optimization-results
+{
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.optimization-results h3
+{
+    margin: 0 0 25px 0;
+    color: #1f2937;
+    font-size: 1.5em;
+    font-weight: 600;
+    border-bottom: 2px solid #3730a3;
+    padding-bottom: 10px;
+}
+
+/* Suggestion Groups */
+.suggestion-group
+{
+    margin-bottom: 35px;
+}
+
+.suggestion-group:last-child
+{
+    margin-bottom: 0;
+}
+
+.suggestion-group h4
+{
+    margin: 0 0 20px 0;
+    color: #1f2937;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.no-suggestions
+{
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+    font-size: 1.1em;
+}
+
+/* Combinations List */
+.combinations-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Combination Cards */
+.combination-card
+{
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.2s ease;
+}
+
+.combination-card:hover
+{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.combination-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.combination-header h5
+{
+    margin: 0;
+    color: #1f2937;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.combination-badges
+{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.badge
+{
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.score-badge.excellent
+{
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.score-badge.good
+{
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.score-badge.fair
+{
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.resource-badge
+{
+    background: #f3e8ff;
+    color: #7c2d12;
+}
+
+.tier-badge.valid
+{
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.tier-badge.invalid
+{
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Ingredients List */
+.ingredients-list
+{
+    margin-bottom: 15px;
+}
+
+.ingredients-list strong
+{
+    color: #1f2937;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.ingredient-tags
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ingredient-tag
+{
+    background: white;
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.ingredient-tag:hover
+{
+    background: #f3f4f6;
+    border-color: #3730a3;
+}
+
+.ingredient-name
+{
+    font-weight: 600;
+    color: #1f2937;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ingredient-details
+{
+    color: #6b7280;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+/* Combination Analysis */
+.combination-analysis
+{
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    margin-top: 15px;
+}
+
+.analysis-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.analysis-item
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.analysis-item .label
+{
+    color: #6b7280;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.analysis-item .value
+{
+    color: #111827;
+    font-weight: 600;
+}
+
+.analysis-item .value.excellent
+{
+    color: #059669;
+}
+
+.analysis-item .value.good
+{
+    color: #2563eb;
+}
+
+.analysis-item .value.poor
+{
+    color: #dc2626;
+}
+
+/* Validation Issues */
+.validation-issues
+{
+    background: #fef2f2;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #fecaca;
+    margin-top: 15px;
+}
+
+.validation-issues strong
+{
+    color: #991b1b;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.validation-issues ul
+{
+    margin: 0;
+    padding-left: 20px;
+}
+
+.validation-issues li
+{
+    color: #7f1d1d;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* No Results */
+.no-results
+{
+    text-align: center;
+    padding: 60px 40px;
+    color: #6b7280;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.no-results h4
+{
+    margin: 0 0 15px 0;
+    color: #1f2937;
+    font-size: 1.3em;
+}
+
+.no-results p
+{
+    margin: 0 0 20px 0;
+    font-size: 1.1em;
+}
+
+.no-results ul
+{
+    text-align: left;
+    display: inline-block;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.no-results li
+{
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px)
+{
+    .ingredient-optimizer
+    {
+        padding: 15px;
+    }
+
+    .optimizer-header
+    {
+        padding: 20px;
+    }
+
+    .optimizer-header h2
+    {
+        font-size: 1.8em;
+    }
+
+    .config-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .target-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .combination-header
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .analysis-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .ingredient-tags
+    {
+        gap: 6px;
+    }
+}

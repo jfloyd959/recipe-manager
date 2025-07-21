@@ -11,6 +11,8 @@ import ResourceBalancer from './components/ResourceBalancer/ResourceBalancer';
 import BuildingManager from './components/BuildingManager/BuildingManager';
 import BuildingRecipes from './components/BuildingRecipes/BuildingRecipes';
 import RecipeComplexityAnalyzer from './components/RecipeComplexityAnalyzer/RecipeComplexityAnalyzer';
+import ProgressiveComplexityDashboard from './components/ProgressiveComplexityDashboard/ProgressiveComplexityDashboard';
+import ProgressiveComplexityAnalyzer from './components/ProgressiveComplexityAnalyzer/ProgressiveComplexityAnalyzer';
 import Navbar from './components/Layout/Navbar';
 import './App.css';
 
@@ -32,6 +34,8 @@ function App() {
               <Route path="/dependencies" element={<DependencyViewer />} />
               <Route path="/complete-system" element={<CompleteRecipeSystem />} />
               <Route path="/complexity-analyzer" element={<RecipeComplexityAnalyzer />} />
+              <Route path="/progressive-system" element={<ProgressiveComplexityDashboard />} />
+              <Route path="/progressive-analyzer" element={<ProgressiveComplexityAnalyzer />} />
             </Routes>
           </main>
         </div>
