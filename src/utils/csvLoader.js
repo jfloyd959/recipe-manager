@@ -95,7 +95,9 @@ const parseCSVData = (csvText) => {
             completionStatus: completionStatus,
             category: outputType,
             subtype: subtype,
-            needsUsageIncrease: needsUsageIncrease
+            needsUsageIncrease: needsUsageIncrease,
+            // ADD MISSING BUILDINGRESOURCE PROPERTY
+            BuildingResource: item.BuildingResource || 'FALSE'
         };
 
         // Add to recipes array (for Recipe Editor)

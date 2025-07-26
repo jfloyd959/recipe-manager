@@ -2928,8 +2928,8 @@ const ProductionChainBuilder = () => {
 
             console.log(`Marked ${completedRecipesMarked} recipes as complete`);
 
-            // STEP 4: Recursive Tier Validation - Ensure all tiers match their raw resource dependencies
-            console.log('🔍 Starting recursive tier validation...');
+            // STEP 4: Setup Production Chain Analysis (Tier changes disabled per user request)
+            console.log('🔍 Setting up production chain analysis (tier changes disabled)...');
 
             // Helper function to recursively find all raw resources in a production chain
             // Enhanced to return tier, PlanetTypes, and Factions information
@@ -2978,149 +2978,14 @@ const ProductionChainBuilder = () => {
                 return rawResources;
             };
 
-            let tierCorrections = 0;
+            // Initialize empty tier correction tracking (no tier changes are made)
+            const tierCorrections = 0;
             const tierCorrectionLog = [];
 
-            // ENHANCED TIER VALIDATION: Consider ALL ingredient tiers, not just raw resources
-            console.log('🔧 Enhanced tier validation: considering ALL ingredient tiers...');
+            console.log('✅ Tier validation skipped - keeping existing OutputTier values as requested');
 
-            const recalculateAllTiers = () => {
-                let changed = true;
-                let iterations = 0;
-                const maxIterations = 10; // Prevent infinite loops
-                let totalCorrections = 0;
-
-                // Keep iterating until no more changes (handles nested dependencies)
-                while (changed && iterations < maxIterations) {
-                    changed = false;
-                    iterations++;
-                    console.log(`🔄 Tier calculation iteration ${iterations}...`);
-
-                    Array.from(uniqueRecords.values()).forEach(record => {
-                        const outputType = (record.OutputType || '').toUpperCase();
-
-                        // Only recalculate COMPONENT and INGREDIENT tiers
-                        if (outputType !== 'COMPONENT' && outputType !== 'INGREDIENT') {
-                            return;
-                        }
-
-                        const name = record.OutputName;
-                        const currentTier = parseInt(record.OutputTier || 1);
-
-                        // Get all ingredients and their tiers
-                        const ingredientTiers = [];
-
-                        // Check all ingredient slots
-                        for (let i = 1; i <= 9; i++) {
-                            const ingredientName = record[`Ingredient${i}`];
-                            if (ingredientName && ingredientName.trim()) {
-                                const ingredientRecord = uniqueRecords.get(ingredientName.trim());
-                                if (ingredientRecord) {
-                                    const ingTier = parseInt(ingredientRecord.OutputTier || 1);
-                                    ingredientTiers.push(ingTier);
-                                }
-                            }
-                        }
-
-                        if (ingredientTiers.length > 0) {
-                            const maxIngredientTier = Math.max(...ingredientTiers);
-
-                            // Component tier should be >= highest ingredient tier
-                            if (currentTier < maxIngredientTier) {
-                                const oldTier = currentTier;
-                                record.OutputTier = maxIngredientTier.toString();
-
-                                tierCorrectionLog.push({
-                                    item: name,
-                                    oldTier: oldTier,
-                                    newTier: maxIngredientTier,
-                                    outputType: outputType,
-                                    correctionType: 'INGREDIENT_BASED'
-                                });
-
-                                totalCorrections++;
-                                changed = true;
-
-                                if (totalCorrections <= 15) { // Log first 15 for visibility
-                                    console.log(`📈 ${outputType}: ${name} T${oldTier} → T${maxIngredientTier} (ingredient-based)`);
-                                }
-                            }
-                        }
-                    });
-                }
-
-                console.log(`✅ Enhanced tier recalculation complete after ${iterations} iterations. ${totalCorrections} corrections made.`);
-                return totalCorrections;
-            };
-
-            // Run the enhanced tier recalculation
-            const enhancedCorrections = recalculateAllTiers();
-            tierCorrections = enhancedCorrections;
-
-            // FALLBACK: Also run the old raw resource validation for any remaining issues
-            console.log('🔄 Running fallback raw resource tier validation...');
-
-            const allRecords = Array.from(uniqueRecords.values()).filter(record =>
-                record.OutputType !== 'BASIC RESOURCE' && record.OutputName
-            );
-
-            allRecords.forEach(record => {
-                const outputType = record.OutputType || '';
-                if (!['COMPONENT', 'INGREDIENT'].includes(outputType)) {
-                    return;
-                }
-
-                // Find all raw resources used in this item's production chain
-                const rawResourcesUsed = findRawResourcesInChain(record.OutputName);
-
-                if (rawResourcesUsed.length > 0) {
-                    const maxRawTier = Math.max(...rawResourcesUsed.map(r => r.tier));
-                    const currentTier = parseInt(record.OutputTier) || 0;
-
-                    if (currentTier < maxRawTier) {
-                        const oldTier = currentTier;
-                        record.OutputTier = maxRawTier.toString();
-                        tierCorrections++;
-
-                        const rawResourceNames = rawResourcesUsed.map(r => `${r.name} (T${r.tier})`).join(', ');
-                        tierCorrectionLog.push({
-                            item: record.OutputName,
-                            oldTier: oldTier,
-                            newTier: maxRawTier,
-                            rawResources: rawResourceNames,
-                            outputType: outputType,
-                            correctionType: 'RAW_RESOURCE_BASED'
-                        });
-
-                        console.log(`🔧 Fallback correction (${outputType}): ${record.OutputName} T${oldTier} → T${maxRawTier} (raw resource fallback)`);
-                    }
-                }
-            });
-
-            console.log(`Applied ${tierCorrections} total tier corrections (enhanced + fallback validation)`);
-
-            // Log summary of tier corrections
-            if (tierCorrectionLog.length > 0) {
-                console.log('📈 Tier Corrections Summary:');
-                console.log(`Total corrections: ${tierCorrectionLog.length}`);
-
-                // Show first 5 corrections as examples
-                tierCorrectionLog.slice(0, 5).forEach(correction => {
-                    console.log(`  • ${correction.item}: T${correction.oldTier} → T${correction.newTier}`);
-                });
-
-                if (tierCorrectionLog.length > 5) {
-                    console.log(`  ... and ${tierCorrectionLog.length - 5} more corrections`);
-                }
-
-                // Show tier distribution
-                const tierDistribution = {};
-                tierCorrectionLog.forEach(c => {
-                    const key = `T${c.oldTier} → T${c.newTier}`;
-                    tierDistribution[key] = (tierDistribution[key] || 0) + 1;
-                });
-                console.log('Tier correction distribution:', tierDistribution);
-            }
+            // Log summary of tier corrections (disabled)
+            console.log('📈 Tier Corrections: Disabled - all OutputTier values preserved as specified in CSV');
 
             // STEP 4.5: Inherit PlanetTypes and Factions from Raw Resources
             console.log('🌍 Inheriting PlanetTypes and Factions from raw resources...');
@@ -3670,21 +3535,15 @@ const ProductionChainBuilder = () => {
             // Generate the report
             generateClaimStakeTierReport();
 
-            // Show summary
-            const tierCorrectionSummary = tierCorrectionLog.length > 0
-                ? `\n• Enhanced tier corrections made:\n  ${tierCorrectionLog.slice(0, 3).map(c =>
-                    `${c.item}: T${c.oldTier} → T${c.newTier} (${c.correctionType?.toLowerCase() || 'corrected'})`
-                ).join('\n  ')}${tierCorrectionLog.length > 3 ? `\n  ... and ${tierCorrectionLog.length - 3} more` : ''}`
-                : '';
-
             alert(
                 `🧹 CSV Cleanup Complete!\n\n` +
                 `📊 Summary:\n` +
                 `• Removed ${duplicatesRemoved.length} duplicates\n` +
                 `• Added ${missingIngredients.size} missing ingredients\n` +
                 `• Marked ${completedRecipesMarked} recipes as complete\n` +
-                `• Applied ${tierCorrections} enhanced tier corrections (ingredient + raw resource based)${tierCorrectionSummary}\n` +
+                `• Tier corrections: DISABLED (all OutputTier values preserved from CSV)\n` +
                 `• Calculated ProductionSteps for all ${cleanedRecords.length} items\n` +
+                `• Inherited PlanetTypes from raw resources in production chains\n` +
                 `• Marked ${unusedRawCount} unused raw resources (NOT_USED=TRUE)\n` +
                 `• Removed ${beforeRemoval - afterRemoval} COMPONENT/INGREDIENT entries without recipes\n` +
                 `• Final CSV has ${cleanedRecords.length} entries\n\n` +
@@ -3692,7 +3551,7 @@ const ProductionChainBuilder = () => {
                 `  • finalComponentList_cleaned.csv\n` +
                 `  • claim_stake_tier_report_${new Date().toISOString().split('T')[0]}.md\n\n` +
                 `✅ Your CSV is now clean and ready to use!\n` +
-                `🏗️ Claim stake tier report generated with corrected tiers!\n\n` +
+                `🏗️ Claim stake tier report generated with original tiers!\n\n` +
                 `💡 Check the console for detailed logs of all changes made.`
             );
 

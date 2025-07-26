@@ -37,7 +37,19 @@ const BuildingRecipes = () => {
         const savedBuildingRecipes = localStorage.getItem('building-recipes');
         if (savedBuildingRecipes) {
             try {
-                setBuildingRecipes(JSON.parse(savedBuildingRecipes));
+                const loadedRecipes = JSON.parse(savedBuildingRecipes);
+                console.log(`📥 Loaded ${loadedRecipes.length} building recipes from storage`);
+
+                // Check if we have compressed/minimal data that needs full analysis regeneration
+                const needsAnalysisRegeneration = loadedRecipes.some(recipe =>
+                    !recipe.analysis || typeof recipe.analysis.difficultyScore === 'undefined'
+                );
+
+                if (needsAnalysisRegeneration) {
+                    console.log('🔄 Detected minimal data, analysis will be regenerated when needed');
+                }
+
+                setBuildingRecipes(loadedRecipes);
             } catch (error) {
                 console.error('Error loading building recipes:', error);
                 setBuildingRecipes([]);
@@ -48,17 +60,81 @@ const BuildingRecipes = () => {
     // Save building recipes to localStorage whenever they change
     useEffect(() => {
         if (buildingRecipes.length > 0) {
-            localStorage.setItem('building-recipes', JSON.stringify(buildingRecipes));
+            try {
+                // Clear existing data first to free up space
+                localStorage.removeItem('building-recipes');
+
+                // Create a compressed version with only essential data for storage
+                const compressedRecipes = buildingRecipes.map(recipe => ({
+                    outputID: recipe.outputID,
+                    outputName: recipe.outputName,
+                    outputType: recipe.outputType,
+                    outputTier: recipe.outputTier,
+                    constructionTime: recipe.constructionTime,
+                    planetTypes: recipe.planetTypes,
+                    factions: recipe.factions,
+                    resourceType: recipe.resourceType,
+                    functionalPurpose: recipe.functionalPurpose,
+                    usageCategory: recipe.usageCategory,
+                    completionStatus: recipe.completionStatus,
+                    productionSteps: recipe.productionSteps,
+                    targetResourceTier: recipe.targetResourceTier,
+                    requiresNativeResources: recipe.requiresNativeResources,
+                    ingredients: recipe.ingredients,
+                    id: recipe.id,
+                    // Store only essential analysis data
+                    analysis: recipe.analysis ? {
+                        difficultyScore: recipe.analysis.difficultyScore,
+                        nativeResourceCompliance: recipe.analysis.nativeResourceCompliance,
+                        alternateComponentsUsed: recipe.analysis.alternateComponentsUsed,
+                        // Include commonly accessed properties to prevent errors
+                        planetDependenciesSize: recipe.analysis.planetDependencies?.size || 0,
+                        issuesCount: recipe.analysis.issues?.length || 0,
+                        nativePlanetMatch: recipe.analysis.nativePlanetMatch || false,
+                        tierComplexity: recipe.analysis.tierComplexity || 0,
+                        // Store essential issues (not the full array to save space)
+                        hasIssues: (recipe.analysis.issues?.length || 0) > 0
+                    } : null
+                    // Exclude large fields: alternateComponents (can be regenerated)
+                }));
+
+                localStorage.setItem('building-recipes', JSON.stringify(compressedRecipes));
+                console.log(`💾 Stored ${compressedRecipes.length} building recipes (compressed)`);
+            } catch (error) {
+                console.error('❌ Failed to save building recipes to localStorage:', error);
+
+                // If storage fails, show user-friendly message and clear data
+                if (error.name === 'QuotaExceededError') {
+                    alert('Storage quota exceeded! Recipe data is too large for browser storage. Consider reducing the number of building recipes or clearing browser data.');
+
+                    // Try to clear old data and save minimal version
+                    try {
+                        localStorage.clear(); // Clear all localStorage for this domain
+                        const minimalRecipes = buildingRecipes.map(recipe => ({
+                            outputID: recipe.outputID,
+                            outputName: recipe.outputName,
+                            outputTier: recipe.outputTier,
+                            ingredients: recipe.ingredients,
+                            id: recipe.id
+                        }));
+                        localStorage.setItem('building-recipes', JSON.stringify(minimalRecipes));
+                        console.log('💾 Stored minimal building recipes after clearing storage');
+                    } catch (secondError) {
+                        console.error('❌ Failed to save even minimal data:', secondError);
+                    }
+                }
+            }
         }
     }, [buildingRecipes]);
 
     // Get available resources categorized by tier and type from actual CSV data
     const getAvailableResources = () => {
-        if (!recipes || recipes.length === 0) return { byTier: {}, byType: {}, byPlanet: {} };
+        if (!recipes || recipes.length === 0) return { byTier: {}, byType: {}, byPlanet: {}, buildingResources: [] };
 
         const resourcesByTier = {};
         const resourcesByType = {};
         const resourcesByPlanet = {};
+        const buildingResources = [];
 
         recipes.forEach(recipe => {
             const tier = recipe.outputTier || 1;
@@ -79,12 +155,23 @@ const BuildingRecipes = () => {
                 if (!resourcesByPlanet[cleanPlanet]) resourcesByPlanet[cleanPlanet] = [];
                 resourcesByPlanet[cleanPlanet].push(recipe);
             });
+
+            // Filter building resources based on BuildingResource column
+            const buildingResourceFlag = recipe.BuildingResource || recipe.buildingResource;
+            if (buildingResourceFlag === 'TRUE' || buildingResourceFlag === true) {
+                buildingResources.push(recipe);
+            }
         });
+
+        // BuildingResource property is now correctly parsed from CSV
+
+        console.log(`Found ${buildingResources.length} resources marked for building recipes (BuildingResource=TRUE)`);
 
         return {
             byTier: resourcesByTier,
             byType: resourcesByType,
-            byPlanet: resourcesByPlanet
+            byPlanet: resourcesByPlanet,
+            buildingResources: buildingResources
         };
     };
 
@@ -105,7 +192,7 @@ const BuildingRecipes = () => {
         return resourcesWithBuildings;
     };
 
-    // Analyze recipe difficulty
+    // Analyze recipe difficulty with NATIVE RESOURCE VALIDATION
     const analyzeRecipeDifficulty = (recipe, targetBuilding) => {
         const analysis = {
             tierComplexity: 0,
@@ -113,13 +200,45 @@ const BuildingRecipes = () => {
             difficultyScore: 0,
             tierSpread: 0,
             nativePlanetMatch: false,
+            isFullyNative: false,
+            nonNativeDependencies: [],
+            alternateComponentsUsed: recipe.alternateComponents?.length || 0,
+            nativeResourceCompliance: 'unknown',
             issues: []
         };
 
         const targetPlanets = targetBuilding.planetType ? targetBuilding.planetType.split(';').map(p => p.trim()) : [];
         const targetResourceTier = recipe.targetResourceTier || 1;
         const baseComplexity = Math.max(targetBuilding.tier, targetResourceTier);
+        const requiresNativeResources = targetBuilding.tier <= 2;
 
+        // NATIVE RESOURCE ANALYSIS
+        if (requiresNativeResources && targetPlanets.length > 0 && targetPlanets[0] !== 'All Types') {
+            console.log(`🔍 Analyzing native compliance for ${recipe.outputName} on ${targetPlanets.join(', ')}`);
+
+            let allIngredientsNative = true;
+            const nonNativeDeps = [];
+
+            recipe.ingredients.forEach(ingredient => {
+                const nativeCheck = isRecipeChainNative(ingredient.name, targetPlanets);
+                if (!nativeCheck.isNative) {
+                    allIngredientsNative = false;
+                    nonNativeDeps.push(...nativeCheck.nonNativeDependencies);
+                    analysis.issues.push(`${ingredient.name} requires non-native resources: ${nativeCheck.nonNativeDependencies.join(', ')}`);
+                }
+            });
+
+            analysis.isFullyNative = allIngredientsNative;
+            analysis.nonNativeDependencies = [...new Set(nonNativeDeps)]; // Remove duplicates
+            analysis.nativeResourceCompliance = allIngredientsNative ? 'FULLY_NATIVE' :
+                (analysis.alternateComponentsUsed > 0 ? 'PARTIALLY_NATIVE' : 'NON_NATIVE');
+
+            console.log(`📊 Native analysis for ${recipe.outputName}: ${analysis.nativeResourceCompliance} (${analysis.nonNativeDependencies.length} non-native deps)`);
+        } else {
+            analysis.nativeResourceCompliance = 'NOT_REQUIRED';
+        }
+
+        // STANDARD DIFFICULTY ANALYSIS
         recipe.ingredients.forEach(ingredient => {
             const ingredientData = recipes.find(r => r.outputName === ingredient.name);
             if (ingredientData) {
@@ -153,12 +272,26 @@ const BuildingRecipes = () => {
 
         analysis.tierSpread = Math.max(0, analysis.tierComplexity - baseComplexity);
 
-        // Calculate difficulty score (ensure it's never negative)
+        // ENHANCED DIFFICULTY SCORING with native resource penalties/bonuses
         let score = baseComplexity + // Base difficulty from resource tier
-            (analysis.planetDependencies.size * 1.5) + // Planet complexity
+            ((analysis.planetDependencies?.size || analysis.planetDependenciesSize || 0) * 1.5) + // Planet complexity
             (analysis.tierSpread * 2) + // Tier spread penalty
             (recipe.ingredients.length * 0.5) + // Ingredient count
-            (analysis.issues.length * 3); // Issues penalty
+            ((analysis.issues?.length || analysis.issuesCount || 0) * 3); // Issues penalty
+
+        // Native resource bonuses/penalties
+        if (requiresNativeResources) {
+            if (analysis.isFullyNative) {
+                score = Math.max(0, score - 3); // Major bonus for fully native T1-T2 buildings
+                analysis.issues.push('✅ FULLY NATIVE: All resources available on target planets');
+            } else if (analysis.alternateComponentsUsed > 0) {
+                score = Math.max(0, score - 1); // Minor bonus for using alternates
+                analysis.issues.push(`🔧 PARTIALLY NATIVE: ${analysis.alternateComponentsUsed} alternate components generated`);
+            } else {
+                score += 2; // Penalty for non-native T1-T2 building
+                analysis.issues.push('⚠️ NON-NATIVE: Requires resources from other planets');
+            }
+        }
 
         // Bonus for native planet match (reduces difficulty)
         if (analysis.nativePlanetMatch) {
@@ -193,233 +326,411 @@ const BuildingRecipes = () => {
         return targetResource?.outputTier || 1;
     };
 
-    // Generate recipe for a building using REAL CSV data
+    // NATIVE RESOURCE VALIDATION SYSTEM
+    // Check if a component and its entire recipe chain are native to specified planets
+    const isRecipeChainNative = (componentName, targetPlanets, checkedComponents = new Set()) => {
+        // Prevent infinite recursion
+        if (checkedComponents.has(componentName)) {
+            return { isNative: true, nonNativeDependencies: [] }; // Already checked, assume OK
+        }
+        checkedComponents.add(componentName);
+
+        // Find the component recipe
+        const componentRecipe = recipes.find(r => r.outputName === componentName);
+        if (!componentRecipe) {
+            return { isNative: false, nonNativeDependencies: [`${componentName} (not found)`] };
+        }
+
+        // If it's a BASIC RESOURCE, check its planet availability
+        if (componentRecipe.outputType === 'BASIC RESOURCE') {
+            const resourcePlanets = componentRecipe.planetTypes ?
+                componentRecipe.planetTypes.split(';').map(p => p.trim()) : [];
+            const isNative = targetPlanets.some(targetPlanet =>
+                resourcePlanets.includes(targetPlanet)
+            );
+            return {
+                isNative: isNative,
+                nonNativeDependencies: isNative ? [] : [`${componentName} (${resourcePlanets.join(', ')})`]
+            };
+        }
+
+        // For COMPONENT/INGREDIENT, check all ingredients recursively
+        const nonNativeDependencies = [];
+        let allIngredientsNative = true;
+
+        // Handle both old and new ingredient formats
+        const ingredientsToCheck = [];
+
+        if (componentRecipe.ingredients && Array.isArray(componentRecipe.ingredients)) {
+            ingredientsToCheck.push(...componentRecipe.ingredients.map(ing => ing.name));
+        } else {
+            // Check Ingredient1, Ingredient2, etc.
+            for (let i = 1; i <= 9; i++) {
+                const ingredient = componentRecipe[`Ingredient${i}`];
+                if (ingredient && ingredient.trim()) {
+                    ingredientsToCheck.push(ingredient.trim());
+                }
+            }
+        }
+
+        for (const ingredientName of ingredientsToCheck) {
+            const ingredientCheck = isRecipeChainNative(ingredientName, targetPlanets, new Set(checkedComponents));
+            if (!ingredientCheck.isNative) {
+                allIngredientsNative = false;
+                nonNativeDependencies.push(...ingredientCheck.nonNativeDependencies);
+            }
+        }
+
+        return {
+            isNative: allIngredientsNative,
+            nonNativeDependencies: nonNativeDependencies
+        };
+    };
+
+    // ALTERNATE COMPONENT GENERATOR
+    // Generate planet-specific alternate components (like "SAB_Power Router")
+    const generateAlternateComponent = (originalComponent, targetPlanets, alternateVersion = '') => {
+        const availableResources = getAvailableResources();
+
+        // Create alternate component name
+        const planetPrefix = targetPlanets.length === 1 ?
+            getPlanetAbbreviation(targetPlanets[0]) : 'MULTI';
+        const alternateName = `${planetPrefix}_${originalComponent.outputName}${alternateVersion}`;
+
+        // Find native alternatives for each ingredient in the original recipe
+        const alternateIngredients = [];
+        const originalIngredients = [];
+
+        // Extract original ingredients
+        if (originalComponent.ingredients && Array.isArray(originalComponent.ingredients)) {
+            originalIngredients.push(...originalComponent.ingredients);
+        } else {
+            for (let i = 1; i <= 9; i++) {
+                const ingredient = originalComponent[`Ingredient${i}`];
+                const quantity = originalComponent[`Quantity${i}`];
+                if (ingredient && ingredient.trim()) {
+                    originalIngredients.push({ name: ingredient.trim(), quantity: parseInt(quantity) || 1 });
+                }
+            }
+        }
+
+        // For each original ingredient, find native alternatives
+        originalIngredients.forEach(ingredient => {
+            const nativeCheck = isRecipeChainNative(ingredient.name, targetPlanets);
+
+            if (nativeCheck.isNative) {
+                // Original ingredient is already native, keep it
+                alternateIngredients.push(ingredient);
+            } else {
+                // Find native alternative with same ComponentCategory/ResourceType
+                const originalIngredientData = recipes.find(r => r.outputName === ingredient.name);
+                if (originalIngredientData) {
+                    const componentCategory = originalIngredientData.ComponentCategory ||
+                        originalIngredientData.componentCategory;
+                    const resourceType = originalIngredientData.ResourceType ||
+                        originalIngredientData.resourceType;
+                    const tier = originalIngredientData.outputTier || originalIngredientData.OutputTier;
+
+                    // Find native alternatives with similar properties
+                    const nativeAlternatives = availableResources.buildingResources.filter(candidate => {
+                        if (!candidate.planetTypes) return false;
+
+                        const candidatePlanets = candidate.planetTypes.split(';').map(p => p.trim());
+                        const isNativeToTarget = targetPlanets.some(targetPlanet =>
+                            candidatePlanets.includes(targetPlanet)
+                        );
+
+                        if (!isNativeToTarget) return false;
+
+                        // Prefer same category and resource type
+                        const candidateCategory = candidate.ComponentCategory || candidate.componentCategory;
+                        const candidateResourceType = candidate.ResourceType || candidate.resourceType;
+                        const candidateTier = candidate.outputTier || candidate.OutputTier;
+
+                        // Must be same tier or lower, same resource type preferred
+                        return candidateTier <= tier &&
+                            (candidateResourceType === resourceType ||
+                                candidateCategory === componentCategory);
+                    });
+
+                    if (nativeAlternatives.length > 0) {
+                        // Select best alternative (prefer same tier, then same category)
+                        const bestAlternative = nativeAlternatives.sort((a, b) => {
+                            const aScore = ((a.outputTier || a.OutputTier) === tier ? 10 : 0) +
+                                ((a.ResourceType === resourceType) ? 5 : 0) +
+                                ((a.ComponentCategory === componentCategory) ? 3 : 0);
+                            const bScore = ((b.outputTier || b.OutputTier) === tier ? 10 : 0) +
+                                ((b.ResourceType === resourceType) ? 5 : 0) +
+                                ((b.ComponentCategory === componentCategory) ? 3 : 0);
+                            return bScore - aScore;
+                        })[0];
+
+                        alternateIngredients.push({
+                            name: bestAlternative.outputName || bestAlternative.OutputName,
+                            quantity: ingredient.quantity
+                        });
+
+                        console.log(`✅ Created native alternative: ${ingredient.name} → ${bestAlternative.outputName} for ${targetPlanets.join(', ')}`);
+                    } else {
+                        // No native alternative found, keep original but log warning
+                        alternateIngredients.push(ingredient);
+                        console.warn(`⚠️ No native alternative found for ${ingredient.name} on ${targetPlanets.join(', ')}`);
+                    }
+                } else {
+                    // Original ingredient not found, keep as is
+                    alternateIngredients.push(ingredient);
+                }
+            }
+        });
+
+        // Create the alternate component
+        const alternateComponent = {
+            ...originalComponent,
+            outputName: alternateName,
+            outputID: toKebabCase(alternateName),
+            planetTypes: targetPlanets.join(';'),
+            ingredients: alternateIngredients,
+            isAlternateComponent: true,
+            originalComponent: originalComponent.outputName,
+            targetPlanets: targetPlanets
+        };
+
+        return alternateComponent;
+    };
+
+    // Get planet abbreviation for naming
+    const getPlanetAbbreviation = (planetType) => {
+        const abbreviations = {
+            'System Asteroid Belt': 'SAB',
+            'Terrestrial Planet': 'TERR',
+            'Dark Planet': 'DARK',
+            'Gas Giant': 'GAS',
+            'Ice Giant': 'ICE',
+            'Oceanic Planet': 'OCEAN',
+            'Volcanic Planet': 'VOLC',
+            'Barren Planet': 'BARREN'
+        };
+        return abbreviations[planetType] || planetType.substring(0, 4).toUpperCase();
+    };
+
+    // Generate recipe for a building using NATIVE RESOURCE CONSTRAINTS
     const generateBuildingRecipe = (building) => {
         const availableResources = getAvailableResources();
         const resourcesWithBuildings = getResourcesWithBuildings();
         const tier = building.tier;
         const buildingPlanets = building.planetType ? building.planetType.split(';').map(p => p.trim()) : [];
-
-        // Get the tier of the resource this building extracts/processes
         const targetResourceTier = getTargetResourceTier(building);
-
-        // Use the higher of building tier or resource tier for complexity
         const complexityTier = Math.max(tier, targetResourceTier);
 
-        const candidateIngredients = [];
+        console.log(`🏗️ Generating ${tier <= 2 ? 'NATIVE' : 'FLEXIBLE'} recipe for ${building.buildingName} (T${tier}) on planets: ${buildingPlanets.join(', ')}`);
 
-        // Allow ingredients up to the complexity tier
-        for (let t = 1; t <= complexityTier; t++) {
-            const tierResources = availableResources.byTier[t] || [];
-            candidateIngredients.push(...tierResources);
-        }
+        // Use BuildingResource=TRUE components only
+        const candidateIngredients = availableResources.buildingResources.filter(resource => {
+            // Must be COMPONENT or INGREDIENT (no raw resources directly in building recipes)
+            if (!['COMPONENT', 'INGREDIENT'].includes(resource.outputType)) return false;
 
-        // Approved building materials list
-        const approvedBuildingMaterials = new Set([
-            // Core Structural Materials
-            'Steel', 'Iron', 'Titanium', 'Aluminum', 'Titanium Alloy', 'Steel Alloy',
-            'Carbon Fiber', 'Framework 1', 'Framework 3', 'Silica',
+            // Must be at or below complexity tier
+            const resourceTier = resource.outputTier || resource.OutputTier || 1;
+            if (resourceTier > complexityTier) return false;
 
-            // Electronic & Control Systems
-            'Circuit Board', 'Copper Wire', 'Fiber Optic Bundle', 'Sensor Chip',
-            'Control Circuit', 'Power Junction Hub', 'Quantum Data Processor', 'Neural Processing Core',
+            // Must have production buildings available
+            if (!resourcesWithBuildings.has(resource.outputName || resource.OutputName)) return false;
 
-            // Mechanical Components
-            'Drive Motor', 'Servo Motor', 'Magnet', 'Mounting Hardware', 'Transport Belt',
-            'Flow Regulator', 'Sealing Ring', 'Lock Mechanism',
-
-            // Specialized Processing Equipment
-            'Thermal Distribution System', 'Cooling System', 'Energy Capacitor',
-            'Pressure Vessel Steel', 'Pressure Vessel Titanium', 'Quantum Energy Conduits', 'Superconductor Grid',
-
-            // Quality & Safety Systems
-            'Scanner Module', 'Thermal Sensor', 'Performance Monitor',
-            'Circuit Breaker Assembly', 'Surge Absorber', 'Repair Kit 1', 'Repair Kit 3',
-
-            // Advanced/Specialized Materials
-            'Quantum Shield Core', 'Osmium Plating', 'Platinum Alloy', 'Tungsten Composite',
-            'Polymer', 'Graphene'
-        ]);
-
-        const filteredCandidates = candidateIngredients.filter(resource => {
-            if (resource.outputType === 'BASIC RESOURCE') return false;
-            if (!approvedBuildingMaterials.has(resource.outputName)) return false;
-            if (!resourcesWithBuildings.has(resource.outputName)) return false;
             return true;
         });
 
-        // Categorize by building type and purpose
-        const buildingType = building.type.toLowerCase();
-        const buildingName = building.buildingName.toLowerCase();
+        console.log(`📦 Found ${candidateIngredients.length} BuildingResource candidates for ${building.buildingName}`);
 
-        const componentsByCategory = {
-            structural: filteredCandidates.filter(r => {
-                const structuralMaterials = ['Steel', 'Iron', 'Titanium', 'Aluminum', 'Titanium Alloy', 'Steel Alloy',
-                    'Carbon Fiber', 'Framework 1', 'Framework 3', 'Silica'];
-                return structuralMaterials.includes(r.outputName);
-            }),
-            electronic: filteredCandidates.filter(r => {
-                const electronicMaterials = ['Circuit Board', 'Copper Wire', 'Fiber Optic Bundle', 'Sensor Chip',
-                    'Control Circuit', 'Power Junction Hub', 'Quantum Data Processor', 'Neural Processing Core', 'Graphene'];
-                return electronicMaterials.includes(r.outputName);
-            }),
-            mechanical: filteredCandidates.filter(r => {
-                const mechanicalMaterials = ['Drive Motor', 'Servo Motor', 'Magnet', 'Mounting Hardware',
-                    'Transport Belt', 'Flow Regulator', 'Sealing Ring', 'Lock Mechanism'];
-                return mechanicalMaterials.includes(r.outputName);
-            }),
-            processing: filteredCandidates.filter(r => {
-                const processingMaterials = ['Thermal Distribution System', 'Cooling System', 'Energy Capacitor',
-                    'Pressure Vessel Steel', 'Pressure Vessel Titanium', 'Quantum Energy Conduits', 'Superconductor Grid'];
-                return processingMaterials.includes(r.outputName);
-            }),
-            safety: filteredCandidates.filter(r => {
-                const safetyMaterials = ['Scanner Module', 'Thermal Sensor', 'Performance Monitor',
-                    'Circuit Breaker Assembly', 'Surge Absorber', 'Repair Kit 1', 'Repair Kit 3'];
-                return safetyMaterials.includes(r.outputName);
-            }),
-            advanced: filteredCandidates.filter(r => {
-                const advancedMaterials = ['Quantum Shield Core', 'Osmium Plating', 'Platinum Alloy',
-                    'Tungsten Composite', 'Polymer'];
-                return advancedMaterials.includes(r.outputName);
-            }),
-            thematic: filteredCandidates.filter(r => {
-                if (buildingType === 'extractor') {
-                    return ['Drive Motor', 'Servo Motor', 'Flow Regulator', 'Thermal Distribution System',
-                        'Scanner Module', 'Sealing Ring'].includes(r.outputName);
-                } else if (buildingType === 'processor') {
-                    return ['Thermal Distribution System', 'Cooling System', 'Flow Regulator', 'Energy Capacitor',
-                        'Pressure Vessel Steel', 'Pressure Vessel Titanium', 'Performance Monitor'].includes(r.outputName);
-                } else if (buildingType === 'hub') {
-                    return ['Control Circuit', 'Power Junction Hub', 'Quantum Data Processor', 'Neural Processing Core',
-                        'Fiber Optic Bundle', 'Circuit Breaker Assembly'].includes(r.outputName);
-                }
-                return false;
-            }),
-            native: filteredCandidates.filter(r => {
-                if (!r.planetTypes) return false;
-                const resourcePlanets = r.planetTypes.split(';').map(p => p.trim());
-                const hasMatchingPlanet = buildingPlanets.some(buildingPlanet =>
-                    resourcePlanets.includes(buildingPlanet) && buildingPlanet !== 'All Types'
-                );
-                return hasMatchingPlanet;
-            })
-        };
+        // ENFORCE NATIVE RESOURCE CONSTRAINTS FOR T1-T2 BUILDINGS
+        const requireNativeResources = tier <= 2;
+        let selectedIngredients = [];
+        let alternateComponents = []; // Track generated alternates
 
-        const selectedIngredients = [];
-        const usedBaseNames = new Set();
+        if (requireNativeResources && buildingPlanets.length > 0 && buildingPlanets[0] !== 'All Types') {
+            console.log(`🌍 NATIVE MODE: Finding native recipes for T${tier} ${building.buildingName} on ${buildingPlanets.join(', ')}`);
 
-        // Adjust ingredient count - fewer total ingredients for lower tiers to encourage native use
-        const baseIngredientCount = complexityTier <= 2 ? 3 : // T1-T2: 3 ingredients (mostly native)
-            complexityTier <= 3 ? 4 : // T3: 4 ingredients 
-                5 + Math.floor(complexityTier / 2); // T4+: 5-7 ingredients
-        const targetIngredientCount = Math.min(baseIngredientCount, 7);
-
-        // Helper function to add ingredient avoiding duplicates
-        const addIngredient = (candidates, maxCount = 1, preferHigherTier = false) => {
-            const availableCandidates = candidates.filter(r => {
-                const baseName = getBaseName(r.outputName);
-                const isAlreadyUsed = usedBaseNames.has(baseName) || selectedIngredients.includes(r.outputName);
-
-                // Extra check for Crystal Lattice variants specifically
-                const isCrystalLattice = r.outputName.toLowerCase().includes('crystal lattice');
-                const hasCrystalLatticeVariant = isCrystalLattice && selectedIngredients.some(existing =>
-                    existing.toLowerCase().includes('crystal lattice')
-                );
-
-                return !isAlreadyUsed &&
-                    !hasCrystalLatticeVariant &&
-                    (r.outputTier || 1) <= complexityTier;
-            }).sort((a, b) => {
-                if (preferHigherTier) {
-                    return (b.outputTier || 1) - (a.outputTier || 1); // Higher tier first
-                }
-                return (a.outputTier || 1) - (b.outputTier || 1); // Lower tier first
+            // Strategy 1: Find components that are already fully native
+            const fullyNativeComponents = candidateIngredients.filter(component => {
+                const nativeCheck = isRecipeChainNative(component.outputName || component.OutputName, buildingPlanets);
+                return nativeCheck.isNative;
             });
 
-            let added = 0;
-            for (const candidate of availableCandidates) {
-                if (added >= maxCount || selectedIngredients.length >= targetIngredientCount) break;
-                selectedIngredients.push(candidate.outputName);
-                usedBaseNames.add(getBaseName(candidate.outputName));
-                added++;
+            console.log(`✅ Found ${fullyNativeComponents.length} fully native components`);
+
+            // Strategy 2: Generate alternate components for non-native essentials
+            const essentialComponents = candidateIngredients.filter(component => {
+                const name = component.outputName || component.OutputName;
+                const componentCategory = component.ComponentCategory || component.componentCategory || '';
+                const resourceType = component.ResourceType || component.resourceType || '';
+
+                // Essential structural and electronic components
+                return componentCategory.includes('KINETIC') || componentCategory.includes('HABITAT') ||
+                    componentCategory.includes('ENERGY') || componentCategory.includes('EM') ||
+                    resourceType === 'INDUSTRIAL_CORE' || resourceType === 'ENERGY_MATRIX';
+            });
+
+            // For each essential non-native component, try to generate native alternate
+            const essentialNonNative = essentialComponents.filter(component => {
+                const nativeCheck = isRecipeChainNative(component.outputName || component.OutputName, buildingPlanets);
+                return !nativeCheck.isNative;
+            });
+
+            console.log(`🔧 Found ${essentialNonNative.length} essential non-native components, generating alternates...`);
+
+            essentialNonNative.forEach(component => {
+                try {
+                    const alternateComponent = generateAlternateComponent(component, buildingPlanets);
+                    alternateComponents.push(alternateComponent);
+                    console.log(`🎯 Generated alternate: ${alternateComponent.outputName}`);
+                } catch (error) {
+                    console.warn(`⚠️ Failed to generate alternate for ${component.outputName}:`, error.message);
+                }
+            });
+
+            // Combine native components and alternates
+            const availableNativeOptions = [...fullyNativeComponents, ...alternateComponents];
+
+            // Categorize native options for smart selection
+            const nativeCategories = {
+                structural: availableNativeOptions.filter(r => {
+                    const category = r.ComponentCategory || r.componentCategory || '';
+                    const resourceType = r.ResourceType || r.resourceType || '';
+                    return category.includes('KINETIC') || category.includes('HABITAT') ||
+                        resourceType === 'INDUSTRIAL_CORE';
+                }),
+                electronic: availableNativeOptions.filter(r => {
+                    const category = r.ComponentCategory || r.componentCategory || '';
+                    const resourceType = r.ResourceType || r.resourceType || '';
+                    return category.includes('ENERGY') || category.includes('EM') ||
+                        resourceType === 'ENERGY_MATRIX' || resourceType === 'DATA_CRYSTAL';
+                }),
+                specialized: availableNativeOptions.filter(r => {
+                    const category = r.ComponentCategory || r.componentCategory || '';
+                    return category.includes('UTILITY') || category.includes('THERMAL') ||
+                        category.includes('WEAPONS') || category.includes('PROPULSION');
+                })
+            };
+
+            // Select native ingredients with balanced categories
+            const targetIngredientCount = Math.min(3 + Math.floor(tier / 2), 5); // T1-T2: 3-4 ingredients
+            const usedComponents = new Set();
+
+            // Add 1 structural component
+            if (nativeCategories.structural.length > 0) {
+                const structural = nativeCategories.structural.filter(c => !usedComponents.has(c.outputName || c.OutputName))[0];
+                if (structural) {
+                    selectedIngredients.push(structural.outputName || structural.OutputName);
+                    usedComponents.add(structural.outputName || structural.OutputName);
+                }
             }
-            return added;
-        };
 
-        // For higher complexity, prefer higher tier components
-        const preferHigherTier = complexityTier >= 3;
-
-        // PRIORITIZE NATIVE PLANET COMPONENTS FIRST - especially for lower tiers
-        if (componentsByCategory.native.length > 0) {
-            // For lower tiers, use MORE native components to reduce planet dependencies
-            const nativeCount = complexityTier <= 2 ? Math.min(3, targetIngredientCount - 1) : // T1-T2: up to 3 native
-                complexityTier <= 3 ? Math.min(2, targetIngredientCount - 2) : // T3: up to 2 native  
-                    Math.min(1, targetIngredientCount - 3); // T4+: up to 1 native
-
-            addIngredient(componentsByCategory.native, nativeCount, preferHigherTier);
-        }
-
-        // Add structural components (essential for all buildings)
-        if (selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.structural, 1, preferHigherTier);
-        }
-
-        // Add electronic components (essential for all buildings)  
-        if (selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.electronic, 1, preferHigherTier);
-        }
-
-        // Add thematic components based on building type
-        if (selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.thematic, 1, preferHigherTier);
-        }
-
-        // Add mechanical components for extractors and processors
-        if ((buildingType === 'extractor' || buildingType === 'processor') && selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.mechanical, 1, preferHigherTier);
-        }
-
-        // Add processing equipment for higher complexity
-        if (complexityTier >= 2 && selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.processing, 1, preferHigherTier);
-        }
-
-        // Add safety systems for higher tiers
-        if (complexityTier >= 3 && selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.safety, 1, preferHigherTier);
-        }
-
-        // Add advanced materials for highest tiers
-        if (complexityTier >= 4 && selectedIngredients.length < targetIngredientCount) {
-            addIngredient(componentsByCategory.advanced, 1, preferHigherTier);
-        }
-
-        // Fill remaining slots with diverse components
-        if (selectedIngredients.length < targetIngredientCount) {
-            const remainingOptions = filteredCandidates.filter(r => {
-                const baseName = getBaseName(r.outputName);
-                return !usedBaseNames.has(baseName) &&
-                    !selectedIngredients.includes(r.outputName) &&
-                    (r.outputTier || 1) <= complexityTier;
-            }).sort((a, b) => {
-                if (preferHigherTier) {
-                    return (b.outputTier || 1) - (a.outputTier || 1);
+            // Add 1 electronic component
+            if (nativeCategories.electronic.length > 0 && selectedIngredients.length < targetIngredientCount) {
+                const electronic = nativeCategories.electronic.filter(c => !usedComponents.has(c.outputName || c.OutputName))[0];
+                if (electronic) {
+                    selectedIngredients.push(electronic.outputName || electronic.OutputName);
+                    usedComponents.add(electronic.outputName || electronic.OutputName);
                 }
-                return (a.outputTier || 1) - (b.outputTier || 1);
-            });
+            }
 
-            addIngredient(remainingOptions, targetIngredientCount - selectedIngredients.length, preferHigherTier);
+            // Fill remaining with specialized or any available native components
+            while (selectedIngredients.length < targetIngredientCount && availableNativeOptions.length > usedComponents.size) {
+                const remaining = availableNativeOptions.filter(c => !usedComponents.has(c.outputName || c.OutputName));
+                if (remaining.length === 0) break;
+
+                const next = remaining[0];
+                selectedIngredients.push(next.outputName || next.OutputName);
+                usedComponents.add(next.outputName || next.OutputName);
+            }
+
+            console.log(`🏠 NATIVE RECIPE: Selected ${selectedIngredients.length} native ingredients for ${building.buildingName}`);
+
+        } else {
+            // T3-T5 buildings: Flexible resource selection (original logic)
+            console.log(`🌐 FLEXIBLE MODE: Generating T${tier} recipe for ${building.buildingName}`);
+
+            // Use original flexible selection logic for higher tiers
+            const componentsByCategory = {
+                structural: candidateIngredients.filter(r => {
+                    const category = (r.ComponentCategory || r.componentCategory || '').toLowerCase();
+                    const resourceType = (r.ResourceType || r.resourceType || '').toLowerCase();
+                    return category.includes('kinetic') || category.includes('habitat') ||
+                        resourceType.includes('industrial');
+                }),
+                electronic: candidateIngredients.filter(r => {
+                    const category = (r.ComponentCategory || r.componentCategory || '').toLowerCase();
+                    const resourceType = (r.ResourceType || r.resourceType || '').toLowerCase();
+                    return category.includes('energy') || category.includes('em') ||
+                        resourceType.includes('energy') || resourceType.includes('data');
+                }),
+                specialized: candidateIngredients.filter(r => {
+                    const category = (r.ComponentCategory || r.componentCategory || '').toLowerCase();
+                    return category.includes('utility') || category.includes('thermal') ||
+                        category.includes('weapons') || category.includes('propulsion');
+                }),
+                native: candidateIngredients.filter(r => {
+                    if (!r.planetTypes) return false;
+                    const resourcePlanets = r.planetTypes.split(';').map(p => p.trim());
+                    return buildingPlanets.some(bp => resourcePlanets.includes(bp));
+                })
+            };
+
+            const usedComponents = new Set();
+            const targetIngredientCount = Math.min(4 + Math.floor(tier / 2), 7); // T3+: 4-7 ingredients
+
+            // Prefer native components even in flexible mode
+            if (componentsByCategory.native.length > 0) {
+                const nativeCount = Math.min(2, targetIngredientCount - 2);
+                for (let i = 0; i < nativeCount && selectedIngredients.length < targetIngredientCount; i++) {
+                    const native = componentsByCategory.native.filter(c => !usedComponents.has(c.outputName || c.OutputName))[i];
+                    if (native) {
+                        selectedIngredients.push(native.outputName || native.OutputName);
+                        usedComponents.add(native.outputName || native.OutputName);
+                    }
+                }
+            }
+
+            // Add structural
+            if (selectedIngredients.length < targetIngredientCount) {
+                const structural = componentsByCategory.structural.filter(c => !usedComponents.has(c.outputName || c.OutputName))[0];
+                if (structural) {
+                    selectedIngredients.push(structural.outputName || structural.OutputName);
+                    usedComponents.add(structural.outputName || structural.OutputName);
+                }
+            }
+
+            // Add electronic
+            if (selectedIngredients.length < targetIngredientCount) {
+                const electronic = componentsByCategory.electronic.filter(c => !usedComponents.has(c.outputName || c.OutputName))[0];
+                if (electronic) {
+                    selectedIngredients.push(electronic.outputName || electronic.OutputName);
+                    usedComponents.add(electronic.outputName || electronic.OutputName);
+                }
+            }
+
+            // Fill with specialized and remaining components
+            while (selectedIngredients.length < targetIngredientCount) {
+                const remaining = candidateIngredients.filter(c => !usedComponents.has(c.outputName || c.OutputName));
+                if (remaining.length === 0) break;
+
+                const next = remaining[0];
+                selectedIngredients.push(next.outputName || next.OutputName);
+                usedComponents.add(next.outputName || next.OutputName);
+            }
+
+            console.log(`🌐 FLEXIBLE RECIPE: Selected ${selectedIngredients.length} ingredients for ${building.buildingName}`);
         }
 
         // Fallback if no ingredients found
         if (selectedIngredients.length === 0) {
-            const fallbackOptions = candidateIngredients.filter(r => (r.outputTier || 1) === 1);
-            if (fallbackOptions.length > 0) {
-                selectedIngredients.push(fallbackOptions[0].outputName);
+            console.warn(`⚠️ No suitable ingredients found for ${building.buildingName}, using fallback`);
+            const fallback = candidateIngredients.filter(r => (r.outputTier || r.OutputTier || 1) === 1)[0];
+            if (fallback) {
+                selectedIngredients.push(fallback.outputName || fallback.OutputName);
             }
         }
 
+        // Create the recipe object
         const buildingKebabName = toKebabCase(building.buildingName);
         const recipe = {
             outputID: buildingKebabName,
@@ -434,7 +745,9 @@ const BuildingRecipes = () => {
             usageCategory: 'BUILDING',
             completionStatus: 'complete',
             productionSteps: tier,
-            targetResourceTier: targetResourceTier, // Store for analysis
+            targetResourceTier: targetResourceTier,
+            requiresNativeResources: requireNativeResources,
+            alternateComponents: alternateComponents, // Store generated alternates
             ingredients: selectedIngredients.map((ingredient, index) => ({
                 name: ingredient,
                 quantity: 1,
@@ -443,6 +756,16 @@ const BuildingRecipes = () => {
         };
 
         return recipe;
+    };
+
+    // Clear building recipes from storage and memory
+    const clearBuildingRecipes = () => {
+        if (window.confirm('Are you sure you want to clear all building recipes? This action cannot be undone.')) {
+            setBuildingRecipes([]);
+            localStorage.removeItem('building-recipes');
+            console.log('🗑️ Building recipes cleared from storage and memory');
+            alert('Building recipes cleared successfully!');
+        }
     };
 
     // Generate all building recipes with analysis
@@ -523,7 +846,7 @@ const BuildingRecipes = () => {
             'Ingredient1', 'Quantity1', 'Ingredient2', 'Quantity2', 'Ingredient3', 'Quantity3',
             'Ingredient4', 'Quantity4', 'Ingredient5', 'Quantity5', 'Ingredient6', 'Quantity6',
             'Ingredient7', 'Quantity7', 'Ingredient8', 'Quantity8', 'Ingredient9', 'Quantity9',
-            'CompletionStatus', 'ProductionSteps'
+            'CompletionStatus', 'ProductionSteps', 'RequiresNativeResources', 'NativeCompliance', 'AlternateComponentsUsed'
         ];
 
         const escapeCSVValue = (value) => {
@@ -559,6 +882,9 @@ const BuildingRecipes = () => {
 
                 row.push(escapeCSVValue(recipe.completionStatus));
                 row.push(escapeCSVValue(recipe.productionSteps));
+                row.push(escapeCSVValue(recipe.requiresNativeResources || false));
+                row.push(escapeCSVValue(recipe.analysis?.nativeResourceCompliance || 'UNKNOWN'));
+                row.push(escapeCSVValue(recipe.analysis?.alternateComponentsUsed || 0));
 
                 return row.join(',');
             })
@@ -568,9 +894,154 @@ const BuildingRecipes = () => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'building-recipes.csv';
+        a.download = 'building-recipes-with-native-analysis.csv';
         a.click();
         window.URL.revokeObjectURL(url);
+    };
+
+    // NATIVE RESOURCE ANALYSIS & REPORTING FUNCTIONS
+
+    // Generate native resource compliance report
+    const generateNativeResourceReport = () => {
+        const availableResources = getAvailableResources();
+        const t1t2Buildings = buildingRecipes.filter(recipe => recipe.outputTier <= 2);
+
+        const report = {
+            totalBuildings: buildingRecipes.length,
+            t1t2Buildings: t1t2Buildings.length,
+            buildingResourcesAvailable: availableResources.buildingResources.length,
+            complianceStats: {
+                fullyNative: 0,
+                partiallyNative: 0,
+                nonNative: 0,
+                notRequired: 0
+            },
+            planetAnalysis: {},
+            alternateComponentsGenerated: 0,
+            commonNativeGaps: {}
+        };
+
+        // Analyze compliance by planet type
+        t1t2Buildings.forEach(recipe => {
+            const compliance = recipe.analysis?.nativeResourceCompliance || 'UNKNOWN';
+            const planets = recipe.planetTypes ? recipe.planetTypes.split(';').map(p => p.trim()) : ['All Types'];
+
+            // Update compliance stats
+            switch (compliance) {
+                case 'FULLY_NATIVE': report.complianceStats.fullyNative++; break;
+                case 'PARTIALLY_NATIVE': report.complianceStats.partiallyNative++; break;
+                case 'NON_NATIVE': report.complianceStats.nonNative++; break;
+                default: report.complianceStats.notRequired++;
+            }
+
+            // Track alternate components
+            report.alternateComponentsGenerated += recipe.analysis?.alternateComponentsUsed || 0;
+
+            // Analyze by planet type
+            planets.forEach(planet => {
+                if (planet !== 'All Types') {
+                    if (!report.planetAnalysis[planet]) {
+                        report.planetAnalysis[planet] = {
+                            totalBuildings: 0,
+                            fullyNative: 0,
+                            partiallyNative: 0,
+                            nonNative: 0,
+                            alternateComponents: 0
+                        };
+                    }
+
+                    const planetStats = report.planetAnalysis[planet];
+                    planetStats.totalBuildings++;
+
+                    switch (compliance) {
+                        case 'FULLY_NATIVE': planetStats.fullyNative++; break;
+                        case 'PARTIALLY_NATIVE': planetStats.partiallyNative++; break;
+                        case 'NON_NATIVE': planetStats.nonNative++; break;
+                    }
+
+                    planetStats.alternateComponents += recipe.analysis?.alternateComponentsUsed || 0;
+                }
+            });
+
+            // Track common gaps
+            if (recipe.analysis?.nonNativeDependencies) {
+                recipe.analysis.nonNativeDependencies.forEach(dep => {
+                    if (!report.commonNativeGaps[dep]) {
+                        report.commonNativeGaps[dep] = 0;
+                    }
+                    report.commonNativeGaps[dep]++;
+                });
+            }
+        });
+
+        // Generate markdown report
+        const timestamp = new Date().toISOString().split('T')[0];
+        let markdown = `# 🏗️ Native Resource Building Analysis Report\n\n`;
+        markdown += `**Generated:** ${timestamp}\n`;
+        markdown += `**Analysis Focus:** T1-T2 Buildings (Native Resource Requirements)\n\n`;
+
+        markdown += `## 📊 Overview Statistics\n\n`;
+        markdown += `- **Total Buildings:** ${report.totalBuildings}\n`;
+        markdown += `- **T1-T2 Buildings:** ${report.t1t2Buildings} (Native resource constraints)\n`;
+        markdown += `- **Building Resources Available:** ${report.buildingResourcesAvailable}\n`;
+        markdown += `- **Alternate Components Generated:** ${report.alternateComponentsGenerated}\n\n`;
+
+        markdown += `## 🎯 Native Resource Compliance (T1-T2 Buildings)\n\n`;
+        markdown += `- **✅ Fully Native:** ${report.complianceStats.fullyNative} (${(report.complianceStats.fullyNative / report.t1t2Buildings * 100).toFixed(1)}%)\n`;
+        markdown += `- **🔧 Partially Native:** ${report.complianceStats.partiallyNative} (${(report.complianceStats.partiallyNative / report.t1t2Buildings * 100).toFixed(1)}%)\n`;
+        markdown += `- **⚠️ Non-Native:** ${report.complianceStats.nonNative} (${(report.complianceStats.nonNative / report.t1t2Buildings * 100).toFixed(1)}%)\n`;
+        markdown += `- **🌐 Not Required:** ${report.complianceStats.notRequired} (${(report.complianceStats.notRequired / report.t1t2Buildings * 100).toFixed(1)}%)\n\n`;
+
+        markdown += `## 🌍 Planet-Specific Analysis\n\n`;
+        Object.entries(report.planetAnalysis)
+            .sort(([, a], [, b]) => b.totalBuildings - a.totalBuildings)
+            .forEach(([planet, stats]) => {
+                const nativeRate = ((stats.fullyNative + stats.partiallyNative) / stats.totalBuildings * 100).toFixed(1);
+                markdown += `### ${planet}\n`;
+                markdown += `- **Buildings:** ${stats.totalBuildings}\n`;
+                markdown += `- **Native Rate:** ${nativeRate}% (${stats.fullyNative} fully + ${stats.partiallyNative} partial)\n`;
+                markdown += `- **Non-Native:** ${stats.nonNative}\n`;
+                markdown += `- **Alternate Components:** ${stats.alternateComponents}\n\n`;
+            });
+
+        markdown += `## 🔧 Common Native Resource Gaps\n\n`;
+        markdown += `Resources that frequently require non-native dependencies:\n\n`;
+        Object.entries(report.commonNativeGaps)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 10)
+            .forEach(([resource, count]) => {
+                markdown += `- **${resource}:** ${count} buildings affected\n`;
+            });
+
+        markdown += `\n## 💡 Recommendations\n\n`;
+        if (report.complianceStats.nonNative > 0) {
+            markdown += `1. **Priority:** Address ${report.complianceStats.nonNative} non-native T1-T2 buildings\n`;
+        }
+        if (report.alternateComponentsGenerated > 0) {
+            markdown += `2. **Review:** ${report.alternateComponentsGenerated} alternate components generated - validate functionality\n`;
+        }
+
+        const worstPlanet = Object.entries(report.planetAnalysis)
+            .sort(([, a], [, b]) => (a.nonNative / a.totalBuildings) - (b.nonNative / b.totalBuildings))[0];
+        if (worstPlanet && worstPlanet[1].nonNative > 0) {
+            markdown += `3. **Focus Planet:** ${worstPlanet[0]} has the highest non-native rate (${worstPlanet[1].nonNative}/${worstPlanet[1].totalBuildings})\n`;
+        }
+
+        markdown += `\n---\n*Generated by Native Resource Building System v1.0*\n`;
+
+        // Export the report
+        const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', `native-resource-analysis-${timestamp}.md`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        console.log('📋 Native Resource Analysis Report generated:', report);
+        return report;
     };
 
     // Filter and sort recipes
@@ -636,11 +1107,29 @@ const BuildingRecipes = () => {
                     </button>
 
                     <button
+                        onClick={generateNativeResourceReport}
+                        className="btn-secondary"
+                        disabled={buildingRecipes.length === 0}
+                        title="Generate native resource compliance analysis report"
+                    >
+                        🌍 Native Analysis
+                    </button>
+
+                    <button
                         onClick={exportBuildingRecipesToCSV}
                         className="btn-secondary"
                         disabled={buildingRecipes.length === 0}
                     >
                         📤 Export CSV
+                    </button>
+
+                    <button
+                        onClick={clearBuildingRecipes}
+                        className="btn-danger"
+                        disabled={buildingRecipes.length === 0}
+                        title="Clear all building recipes from storage (useful if encountering storage quota issues)"
+                    >
+                        🗑️ Clear Recipes
                     </button>
                 </div>
             </div>
@@ -699,8 +1188,17 @@ const BuildingRecipes = () => {
                                                 {recipe.analysis?.nativePlanetMatch && (
                                                     <span className="native-indicator">🏠 Native</span>
                                                 )}
-                                                {recipe.analysis?.issues.length > 0 && (
-                                                    <span className="issues-indicator">⚠️ {recipe.analysis.issues.length} issues</span>
+                                                {recipe.analysis?.isFullyNative && (
+                                                    <span className="fully-native-indicator">🌍 Fully Native</span>
+                                                )}
+                                                {recipe.analysis?.alternateComponentsUsed > 0 && (
+                                                    <span className="alternate-components-indicator">🔧 {recipe.analysis.alternateComponentsUsed} Alt</span>
+                                                )}
+                                                {recipe.requiresNativeResources && recipe.analysis?.nativeResourceCompliance === 'NON_NATIVE' && (
+                                                    <span className="non-native-warning">⚠️ Non-Native</span>
+                                                )}
+                                                {(recipe.analysis?.issues?.length > 0 || recipe.analysis?.hasIssues) && (
+                                                    <span className="issues-indicator">❌ {recipe.analysis?.issues?.length || recipe.analysis?.issuesCount || 0} issues</span>
                                                 )}
                                             </div>
                                         </td>
@@ -739,7 +1237,7 @@ const BuildingRecipes = () => {
                                         </td>
                                         <td>
                                             <span className="planet-count">
-                                                🌍 {recipe.analysis?.planetDependencies.size || 0}
+                                                🌍 {recipe.analysis?.planetDependencies?.size || recipe.analysis?.planetDependenciesSize || 0}
                                             </span>
                                         </td>
                                         <td className="actions-cell">
@@ -790,11 +1288,13 @@ const BuildingRecipes = () => {
                                     <div className="detail-section">
                                         <h3>Analysis</h3>
                                         <p><strong>Difficulty Score:</strong> {selectedRecipe.analysis.difficultyScore}</p>
-                                        <p><strong>Planet Dependencies:</strong> {selectedRecipe.analysis.planetDependencies.size}</p>
+                                        <p><strong>Planet Dependencies:</strong> {selectedRecipe.analysis.planetDependencies?.size || selectedRecipe.analysis.planetDependenciesSize || 0}</p>
                                         <p><strong>Native Planet Match:</strong> {selectedRecipe.analysis.nativePlanetMatch ? 'Yes' : 'No'}</p>
                                         <p><strong>Tier Complexity:</strong> {selectedRecipe.analysis.tierComplexity}</p>
+                                        <p><strong>Native Resource Compliance:</strong> {selectedRecipe.analysis.nativeResourceCompliance}</p>
+                                        <p><strong>Alternate Components Used:</strong> {selectedRecipe.analysis.alternateComponentsUsed}</p>
 
-                                        {selectedRecipe.analysis.issues.length > 0 && (
+                                        {selectedRecipe.analysis.issues && selectedRecipe.analysis.issues.length > 0 && (
                                             <div className="issues-section">
                                                 <strong>Issues:</strong>
                                                 <ul>
