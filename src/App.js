@@ -10,6 +10,7 @@ import ProductionChainBuilder from './components/ProductionChainBuilder/Producti
 import ResourceBalancer from './components/ResourceBalancer/ResourceBalancer';
 import BuildingManager from './components/BuildingManager/BuildingManager';
 import BuildingRecipes from './components/BuildingRecipes/BuildingRecipes';
+import BuildingRecipeAnalyzer from './components/BuildingRecipeAnalyzer/BuildingRecipeAnalyzer';
 import RecipeComplexityAnalyzer from './components/RecipeComplexityAnalyzer/RecipeComplexityAnalyzer';
 import ProgressiveComplexityDashboard from './components/ProgressiveComplexityDashboard/ProgressiveComplexityDashboard';
 import ProgressiveComplexityAnalyzer from './components/ProgressiveComplexityAnalyzer/ProgressiveComplexityAnalyzer';
@@ -29,6 +30,7 @@ function App() {
               <Route path="/editor" element={<RecipeEditor />} />
               <Route path="/buildings" element={<BuildingManager />} />
               <Route path="/building-recipes" element={<BuildingRecipes />} />
+              <Route path="/recipe-analyzer" element={<BuildingRecipeAnalyzer />} />
               <Route path="/production-chains" element={<ProductionChainBuilder />} />
               <Route path="/resource-balancer" element={<ResourceBalancer />} />
               <Route path="/dependencies" element={<DependencyViewer />} />

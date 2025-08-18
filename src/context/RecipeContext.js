@@ -116,6 +116,14 @@ export const RecipeProvider = ({ children }) => {
     const value = {
         state,
         dispatch,
+        // Expose all recipes for analysis (combines all recipe types)
+        recipes: [
+            ...state.recipes,
+            ...state.components,
+            ...state.ingredients,
+            ...state.finals,
+            ...state.rawResources
+        ],
         // Helper functions
         addComponent: (component) => dispatch({ type: 'ADD_COMPONENT', payload: component }),
         addRawResource: (rawResource) => dispatch({ type: 'ADD_RAW_RESOURCE', payload: rawResource }),

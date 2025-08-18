@@ -1,0 +1,1069 @@
+OutputID	OutputName	OutputType	OutputTier	ConstructionTime	PlanetTypes	Factions	ResourceType	ProductionSteps	Ingredient1	Quantity1	Ingredient2	Quantity2	Ingredient3	Quantity3	Ingredient4	Quantity4	Ingredient5	Quantity5	Ingredient6	Quantity6	Ingredient7	Quantity7	Ingredient8	Quantity8
+
+# CENTRAL HUB (T1 uses raw materials, T2+ uses processed)
+barren-central-hub-t1	Central Hub	BUILDING	1	0	Barren Planet	MUD;ONI;USTUR	Infrastructure	0	Auto-Built	0														
+barren-central-hub-t2	Central Hub	BUILDING	2	300	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	25	Krypton Systems	20	Copper	15								
+barren-central-hub-t3	Central Hub	BUILDING	3	450	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	40	Metal Framework	35	Krypton Systems	28	Copper	20	Tin	15	Zinc	12				
+barren-central-hub-t4	Central Hub	BUILDING	4	600	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	50	Metal Framework	45	Krypton Systems	35	Copper	25	Tin	20	Zinc	18	Composite Plating	10		
+barren-central-hub-t5	Central Hub	BUILDING	5	750	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	60	Metal Framework	55	Krypton Systems	45	Copper	35	Tin	28	Zinc	25	Composite Plating	15		
+
+# HUBS (T1 uses raw materials for bootstrap, T2+ uses processed)
+barren-processing-hub-t1	Processing Hub	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Copper Ore	18	Tin Ore	12										
+barren-processing-hub-t2	Processing Hub	BUILDING	2	180	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Copper	12								
+barren-processing-hub-t3	Processing Hub	BUILDING	3	240	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	35	Metal Framework	28	Krypton Systems	20	Copper	15	Tin	12	Zinc	10				
+barren-processing-hub-t4	Processing Hub	BUILDING	4	360	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	45	Metal Framework	35	Krypton Systems	28	Copper	20	Tin	18	Zinc	15	Composite Plating	8		
+barren-processing-hub-t5	Processing Hub	BUILDING	5	480	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	55	Metal Framework	45	Krypton Systems	35	Copper	25	Tin	25	Zinc	20	Composite Plating	12		
+
+barren-extraction-hub-t1	Extraction Hub	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Copper Ore	18	Tin Ore	12										
+barren-extraction-hub-t2	Extraction Hub	BUILDING	2	180	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Copper	12								
+barren-extraction-hub-t3	Extraction Hub	BUILDING	3	240	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	35	Metal Framework	28	Krypton Systems	20	Copper	15	Tin	12	Zinc	10				
+barren-extraction-hub-t4	Extraction Hub	BUILDING	4	360	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	45	Metal Framework	35	Krypton Systems	28	Copper	20	Tin	18	Zinc	15	Composite Plating	8		
+barren-extraction-hub-t5	Extraction Hub	BUILDING	5	480	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	55	Metal Framework	45	Krypton Systems	35	Copper	25	Tin	25	Zinc	20	Composite Plating	12		
+
+barren-storage-hub-t1	Storage Hub	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Copper Ore	18	Tin Ore	12										
+barren-storage-hub-t2	Storage Hub	BUILDING	2	180	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Copper	12								
+barren-storage-hub-t3	Storage Hub	BUILDING	3	240	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	35	Metal Framework	28	Krypton Systems	20	Copper	15	Tin	12	Zinc	10				
+barren-storage-hub-t4	Storage Hub	BUILDING	4	360	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	45	Metal Framework	35	Krypton Systems	28	Copper	20	Tin	18	Zinc	15	Composite Plating	8		
+barren-storage-hub-t5	Storage Hub	BUILDING	5	480	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	55	Metal Framework	45	Krypton Systems	35	Copper	25	Tin	25	Zinc	20	Composite Plating	12		
+
+barren-farm-hub-t1	Farm Hub	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Copper Ore	18	Tin Ore	12										
+barren-farm-hub-t2	Farm Hub	BUILDING	2	180	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Copper	12								
+barren-farm-hub-t3	Farm Hub	BUILDING	3	240	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	35	Metal Framework	28	Krypton Systems	20	Copper	15	Tin	12	Zinc	10				
+barren-farm-hub-t4	Farm Hub	BUILDING	4	360	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	45	Metal Framework	35	Krypton Systems	28	Copper	20	Tin	18	Zinc	15	Composite Plating	8		
+barren-farm-hub-t5	Farm Hub	BUILDING	5	480	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	55	Metal Framework	45	Krypton Systems	35	Copper	25	Tin	25	Zinc	20	Composite Plating	12		
+
+barren-power-plant-t1	Power Plant	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	20	Copper Ore	15	Tin Ore	10										
+barren-power-plant-t2	Power Plant	BUILDING	2	135	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	25	Metal Framework	18	Krypton Systems	12	Copper	8								
+barren-power-plant-t3	Power Plant	BUILDING	3	180	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Copper	12	Tin	8	Zinc	6				
+barren-power-plant-t4	Power Plant	BUILDING	4	270	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	35	Metal Framework	28	Krypton Systems	20	Copper	15	Tin	12	Zinc	10	Composite Plating	6		
+barren-power-plant-t5	Power Plant	BUILDING	5	360	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	45	Metal Framework	35	Krypton Systems	25	Copper	20	Tin	18	Zinc	15	Composite Plating	10		
+
+barren-crew-quarters-t1	Crew Quarters	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	20	Copper Ore	15	Tin Ore	10										
+barren-crew-quarters-t2	Crew Quarters	BUILDING	2	135	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	25	Metal Framework	18	Krypton Systems	12	Copper	8								
+barren-crew-quarters-t3	Crew Quarters	BUILDING	3	180	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Copper	12	Tin	8	Zinc	6				
+barren-crew-quarters-t4	Crew Quarters	BUILDING	4	270	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	35	Metal Framework	28	Krypton Systems	20	Copper	15	Tin	12	Zinc	10	Composite Plating	6		
+barren-crew-quarters-t5	Crew Quarters	BUILDING	5	360	Barren Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Panels	45	Metal Framework	35	Krypton Systems	25	Copper	20	Tin	18	Zinc	15	Composite Plating	10		
+
+# BASIC COMPONENT PROCESSORS (Convert Raw Materials to Basic Components - Bootstrap Exception)
+barren-arco-panels-processor-t1	Arco Panels Processor	BUILDING	1	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Arco	15	Zinc	12												
+barren-arco-panels-processor-t2	Arco Panels Processor	BUILDING	2	45	Barren Planet	MUD;ONI;USTUR	Processing	1	Arco	18	Zinc	15	Copper	8										
+barren-arco-panels-processor-t3	Arco Panels Processor	BUILDING	3	30	Barren Planet	MUD;ONI;USTUR	Processing	1	Arco	20	Zinc	18	Copper	12	Tin	6								
+barren-arco-panels-processor-t4	Arco Panels Processor	BUILDING	4	25	Barren Planet	MUD;ONI;USTUR	Processing	1	Arco	25	Zinc	20	Copper	15	Tin	10	Lithium Ore	4						
+barren-arco-panels-processor-t5	Arco Panels Processor	BUILDING	5	20	Barren Planet	MUD;ONI;USTUR	Processing	1	Arco	30	Zinc	25	Copper	18	Tin	12	Lithium Ore	8	Rochinol	3				
+
+barren-metal-framework-processor-t1	Metal Framework Processor	BUILDING	1	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	18	Zinc	15	Tin	10										
+barren-metal-framework-processor-t2	Metal Framework Processor	BUILDING	2	45	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	20	Zinc	18	Tin	12	Arco	8								
+barren-metal-framework-processor-t3	Metal Framework Processor	BUILDING	3	30	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	25	Zinc	20	Tin	15	Arco	10	Krypton	6							
+barren-metal-framework-processor-t4	Metal Framework Processor	BUILDING	4	25	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	30	Zinc	25	Tin	18	Arco	12	Krypton	8	Lithium Ore	4					
+barren-metal-framework-processor-t5	Metal Framework Processor	BUILDING	5	20	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	35	Zinc	30	Tin	22	Arco	15	Krypton	10	Lithium Ore	6	Rochinol	2			
+
+barren-krypton-systems-processor-t1	Krypton Systems Processor	BUILDING	1	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	18	Copper	15												
+barren-krypton-systems-processor-t2	Krypton Systems Processor	BUILDING	2	45	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	20	Copper	18	Zinc	8										
+barren-krypton-systems-processor-t3	Krypton Systems Processor	BUILDING	3	30	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	25	Copper	20	Zinc	12	Tin	6								
+barren-krypton-systems-processor-t4	Krypton Systems Processor	BUILDING	4	25	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	30	Copper	25	Zinc	15	Tin	10	Arco	4						
+barren-krypton-systems-processor-t5	Krypton Systems Processor	BUILDING	5	20	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	35	Copper	30	Zinc	18	Tin	12	Arco	8	Lithium Ore	2				
+
+# REFINED ORE PROCESSORS (Convert Ores to Refined Metals)
+barren-copper-processor-t1	Copper Processor	BUILDING	1	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper Ore	15	Zinc	12												
+barren-copper-processor-t2	Copper Processor	BUILDING	2	45	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper Ore	18	Zinc	15	Tin	8										
+barren-copper-processor-t3	Copper Processor	BUILDING	3	30	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper Ore	20	Zinc	18	Tin	12	Arco	6								
+barren-copper-processor-t4	Copper Processor	BUILDING	4	25	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper Ore	25	Zinc	20	Tin	15	Arco	10	Krypton	4						
+barren-copper-processor-t5	Copper Processor	BUILDING	5	20	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper Ore	30	Zinc	25	Tin	18	Arco	12	Krypton	8	Lithium Ore	2				
+
+barren-tin-processor-t1	Tin Processor	BUILDING	1	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Tin Ore	15	Copper	12												
+barren-tin-processor-t2	Tin Processor	BUILDING	2	45	Barren Planet	MUD;ONI;USTUR	Processing	1	Tin Ore	18	Copper	15	Zinc	8										
+barren-tin-processor-t3	Tin Processor	BUILDING	3	30	Barren Planet	MUD;ONI;USTUR	Processing	1	Tin Ore	20	Copper	18	Zinc	12	Arco	6								
+barren-tin-processor-t4	Tin Processor	BUILDING	4	25	Barren Planet	MUD;ONI;USTUR	Processing	1	Tin Ore	25	Copper	20	Zinc	15	Arco	10	Krypton	4						
+barren-tin-processor-t5	Tin Processor	BUILDING	5	20	Barren Planet	MUD;ONI;USTUR	Processing	1	Tin Ore	30	Copper	25	Zinc	18	Arco	12	Krypton	8	Lithium Ore	2				
+
+barren-zinc-processor-t1	Zinc Processor	BUILDING	1	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc Ore	15	Copper	12												
+barren-zinc-processor-t2	Zinc Processor	BUILDING	2	45	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc Ore	18	Copper	15	Tin	8										
+barren-zinc-processor-t3	Zinc Processor	BUILDING	3	30	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc Ore	20	Copper	18	Tin	12	Arco	6								
+barren-zinc-processor-t4	Zinc Processor	BUILDING	4	25	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc Ore	25	Copper	20	Tin	15	Arco	10	Krypton	4						
+barren-zinc-processor-t5	Zinc Processor	BUILDING	5	20	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc Ore	30	Copper	25	Tin	18	Arco	12	Krypton	8	Lithium Ore	2				
+
+barren-lithium-processor-t1	Lithium Processor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium Ore	15	Arco	12	Copper	8										
+barren-lithium-processor-t2	Lithium Processor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium Ore	18	Arco	15	Copper	12	Zinc	6								
+barren-lithium-processor-t3	Lithium Processor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium Ore	20	Arco	18	Copper	15	Zinc	10	Tin	4						
+barren-lithium-processor-t4	Lithium Processor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium Ore	25	Arco	20	Copper	18	Zinc	12	Tin	8	Krypton	3				
+barren-lithium-processor-t5	Lithium Processor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium Ore	30	Arco	25	Copper	22	Zinc	15	Tin	12	Krypton	6				
+
+barren-manganese-processor-t1	Manganese Processor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	15	Arco	12	Copper	8										
+barren-manganese-processor-t2	Manganese Processor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	18	Arco	15	Copper	12	Zinc	6								
+barren-manganese-processor-t3	Manganese Processor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	20	Arco	18	Copper	15	Zinc	10	Tin	4						
+barren-manganese-processor-t4	Manganese Processor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	25	Arco	20	Copper	18	Zinc	12	Tin	8	Krypton	3				
+barren-manganese-processor-t5	Manganese Processor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	30	Arco	25	Copper	22	Zinc	15	Tin	12	Krypton	6				
+
+barren-tungsten-processor-t1	Tungsten Processor	BUILDING	1	150	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten Ore	18	Arco	15	Copper	12	Zinc	8								
+barren-tungsten-processor-t2	Tungsten Processor	BUILDING	2	120	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten Ore	22	Arco	18	Copper	15	Zinc	12	Tin	6						
+barren-tungsten-processor-t3	Tungsten Processor	BUILDING	3	100	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten Ore	25	Arco	20	Copper	18	Zinc	15	Tin	10	Lithium	4				
+barren-tungsten-processor-t4	Tungsten Processor	BUILDING	4	80	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten Ore	30	Arco	25	Copper	22	Zinc	18	Tin	12	Lithium	8	Manganese	3		
+barren-tungsten-processor-t5	Tungsten Processor	BUILDING	5	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten Ore	35	Arco	30	Copper	25	Zinc	20	Tin	15	Lithium	12	Manganese	6		
+
+barren-vanadium-processor-t1	Vanadium Processor	BUILDING	1	150	Barren Planet	MUD;ONI;USTUR	Processing	1	Vanadium Ore	18	Arco	15	Copper	12	Zinc	8								
+barren-vanadium-processor-t2	Vanadium Processor	BUILDING	2	120	Barren Planet	MUD;ONI;USTUR	Processing	1	Vanadium Ore	22	Arco	18	Copper	15	Zinc	12	Tin	6						
+barren-vanadium-processor-t3	Vanadium Processor	BUILDING	3	100	Barren Planet	MUD;ONI;USTUR	Processing	1	Vanadium Ore	25	Arco	20	Copper	18	Zinc	15	Tin	10	Lithium	4				
+barren-vanadium-processor-t4	Vanadium Processor	BUILDING	4	80	Barren Planet	MUD;ONI;USTUR	Processing	1	Vanadium Ore	30	Arco	25	Copper	22	Zinc	18	Tin	12	Lithium	8	Manganese	3		
+barren-vanadium-processor-t5	Vanadium Processor	BUILDING	5	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Vanadium Ore	35	Arco	30	Copper	25	Zinc	20	Tin	15	Lithium	12	Manganese	6		
+
+barren-resonium-processor-t1	Resonium Processor	BUILDING	1	240	Barren Planet	MUD	Processing	1	Resonium Ore	25	Tungsten	20	Vanadium	18	Lithium	15								
+barren-resonium-processor-t2	Resonium Processor	BUILDING	2	200	Barren Planet	MUD	Processing	1	Resonium Ore	30	Tungsten	25	Vanadium	22	Lithium	18	Manganese	12						
+barren-resonium-processor-t3	Resonium Processor	BUILDING	3	160	Barren Planet	MUD	Processing	1	Resonium Ore	35	Tungsten	30	Vanadium	25	Lithium	20	Manganese	15	Composite Plating	10				
+barren-resonium-processor-t4	Resonium Processor	BUILDING	4	120	Barren Planet	MUD	Processing	1	Resonium Ore	40	Tungsten	35	Vanadium	30	Lithium	25	Manganese	20	Composite Plating	15	Tungsten Framework	8		
+barren-resonium-processor-t5	Resonium Processor	BUILDING	5	100	Barren Planet	MUD	Processing	1	Resonium Ore	50	Tungsten	40	Vanadium	35	Lithium	30	Manganese	25	Composite Plating	20	Tungsten Framework	12		
+
+# ADVANCED COMPONENT PROCESSORS (Use processed materials)
+barren-composite-plating-processor-t1	Composite Plating Processor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium	20	Manganese	15	Tin	12										
+barren-composite-plating-processor-t2	Composite Plating Processor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium	25	Manganese	18	Tin	15	Arco Panels	6								
+barren-composite-plating-processor-t3	Composite Plating Processor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium	30	Manganese	22	Tin	18	Arco Panels	10	Metal Framework	4						
+barren-composite-plating-processor-t4	Composite Plating Processor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium	35	Manganese	25	Tin	22	Arco Panels	12	Metal Framework	8	Krypton Systems	3				
+barren-composite-plating-processor-t5	Composite Plating Processor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Processing	1	Lithium	40	Manganese	30	Tin	25	Arco Panels	15	Metal Framework	12	Krypton Systems	6				
+
+barren-tungsten-framework-processor-t1	Tungsten Framework Processor	BUILDING	1	150	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	25	Vanadium	18	Arco	12										
+barren-tungsten-framework-processor-t2	Tungsten Framework Processor	BUILDING	2	120	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	30	Vanadium	22	Arco	15	Lithium	8								
+barren-tungsten-framework-processor-t3	Tungsten Framework Processor	BUILDING	3	100	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	35	Vanadium	25	Arco	18	Lithium	12	Manganese	6						
+barren-tungsten-framework-processor-t4	Tungsten Framework Processor	BUILDING	4	80	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	40	Vanadium	30	Arco	22	Lithium	15	Manganese	10	Composite Plating	4				
+barren-tungsten-framework-processor-t5	Tungsten Framework Processor	BUILDING	5	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	50	Vanadium	35	Arco	25	Lithium	20	Manganese	15	Composite Plating	8				
+
+barren-resonium-matrix-processor-t1	Resonium Matrix Processor	BUILDING	1	240	Barren Planet	MUD;ONI;USTUR	Processing	1	Resonium	30	Tungsten	25	Lithium	20										
+barren-resonium-matrix-processor-t2	Resonium Matrix Processor	BUILDING	2	200	Barren Planet	MUD;ONI;USTUR	Processing	1	Resonium	35	Tungsten	30	Lithium	25	Vanadium	15								
+barren-resonium-matrix-processor-t3	Resonium Matrix Processor	BUILDING	3	160	Barren Planet	MUD;ONI;USTUR	Processing	1	Resonium	40	Tungsten	35	Lithium	30	Vanadium	20	Tungsten Framework	12						
+barren-resonium-matrix-processor-t4	Resonium Matrix Processor	BUILDING	4	120	Barren Planet	MUD;ONI;USTUR	Processing	1	Resonium	50	Tungsten	40	Lithium	35	Vanadium	25	Tungsten Framework	18	Composite Plating	10				
+barren-resonium-matrix-processor-t5	Resonium Matrix Processor	BUILDING	5	100	Barren Planet	MUD;ONI;USTUR	Processing	1	Resonium	60	Tungsten	50	Lithium	40	Vanadium	30	Tungsten Framework	25	Composite Plating	15				
+
+# EXISTING COMPONENT PROCESSORS (Reusing compatible components)
+barren-copper-wire-processor-t1	Copper Wire Processor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	20	Arco Panels	12	Metal Framework	8										
+barren-copper-wire-processor-t2	Copper Wire Processor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	25	Arco Panels	15	Metal Framework	12	Krypton Systems	6								
+barren-copper-wire-processor-t3	Copper Wire Processor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	30	Arco Panels	18	Metal Framework	15	Krypton Systems	10	Tin	4						
+barren-copper-wire-processor-t4	Copper Wire Processor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	35	Arco Panels	22	Metal Framework	18	Krypton Systems	12	Tin	8	Zinc	3				
+barren-copper-wire-processor-t5	Copper Wire Processor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Processing	1	Copper	40	Arco Panels	25	Metal Framework	20	Krypton Systems	15	Tin	12	Zinc	6				
+
+barren-ground-plate-processor-t1	Ground Plate Processor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc	20	Copper	15	Arco Panels	8										
+barren-ground-plate-processor-t2	Ground Plate Processor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc	25	Copper	18	Arco Panels	12	Metal Framework	6								
+barren-ground-plate-processor-t3	Ground Plate Processor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc	30	Copper	20	Arco Panels	15	Metal Framework	10	Tin	4						
+barren-ground-plate-processor-t4	Ground Plate Processor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc	35	Copper	25	Arco Panels	18	Metal Framework	12	Tin	8	Lithium	3				
+barren-ground-plate-processor-t5	Ground Plate Processor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Processing	1	Zinc	40	Copper	30	Arco Panels	22	Metal Framework	15	Tin	12	Lithium	6				
+
+barren-inert-gas-canisters-processor-t1	Inert Gas Canisters Processor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	25	Arco Panels	12	Metal Framework	8										
+barren-inert-gas-canisters-processor-t2	Inert Gas Canisters Processor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	30	Arco Panels	15	Metal Framework	12	Copper	6								
+barren-inert-gas-canisters-processor-t3	Inert Gas Canisters Processor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	35	Arco Panels	18	Metal Framework	15	Copper	10	Zinc	4						
+barren-inert-gas-canisters-processor-t4	Inert Gas Canisters Processor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	40	Arco Panels	22	Metal Framework	18	Copper	12	Zinc	8	Tin	3				
+barren-inert-gas-canisters-processor-t5	Inert Gas Canisters Processor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Processing	1	Krypton	45	Arco Panels	25	Metal Framework	20	Copper	15	Zinc	12	Tin	6				
+
+barren-tungsten-core-processor-t1	Tungsten Core Processor	BUILDING	1	150	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	25	Arco Panels	18	Metal Framework	12										
+barren-tungsten-core-processor-t2	Tungsten Core Processor	BUILDING	2	120	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	30	Arco Panels	22	Metal Framework	15	Krypton Systems	8								
+barren-tungsten-core-processor-t3	Tungsten Core Processor	BUILDING	3	100	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	35	Arco Panels	25	Metal Framework	18	Krypton Systems	12	Composite Plating	6						
+barren-tungsten-core-processor-t4	Tungsten Core Processor	BUILDING	4	80	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	40	Arco Panels	30	Metal Framework	22	Krypton Systems	15	Composite Plating	10	Vanadium	4				
+barren-tungsten-core-processor-t5	Tungsten Core Processor	BUILDING	5	60	Barren Planet	MUD;ONI;USTUR	Processing	1	Tungsten	50	Arco Panels	35	Metal Framework	25	Krypton Systems	20	Composite Plating	15	Vanadium	8				
+
+# RAW RESOURCE EXTRACTORS
+# T1 Resources: Arco, Copper Ore, Krypton, Tin Ore, Zinc Ore
+barren-arco-extractor-t1	Arco Extractor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	10	Metal Framework	8												
+barren-arco-extractor-t2	Arco Extractor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Metal Framework	10	Krypton Systems	4										
+barren-arco-extractor-t3	Arco Extractor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Metal Framework	12	Krypton Systems	6	Copper	3								
+barren-arco-extractor-t4	Arco Extractor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Metal Framework	15	Krypton Systems	8	Copper	5	Zinc	2						
+barren-arco-extractor-t5	Arco Extractor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	20	Metal Framework	18	Krypton Systems	10	Copper	8	Zinc	5	Tin	2				
+
+barren-copper-ore-extractor-t1	Copper Ore Extractor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	8	Krypton Systems	6												
+barren-copper-ore-extractor-t2	Copper Ore Extractor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	10	Krypton Systems	8	Metal Framework	4										
+barren-copper-ore-extractor-t3	Copper Ore Extractor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Krypton Systems	10	Metal Framework	6	Tin	3								
+barren-copper-ore-extractor-t4	Copper Ore Extractor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Krypton Systems	12	Metal Framework	8	Tin	5	Zinc	2						
+barren-copper-ore-extractor-t5	Copper Ore Extractor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Krypton Systems	15	Metal Framework	10	Tin	8	Zinc	5	Lithium	2				
+
+barren-krypton-extractor-t1	Krypton Extractor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	10	Metal Framework	8	Copper Wire	6										
+barren-krypton-extractor-t2	Krypton Extractor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Metal Framework	10	Copper Wire	8	Zinc	4								
+barren-krypton-extractor-t3	Krypton Extractor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Metal Framework	12	Copper Wire	10	Zinc	6	Tin	3						
+barren-krypton-extractor-t4	Krypton Extractor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Metal Framework	15	Copper Wire	12	Zinc	8	Tin	5	Lithium	2				
+barren-krypton-extractor-t5	Krypton Extractor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	20	Metal Framework	18	Copper Wire	15	Zinc	10	Tin	8	Lithium	5	Manganese	2		
+
+barren-tin-ore-extractor-t1	Tin Ore Extractor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	8	Copper Wire	6												
+barren-tin-ore-extractor-t2	Tin Ore Extractor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	10	Copper Wire	8	Metal Framework	4										
+barren-tin-ore-extractor-t3	Tin Ore Extractor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Copper Wire	10	Metal Framework	6	Zinc	3								
+barren-tin-ore-extractor-t4	Tin Ore Extractor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Copper Wire	12	Metal Framework	8	Zinc	5	Copper	2						
+barren-tin-ore-extractor-t5	Tin Ore Extractor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Copper Wire	15	Metal Framework	10	Zinc	8	Copper	5	Lithium	2				
+
+barren-zinc-ore-extractor-t1	Zinc Ore Extractor	BUILDING	1	90	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	10	Copper Wire	8	Tin	6										
+barren-zinc-ore-extractor-t2	Zinc Ore Extractor	BUILDING	2	75	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Copper Wire	10	Tin	8	Metal Framework	4								
+barren-zinc-ore-extractor-t3	Zinc Ore Extractor	BUILDING	3	60	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Copper Wire	12	Tin	10	Metal Framework	6	Copper	3						
+barren-zinc-ore-extractor-t4	Zinc Ore Extractor	BUILDING	4	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Copper Wire	15	Tin	12	Metal Framework	8	Copper	5	Krypton Systems	2				
+barren-zinc-ore-extractor-t5	Zinc Ore Extractor	BUILDING	5	40	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	20	Copper Wire	18	Tin	15	Metal Framework	10	Copper	8	Krypton Systems	5	Lithium	2		
+
+# T2 Resources: Lithium Ore, Manganese Ore, Rochinol
+barren-lithium-ore-extractor-t1	Lithium Ore Extractor	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Copper Wire	10	Tin	8										
+barren-lithium-ore-extractor-t2	Lithium Ore Extractor	BUILDING	2	100	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Copper Wire	12	Tin	10	Metal Framework	4								
+barren-lithium-ore-extractor-t3	Lithium Ore Extractor	BUILDING	3	80	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Copper Wire	15	Tin	12	Metal Framework	6	Zinc	3						
+barren-lithium-ore-extractor-t4	Lithium Ore Extractor	BUILDING	4	65	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	20	Copper Wire	18	Tin	15	Metal Framework	8	Zinc	5	Copper	2				
+barren-lithium-ore-extractor-t5	Lithium Ore Extractor	BUILDING	5	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	25	Copper Wire	20	Tin	18	Metal Framework	12	Zinc	8	Copper	5	Krypton Systems	2		
+
+barren-manganese-ore-extractor-t1	Manganese Ore Extractor	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Copper Wire	10	Zinc	8										
+barren-manganese-ore-extractor-t2	Manganese Ore Extractor	BUILDING	2	100	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Copper Wire	12	Zinc	10	Metal Framework	4								
+barren-manganese-ore-extractor-t3	Manganese Ore Extractor	BUILDING	3	80	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Copper Wire	15	Zinc	12	Metal Framework	6	Tin	3						
+barren-manganese-ore-extractor-t4	Manganese Ore Extractor	BUILDING	4	65	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	20	Copper Wire	18	Zinc	15	Metal Framework	8	Tin	5	Copper	2				
+barren-manganese-ore-extractor-t5	Manganese Ore Extractor	BUILDING	5	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	25	Copper Wire	20	Zinc	18	Metal Framework	12	Tin	8	Copper	5	Krypton Systems	2		
+
+barren-rochinol-extractor-t1	Rochinol Extractor	BUILDING	1	120	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	12	Metal Framework	10	Krypton Systems	8										
+barren-rochinol-extractor-t2	Rochinol Extractor	BUILDING	2	100	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	15	Metal Framework	12	Krypton Systems	10	Copper Wire	4								
+barren-rochinol-extractor-t3	Rochinol Extractor	BUILDING	3	80	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	18	Metal Framework	15	Krypton Systems	12	Copper Wire	6	Zinc	3						
+barren-rochinol-extractor-t4	Rochinol Extractor	BUILDING	4	65	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	20	Metal Framework	18	Krypton Systems	15	Copper Wire	8	Zinc	5	Tin	2				
+barren-rochinol-extractor-t5	Rochinol Extractor	BUILDING	5	50	Barren Planet	MUD;ONI;USTUR	Extraction	0	Arco Panels	25	Metal Framework	20	Krypton Systems	18	Copper Wire	12	Zinc	8	Tin	5	Lithium	2		
+
+# T3 Resources: Tungsten Ore, Vanadium Ore
+barren-tungsten-ore-extractor-t1	Tungsten Ore Extractor	BUILDING	1	180	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	18	Lithium	15	Copper Wire	12										
+barren-tungsten-ore-extractor-t2	Tungsten Ore Extractor	BUILDING	2	150	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	20	Lithium	18	Copper Wire	15	Manganese	8								
+barren-tungsten-ore-extractor-t3	Tungsten Ore Extractor	BUILDING	3	120	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	25	Lithium	20	Copper Wire	18	Manganese	12	Tungsten Framework	6						
+barren-tungsten-ore-extractor-t4	Tungsten Ore Extractor	BUILDING	4	100	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	28	Lithium	25	Copper Wire	20	Manganese	15	Tungsten Framework	10	Vanadium	4				
+barren-tungsten-ore-extractor-t5	Tungsten Ore Extractor	BUILDING	5	80	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	35	Lithium	30	Copper Wire	25	Manganese	20	Tungsten Framework	15	Vanadium	8	Tungsten Core	3		
+
+barren-vanadium-ore-extractor-t1	Vanadium Ore Extractor	BUILDING	1	180	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	20	Lithium	18	Manganese	15										
+barren-vanadium-ore-extractor-t2	Vanadium Ore Extractor	BUILDING	2	150	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	22	Lithium	20	Manganese	18	Copper Wire	8								
+barren-vanadium-ore-extractor-t3	Vanadium Ore Extractor	BUILDING	3	120	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	25	Lithium	22	Manganese	20	Copper Wire	12	Tungsten Framework	6						
+barren-vanadium-ore-extractor-t4	Vanadium Ore Extractor	BUILDING	4	100	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	30	Lithium	25	Manganese	22	Copper Wire	15	Tungsten Framework	10	Tungsten	4				
+barren-vanadium-ore-extractor-t5	Vanadium Ore Extractor	BUILDING	5	80	Barren Planet	MUD;ONI;USTUR	Extraction	0	Composite Plating	35	Lithium	30	Manganese	25	Copper Wire	18	Tungsten Framework	15	Tungsten	8	Tungsten Core	3		
+
+# T5 Resources: Black Opal, Jasphorus Crystals, Resonium Ore
+barren-black-opal-extractor-t1	Black Opal Extractor	BUILDING	1	480	Barren Planet	USTUR	Extraction	0	Tungsten Framework	35	Composite Plating	30	Resonium Matrix	25										
+barren-black-opal-extractor-t2	Black Opal Extractor	BUILDING	2	400	Barren Planet	USTUR	Extraction	0	Tungsten Framework	40	Composite Plating	35	Resonium Matrix	30	Tungsten Core	15						
+barren-black-opal-extractor-t3	Black Opal Extractor	BUILDING	3	320	Barren Planet	USTUR	Extraction	0	Tungsten Framework	45	Composite Plating	40	Resonium Matrix	35	Tungsten Core	20	Resonium	12				
+barren-black-opal-extractor-t4	Black Opal Extractor	BUILDING	4	250	Barren Planet	USTUR	Extraction	0	Tungsten Framework	55	Composite Plating	50	Resonium Matrix	40	Tungsten Core	25	Resonium	18	Vanadium	10		
+barren-black-opal-extractor-t5	Black Opal Extractor	BUILDING	5	200	Barren Planet	USTUR	Extraction	0	Tungsten Framework	65	Composite Plating	60	Resonium Matrix	50	Tungsten Core	35	Resonium	25	Vanadium	15	Lithium	10	
+
+barren-jasphorus-crystals-extractor-t1	Jasphorus Crystals Extractor	BUILDING	1	480	Barren Planet	ONI	Extraction	0	Tungsten Framework	40	Composite Plating	35	Resonium Matrix	30										
+barren-jasphorus-crystals-extractor-t2	Jasphorus Crystals Extractor	BUILDING	2	400	Barren Planet	ONI	Extraction	0	Tungsten Framework	45	Composite Plating	40	Resonium Matrix	35	Tungsten Core	18						
+barren-jasphorus-crystals-extractor-t3	Jasphorus Crystals Extractor	BUILDING	3	320	Barren Planet	ONI	Extraction	0	Tungsten Framework	50	Composite Plating	45	Resonium Matrix	40	Tungsten Core	25	Resonium	15				
+barren-jasphorus-crystals-extractor-t4	Jasphorus Crystals Extractor	BUILDING	4	250	Barren Planet	ONI	Extraction	0	Tungsten Framework	60	Composite Plating	55	Resonium Matrix	45	Tungsten Core	30	Resonium	22	Vanadium	12		
+barren-jasphorus-crystals-extractor-t5	Jasphorus Crystals Extractor	BUILDING	5	200	Barren Planet	ONI	Extraction	0	Tungsten Framework	70	Composite Plating	65	Resonium Matrix	55	Tungsten Core	40	Resonium	30	Vanadium	20	Manganese	12	
+
+barren-resonium-ore-extractor-t1	Resonium Ore Extractor	BUILDING	1	480	Barren Planet	MUD	Extraction	0	Tungsten Framework	45	Composite Plating	40	Lithium	35										
+barren-resonium-ore-extractor-t2	Resonium Ore Extractor	BUILDING	2	400	Barren Planet	MUD	Extraction	0	Tungsten Framework	50	Composite Plating	45	Lithium	40	Manganese	20						
+barren-resonium-ore-extractor-t3	Resonium Ore Extractor	BUILDING	3	320	Barren Planet	MUD	Extraction	0	Tungsten Framework	55	Composite Plating	50	Lithium	45	Manganese	25	Tungsten Core	18				
+barren-resonium-ore-extractor-t4	Resonium Ore Extractor	BUILDING	4	250	Barren Planet	MUD	Extraction	0	Tungsten Framework	65	Composite Plating	60	Lithium	50	Manganese	30	Tungsten Core	25	Vanadium	15		
+barren-resonium-ore-extractor-t5	Resonium Ore Extractor	BUILDING	5	200	Barren Planet	MUD	Extraction	0	Tungsten Framework	75	Composite Plating	70	Lithium	60	Manganese	40	Tungsten Core	35	Vanadium	25	Resonium	12	
+
+# FARM MODULES (Plant Extraction)
+barren-aegis-barrier-cactus-extractor-t1	Aegis Barrier Cactus Extractor	BUILDING	1	120	Barren Planet	USTUR	Farm	0	Arco Panels	20	Metal Framework	15	Krypton Systems	10										
+barren-aegis-barrier-cactus-extractor-t2	Aegis Barrier Cactus Extractor	BUILDING	2	100	Barren Planet	USTUR	Farm	0	Arco Panels	25	Metal Framework	18	Krypton Systems	12	Copper Wire	6								
+barren-aegis-barrier-cactus-extractor-t3	Aegis Barrier Cactus Extractor	BUILDING	3	80	Barren Planet	USTUR	Farm	0	Arco Panels	30	Metal Framework	20	Krypton Systems	15	Copper Wire	8	Zinc	4						
+barren-aegis-barrier-cactus-extractor-t4	Aegis Barrier Cactus Extractor	BUILDING	4	65	Barren Planet	USTUR	Farm	0	Arco Panels	35	Metal Framework	25	Krypton Systems	18	Copper Wire	12	Zinc	6	Tin	2				
+barren-aegis-barrier-cactus-extractor-t5	Aegis Barrier Cactus Extractor	BUILDING	5	50	Barren Planet	USTUR	Farm	0	Arco Panels	40	Metal Framework	30	Krypton Systems	20	Copper Wire	15	Zinc	10	Tin	4	Composite Plating	1
+# CENTRAL HUB (T1 uses raw materials, T2+ uses processed)																								
+terrestrial-central-hub-t1	Central Hub	BUILDING	1	0	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	0	Auto-Built	0														
+terrestrial-central-hub-t2	Central Hub	BUILDING	2	300	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	25	Bio Fiber	20	Aluminum	15								
+terrestrial-central-hub-t3	Central Hub	BUILDING	3	450	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	40	Thermoplastic Panels	35	Bio Fiber	28	Aluminum	20	Carbon Fiber	15	Silica Glass	12				
+terrestrial-central-hub-t4	Central Hub	BUILDING	4	600	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	50	Thermoplastic Panels	45	Bio Fiber	35	Aluminum	25	Carbon Fiber	20	Silica Glass	18	Aluminum Sheets	10		
+terrestrial-central-hub-t5	Central Hub	BUILDING	5	750	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	60	Thermoplastic Panels	55	Bio Fiber	45	Aluminum	35	Carbon Fiber	28	Silica Glass	25	Aluminum Sheets	15		
+																								
+# HUBS (T1 uses raw materials for bootstrap, T2+ uses processed)																								
+terrestrial-processing-hub-t1	Processing Hub	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Ore	25	Thermoplastic Resin	18	Biomass	12										
+terrestrial-processing-hub-t2	Processing Hub	BUILDING	2	180	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Aluminum	12								
+terrestrial-processing-hub-t3	Processing Hub	BUILDING	3	240	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	35	Thermoplastic Panels	28	Bio Fiber	20	Aluminum	15	Carbon Fiber	12	Silica Glass	10				
+terrestrial-processing-hub-t4	Processing Hub	BUILDING	4	360	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	45	Thermoplastic Panels	35	Bio Fiber	28	Aluminum	20	Carbon Fiber	18	Silica Glass	15	Aluminum Sheets	8		
+terrestrial-processing-hub-t5	Processing Hub	BUILDING	5	480	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	55	Thermoplastic Panels	45	Bio Fiber	35	Aluminum	25	Carbon Fiber	25	Silica Glass	20	Aluminum Sheets	12		
+																								
+terrestrial-extraction-hub-t1	Extraction Hub	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Ore	25	Thermoplastic Resin	18	Biomass	12										
+terrestrial-extraction-hub-t2	Extraction Hub	BUILDING	2	180	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Aluminum	12								
+terrestrial-extraction-hub-t3	Extraction Hub	BUILDING	3	240	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	35	Thermoplastic Panels	28	Bio Fiber	20	Aluminum	15	Carbon Fiber	12	Silica Glass	10				
+terrestrial-extraction-hub-t4	Extraction Hub	BUILDING	4	360	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	45	Thermoplastic Panels	35	Bio Fiber	28	Aluminum	20	Carbon Fiber	18	Silica Glass	15	Aluminum Sheets	8		
+terrestrial-extraction-hub-t5	Extraction Hub	BUILDING	5	480	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	55	Thermoplastic Panels	45	Bio Fiber	35	Aluminum	25	Carbon Fiber	25	Silica Glass	20	Aluminum Sheets	12		
+																								
+terrestrial-storage-hub-t1	Storage Hub	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Ore	25	Thermoplastic Resin	18	Biomass	12										
+terrestrial-storage-hub-t2	Storage Hub	BUILDING	2	180	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Aluminum	12								
+terrestrial-storage-hub-t3	Storage Hub	BUILDING	3	240	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	35	Thermoplastic Panels	28	Bio Fiber	20	Aluminum	15	Carbon Fiber	12	Silica Glass	10				
+terrestrial-storage-hub-t4	Storage Hub	BUILDING	4	360	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	45	Thermoplastic Panels	35	Bio Fiber	28	Aluminum	20	Carbon Fiber	18	Silica Glass	15	Aluminum Sheets	8		
+terrestrial-storage-hub-t5	Storage Hub	BUILDING	5	480	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	55	Thermoplastic Panels	45	Bio Fiber	35	Aluminum	25	Carbon Fiber	25	Silica Glass	20	Aluminum Sheets	12		
+																								
+terrestrial-farm-hub-t1	Farm Hub	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Ore	25	Thermoplastic Resin	18	Biomass	12										
+terrestrial-farm-hub-t2	Farm Hub	BUILDING	2	180	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Aluminum	12								
+terrestrial-farm-hub-t3	Farm Hub	BUILDING	3	240	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	35	Thermoplastic Panels	28	Bio Fiber	20	Aluminum	15	Carbon Fiber	12	Silica Glass	10				
+terrestrial-farm-hub-t4	Farm Hub	BUILDING	4	360	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	45	Thermoplastic Panels	35	Bio Fiber	28	Aluminum	20	Carbon Fiber	18	Silica Glass	15	Aluminum Sheets	8		
+terrestrial-farm-hub-t5	Farm Hub	BUILDING	5	480	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	55	Thermoplastic Panels	45	Bio Fiber	35	Aluminum	25	Carbon Fiber	25	Silica Glass	20	Aluminum Sheets	12		
+																								
+terrestrial-power-plant-t1	Power Plant	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Ore	20	Thermoplastic Resin	15	Biomass	10										
+terrestrial-power-plant-t2	Power Plant	BUILDING	2	135	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	25	Thermoplastic Panels	18	Bio Fiber	12	Aluminum	8								
+terrestrial-power-plant-t3	Power Plant	BUILDING	3	180	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Aluminum	12	Carbon Fiber	8	Silica Glass	6				
+terrestrial-power-plant-t4	Power Plant	BUILDING	4	270	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	35	Thermoplastic Panels	28	Bio Fiber	20	Aluminum	15	Carbon Fiber	12	Silica Glass	10	Aluminum Sheets	6		
+terrestrial-power-plant-t5	Power Plant	BUILDING	5	360	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	45	Thermoplastic Panels	35	Bio Fiber	25	Aluminum	20	Carbon Fiber	18	Silica Glass	15	Aluminum Sheets	10		
+																								
+terrestrial-crew-quarters-t1	Crew Quarters	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Ore	20	Thermoplastic Resin	15	Biomass	10										
+terrestrial-crew-quarters-t2	Crew Quarters	BUILDING	2	135	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	25	Thermoplastic Panels	18	Bio Fiber	12	Aluminum	8								
+terrestrial-crew-quarters-t3	Crew Quarters	BUILDING	3	180	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Aluminum	12	Carbon Fiber	8	Silica Glass	6				
+terrestrial-crew-quarters-t4	Crew Quarters	BUILDING	4	270	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	35	Thermoplastic Panels	28	Bio Fiber	20	Aluminum	15	Carbon Fiber	12	Silica Glass	10	Aluminum Sheets	6		
+terrestrial-crew-quarters-t5	Crew Quarters	BUILDING	5	360	Terrestrial Planet	MUD;ONI;USTUR	Infrastructure	1	Iron Brackets	45	Thermoplastic Panels	35	Bio Fiber	25	Aluminum	20	Carbon Fiber	18	Silica Glass	15	Aluminum Sheets	10		
+																								
+# BASIC COMPONENT PROCESSORS (Convert Raw Materials to Basic Components - Bootstrap Exception)																								
+terrestrial-iron-brackets-processor-t1	Iron Brackets Processor	BUILDING	1	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron	18	Thermoplastic Resin	15												
+terrestrial-iron-brackets-processor-t2	Iron Brackets Processor	BUILDING	2	45	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron	20	Thermoplastic Resin	18	Biomass	8										
+terrestrial-iron-brackets-processor-t3	Iron Brackets Processor	BUILDING	3	30	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron	25	Thermoplastic Resin	20	Biomass	12	Carbon	6								
+terrestrial-iron-brackets-processor-t4	Iron Brackets Processor	BUILDING	4	25	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron	30	Thermoplastic Resin	25	Biomass	15	Carbon	10	Aluminum Ore	4						
+terrestrial-iron-brackets-processor-t5	Iron Brackets Processor	BUILDING	5	20	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron	35	Thermoplastic Resin	30	Biomass	18	Carbon	12	Aluminum Ore	8	Argon	3				
+																								
+terrestrial-thermoplastic-panels-processor-t1	Thermoplastic Panels Processor	BUILDING	1	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Thermoplastic Resin	18	Iron	10												
+terrestrial-thermoplastic-panels-processor-t2	Thermoplastic Panels Processor	BUILDING	2	45	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Thermoplastic Resin	20	Iron	12	Carbon	8										
+terrestrial-thermoplastic-panels-processor-t3	Thermoplastic Panels Processor	BUILDING	3	30	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Thermoplastic Resin	25	Iron	15	Carbon	10	Biomass	6								
+terrestrial-thermoplastic-panels-processor-t4	Thermoplastic Panels Processor	BUILDING	4	25	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Thermoplastic Resin	30	Iron	18	Carbon	12	Biomass	8	Aluminum Ore	4						
+terrestrial-thermoplastic-panels-processor-t5	Thermoplastic Panels Processor	BUILDING	5	20	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Thermoplastic Resin	35	Iron	22	Carbon	15	Biomass	10	Aluminum Ore	6	Argon	2				
+																								
+terrestrial-bio-fiber-processor-t1	Bio Fiber Processor	BUILDING	1	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Biomass	20	Iron	12												
+terrestrial-bio-fiber-processor-t2	Bio Fiber Processor	BUILDING	2	45	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Biomass	25	Iron	15	Thermoplastic Resin	8										
+terrestrial-bio-fiber-processor-t3	Bio Fiber Processor	BUILDING	3	30	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Biomass	30	Iron	18	Thermoplastic Resin	12	Carbon	6								
+terrestrial-bio-fiber-processor-t4	Bio Fiber Processor	BUILDING	4	25	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Biomass	35	Iron	20	Thermoplastic Resin	15	Carbon	10	Aluminum Ore	4						
+terrestrial-bio-fiber-processor-t5	Bio Fiber Processor	BUILDING	5	20	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Biomass	40	Iron	25	Thermoplastic Resin	18	Carbon	12	Aluminum Ore	8	Argon	2				
+																								
+terrestrial-carbon-fiber-processor-t1	Carbon Fiber Processor	BUILDING	1	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	18	Iron	15	Thermoplastic Resin	10										
+terrestrial-carbon-fiber-processor-t2	Carbon Fiber Processor	BUILDING	2	45	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	22	Iron	18	Thermoplastic Resin	12	Biomass	6								
+terrestrial-carbon-fiber-processor-t3	Carbon Fiber Processor	BUILDING	3	30	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	25	Iron	20	Thermoplastic Resin	15	Biomass	8	Aluminum Ore	4						
+terrestrial-carbon-fiber-processor-t4	Carbon Fiber Processor	BUILDING	4	25	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	30	Iron	25	Thermoplastic Resin	18	Biomass	12	Aluminum Ore	6	Argon	3				
+terrestrial-carbon-fiber-processor-t5	Carbon Fiber Processor	BUILDING	5	20	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	35	Iron	30	Thermoplastic Resin	22	Biomass	15	Aluminum Ore	8	Argon	5				
+																								
+terrestrial-silica-glass-processor-t1	Silica Glass Processor	BUILDING	1	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	18	Iron	15	Thermoplastic Resin	10										
+terrestrial-silica-glass-processor-t2	Silica Glass Processor	BUILDING	2	45	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	22	Iron	18	Thermoplastic Resin	12	Carbon	6								
+terrestrial-silica-glass-processor-t3	Silica Glass Processor	BUILDING	3	30	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	25	Iron	20	Thermoplastic Resin	15	Carbon	8	Biomass	4						
+terrestrial-silica-glass-processor-t4	Silica Glass Processor	BUILDING	4	25	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	30	Iron	25	Thermoplastic Resin	18	Carbon	12	Biomass	6	Aluminum Ore	3				
+terrestrial-silica-glass-processor-t5	Silica Glass Processor	BUILDING	5	20	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	35	Iron	30	Thermoplastic Resin	22	Carbon	15	Biomass	8	Aluminum Ore	5				
+																								
+# REFINED ORE PROCESSORS (Convert Ores to Refined Metals)																								
+terrestrial-iron-processor-t1	Iron Processor	BUILDING	1	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron Ore	15	Thermoplastic Resin	12												
+terrestrial-iron-processor-t2	Iron Processor	BUILDING	2	45	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron Ore	18	Thermoplastic Resin	15	Biomass	8										
+terrestrial-iron-processor-t3	Iron Processor	BUILDING	3	30	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron Ore	20	Thermoplastic Resin	18	Biomass	12	Carbon	6								
+terrestrial-iron-processor-t4	Iron Processor	BUILDING	4	25	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron Ore	25	Thermoplastic Resin	20	Biomass	15	Carbon	10	Aluminum Ore	4						
+terrestrial-iron-processor-t5	Iron Processor	BUILDING	5	20	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Iron Ore	30	Thermoplastic Resin	25	Biomass	18	Carbon	12	Aluminum Ore	8	Argon	2				
+																								
+terrestrial-aluminum-processor-t1	Aluminum Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum Ore	15	Iron	12	Thermoplastic Resin	8										
+terrestrial-aluminum-processor-t2	Aluminum Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum Ore	18	Iron	15	Thermoplastic Resin	12	Biomass	6								
+terrestrial-aluminum-processor-t3	Aluminum Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum Ore	20	Iron	18	Thermoplastic Resin	15	Biomass	10	Carbon	4						
+terrestrial-aluminum-processor-t4	Aluminum Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum Ore	25	Iron	20	Thermoplastic Resin	18	Biomass	12	Carbon	8	Argon	3				
+terrestrial-aluminum-processor-t5	Aluminum Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum Ore	30	Iron	25	Thermoplastic Resin	22	Biomass	15	Carbon	12	Argon	5				
+																								
+terrestrial-gold-processor-t1	Gold Processor	BUILDING	1	150	Terrestrial Planet	ONI	Processing	1	Gold Ore	18	Iron	15	Thermoplastic Resin	12	Biomass	8								
+terrestrial-gold-processor-t2	Gold Processor	BUILDING	2	120	Terrestrial Planet	ONI	Processing	1	Gold Ore	22	Iron	18	Thermoplastic Resin	15	Biomass	12	Carbon	6						
+terrestrial-gold-processor-t3	Gold Processor	BUILDING	3	100	Terrestrial Planet	ONI	Processing	1	Gold Ore	25	Iron	20	Thermoplastic Resin	18	Biomass	15	Carbon	10	Aluminum	4				
+terrestrial-gold-processor-t4	Gold Processor	BUILDING	4	80	Terrestrial Planet	ONI	Processing	1	Gold Ore	30	Iron	25	Thermoplastic Resin	22	Biomass	18	Carbon	12	Aluminum	8	Argon	3		
+terrestrial-gold-processor-t5	Gold Processor	BUILDING	5	60	Terrestrial Planet	ONI	Processing	1	Gold Ore	35	Iron	30	Thermoplastic Resin	25	Biomass	20	Carbon	15	Aluminum	12	Argon	6		
+																								
+terrestrial-dysprosium-processor-t1	Dysprosium Processor	BUILDING	1	180	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	25	Iron	18	Thermoplastic Resin	15	Biomass	12								
+terrestrial-dysprosium-processor-t2	Dysprosium Processor	BUILDING	2	150	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	30	Iron	22	Thermoplastic Resin	18	Biomass	15	Carbon	8						
+terrestrial-dysprosium-processor-t3	Dysprosium Processor	BUILDING	3	120	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	35	Iron	25	Thermoplastic Resin	20	Biomass	18	Carbon	12	Aluminum	6				
+terrestrial-dysprosium-processor-t4	Dysprosium Processor	BUILDING	4	100	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	40	Iron	30	Thermoplastic Resin	25	Biomass	20	Carbon	15	Aluminum	10	Gold	4		
+terrestrial-dysprosium-processor-t5	Dysprosium Processor	BUILDING	5	80	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	50	Iron	35	Thermoplastic Resin	30	Biomass	25	Carbon	20	Aluminum	15	Gold	8		
+																								
+terrestrial-ochre-processor-t1	Ochre Processor	BUILDING	1	180	Terrestrial Planet	USTUR	Processing	1	Ochre Ore	25	Iron	18	Thermoplastic Resin	15	Biomass	12								
+terrestrial-ochre-processor-t2	Ochre Processor	BUILDING	2	150	Terrestrial Planet	USTUR	Processing	1	Ochre Ore	30	Iron	22	Thermoplastic Resin	18	Biomass	15	Carbon	8						
+terrestrial-ochre-processor-t3	Ochre Processor	BUILDING	3	120	Terrestrial Planet	USTUR	Processing	1	Ochre Ore	35	Iron	25	Thermoplastic Resin	20	Biomass	18	Carbon	12	Aluminum	6				
+terrestrial-ochre-processor-t4	Ochre Processor	BUILDING	4	100	Terrestrial Planet	USTUR	Processing	1	Ochre Ore	40	Iron	30	Thermoplastic Resin	25	Biomass	20	Carbon	15	Aluminum	10	Gold	4		
+terrestrial-ochre-processor-t5	Ochre Processor	BUILDING	5	80	Terrestrial Planet	USTUR	Processing	1	Ochre Ore	50	Iron	35	Thermoplastic Resin	30	Biomass	25	Carbon	20	Aluminum	15	Gold	8		
+																								
+# ADVANCED COMPONENT PROCESSORS																								
+terrestrial-aluminum-sheets-processor-t1	Aluminum Sheets Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum	20	Iron Brackets	15	Thermoplastic Panels	8										
+terrestrial-aluminum-sheets-processor-t2	Aluminum Sheets Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum	25	Iron Brackets	18	Thermoplastic Panels	12	Bio Fiber	6								
+terrestrial-aluminum-sheets-processor-t3	Aluminum Sheets Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum	30	Iron Brackets	22	Thermoplastic Panels	15	Bio Fiber	10	Carbon Fiber	4						
+terrestrial-aluminum-sheets-processor-t4	Aluminum Sheets Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum	35	Iron Brackets	25	Thermoplastic Panels	18	Bio Fiber	12	Carbon Fiber	8	Silica Glass	3				
+terrestrial-aluminum-sheets-processor-t5	Aluminum Sheets Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Aluminum	40	Iron Brackets	30	Thermoplastic Panels	22	Bio Fiber	15	Carbon Fiber	12	Silica Glass	6				
+																								
+# EXISTING COMPONENT PROCESSORS (Use processed materials)																								
+terrestrial-graphene-processor-t1	Graphene Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	25	Iron Brackets	12	Thermoplastic Panels	8										
+terrestrial-graphene-processor-t2	Graphene Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	30	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	6								
+terrestrial-graphene-processor-t3	Graphene Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	35	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	10	Carbon Fiber	4						
+terrestrial-graphene-processor-t4	Graphene Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	40	Iron Brackets	22	Thermoplastic Panels	18	Bio Fiber	12	Carbon Fiber	8	Aluminum	3				
+terrestrial-graphene-processor-t5	Graphene Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Carbon	45	Iron Brackets	25	Thermoplastic Panels	20	Bio Fiber	15	Carbon Fiber	12	Aluminum	6				
+																								
+terrestrial-plastic-components-processor-t1	Plastic Components Processor	BUILDING	1	90	Terrestrial Planet	ONI	Processing	1	Thermoplastic Resin	20	Iron Brackets	12	Bio Fiber	8										
+terrestrial-plastic-components-processor-t2	Plastic Components Processor	BUILDING	2	75	Terrestrial Planet	ONI	Processing	1	Thermoplastic Resin	25	Iron Brackets	15	Bio Fiber	12	Carbon Fiber	6								
+terrestrial-plastic-components-processor-t3	Plastic Components Processor	BUILDING	3	60	Terrestrial Planet	ONI	Processing	1	Thermoplastic Resin	30	Iron Brackets	18	Bio Fiber	15	Carbon Fiber	10	Silica Glass	4						
+terrestrial-plastic-components-processor-t4	Plastic Components Processor	BUILDING	4	50	Terrestrial Planet	ONI	Processing	1	Thermoplastic Resin	35	Iron Brackets	22	Bio Fiber	18	Carbon Fiber	12	Silica Glass	8	Aluminum	3				
+terrestrial-plastic-components-processor-t5	Plastic Components Processor	BUILDING	5	40	Terrestrial Planet	ONI	Processing	1	Thermoplastic Resin	40	Iron Brackets	25	Bio Fiber	20	Carbon Fiber	15	Silica Glass	12	Aluminum	6				
+																								
+terrestrial-neodymium-magnets-processor-t1	Neodymium Magnets Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Neodymium	20	Iron	15	Iron Brackets	8										
+terrestrial-neodymium-magnets-processor-t2	Neodymium Magnets Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Neodymium	25	Iron	18	Iron Brackets	12	Thermoplastic Panels	6								
+terrestrial-neodymium-magnets-processor-t3	Neodymium Magnets Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Neodymium	30	Iron	20	Iron Brackets	15	Thermoplastic Panels	10	Bio Fiber	4						
+terrestrial-neodymium-magnets-processor-t4	Neodymium Magnets Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Neodymium	35	Iron	25	Iron Brackets	18	Thermoplastic Panels	12	Bio Fiber	8	Aluminum	3				
+terrestrial-neodymium-magnets-processor-t5	Neodymium Magnets Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Neodymium	40	Iron	30	Iron Brackets	22	Thermoplastic Panels	15	Bio Fiber	12	Aluminum	6				
+																								
+terrestrial-gas-stabilizer-processor-t1	Gas Stabilizer Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Argon	20	Iron Brackets	12	Thermoplastic Panels	8										
+terrestrial-gas-stabilizer-processor-t2	Gas Stabilizer Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Argon	25	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	6								
+terrestrial-gas-stabilizer-processor-t3	Gas Stabilizer Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Argon	30	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	10	Aluminum	4						
+terrestrial-gas-stabilizer-processor-t4	Gas Stabilizer Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Argon	35	Iron Brackets	22	Thermoplastic Panels	18	Bio Fiber	12	Aluminum	8	Carbon Fiber	3				
+terrestrial-gas-stabilizer-processor-t5	Gas Stabilizer Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Argon	40	Iron Brackets	25	Thermoplastic Panels	20	Bio Fiber	15	Aluminum	12	Carbon Fiber	6				
+																								
+terrestrial-sensor-elements-processor-t1	Sensor Elements Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	18	Iron Brackets	12	Thermoplastic Panels	8										
+terrestrial-sensor-elements-processor-t2	Sensor Elements Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	22	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	6								
+terrestrial-sensor-elements-processor-t3	Sensor Elements Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	25	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	10	Carbon Fiber	4						
+terrestrial-sensor-elements-processor-t4	Sensor Elements Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	30	Iron Brackets	22	Thermoplastic Panels	18	Bio Fiber	12	Carbon Fiber	8	Aluminum	3				
+terrestrial-sensor-elements-processor-t5	Sensor Elements Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Silica	35	Iron Brackets	25	Thermoplastic Panels	20	Bio Fiber	15	Carbon Fiber	12	Aluminum	6				
+																								
+# T4 COMPONENT PROCESSORS																								
+terrestrial-advanced-weapon-core-processor-t1	Advanced Weapon Core Processor	BUILDING	1	180	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	25	Aluminum Sheets	18	Carbon Fiber	15	Silica Glass	12								
+terrestrial-advanced-weapon-core-processor-t2	Advanced Weapon Core Processor	BUILDING	2	150	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	30	Aluminum Sheets	22	Carbon Fiber	18	Silica Glass	15	Gold	8						
+terrestrial-advanced-weapon-core-processor-t3	Advanced Weapon Core Processor	BUILDING	3	120	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	35	Aluminum Sheets	25	Carbon Fiber	20	Silica Glass	18	Gold	12	Ochre	6				
+terrestrial-advanced-weapon-core-processor-t4	Advanced Weapon Core Processor	BUILDING	4	100	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	40	Aluminum Sheets	30	Carbon Fiber	25	Silica Glass	22	Gold	15	Ochre	10	Steel	4		
+terrestrial-advanced-weapon-core-processor-t5	Advanced Weapon Core Processor	BUILDING	5	80	Terrestrial Planet	MUD;ONI;USTUR	Processing	1	Dysprosium	50	Aluminum Sheets	35	Carbon Fiber	30	Silica Glass	25	Gold	20	Ochre	15	Steel	8		
+																								
+terrestrial-kinetic-amplifier-processor-t1	Kinetic Amplifier Processor	BUILDING	1	180	Terrestrial Planet	USTUR	Processing	1	Ochre	25	Aluminum Sheets	18	Carbon Fiber	15	Silica Glass	12								
+terrestrial-kinetic-amplifier-processor-t2	Kinetic Amplifier Processor	BUILDING	2	150	Terrestrial Planet	USTUR	Processing	1	Ochre	30	Aluminum Sheets	22	Carbon Fiber	18	Silica Glass	15	Dysprosium	8						
+terrestrial-kinetic-amplifier-processor-t3	Kinetic Amplifier Processor	BUILDING	3	120	Terrestrial Planet	USTUR	Processing	1	Ochre	35	Aluminum Sheets	25	Carbon Fiber	20	Silica Glass	18	Dysprosium	12	Gold	6				
+terrestrial-kinetic-amplifier-processor-t4	Kinetic Amplifier Processor	BUILDING	4	100	Terrestrial Planet	USTUR	Processing	1	Ochre	40	Aluminum Sheets	30	Carbon Fiber	25	Silica Glass	22	Dysprosium	15	Gold	10	Steel	4		
+terrestrial-kinetic-amplifier-processor-t5	Kinetic Amplifier Processor	BUILDING	5	80	Terrestrial Planet	USTUR	Processing	1	Ochre	50	Aluminum Sheets	35	Carbon Fiber	30	Silica Glass	25	Dysprosium	20	Gold	15	Steel	8		
+																								
+# RAW RESOURCE EXTRACTORS																								
+# T1 Resources: biomass, carbon, hydrogen, iron-ore, neodymium, nitrogen, silica, thermoplastic-resin																								
+terrestrial-biomass-extractor-t1	Biomass Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	8	Bio Fiber	6												
+terrestrial-biomass-extractor-t2	Biomass Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Bio Fiber	8	Thermoplastic Panels	4										
+terrestrial-biomass-extractor-t3	Biomass Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Bio Fiber	10	Thermoplastic Panels	6	Aluminum	3								
+terrestrial-biomass-extractor-t4	Biomass Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Bio Fiber	12	Thermoplastic Panels	8	Aluminum	5	Carbon Fiber	2						
+terrestrial-biomass-extractor-t5	Biomass Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Bio Fiber	15	Thermoplastic Panels	10	Aluminum	8	Carbon Fiber	5	Silica Glass	2				
+																								
+terrestrial-carbon-extractor-t1	Carbon Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Thermoplastic Panels	8	Carbon Fiber	6										
+terrestrial-carbon-extractor-t2	Carbon Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Carbon Fiber	8	Bio Fiber	4								
+terrestrial-carbon-extractor-t3	Carbon Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Carbon Fiber	10	Bio Fiber	6	Aluminum	3						
+terrestrial-carbon-extractor-t4	Carbon Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Carbon Fiber	12	Bio Fiber	8	Aluminum	5	Silica Glass	2				
+terrestrial-carbon-extractor-t5	Carbon Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Carbon Fiber	15	Bio Fiber	10	Aluminum	8	Silica Glass	5				
+																								
+terrestrial-hydrogen-extractor-t1	Hydrogen Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Thermoplastic Panels	8	Bio Fiber	6										
+terrestrial-hydrogen-extractor-t2	Hydrogen Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Bio Fiber	8	Carbon Fiber	4								
+terrestrial-hydrogen-extractor-t3	Hydrogen Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	10	Carbon Fiber	6	Aluminum	3						
+terrestrial-hydrogen-extractor-t4	Hydrogen Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	12	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+terrestrial-hydrogen-extractor-t5	Hydrogen Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Bio Fiber	15	Carbon Fiber	10	Aluminum	8	Silica Glass	5				
+																								
+terrestrial-iron-ore-extractor-t1	Iron Ore Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Thermoplastic Panels	8	Bio Fiber	6												
+terrestrial-iron-ore-extractor-t2	Iron Ore Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Thermoplastic Panels	10	Bio Fiber	8	Iron Brackets	4										
+terrestrial-iron-ore-extractor-t3	Iron Ore Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Thermoplastic Panels	12	Bio Fiber	10	Iron Brackets	6	Carbon Fiber	3								
+terrestrial-iron-ore-extractor-t4	Iron Ore Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Thermoplastic Panels	15	Bio Fiber	12	Iron Brackets	8	Carbon Fiber	5	Aluminum	2						
+terrestrial-iron-ore-extractor-t5	Iron Ore Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Thermoplastic Panels	18	Bio Fiber	15	Iron Brackets	10	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+																								
+terrestrial-neodymium-extractor-t1	Neodymium Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Thermoplastic Panels	8	Bio Fiber	6										
+terrestrial-neodymium-extractor-t2	Neodymium Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Bio Fiber	8	Carbon Fiber	4								
+terrestrial-neodymium-extractor-t3	Neodymium Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	10	Carbon Fiber	6	Aluminum	3						
+terrestrial-neodymium-extractor-t4	Neodymium Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	12	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+terrestrial-neodymium-extractor-t5	Neodymium Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Bio Fiber	15	Carbon Fiber	10	Aluminum	8	Silica Glass	5				
+																								
+terrestrial-nitrogen-extractor-t1	Nitrogen Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Thermoplastic Panels	8												
+terrestrial-nitrogen-extractor-t2	Nitrogen Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Bio Fiber	4										
+terrestrial-nitrogen-extractor-t3	Nitrogen Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	6	Carbon Fiber	3								
+terrestrial-nitrogen-extractor-t4	Nitrogen Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	8	Carbon Fiber	5	Aluminum	2						
+terrestrial-nitrogen-extractor-t5	Nitrogen Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Bio Fiber	10	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+																								
+terrestrial-silica-extractor-t1	Silica Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	8	Thermoplastic Panels	6												
+terrestrial-silica-extractor-t2	Silica Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Thermoplastic Panels	8	Bio Fiber	4										
+terrestrial-silica-extractor-t3	Silica Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Bio Fiber	6	Carbon Fiber	3								
+terrestrial-silica-extractor-t4	Silica Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	8	Carbon Fiber	5	Aluminum	2						
+terrestrial-silica-extractor-t5	Silica Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	10	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+																								
+terrestrial-thermoplastic-resin-extractor-t1	Thermoplastic Resin Extractor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	8	Bio Fiber	6												
+terrestrial-thermoplastic-resin-extractor-t2	Thermoplastic Resin Extractor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	10	Bio Fiber	8	Thermoplastic Panels	4										
+terrestrial-thermoplastic-resin-extractor-t3	Thermoplastic Resin Extractor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Bio Fiber	10	Thermoplastic Panels	6	Carbon Fiber	3								
+terrestrial-thermoplastic-resin-extractor-t4	Thermoplastic Resin Extractor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Bio Fiber	12	Thermoplastic Panels	8	Carbon Fiber	5	Aluminum	2						
+terrestrial-thermoplastic-resin-extractor-t5	Thermoplastic Resin Extractor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Bio Fiber	15	Thermoplastic Panels	10	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+																								
+# T2 Resources: aluminum-ore, amber-resin, argon, oxygen																								
+terrestrial-aluminum-ore-extractor-t1	Aluminum Ore Extractor	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Aluminum Sheets	10										
+terrestrial-aluminum-ore-extractor-t2	Aluminum Ore Extractor	BUILDING	2	100	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Aluminum Sheets	12	Bio Fiber	4								
+terrestrial-aluminum-ore-extractor-t3	Aluminum Ore Extractor	BUILDING	3	80	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Aluminum Sheets	15	Bio Fiber	6	Carbon Fiber	3						
+terrestrial-aluminum-ore-extractor-t4	Aluminum Ore Extractor	BUILDING	4	65	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	25	Thermoplastic Panels	20	Aluminum Sheets	18	Bio Fiber	8	Carbon Fiber	5	Silica Glass	2				
+terrestrial-aluminum-ore-extractor-t5	Aluminum Ore Extractor	BUILDING	5	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	30	Thermoplastic Panels	25	Aluminum Sheets	22	Bio Fiber	12	Carbon Fiber	8	Silica Glass	5	Aluminum	2		
+																								
+terrestrial-amber-resin-extractor-t1	Amber Resin Extractor	BUILDING	1	120	Terrestrial Planet	USTUR	Extraction	0	Iron Brackets	12	Bio Fiber	10	Thermoplastic Panels	8										
+terrestrial-amber-resin-extractor-t2	Amber Resin Extractor	BUILDING	2	100	Terrestrial Planet	USTUR	Extraction	0	Iron Brackets	15	Bio Fiber	12	Thermoplastic Panels	10	Carbon Fiber	4								
+terrestrial-amber-resin-extractor-t3	Amber Resin Extractor	BUILDING	3	80	Terrestrial Planet	USTUR	Extraction	0	Iron Brackets	18	Bio Fiber	15	Thermoplastic Panels	12	Carbon Fiber	6	Aluminum	3						
+terrestrial-amber-resin-extractor-t4	Amber Resin Extractor	BUILDING	4	65	Terrestrial Planet	USTUR	Extraction	0	Iron Brackets	20	Bio Fiber	18	Thermoplastic Panels	15	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+terrestrial-amber-resin-extractor-t5	Amber Resin Extractor	BUILDING	5	50	Terrestrial Planet	USTUR	Extraction	0	Iron Brackets	25	Bio Fiber	20	Thermoplastic Panels	18	Carbon Fiber	12	Aluminum	8	Silica Glass	4	Aluminum Sheets	1		
+																								
+terrestrial-argon-extractor-t1	Argon Extractor	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Gas Stabilizer	8										
+terrestrial-argon-extractor-t2	Argon Extractor	BUILDING	2	100	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Gas Stabilizer	10	Bio Fiber	4								
+terrestrial-argon-extractor-t3	Argon Extractor	BUILDING	3	80	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Gas Stabilizer	12	Bio Fiber	6	Carbon Fiber	3						
+terrestrial-argon-extractor-t4	Argon Extractor	BUILDING	4	65	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Gas Stabilizer	15	Bio Fiber	8	Carbon Fiber	5	Aluminum	2				
+terrestrial-argon-extractor-t5	Argon Extractor	BUILDING	5	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	25	Thermoplastic Panels	20	Gas Stabilizer	18	Bio Fiber	12	Carbon Fiber	8	Aluminum	5	Aluminum Sheets	2		
+																								
+terrestrial-oxygen-extractor-t1	Oxygen Extractor	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	12	Thermoplastic Panels	10	Bio Fiber	8										
+terrestrial-oxygen-extractor-t2	Oxygen Extractor	BUILDING	2	100	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	15	Thermoplastic Panels	12	Bio Fiber	10	Carbon Fiber	4								
+terrestrial-oxygen-extractor-t3	Oxygen Extractor	BUILDING	3	80	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	18	Thermoplastic Panels	15	Bio Fiber	12	Carbon Fiber	6	Aluminum	3						
+terrestrial-oxygen-extractor-t4	Oxygen Extractor	BUILDING	4	65	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	20	Thermoplastic Panels	18	Bio Fiber	15	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+terrestrial-oxygen-extractor-t5	Oxygen Extractor	BUILDING	5	50	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Iron Brackets	25	Thermoplastic Panels	20	Bio Fiber	18	Carbon Fiber	12	Aluminum	8	Silica Glass	5	Aluminum Sheets	2		
+																								
+# T3 Resources: gold-ore																								
+terrestrial-gold-ore-extractor-t1	Gold Ore Extractor	BUILDING	1	180	Terrestrial Planet	ONI	Extraction	0	Aluminum Sheets	18	Silica Glass	15	Iron Brackets	12										
+terrestrial-gold-ore-extractor-t2	Gold Ore Extractor	BUILDING	2	150	Terrestrial Planet	ONI	Extraction	0	Aluminum Sheets	20	Silica Glass	18	Iron Brackets	15	Steel	8								
+terrestrial-gold-ore-extractor-t3	Gold Ore Extractor	BUILDING	3	120	Terrestrial Planet	ONI	Extraction	0	Aluminum Sheets	25	Silica Glass	20	Iron Brackets	18	Steel	12	Gold	6						
+terrestrial-gold-ore-extractor-t4	Gold Ore Extractor	BUILDING	4	100	Terrestrial Planet	ONI	Extraction	0	Aluminum Sheets	28	Silica Glass	25	Iron Brackets	20	Steel	15	Gold	10	Graphene	4				
+terrestrial-gold-ore-extractor-t5	Gold Ore Extractor	BUILDING	5	80	Terrestrial Planet	ONI	Extraction	0	Aluminum Sheets	35	Silica Glass	30	Iron Brackets	25	Steel	20	Gold	15	Graphene	8	Aerogel	3		
+																								
+# T4 Resources: dysprosium, ochre-ore																								
+terrestrial-dysprosium-extractor-t1	Dysprosium Extractor	BUILDING	1	300	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Aluminum Sheets	25	Silica Glass	20	Steel	18										
+terrestrial-dysprosium-extractor-t2	Dysprosium Extractor	BUILDING	2	250	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Aluminum Sheets	30	Silica Glass	25	Steel	22	Gold	15						
+terrestrial-dysprosium-extractor-t3	Dysprosium Extractor	BUILDING	3	200	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Aluminum Sheets	35	Silica Glass	30	Steel	25	Gold	20	Graphene	15				
+terrestrial-dysprosium-extractor-t4	Dysprosium Extractor	BUILDING	4	160	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Aluminum Sheets	40	Silica Glass	35	Steel	30	Gold	25	Graphene	20	Advanced Weapon Core	12		
+terrestrial-dysprosium-extractor-t5	Dysprosium Extractor	BUILDING	5	120	Terrestrial Planet	MUD;ONI;USTUR	Extraction	0	Aluminum Sheets	50	Silica Glass	40	Steel	35	Gold	30	Graphene	25	Advanced Weapon Core	18	Utility Matrix	10	
+																								
+terrestrial-ochre-ore-extractor-t1	Ochre Ore Extractor	BUILDING	1	300	Terrestrial Planet	USTUR	Extraction	0	Aluminum Sheets	28	Silica Glass	25	Steel	22										
+terrestrial-ochre-ore-extractor-t2	Ochre Ore Extractor	BUILDING	2	250	Terrestrial Planet	USTUR	Extraction	0	Aluminum Sheets	32	Silica Glass	28	Steel	25	Gold	18						
+terrestrial-ochre-ore-extractor-t3	Ochre Ore Extractor	BUILDING	3	200	Terrestrial Planet	USTUR	Extraction	0	Aluminum Sheets	38	Silica Glass	32	Steel	28	Gold	22	Graphene	18				
+terrestrial-ochre-ore-extractor-t4	Ochre Ore Extractor	BUILDING	4	160	Terrestrial Planet	USTUR	Extraction	0	Aluminum Sheets	45	Silica Glass	38	Steel	32	Gold	28	Graphene	22	Kinetic Amplifier	15		
+terrestrial-ochre-ore-extractor-t5	Ochre Ore Extractor	BUILDING	5	120	Terrestrial Planet	USTUR	Extraction	0	Aluminum Sheets	55	Silica Glass	45	Steel	38	Gold	35	Graphene	28	Kinetic Amplifier	20	Utility Matrix	12	
+																								
+# FARM MODULES (Biomass extraction and food processing for terrestrial environment)																								
+terrestrial-food-processor-t1	Food Processor	BUILDING	1	90	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	15	Iron Brackets	12	Thermoplastic Panels	8										
+terrestrial-food-processor-t2	Food Processor	BUILDING	2	75	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	20	Iron Brackets	15	Thermoplastic Panels	10	Carbon Fiber	4								
+terrestrial-food-processor-t3	Food Processor	BUILDING	3	60	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	25	Iron Brackets	18	Thermoplastic Panels	12	Carbon Fiber	6	Aluminum	3						
+terrestrial-food-processor-t4	Food Processor	BUILDING	4	50	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	30	Iron Brackets	22	Thermoplastic Panels	15	Carbon Fiber	8	Aluminum	5	Silica Glass	2				
+terrestrial-food-processor-t5	Food Processor	BUILDING	5	40	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	35	Iron Brackets	25	Thermoplastic Panels	18	Carbon Fiber	12	Aluminum	8	Silica Glass	4	Aluminum Sheets	1		
+																								
+terrestrial-nutrient-synthesizer-t1	Nutrient Synthesizer	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	20	Aluminum Sheets	15	Iron Brackets	10										
+terrestrial-nutrient-synthesizer-t2	Nutrient Synthesizer	BUILDING	2	100	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	25	Aluminum Sheets	18	Iron Brackets	12	Thermoplastic Panels	6								
+terrestrial-nutrient-synthesizer-t3	Nutrient Synthesizer	BUILDING	3	80	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	30	Aluminum Sheets	20	Iron Brackets	15	Thermoplastic Panels	8	Carbon Fiber	4						
+terrestrial-nutrient-synthesizer-t4	Nutrient Synthesizer	BUILDING	4	65	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	35	Aluminum Sheets	25	Iron Brackets	18	Thermoplastic Panels	12	Carbon Fiber	6	Silica Glass	2				
+terrestrial-nutrient-synthesizer-t5	Nutrient Synthesizer	BUILDING	5	50	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	40	Aluminum Sheets	30	Iron Brackets	20	Thermoplastic Panels	15	Carbon Fiber	10	Silica Glass	4	Steel	1		
+																								
+terrestrial-hydroponic-system-t1	Hydroponic System	BUILDING	1	120	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	25	Aluminum Sheets	20	Silica Glass	15										
+terrestrial-hydroponic-system-t2	Hydroponic System	BUILDING	2	100	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	30	Aluminum Sheets	25	Silica Glass	18	Thermoplastic Panels	8								
+terrestrial-hydroponic-system-t3	Hydroponic System	BUILDING	3	80	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	35	Aluminum Sheets	30	Silica Glass	22	Thermoplastic Panels	12	Carbon Fiber	6						
+terrestrial-hydroponic-system-t4	Hydroponic System	BUILDING	4	65	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	40	Aluminum Sheets	35	Silica Glass	25	Thermoplastic Panels	15	Carbon Fiber	10	Iron Brackets	4				
+terrestrial-hydroponic-system-t5	Hydroponic System	BUILDING	5	50	Terrestrial Planet	MUD;ONI;USTUR	Farm	0	Bio Fiber	50	Aluminum Sheets	40	Silica Glass	30	Thermoplastic Panels	20	Carbon Fiber	15	Iron Brackets	8	Steel	2
+# CENTRAL HUB (T1 uses raw materials, T2+ uses processed)																								
+volcanic-central-hub-t1	Central Hub	BUILDING	1	0	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	0	Auto-Built	0														
+volcanic-central-hub-t2	Central Hub	BUILDING	2	300	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	25	Lumanite Cores	20	Osmium	15								
+volcanic-central-hub-t3	Central Hub	BUILDING	3	450	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	40	Thermal Control	35	Lumanite Cores	28	Osmium	20	Rhenium	15	Tantalum	12				
+volcanic-central-hub-t4	Central Hub	BUILDING	4	600	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	50	Thermal Control	45	Lumanite Cores	35	Osmium	25	Rhenium	20	Tantalum	18	Hafnium Shields	10		
+volcanic-central-hub-t5	Central Hub	BUILDING	5	750	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	60	Thermal Control	55	Lumanite Cores	45	Osmium	35	Rhenium	28	Tantalum	25	Hafnium Shields	15		
+																								
+# HUBS (T1 uses raw materials for bootstrap, T2+ uses processed)																								
+volcanic-processing-hub-t1	Processing Hub	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Thermal Regulator Stone	18	Lumanite	12										
+volcanic-processing-hub-t2	Processing Hub	BUILDING	2	180	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Osmium	12								
+volcanic-processing-hub-t3	Processing Hub	BUILDING	3	240	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	35	Thermal Control	28	Lumanite Cores	20	Osmium	15	Rhenium	12	Tantalum	10				
+volcanic-processing-hub-t4	Processing Hub	BUILDING	4	360	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	45	Thermal Control	35	Lumanite Cores	28	Osmium	20	Rhenium	18	Tantalum	15	Hafnium Shields	8		
+volcanic-processing-hub-t5	Processing Hub	BUILDING	5	480	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	55	Thermal Control	45	Lumanite Cores	35	Osmium	25	Rhenium	25	Tantalum	20	Hafnium Shields	12		
+																								
+volcanic-extraction-hub-t1	Extraction Hub	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Thermal Regulator Stone	18	Lumanite	12										
+volcanic-extraction-hub-t2	Extraction Hub	BUILDING	2	180	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Osmium	12								
+volcanic-extraction-hub-t3	Extraction Hub	BUILDING	3	240	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	35	Thermal Control	28	Lumanite Cores	20	Osmium	15	Rhenium	12	Tantalum	10				
+volcanic-extraction-hub-t4	Extraction Hub	BUILDING	4	360	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	45	Thermal Control	35	Lumanite Cores	28	Osmium	20	Rhenium	18	Tantalum	15	Hafnium Shields	8		
+volcanic-extraction-hub-t5	Extraction Hub	BUILDING	5	480	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	55	Thermal Control	45	Lumanite Cores	35	Osmium	25	Rhenium	25	Tantalum	20	Hafnium Shields	12		
+																								
+volcanic-storage-hub-t1	Storage Hub	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Thermal Regulator Stone	18	Lumanite	12										
+volcanic-storage-hub-t2	Storage Hub	BUILDING	2	180	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Osmium	12								
+volcanic-storage-hub-t3	Storage Hub	BUILDING	3	240	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	35	Thermal Control	28	Lumanite Cores	20	Osmium	15	Rhenium	12	Tantalum	10				
+volcanic-storage-hub-t4	Storage Hub	BUILDING	4	360	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	45	Thermal Control	35	Lumanite Cores	28	Osmium	20	Rhenium	18	Tantalum	15	Hafnium Shields	8		
+volcanic-storage-hub-t5	Storage Hub	BUILDING	5	480	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	55	Thermal Control	45	Lumanite Cores	35	Osmium	25	Rhenium	25	Tantalum	20	Hafnium Shields	12		
+																								
+volcanic-farm-hub-t1	Farm Hub	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	25	Thermal Regulator Stone	18	Lumanite	12										
+volcanic-farm-hub-t2	Farm Hub	BUILDING	2	180	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Osmium	12								
+volcanic-farm-hub-t3	Farm Hub	BUILDING	3	240	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	35	Thermal Control	28	Lumanite Cores	20	Osmium	15	Rhenium	12	Tantalum	10				
+volcanic-farm-hub-t4	Farm Hub	BUILDING	4	360	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	45	Thermal Control	35	Lumanite Cores	28	Osmium	20	Rhenium	18	Tantalum	15	Hafnium Shields	8		
+volcanic-farm-hub-t5	Farm Hub	BUILDING	5	480	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	55	Thermal Control	45	Lumanite Cores	35	Osmium	25	Rhenium	25	Tantalum	20	Hafnium Shields	12		
+																								
+volcanic-power-plant-t1	Power Plant	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	20	Thermal Regulator Stone	15	Lumanite	10										
+volcanic-power-plant-t2	Power Plant	BUILDING	2	135	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	25	Thermal Control	18	Lumanite Cores	12	Osmium	8								
+volcanic-power-plant-t3	Power Plant	BUILDING	3	180	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Osmium	12	Rhenium	8	Tantalum	6				
+volcanic-power-plant-t4	Power Plant	BUILDING	4	270	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	35	Thermal Control	28	Lumanite Cores	20	Osmium	15	Rhenium	12	Tantalum	10	Hafnium Shields	6		
+volcanic-power-plant-t5	Power Plant	BUILDING	5	360	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	45	Thermal Control	35	Lumanite Cores	25	Osmium	20	Rhenium	18	Tantalum	15	Hafnium Shields	10		
+																								
+volcanic-crew-quarters-t1	Crew Quarters	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco	20	Thermal Regulator Stone	15	Lumanite	10										
+volcanic-crew-quarters-t2	Crew Quarters	BUILDING	2	135	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	25	Thermal Control	18	Lumanite Cores	12	Osmium	8								
+volcanic-crew-quarters-t3	Crew Quarters	BUILDING	3	180	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Osmium	12	Rhenium	8	Tantalum	6				
+volcanic-crew-quarters-t4	Crew Quarters	BUILDING	4	270	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	35	Thermal Control	28	Lumanite Cores	20	Osmium	15	Rhenium	12	Tantalum	10	Hafnium Shields	6		
+volcanic-crew-quarters-t5	Crew Quarters	BUILDING	5	360	Volcanic Planet	MUD;ONI;USTUR	Infrastructure	1	Arco Blocks	45	Thermal Control	35	Lumanite Cores	25	Osmium	20	Rhenium	18	Tantalum	15	Hafnium Shields	10		
+																								
+# BASIC COMPONENT PROCESSORS (Convert Raw Materials to Basic Components - Bootstrap Exception)																								
+volcanic-arco-blocks-processor-t1	Arco Blocks Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Arco	15	Thermal Regulator Stone	12												
+volcanic-arco-blocks-processor-t2	Arco Blocks Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Arco	18	Thermal Regulator Stone	15	Lumanite	8										
+volcanic-arco-blocks-processor-t3	Arco Blocks Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Arco	20	Thermal Regulator Stone	18	Lumanite	12	Diamond	6								
+volcanic-arco-blocks-processor-t4	Arco Blocks Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Arco	25	Thermal Regulator Stone	20	Lumanite	15	Diamond	10	Hafnium Ore	4						
+volcanic-arco-blocks-processor-t5	Arco Blocks Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Arco	30	Thermal Regulator Stone	25	Lumanite	18	Diamond	12	Hafnium Ore	8	Palladium Ore	3				
+																								
+volcanic-thermal-control-processor-t1	Thermal Control Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Regulator Stone	18	Lumanite	10												
+volcanic-thermal-control-processor-t2	Thermal Control Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Regulator Stone	20	Lumanite	12	Arco	8										
+volcanic-thermal-control-processor-t3	Thermal Control Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Regulator Stone	25	Lumanite	15	Arco	10	Diamond	6								
+volcanic-thermal-control-processor-t4	Thermal Control Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Regulator Stone	30	Lumanite	18	Arco	12	Diamond	8	Hafnium Ore	4						
+volcanic-thermal-control-processor-t5	Thermal Control Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Regulator Stone	35	Lumanite	22	Arco	15	Diamond	10	Hafnium Ore	6	Palladium Ore	2				
+																								
+volcanic-lumanite-cores-processor-t1	Lumanite Cores Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Lumanite	20	Arco	12												
+volcanic-lumanite-cores-processor-t2	Lumanite Cores Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Lumanite	25	Arco	15	Thermal Regulator Stone	8										
+volcanic-lumanite-cores-processor-t3	Lumanite Cores Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Lumanite	30	Arco	18	Thermal Regulator Stone	12	Diamond	6								
+volcanic-lumanite-cores-processor-t4	Lumanite Cores Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Lumanite	35	Arco	20	Thermal Regulator Stone	15	Diamond	10	Hafnium Ore	4						
+volcanic-lumanite-cores-processor-t5	Lumanite Cores Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Lumanite	40	Arco	25	Thermal Regulator Stone	18	Diamond	12	Hafnium Ore	8	Palladium Ore	2				
+																								
+# REFINED ORE PROCESSORS (Convert Ores to Refined Metals)																								
+volcanic-osmium-processor-t1	Osmium Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Osmium Ore	12	Arco	8												
+volcanic-osmium-processor-t2	Osmium Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Osmium Ore	15	Arco	12	Thermal Regulator Stone	6										
+volcanic-osmium-processor-t3	Osmium Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Osmium Ore	18	Arco	15	Thermal Regulator Stone	10	Lumanite	4								
+volcanic-osmium-processor-t4	Osmium Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Osmium Ore	20	Arco	18	Thermal Regulator Stone	12	Lumanite	8	Diamond	3						
+volcanic-osmium-processor-t5	Osmium Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Osmium Ore	25	Arco	20	Thermal Regulator Stone	15	Lumanite	12	Diamond	6	Hafnium Ore	2				
+																								
+volcanic-rhenium-processor-t1	Rhenium Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhenium Ore	12	Arco	8												
+volcanic-rhenium-processor-t2	Rhenium Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhenium Ore	15	Arco	12	Thermal Regulator Stone	6										
+volcanic-rhenium-processor-t3	Rhenium Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhenium Ore	18	Arco	15	Thermal Regulator Stone	10	Lumanite	4								
+volcanic-rhenium-processor-t4	Rhenium Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhenium Ore	20	Arco	18	Thermal Regulator Stone	12	Lumanite	8	Diamond	3						
+volcanic-rhenium-processor-t5	Rhenium Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhenium Ore	25	Arco	20	Thermal Regulator Stone	15	Lumanite	12	Diamond	6	Hafnium Ore	2				
+																								
+volcanic-tantalum-processor-t1	Tantalum Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Tantalum Ore	12	Arco	8												
+volcanic-tantalum-processor-t2	Tantalum Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Tantalum Ore	15	Arco	12	Thermal Regulator Stone	6										
+volcanic-tantalum-processor-t3	Tantalum Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Tantalum Ore	18	Arco	15	Thermal Regulator Stone	10	Lumanite	4								
+volcanic-tantalum-processor-t4	Tantalum Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Tantalum Ore	20	Arco	18	Thermal Regulator Stone	12	Lumanite	8	Diamond	3						
+volcanic-tantalum-processor-t5	Tantalum Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Tantalum Ore	25	Arco	20	Thermal Regulator Stone	15	Lumanite	12	Diamond	6	Hafnium Ore	2				
+																								
+volcanic-hafnium-processor-t1	Hafnium Processor	BUILDING	1	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium Ore	12	Arco	8												
+volcanic-hafnium-processor-t2	Hafnium Processor	BUILDING	2	45	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium Ore	15	Arco	12	Thermal Regulator Stone	6										
+volcanic-hafnium-processor-t3	Hafnium Processor	BUILDING	3	30	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium Ore	18	Arco	15	Thermal Regulator Stone	10	Lumanite	4								
+volcanic-hafnium-processor-t4	Hafnium Processor	BUILDING	4	25	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium Ore	20	Arco	18	Thermal Regulator Stone	12	Lumanite	8	Diamond	3						
+volcanic-hafnium-processor-t5	Hafnium Processor	BUILDING	5	20	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium Ore	25	Arco	20	Thermal Regulator Stone	15	Lumanite	12	Diamond	6	Palladium Ore	2				
+																								
+volcanic-palladium-processor-t1	Palladium Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Palladium Ore	15	Arco	12	Thermal Regulator Stone	8										
+volcanic-palladium-processor-t2	Palladium Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Palladium Ore	18	Arco	15	Thermal Regulator Stone	12	Lumanite	6								
+volcanic-palladium-processor-t3	Palladium Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Palladium Ore	20	Arco	18	Thermal Regulator Stone	15	Lumanite	10	Diamond	4						
+volcanic-palladium-processor-t4	Palladium Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Palladium Ore	25	Arco	20	Thermal Regulator Stone	18	Lumanite	12	Diamond	8	Hafnium	3				
+volcanic-palladium-processor-t5	Palladium Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Palladium Ore	30	Arco	25	Thermal Regulator Stone	22	Lumanite	15	Diamond	12	Hafnium	6	Platinum	2		
+																								
+volcanic-platinum-processor-t1	Platinum Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum Ore	15	Arco	12	Thermal Regulator Stone	8										
+volcanic-platinum-processor-t2	Platinum Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum Ore	18	Arco	15	Thermal Regulator Stone	12	Lumanite	6								
+volcanic-platinum-processor-t3	Platinum Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum Ore	20	Arco	18	Thermal Regulator Stone	15	Lumanite	10	Diamond	4						
+volcanic-platinum-processor-t4	Platinum Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum Ore	25	Arco	20	Thermal Regulator Stone	18	Lumanite	12	Diamond	8	Hafnium	3				
+volcanic-platinum-processor-t5	Platinum Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum Ore	30	Arco	25	Thermal Regulator Stone	22	Lumanite	15	Diamond	12	Hafnium	6	Palladium	2		
+																								
+volcanic-iridium-processor-t1	Iridium Processor	BUILDING	1	150	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Iridium Ore	18	Arco	15	Thermal Regulator Stone	12	Lumanite	8								
+volcanic-iridium-processor-t2	Iridium Processor	BUILDING	2	120	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Iridium Ore	22	Arco	18	Thermal Regulator Stone	15	Lumanite	12	Diamond	6						
+volcanic-iridium-processor-t3	Iridium Processor	BUILDING	3	100	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Iridium Ore	25	Arco	20	Thermal Regulator Stone	18	Lumanite	15	Diamond	10	Hafnium	4				
+volcanic-iridium-processor-t4	Iridium Processor	BUILDING	4	80	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Iridium Ore	30	Arco	25	Thermal Regulator Stone	22	Lumanite	18	Diamond	12	Hafnium	8	Palladium	3		
+volcanic-iridium-processor-t5	Iridium Processor	BUILDING	5	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Iridium Ore	35	Arco	30	Thermal Regulator Stone	25	Lumanite	20	Diamond	15	Hafnium	12	Palladium	6		
+																								
+volcanic-rhodium-processor-t1	Rhodium Processor	BUILDING	1	150	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhodium Ore	18	Arco	15	Thermal Regulator Stone	12	Lumanite	8								
+volcanic-rhodium-processor-t2	Rhodium Processor	BUILDING	2	120	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhodium Ore	22	Arco	18	Thermal Regulator Stone	15	Lumanite	12	Diamond	6						
+volcanic-rhodium-processor-t3	Rhodium Processor	BUILDING	3	100	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhodium Ore	25	Arco	20	Thermal Regulator Stone	18	Lumanite	15	Diamond	10	Hafnium	4				
+volcanic-rhodium-processor-t4	Rhodium Processor	BUILDING	4	80	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhodium Ore	30	Arco	25	Thermal Regulator Stone	22	Lumanite	18	Diamond	12	Hafnium	8	Palladium	3		
+volcanic-rhodium-processor-t5	Rhodium Processor	BUILDING	5	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rhodium Ore	35	Arco	30	Thermal Regulator Stone	25	Lumanite	20	Diamond	15	Hafnium	12	Palladium	6		
+																								
+# EXISTING COMPONENT PROCESSORS (Use processed materials)																								
+volcanic-emergency-suppressant-processor-t1	Emergency Suppressant Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	20	Arco Blocks	12	Thermal Control	8										
+volcanic-emergency-suppressant-processor-t2	Emergency Suppressant Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	25	Arco Blocks	15	Thermal Control	12	Lumanite Cores	6								
+volcanic-emergency-suppressant-processor-t3	Emergency Suppressant Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	30	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Hafnium	4						
+volcanic-emergency-suppressant-processor-t4	Emergency Suppressant Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	35	Arco Blocks	22	Thermal Control	18	Lumanite Cores	12	Hafnium	8	Osmium	3				
+volcanic-emergency-suppressant-processor-t5	Emergency Suppressant Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	40	Arco Blocks	25	Thermal Control	20	Lumanite Cores	15	Hafnium	12	Osmium	6	Palladium	2		
+																								
+volcanic-beam-emitter-processor-t1	Beam Emitter Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Garnet Crystals	18	Diamond	15	Arco Blocks	10										
+volcanic-beam-emitter-processor-t2	Beam Emitter Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Garnet Crystals	22	Diamond	18	Arco Blocks	12	Thermal Control	8								
+volcanic-beam-emitter-processor-t3	Beam Emitter Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Garnet Crystals	25	Diamond	20	Arco Blocks	15	Thermal Control	12	Lumanite Cores	6						
+volcanic-beam-emitter-processor-t4	Beam Emitter Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Garnet Crystals	30	Diamond	25	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Hafnium	4				
+volcanic-beam-emitter-processor-t5	Beam Emitter Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Garnet Crystals	35	Diamond	30	Arco Blocks	22	Thermal Control	18	Lumanite Cores	12	Hafnium	8	Osmium	3		
+																								
+volcanic-current-limiter-processor-t1	Current Limiter Processor	BUILDING	1	90	Volcanic Planet	MUD	Processing	1	Diamond	20	Arco Blocks	12	Thermal Control	8										
+volcanic-current-limiter-processor-t2	Current Limiter Processor	BUILDING	2	75	Volcanic Planet	MUD	Processing	1	Diamond	25	Arco Blocks	15	Thermal Control	12	Lumanite Cores	6								
+volcanic-current-limiter-processor-t3	Current Limiter Processor	BUILDING	3	60	Volcanic Planet	MUD	Processing	1	Diamond	30	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Hafnium	4						
+volcanic-current-limiter-processor-t4	Current Limiter Processor	BUILDING	4	50	Volcanic Planet	MUD	Processing	1	Diamond	35	Arco Blocks	22	Thermal Control	18	Lumanite Cores	12	Hafnium	8	Osmium	3				
+volcanic-current-limiter-processor-t5	Current Limiter Processor	BUILDING	5	40	Volcanic Planet	MUD	Processing	1	Diamond	40	Arco Blocks	25	Thermal Control	20	Lumanite Cores	15	Hafnium	12	Osmium	6	Palladium	2		
+																								
+volcanic-precision-detonator-processor-t1	Precision Detonator Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rochinol	18	Diamond	15	Arco Blocks	10										
+volcanic-precision-detonator-processor-t2	Precision Detonator Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rochinol	22	Diamond	18	Arco Blocks	12	Thermal Control	8								
+volcanic-precision-detonator-processor-t3	Precision Detonator Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rochinol	25	Diamond	20	Arco Blocks	15	Thermal Control	12	Lumanite Cores	6						
+volcanic-precision-detonator-processor-t4	Precision Detonator Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rochinol	30	Diamond	25	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Hafnium	4				
+volcanic-precision-detonator-processor-t5	Precision Detonator Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Rochinol	35	Diamond	30	Arco Blocks	22	Thermal Control	18	Lumanite Cores	12	Hafnium	8	Osmium	3		
+																								
+# T2 ADVANCED COMPONENT PROCESSORS																								
+volcanic-hafnium-shields-processor-t1	Hafnium Shields Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium	20	Arco Blocks	12	Thermal Control	8										
+volcanic-hafnium-shields-processor-t2	Hafnium Shields Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium	25	Arco Blocks	15	Thermal Control	12	Lumanite Cores	6								
+volcanic-hafnium-shields-processor-t3	Hafnium Shields Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium	30	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Diamond Drill	4						
+volcanic-hafnium-shields-processor-t4	Hafnium Shields Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium	35	Arco Blocks	22	Thermal Control	18	Lumanite Cores	12	Diamond Drill	8	Osmium	3				
+volcanic-hafnium-shields-processor-t5	Hafnium Shields Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Hafnium	40	Arco Blocks	25	Thermal Control	20	Lumanite Cores	15	Diamond Drill	12	Osmium	6	Palladium	2		
+																								
+volcanic-diamond-drill-processor-t1	Diamond Drill Processor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Diamond	22	Arco Blocks	15	Thermal Control	8										
+volcanic-diamond-drill-processor-t2	Diamond Drill Processor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Diamond	25	Arco Blocks	18	Thermal Control	12	Lumanite Cores	6								
+volcanic-diamond-drill-processor-t3	Diamond Drill Processor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Diamond	30	Arco Blocks	20	Thermal Control	15	Lumanite Cores	10	Hafnium Shields	4						
+volcanic-diamond-drill-processor-t4	Diamond Drill Processor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Diamond	35	Arco Blocks	25	Thermal Control	18	Lumanite Cores	12	Hafnium Shields	8	Osmium	3				
+volcanic-diamond-drill-processor-t5	Diamond Drill Processor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Diamond	40	Arco Blocks	30	Thermal Control	22	Lumanite Cores	15	Hafnium Shields	12	Osmium	6	Palladium	2		
+																								
+# T3 COMPONENT PROCESSORS																								
+volcanic-luminous-shield-matrix-processor-t1	Luminous Shield Matrix Processor	BUILDING	1	150	Volcanic Planet	ONI	Processing	1	Glowstone Crystals	25	Arco Blocks	18	Thermal Control	12	Lumanite Cores	8								
+volcanic-luminous-shield-matrix-processor-t2	Luminous Shield Matrix Processor	BUILDING	2	120	Volcanic Planet	ONI	Processing	1	Glowstone Crystals	30	Arco Blocks	22	Thermal Control	15	Lumanite Cores	12	Hafnium Shields	6						
+volcanic-luminous-shield-matrix-processor-t3	Luminous Shield Matrix Processor	BUILDING	3	100	Volcanic Planet	ONI	Processing	1	Glowstone Crystals	35	Arco Blocks	25	Thermal Control	18	Lumanite Cores	15	Hafnium Shields	10	Diamond Drill	4				
+volcanic-luminous-shield-matrix-processor-t4	Luminous Shield Matrix Processor	BUILDING	4	80	Volcanic Planet	ONI	Processing	1	Glowstone Crystals	40	Arco Blocks	30	Thermal Control	22	Lumanite Cores	18	Hafnium Shields	12	Diamond Drill	8	Platinum Elements	3		
+volcanic-luminous-shield-matrix-processor-t5	Luminous Shield Matrix Processor	BUILDING	5	60	Volcanic Planet	ONI	Processing	1	Glowstone Crystals	50	Arco Blocks	35	Thermal Control	28	Lumanite Cores	22	Hafnium Shields	15	Diamond Drill	12	Platinum Elements	6		
+																								
+volcanic-em-weapon-interface-processor-t1	EM Weapon Interface Processor	BUILDING	1	150	Volcanic Planet	MUD	Processing	1	Cinnabar Crystals	25	Arco Blocks	18	Thermal Control	12	Lumanite Cores	8								
+volcanic-em-weapon-interface-processor-t2	EM Weapon Interface Processor	BUILDING	2	120	Volcanic Planet	MUD	Processing	1	Cinnabar Crystals	30	Arco Blocks	22	Thermal Control	15	Lumanite Cores	12	Hafnium Shields	6						
+volcanic-em-weapon-interface-processor-t3	EM Weapon Interface Processor	BUILDING	3	100	Volcanic Planet	MUD	Processing	1	Cinnabar Crystals	35	Arco Blocks	25	Thermal Control	18	Lumanite Cores	15	Hafnium Shields	10	Diamond Drill	4				
+volcanic-em-weapon-interface-processor-t4	EM Weapon Interface Processor	BUILDING	4	80	Volcanic Planet	MUD	Processing	1	Cinnabar Crystals	40	Arco Blocks	30	Thermal Control	22	Lumanite Cores	18	Hafnium Shields	12	Diamond Drill	8	Platinum Elements	3		
+volcanic-em-weapon-interface-processor-t5	EM Weapon Interface Processor	BUILDING	5	60	Volcanic Planet	MUD	Processing	1	Cinnabar Crystals	50	Arco Blocks	35	Thermal Control	28	Lumanite Cores	22	Hafnium Shields	15	Diamond Drill	12	Platinum Elements	6		
+																								
+volcanic-plasma-cell-processor-t1	Plasma Cell Processor	BUILDING	1	150	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Plasma Containment Minerals	25	Arco Blocks	18	Thermal Control	12	Lumanite Cores	8								
+volcanic-plasma-cell-processor-t2	Plasma Cell Processor	BUILDING	2	120	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Plasma Containment Minerals	30	Arco Blocks	22	Thermal Control	15	Lumanite Cores	12	Hafnium Shields	6						
+volcanic-plasma-cell-processor-t3	Plasma Cell Processor	BUILDING	3	100	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Plasma Containment Minerals	35	Arco Blocks	25	Thermal Control	18	Lumanite Cores	15	Hafnium Shields	10	Diamond Drill	4				
+volcanic-plasma-cell-processor-t4	Plasma Cell Processor	BUILDING	4	80	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Plasma Containment Minerals	40	Arco Blocks	30	Thermal Control	22	Lumanite Cores	18	Hafnium Shields	12	Diamond Drill	8	Platinum Elements	3		
+volcanic-plasma-cell-processor-t5	Plasma Cell Processor	BUILDING	5	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Plasma Containment Minerals	50	Arco Blocks	35	Thermal Control	28	Lumanite Cores	22	Hafnium Shields	15	Diamond Drill	12	Platinum Elements	6		
+																								
+volcanic-platinum-elements-processor-t1	Platinum Elements Processor	BUILDING	1	150	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum	25	Arco Blocks	18	Thermal Control	12	Lumanite Cores	8								
+volcanic-platinum-elements-processor-t2	Platinum Elements Processor	BUILDING	2	120	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum	30	Arco Blocks	22	Thermal Control	15	Lumanite Cores	12	Hafnium Shields	6						
+volcanic-platinum-elements-processor-t3	Platinum Elements Processor	BUILDING	3	100	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum	35	Arco Blocks	25	Thermal Control	18	Lumanite Cores	15	Hafnium Shields	10	Diamond Drill	4				
+volcanic-platinum-elements-processor-t4	Platinum Elements Processor	BUILDING	4	80	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum	40	Arco Blocks	30	Thermal Control	22	Lumanite Cores	18	Hafnium Shields	12	Diamond Drill	8	Palladium	3		
+volcanic-platinum-elements-processor-t5	Platinum Elements Processor	BUILDING	5	60	Volcanic Planet	MUD;ONI;USTUR	Processing	1	Platinum	50	Arco Blocks	35	Thermal Control	28	Lumanite Cores	22	Hafnium Shields	15	Diamond Drill	12	Palladium	6		
+																								
+# T4 COMPONENT PROCESSORS																								
+volcanic-dodiline-matrix-processor-t1	Dodiline Matrix Processor	BUILDING	1	180	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	25	Hafnium Shields	18	Diamond Drill	15	Platinum Elements	12								
+volcanic-dodiline-matrix-processor-t2	Dodiline Matrix Processor	BUILDING	2	150	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	30	Hafnium Shields	22	Diamond Drill	18	Platinum Elements	15	Iridium	8						
+volcanic-dodiline-matrix-processor-t3	Dodiline Matrix Processor	BUILDING	3	120	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	35	Hafnium Shields	25	Diamond Drill	20	Platinum Elements	18	Iridium	12	Rhodium	6				
+volcanic-dodiline-matrix-processor-t4	Dodiline Matrix Processor	BUILDING	4	100	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	40	Hafnium Shields	30	Diamond Drill	25	Platinum Elements	22	Iridium	15	Rhodium	10	Palladium	4		
+volcanic-dodiline-matrix-processor-t5	Dodiline Matrix Processor	BUILDING	5	80	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	50	Hafnium Shields	35	Diamond Drill	30	Platinum Elements	25	Iridium	20	Rhodium	15	Palladium	8		
+																								
+volcanic-weapon-amplifier-processor-t1	Weapon Amplifier Processor	BUILDING	1	180	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	25	Hafnium Shields	18	Diamond Drill	15	Platinum Elements	12								
+volcanic-weapon-amplifier-processor-t2	Weapon Amplifier Processor	BUILDING	2	150	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	30	Hafnium Shields	22	Diamond Drill	18	Platinum Elements	15	Iridium	8						
+volcanic-weapon-amplifier-processor-t3	Weapon Amplifier Processor	BUILDING	3	120	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	35	Hafnium Shields	25	Diamond Drill	20	Platinum Elements	18	Iridium	12	Rhodium	6				
+volcanic-weapon-amplifier-processor-t4	Weapon Amplifier Processor	BUILDING	4	100	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	40	Hafnium Shields	30	Diamond Drill	25	Platinum Elements	22	Iridium	15	Rhodium	10	Palladium	4		
+volcanic-weapon-amplifier-processor-t5	Weapon Amplifier Processor	BUILDING	5	80	Volcanic Planet	USTUR	Processing	1	Dodiline Crystals	50	Hafnium Shields	35	Diamond Drill	30	Platinum Elements	25	Iridium	20	Rhodium	15	Palladium	8		
+																								
+# RAW RESOURCE EXTRACTORS																								
+# T1 Resources: Arco, Lumanite, Osmium Ore, Rhenium Ore, Tantalum Ore, Thermal Regulator Stone																								
+volcanic-arco-extractor-t1	Arco Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	10	Thermal Control	8												
+volcanic-arco-extractor-t2	Arco Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Lumanite Cores	4										
+volcanic-arco-extractor-t3	Arco Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	6	Osmium	3								
+volcanic-arco-extractor-t4	Arco Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	8	Osmium	5	Rhenium	2						
+volcanic-arco-extractor-t5	Arco Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Lumanite Cores	10	Osmium	8	Rhenium	5	Tantalum	2				
+																								
+volcanic-lumanite-extractor-t1	Lumanite Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	8	Thermal Control	6												
+volcanic-lumanite-extractor-t2	Lumanite Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	10	Thermal Control	8	Lumanite Cores	4										
+volcanic-lumanite-extractor-t3	Lumanite Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Lumanite Cores	6	Osmium	3								
+volcanic-lumanite-extractor-t4	Lumanite Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	8	Osmium	5	Rhenium	2						
+volcanic-lumanite-extractor-t5	Lumanite Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Osmium	8	Rhenium	5	Tantalum	2				
+																								
+volcanic-osmium-ore-extractor-t1	Osmium Ore Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	10	Thermal Control	8	Lumanite Cores	6										
+volcanic-osmium-ore-extractor-t2	Osmium Ore Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Lumanite Cores	8	Osmium	4								
+volcanic-osmium-ore-extractor-t3	Osmium Ore Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	10	Osmium	6	Rhenium	3						
+volcanic-osmium-ore-extractor-t4	Osmium Ore Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	12	Osmium	8	Rhenium	5	Tantalum	2				
+volcanic-osmium-ore-extractor-t5	Osmium Ore Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Lumanite Cores	15	Osmium	12	Rhenium	8	Tantalum	5	Hafnium	2		
+																								
+volcanic-rhenium-ore-extractor-t1	Rhenium Ore Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	10	Thermal Control	8	Lumanite Cores	6										
+volcanic-rhenium-ore-extractor-t2	Rhenium Ore Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Lumanite Cores	8	Osmium	4								
+volcanic-rhenium-ore-extractor-t3	Rhenium Ore Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	10	Osmium	6	Rhenium	3						
+volcanic-rhenium-ore-extractor-t4	Rhenium Ore Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	12	Osmium	8	Rhenium	5	Tantalum	2				
+volcanic-rhenium-ore-extractor-t5	Rhenium Ore Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Lumanite Cores	15	Osmium	12	Rhenium	8	Tantalum	5	Hafnium	2		
+																								
+volcanic-tantalum-ore-extractor-t1	Tantalum Ore Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	10	Thermal Control	8	Lumanite Cores	6										
+volcanic-tantalum-ore-extractor-t2	Tantalum Ore Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Lumanite Cores	8	Osmium	4								
+volcanic-tantalum-ore-extractor-t3	Tantalum Ore Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	10	Osmium	6	Rhenium	3						
+volcanic-tantalum-ore-extractor-t4	Tantalum Ore Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	12	Osmium	8	Rhenium	5	Tantalum	2				
+volcanic-tantalum-ore-extractor-t5	Tantalum Ore Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Lumanite Cores	15	Osmium	12	Rhenium	8	Tantalum	5	Hafnium	2		
+																								
+volcanic-thermal-regulator-stone-extractor-t1	Thermal Regulator Stone Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	8	Lumanite Cores	6												
+volcanic-thermal-regulator-stone-extractor-t2	Thermal Regulator Stone Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	10	Lumanite Cores	8	Thermal Control	4										
+volcanic-thermal-regulator-stone-extractor-t3	Thermal Regulator Stone Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Lumanite Cores	10	Thermal Control	6	Osmium	3								
+volcanic-thermal-regulator-stone-extractor-t4	Thermal Regulator Stone Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Lumanite Cores	12	Thermal Control	8	Osmium	5	Rhenium	2						
+volcanic-thermal-regulator-stone-extractor-t5	Thermal Regulator Stone Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Lumanite Cores	15	Thermal Control	10	Osmium	8	Rhenium	5	Tantalum	2				
+																								
+# T2 Resources: Diamond, Fluorine Gas, Garnet Crystals, Hafnium Ore, Rochinol																								
+volcanic-diamond-extractor-t1	Diamond Extractor	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Hafnium Shields	10										
+volcanic-diamond-extractor-t2	Diamond Extractor	BUILDING	2	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Hafnium Shields	12	Diamond Drill	4								
+volcanic-diamond-extractor-t3	Diamond Extractor	BUILDING	3	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Hafnium Shields	15	Diamond Drill	6	Osmium	3						
+volcanic-diamond-extractor-t4	Diamond Extractor	BUILDING	4	65	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	25	Thermal Control	20	Hafnium Shields	18	Diamond Drill	8	Osmium	5	Rhenium	2				
+volcanic-diamond-extractor-t5	Diamond Extractor	BUILDING	5	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	30	Thermal Control	25	Hafnium Shields	22	Diamond Drill	12	Osmium	8	Rhenium	5	Hafnium	2		
+																								
+volcanic-fluorine-gas-extractor-t1	Fluorine Gas Extractor	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Emergency Suppressant	10	Hafnium Shields	8										
+volcanic-fluorine-gas-extractor-t2	Fluorine Gas Extractor	BUILDING	2	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Emergency Suppressant	12	Hafnium Shields	10	Thermal Control	4								
+volcanic-fluorine-gas-extractor-t3	Fluorine Gas Extractor	BUILDING	3	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Emergency Suppressant	15	Hafnium Shields	12	Thermal Control	6	Diamond Drill	3						
+volcanic-fluorine-gas-extractor-t4	Fluorine Gas Extractor	BUILDING	4	65	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Emergency Suppressant	18	Hafnium Shields	15	Thermal Control	8	Diamond Drill	5	Osmium	2				
+volcanic-fluorine-gas-extractor-t5	Fluorine Gas Extractor	BUILDING	5	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	25	Emergency Suppressant	22	Hafnium Shields	18	Thermal Control	12	Diamond Drill	8	Osmium	5	Hafnium	2		
+																								
+volcanic-garnet-crystals-extractor-t1	Garnet Crystals Extractor	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Diamond Drill	8										
+volcanic-garnet-crystals-extractor-t2	Garnet Crystals Extractor	BUILDING	2	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Diamond Drill	10	Hafnium Shields	4								
+volcanic-garnet-crystals-extractor-t3	Garnet Crystals Extractor	BUILDING	3	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Diamond Drill	12	Hafnium Shields	6	Osmium	3						
+volcanic-garnet-crystals-extractor-t4	Garnet Crystals Extractor	BUILDING	4	65	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Diamond Drill	15	Hafnium Shields	8	Osmium	5	Rhenium	2				
+volcanic-garnet-crystals-extractor-t5	Garnet Crystals Extractor	BUILDING	5	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	25	Thermal Control	20	Diamond Drill	18	Hafnium Shields	12	Osmium	8	Rhenium	5	Hafnium	2		
+																								
+volcanic-hafnium-ore-extractor-t1	Hafnium Ore Extractor	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Lumanite Cores	8										
+volcanic-hafnium-ore-extractor-t2	Hafnium Ore Extractor	BUILDING	2	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	10	Hafnium Shields	4								
+volcanic-hafnium-ore-extractor-t3	Hafnium Ore Extractor	BUILDING	3	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	12	Hafnium Shields	6	Diamond Drill	3						
+volcanic-hafnium-ore-extractor-t4	Hafnium Ore Extractor	BUILDING	4	65	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Lumanite Cores	15	Hafnium Shields	8	Diamond Drill	5	Osmium	2				
+volcanic-hafnium-ore-extractor-t5	Hafnium Ore Extractor	BUILDING	5	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	25	Thermal Control	20	Lumanite Cores	18	Hafnium Shields	12	Diamond Drill	8	Osmium	5	Rhenium	2		
+																								
+volcanic-rochinol-extractor-t1	Rochinol Extractor	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	12	Thermal Control	10	Hafnium Shields	8										
+volcanic-rochinol-extractor-t2	Rochinol Extractor	BUILDING	2	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	15	Thermal Control	12	Hafnium Shields	10	Diamond Drill	4								
+volcanic-rochinol-extractor-t3	Rochinol Extractor	BUILDING	3	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	18	Thermal Control	15	Hafnium Shields	12	Diamond Drill	6	Osmium	3						
+volcanic-rochinol-extractor-t4	Rochinol Extractor	BUILDING	4	65	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	20	Thermal Control	18	Hafnium Shields	15	Diamond Drill	8	Osmium	5	Rhenium	2				
+volcanic-rochinol-extractor-t5	Rochinol Extractor	BUILDING	5	50	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Arco Blocks	25	Thermal Control	20	Hafnium Shields	18	Diamond Drill	12	Osmium	8	Rhenium	5	Hafnium	2		
+																								
+# T3 Resources: Cinnabar Crystals, Glowstone Crystals, Palladium Ore, Plasma Containment Minerals, Platinum Ore																								
+volcanic-cinnabar-crystals-extractor-t1	Cinnabar Crystals Extractor	BUILDING	1	180	Volcanic Planet	MUD	Extraction	0	Diamond Drill	18	Platinum Elements	15	Thermal Control	12										
+volcanic-cinnabar-crystals-extractor-t2	Cinnabar Crystals Extractor	BUILDING	2	150	Volcanic Planet	MUD	Extraction	0	Diamond Drill	20	Platinum Elements	18	Thermal Control	15	Hafnium Shields	8								
+volcanic-cinnabar-crystals-extractor-t3	Cinnabar Crystals Extractor	BUILDING	3	120	Volcanic Planet	MUD	Extraction	0	Diamond Drill	25	Platinum Elements	20	Thermal Control	18	Hafnium Shields	12	Luminous Shield Matrix	6						
+volcanic-cinnabar-crystals-extractor-t4	Cinnabar Crystals Extractor	BUILDING	4	100	Volcanic Planet	MUD	Extraction	0	Diamond Drill	28	Platinum Elements	25	Thermal Control	20	Hafnium Shields	15	Luminous Shield Matrix	10	Palladium	4				
+volcanic-cinnabar-crystals-extractor-t5	Cinnabar Crystals Extractor	BUILDING	5	80	Volcanic Planet	MUD	Extraction	0	Diamond Drill	35	Platinum Elements	30	Thermal Control	25	Hafnium Shields	20	Luminous Shield Matrix	15	Palladium	8	Iridium	3		
+																								
+volcanic-glowstone-crystals-extractor-t1	Glowstone Crystals Extractor	BUILDING	1	180	Volcanic Planet	ONI	Extraction	0	Diamond Drill	20	Platinum Elements	18	Lumanite Cores	15										
+volcanic-glowstone-crystals-extractor-t2	Glowstone Crystals Extractor	BUILDING	2	150	Volcanic Planet	ONI	Extraction	0	Diamond Drill	25	Platinum Elements	20	Lumanite Cores	18	Hafnium Shields	8								
+volcanic-glowstone-crystals-extractor-t3	Glowstone Crystals Extractor	BUILDING	3	120	Volcanic Planet	ONI	Extraction	0	Diamond Drill	30	Platinum Elements	25	Lumanite Cores	20	Hafnium Shields	12	Plasma Cell	6						
+volcanic-glowstone-crystals-extractor-t4	Glowstone Crystals Extractor	BUILDING	4	100	Volcanic Planet	ONI	Extraction	0	Diamond Drill	35	Platinum Elements	30	Lumanite Cores	25	Hafnium Shields	15	Plasma Cell	10	Palladium	4				
+volcanic-glowstone-crystals-extractor-t5	Glowstone Crystals Extractor	BUILDING	5	80	Volcanic Planet	ONI	Extraction	0	Diamond Drill	40	Platinum Elements	35	Lumanite Cores	30	Hafnium Shields	20	Plasma Cell	15	Palladium	8	Iridium	3		
+																								
+volcanic-palladium-ore-extractor-t1	Palladium Ore Extractor	BUILDING	1	180	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	18	Platinum Elements	15	Hafnium Shields	12										
+volcanic-palladium-ore-extractor-t2	Palladium Ore Extractor	BUILDING	2	150	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	22	Platinum Elements	18	Hafnium Shields	15	Thermal Control	8								
+volcanic-palladium-ore-extractor-t3	Palladium Ore Extractor	BUILDING	3	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	25	Platinum Elements	22	Hafnium Shields	18	Thermal Control	12	Plasma Cell	6						
+volcanic-palladium-ore-extractor-t4	Palladium Ore Extractor	BUILDING	4	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	30	Platinum Elements	25	Hafnium Shields	20	Thermal Control	15	Plasma Cell	10	Iridium	4				
+volcanic-palladium-ore-extractor-t5	Palladium Ore Extractor	BUILDING	5	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	35	Platinum Elements	30	Hafnium Shields	25	Thermal Control	18	Plasma Cell	15	Iridium	8	Rhodium	3		
+																								
+volcanic-plasma-containment-minerals-extractor-t1	Plasma Containment Minerals Extractor	BUILDING	1	180	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	22	Platinum Elements	18	Hafnium Shields	15										
+volcanic-plasma-containment-minerals-extractor-t2	Plasma Containment Minerals Extractor	BUILDING	2	150	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	25	Platinum Elements	22	Hafnium Shields	18	Thermal Control	8								
+volcanic-plasma-containment-minerals-extractor-t3	Plasma Containment Minerals Extractor	BUILDING	3	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	30	Platinum Elements	25	Hafnium Shields	20	Thermal Control	12	Luminous Shield Matrix	6						
+volcanic-plasma-containment-minerals-extractor-t4	Plasma Containment Minerals Extractor	BUILDING	4	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	35	Platinum Elements	30	Hafnium Shields	25	Thermal Control	15	Luminous Shield Matrix	10	Palladium	4				
+volcanic-plasma-containment-minerals-extractor-t5	Plasma Containment Minerals Extractor	BUILDING	5	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	40	Platinum Elements	35	Hafnium Shields	30	Thermal Control	18	Luminous Shield Matrix	15	Palladium	8	Iridium	3		
+																								
+volcanic-platinum-ore-extractor-t1	Platinum Ore Extractor	BUILDING	1	180	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	15	Thermal Control	18	Hafnium Shields	12										
+volcanic-platinum-ore-extractor-t2	Platinum Ore Extractor	BUILDING	2	150	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	18	Thermal Control	22	Hafnium Shields	15	Platinum Elements	8								
+volcanic-platinum-ore-extractor-t3	Platinum Ore Extractor	BUILDING	3	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	22	Thermal Control	25	Hafnium Shields	18	Platinum Elements	12	Plasma Cell	6						
+volcanic-platinum-ore-extractor-t4	Platinum Ore Extractor	BUILDING	4	100	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	25	Thermal Control	30	Hafnium Shields	22	Platinum Elements	15	Plasma Cell	10	Palladium	4				
+volcanic-platinum-ore-extractor-t5	Platinum Ore Extractor	BUILDING	5	80	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	30	Thermal Control	35	Hafnium Shields	25	Platinum Elements	18	Plasma Cell	15	Palladium	8	Iridium	3		
+																								
+# T4 Resources: Dodiline Crystals, Iridium Ore, Rhodium Ore																								
+volcanic-dodiline-crystals-extractor-t1	Dodiline Crystals Extractor	BUILDING	1	300	Volcanic Planet	USTUR	Extraction	0	Diamond Drill	25	Platinum Elements	20	Hafnium Shields	18										
+volcanic-dodiline-crystals-extractor-t2	Dodiline Crystals Extractor	BUILDING	2	250	Volcanic Planet	USTUR	Extraction	0	Diamond Drill	30	Platinum Elements	25	Hafnium Shields	22	Luminous Shield Matrix	12						
+volcanic-dodiline-crystals-extractor-t3	Dodiline Crystals Extractor	BUILDING	3	200	Volcanic Planet	USTUR	Extraction	0	Diamond Drill	35	Platinum Elements	30	Hafnium Shields	25	Luminous Shield Matrix	18	Plasma Cell	15				
+volcanic-dodiline-crystals-extractor-t4	Dodiline Crystals Extractor	BUILDING	4	160	Volcanic Planet	USTUR	Extraction	0	Diamond Drill	40	Platinum Elements	35	Hafnium Shields	30	Luminous Shield Matrix	25	Plasma Cell	20	Dodiline Matrix	12		
+volcanic-dodiline-crystals-extractor-t5	Dodiline Crystals Extractor	BUILDING	5	120	Volcanic Planet	USTUR	Extraction	0	Diamond Drill	50	Platinum Elements	40	Hafnium Shields	35	Luminous Shield Matrix	30	Plasma Cell	25	Dodiline Matrix	18	Weapon Amplifier	10	
+																								
+volcanic-iridium-ore-extractor-t1	Iridium Ore Extractor	BUILDING	1	300	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	28	Platinum Elements	25	Hafnium Shields	22										
+volcanic-iridium-ore-extractor-t2	Iridium Ore Extractor	BUILDING	2	250	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	35	Platinum Elements	30	Hafnium Shields	25	Luminous Shield Matrix	15						
+volcanic-iridium-ore-extractor-t3	Iridium Ore Extractor	BUILDING	3	200	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	40	Platinum Elements	35	Hafnium Shields	30	Luminous Shield Matrix	20	Plasma Cell	18				
+volcanic-iridium-ore-extractor-t4	Iridium Ore Extractor	BUILDING	4	160	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	45	Platinum Elements	40	Hafnium Shields	35	Luminous Shield Matrix	25	Plasma Cell	22	Iridium	15		
+volcanic-iridium-ore-extractor-t5	Iridium Ore Extractor	BUILDING	5	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	55	Platinum Elements	50	Hafnium Shields	40	Luminous Shield Matrix	30	Plasma Cell	28	Iridium	20	Rhodium	12	
+																								
+volcanic-rhodium-ore-extractor-t1	Rhodium Ore Extractor	BUILDING	1	300	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	30	Platinum Elements	28	Hafnium Shields	25										
+volcanic-rhodium-ore-extractor-t2	Rhodium Ore Extractor	BUILDING	2	250	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	35	Platinum Elements	32	Hafnium Shields	28	Luminous Shield Matrix	18						
+volcanic-rhodium-ore-extractor-t3	Rhodium Ore Extractor	BUILDING	3	200	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	42	Platinum Elements	38	Hafnium Shields	32	Luminous Shield Matrix	22	Plasma Cell	20				
+volcanic-rhodium-ore-extractor-t4	Rhodium Ore Extractor	BUILDING	4	160	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	50	Platinum Elements	45	Hafnium Shields	38	Luminous Shield Matrix	28	Plasma Cell	25	Rhodium	18		
+volcanic-rhodium-ore-extractor-t5	Rhodium Ore Extractor	BUILDING	5	120	Volcanic Planet	MUD;ONI;USTUR	Extraction	0	Diamond Drill	60	Platinum Elements	55	Hafnium Shields	45	Luminous Shield Matrix	35	Plasma Cell	30	Rhodium	25	Iridium	15	
+																								
+# FARM MODULES (Plant/Organic Extraction - Limited for volcanic environment)																								
+volcanic-thermal-vent-biomass-extractor-t1	Thermal Vent Biomass Extractor	BUILDING	1	90	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	15	Thermal Control	12	Lumanite Cores	8										
+volcanic-thermal-vent-biomass-extractor-t2	Thermal Vent Biomass Extractor	BUILDING	2	75	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	18	Thermal Control	15	Lumanite Cores	10	Osmium	4								
+volcanic-thermal-vent-biomass-extractor-t3	Thermal Vent Biomass Extractor	BUILDING	3	60	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	20	Thermal Control	18	Lumanite Cores	12	Osmium	6	Rhenium	3						
+volcanic-thermal-vent-biomass-extractor-t4	Thermal Vent Biomass Extractor	BUILDING	4	50	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	25	Thermal Control	20	Lumanite Cores	15	Osmium	8	Rhenium	5	Tantalum	2				
+volcanic-thermal-vent-biomass-extractor-t5	Thermal Vent Biomass Extractor	BUILDING	5	40	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	30	Thermal Control	25	Lumanite Cores	18	Osmium	12	Rhenium	8	Tantalum	4	Hafnium	1		
+																								
+volcanic-geothermal-algae-extractor-t1	Geothermal Algae Extractor	BUILDING	1	120	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	20	Thermal Control	15	Hafnium Shields	10										
+volcanic-geothermal-algae-extractor-t2	Geothermal Algae Extractor	BUILDING	2	100	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	25	Thermal Control	18	Hafnium Shields	12	Lumanite Cores	6								
+volcanic-geothermal-algae-extractor-t3	Geothermal Algae Extractor	BUILDING	3	80	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	30	Thermal Control	20	Hafnium Shields	15	Lumanite Cores	8	Diamond Drill	4						
+volcanic-geothermal-algae-extractor-t4	Geothermal Algae Extractor	BUILDING	4	65	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	35	Thermal Control	25	Hafnium Shields	18	Lumanite Cores	12	Diamond Drill	6	Osmium	2				
+volcanic-geothermal-algae-extractor-t5	Geothermal Algae Extractor	BUILDING	5	50	Volcanic Planet	MUD;ONI;USTUR	Farm	0	Arco Blocks	40	Thermal Control	30	Hafnium Shields	20	Lumanite Cores	15	Diamond Drill	10	Osmium	4	Platinum Elements	1
+# CENTRAL HUB (T1 uses raw materials, T2+ uses processed)																								
+oceanic-central-hub-t1	Central Hub	BUILDING	1	0	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	0	Auto-Built	0														
+oceanic-central-hub-t2	Central Hub	BUILDING	2	300	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	25	Nitrogen Systems	20	Bio Kelp	15								
+oceanic-central-hub-t3	Central Hub	BUILDING	3	450	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	40	Hydrogen Cells	35	Nitrogen Systems	28	Bio Kelp	20	Gas Stabilizer	15	Cobalt	12				
+oceanic-central-hub-t4	Central Hub	BUILDING	4	600	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	50	Hydrogen Cells	45	Nitrogen Systems	35	Bio Kelp	25	Gas Stabilizer	20	Cobalt	18	Utility Core	10		
+oceanic-central-hub-t5	Central Hub	BUILDING	5	750	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	60	Hydrogen Cells	55	Nitrogen Systems	45	Bio Kelp	35	Gas Stabilizer	28	Cobalt	25	Utility Core	15		
+																								
+# HUBS (T1 uses raw materials for bootstrap, T2+ uses processed)																								
+oceanic-processing-hub-t1	Processing Hub	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Chromite	25	Hydrogen	18	Nitrogen	12										
+oceanic-processing-hub-t2	Processing Hub	BUILDING	2	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	15	Bio Kelp	12								
+oceanic-processing-hub-t3	Processing Hub	BUILDING	3	240	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	20	Bio Kelp	15	Gas Stabilizer	12	Cobalt	10				
+oceanic-processing-hub-t4	Processing Hub	BUILDING	4	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	45	Hydrogen Cells	35	Nitrogen Systems	28	Bio Kelp	20	Gas Stabilizer	18	Cobalt	15	Utility Core	8		
+oceanic-processing-hub-t5	Processing Hub	BUILDING	5	480	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	55	Hydrogen Cells	45	Nitrogen Systems	35	Bio Kelp	25	Gas Stabilizer	25	Cobalt	20	Utility Core	12		
+																								
+oceanic-extraction-hub-t1	Extraction Hub	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Chromite	25	Hydrogen	18	Nitrogen	12										
+oceanic-extraction-hub-t2	Extraction Hub	BUILDING	2	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	15	Bio Kelp	12								
+oceanic-extraction-hub-t3	Extraction Hub	BUILDING	3	240	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	20	Bio Kelp	15	Gas Stabilizer	12	Cobalt	10				
+oceanic-extraction-hub-t4	Extraction Hub	BUILDING	4	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	45	Hydrogen Cells	35	Nitrogen Systems	28	Bio Kelp	20	Gas Stabilizer	18	Cobalt	15	Utility Core	8		
+oceanic-extraction-hub-t5	Extraction Hub	BUILDING	5	480	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	55	Hydrogen Cells	45	Nitrogen Systems	35	Bio Kelp	25	Gas Stabilizer	25	Cobalt	20	Utility Core	12		
+																								
+oceanic-storage-hub-t1	Storage Hub	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Chromite	25	Hydrogen	18	Nitrogen	12										
+oceanic-storage-hub-t2	Storage Hub	BUILDING	2	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	15	Bio Kelp	12								
+oceanic-storage-hub-t3	Storage Hub	BUILDING	3	240	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	20	Bio Kelp	15	Gas Stabilizer	12	Cobalt	10				
+oceanic-storage-hub-t4	Storage Hub	BUILDING	4	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	45	Hydrogen Cells	35	Nitrogen Systems	28	Bio Kelp	20	Gas Stabilizer	18	Cobalt	15	Utility Core	8		
+oceanic-storage-hub-t5	Storage Hub	BUILDING	5	480	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	55	Hydrogen Cells	45	Nitrogen Systems	35	Bio Kelp	25	Gas Stabilizer	25	Cobalt	20	Utility Core	12		
+																								
+oceanic-farm-hub-t1	Farm Hub	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Chromite	25	Hydrogen	18	Nitrogen	12										
+oceanic-farm-hub-t2	Farm Hub	BUILDING	2	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	15	Bio Kelp	12								
+oceanic-farm-hub-t3	Farm Hub	BUILDING	3	240	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	20	Bio Kelp	15	Gas Stabilizer	12	Cobalt	10				
+oceanic-farm-hub-t4	Farm Hub	BUILDING	4	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	45	Hydrogen Cells	35	Nitrogen Systems	28	Bio Kelp	20	Gas Stabilizer	18	Cobalt	15	Utility Core	8		
+oceanic-farm-hub-t5	Farm Hub	BUILDING	5	480	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	55	Hydrogen Cells	45	Nitrogen Systems	35	Bio Kelp	25	Gas Stabilizer	25	Cobalt	20	Utility Core	12		
+																								
+oceanic-power-plant-t1	Power Plant	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Chromite	20	Hydrogen	15	Nitrogen	10										
+oceanic-power-plant-t2	Power Plant	BUILDING	2	135	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	25	Hydrogen Cells	18	Nitrogen Systems	12	Bio Kelp	8								
+oceanic-power-plant-t3	Power Plant	BUILDING	3	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	15	Bio Kelp	12	Gas Stabilizer	8	Cobalt	6				
+oceanic-power-plant-t4	Power Plant	BUILDING	4	270	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	20	Bio Kelp	15	Gas Stabilizer	12	Cobalt	10	Utility Core	6		
+oceanic-power-plant-t5	Power Plant	BUILDING	5	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	45	Hydrogen Cells	35	Nitrogen Systems	25	Bio Kelp	20	Gas Stabilizer	18	Cobalt	15	Utility Core	10		
+																								
+oceanic-crew-quarters-t1	Crew Quarters	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Chromite	20	Hydrogen	15	Nitrogen	10										
+oceanic-crew-quarters-t2	Crew Quarters	BUILDING	2	135	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	25	Hydrogen Cells	18	Nitrogen Systems	12	Bio Kelp	8								
+oceanic-crew-quarters-t3	Crew Quarters	BUILDING	3	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	15	Bio Kelp	12	Gas Stabilizer	8	Cobalt	6				
+oceanic-crew-quarters-t4	Crew Quarters	BUILDING	4	270	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	20	Bio Kelp	15	Gas Stabilizer	12	Cobalt	10	Utility Core	6		
+oceanic-crew-quarters-t5	Crew Quarters	BUILDING	5	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Chromite Ingot	45	Hydrogen Cells	35	Nitrogen Systems	25	Bio Kelp	20	Gas Stabilizer	18	Cobalt	15	Utility Core	10		
+																								
+# BASIC COMPONENT PROCESSORS (Convert Raw Materials to Basic Components - Bootstrap Exception)																								
+oceanic-chromite-ingot-processor-t1	Chromite Ingot Processor	BUILDING	1	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Abyssal Chromite	15	Hydrogen	12												
+oceanic-chromite-ingot-processor-t2	Chromite Ingot Processor	BUILDING	2	45	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Abyssal Chromite	18	Hydrogen	15	Nitrogen	8										
+oceanic-chromite-ingot-processor-t3	Chromite Ingot Processor	BUILDING	3	30	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Abyssal Chromite	20	Hydrogen	18	Nitrogen	12	Argon	6								
+oceanic-chromite-ingot-processor-t4	Chromite Ingot Processor	BUILDING	4	25	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Abyssal Chromite	25	Hydrogen	20	Nitrogen	15	Argon	10	Oxygen	4						
+oceanic-chromite-ingot-processor-t5	Chromite Ingot Processor	BUILDING	5	20	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Abyssal Chromite	30	Hydrogen	25	Nitrogen	18	Argon	12	Oxygen	8	Bathysphere Pearls	3				
+																								
+oceanic-bio-kelp-processor-t1	Bio Kelp Processor	BUILDING	1	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Marine Bio Extract	15	Nitrogen	12												
+oceanic-bio-kelp-processor-t2	Bio Kelp Processor	BUILDING	2	45	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Marine Bio Extract	18	Nitrogen	15	Hydrogen	8										
+oceanic-bio-kelp-processor-t3	Bio Kelp Processor	BUILDING	3	30	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Marine Bio Extract	20	Nitrogen	18	Hydrogen	12	Argon	6								
+oceanic-bio-kelp-processor-t4	Bio Kelp Processor	BUILDING	4	25	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Marine Bio Extract	25	Nitrogen	20	Hydrogen	15	Argon	10	Oxygen	4						
+oceanic-bio-kelp-processor-t5	Bio Kelp Processor	BUILDING	5	20	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Marine Bio Extract	30	Nitrogen	25	Hydrogen	18	Argon	12	Oxygen	8	Bathysphere Pearls	3				
+																								
+oceanic-hydrogen-cells-processor-t1	Hydrogen Cells Processor	BUILDING	1	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Hydrogen	18	Nitrogen	10												
+oceanic-hydrogen-cells-processor-t2	Hydrogen Cells Processor	BUILDING	2	45	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Hydrogen	20	Nitrogen	12	Abyssal Chromite	8										
+oceanic-hydrogen-cells-processor-t3	Hydrogen Cells Processor	BUILDING	3	30	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Hydrogen	25	Nitrogen	15	Abyssal Chromite	10	Argon	6								
+oceanic-hydrogen-cells-processor-t4	Hydrogen Cells Processor	BUILDING	4	25	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Hydrogen	30	Nitrogen	18	Abyssal Chromite	12	Argon	8	Oxygen	4						
+oceanic-hydrogen-cells-processor-t5	Hydrogen Cells Processor	BUILDING	5	20	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Hydrogen	35	Nitrogen	22	Abyssal Chromite	15	Argon	10	Oxygen	6	Bathysphere Pearls	2				
+																								
+oceanic-nitrogen-systems-processor-t1	Nitrogen Systems Processor	BUILDING	1	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Nitrogen	20	Hydrogen	12												
+oceanic-nitrogen-systems-processor-t2	Nitrogen Systems Processor	BUILDING	2	45	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Nitrogen	25	Hydrogen	15	Abyssal Chromite	8										
+oceanic-nitrogen-systems-processor-t3	Nitrogen Systems Processor	BUILDING	3	30	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Nitrogen	30	Hydrogen	18	Abyssal Chromite	12	Argon	6								
+oceanic-nitrogen-systems-processor-t4	Nitrogen Systems Processor	BUILDING	4	25	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Nitrogen	35	Hydrogen	20	Abyssal Chromite	15	Argon	10	Oxygen	4						
+oceanic-nitrogen-systems-processor-t5	Nitrogen Systems Processor	BUILDING	5	20	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Nitrogen	40	Hydrogen	25	Abyssal Chromite	18	Argon	12	Oxygen	8	Bathysphere Pearls	2				
+																								
+# REFINED ORE PROCESSORS (Convert Ores to Refined Metals)																								
+oceanic-cobalt-processor-t1	Cobalt Processor	BUILDING	1	60	Oceanic Planet	ONI	Processing	1	Cobalt Ore	12	Abyssal Chromite	8												
+oceanic-cobalt-processor-t2	Cobalt Processor	BUILDING	2	45	Oceanic Planet	ONI	Processing	1	Cobalt Ore	15	Abyssal Chromite	12	Hydrogen	6										
+oceanic-cobalt-processor-t3	Cobalt Processor	BUILDING	3	30	Oceanic Planet	ONI	Processing	1	Cobalt Ore	18	Abyssal Chromite	15	Hydrogen	10	Nitrogen	4								
+oceanic-cobalt-processor-t4	Cobalt Processor	BUILDING	4	25	Oceanic Planet	ONI	Processing	1	Cobalt Ore	20	Abyssal Chromite	18	Hydrogen	12	Nitrogen	8	Argon	3						
+oceanic-cobalt-processor-t5	Cobalt Processor	BUILDING	5	20	Oceanic Planet	ONI	Processing	1	Cobalt Ore	25	Abyssal Chromite	20	Hydrogen	15	Nitrogen	12	Argon	6	Bathysphere Pearls	2				
+																								
+oceanic-manganese-processor-t1	Manganese Processor	BUILDING	1	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	12	Abyssal Chromite	8												
+oceanic-manganese-processor-t2	Manganese Processor	BUILDING	2	45	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	15	Abyssal Chromite	12	Hydrogen	6										
+oceanic-manganese-processor-t3	Manganese Processor	BUILDING	3	30	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	18	Abyssal Chromite	15	Hydrogen	10	Nitrogen	4								
+oceanic-manganese-processor-t4	Manganese Processor	BUILDING	4	25	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	20	Abyssal Chromite	18	Hydrogen	12	Nitrogen	8	Argon	3						
+oceanic-manganese-processor-t5	Manganese Processor	BUILDING	5	20	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese Ore	25	Abyssal Chromite	20	Hydrogen	15	Nitrogen	12	Argon	6	Bathysphere Pearls	2				
+																								
+# EXISTING COMPONENT PROCESSORS (Use processed materials)																								
+oceanic-gas-stabilizer-processor-t1	Gas Stabilizer Processor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Argon	20	Chromite Ingot	12	Hydrogen Cells	8										
+oceanic-gas-stabilizer-processor-t2	Gas Stabilizer Processor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Argon	25	Chromite Ingot	15	Hydrogen Cells	12	Nitrogen Systems	6								
+oceanic-gas-stabilizer-processor-t3	Gas Stabilizer Processor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Argon	30	Chromite Ingot	18	Hydrogen Cells	15	Nitrogen Systems	10	Cobalt	4						
+oceanic-gas-stabilizer-processor-t4	Gas Stabilizer Processor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Argon	35	Chromite Ingot	22	Hydrogen Cells	18	Nitrogen Systems	12	Cobalt	8	Manganese	3				
+oceanic-gas-stabilizer-processor-t5	Gas Stabilizer Processor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Argon	40	Chromite Ingot	25	Hydrogen Cells	20	Nitrogen Systems	15	Cobalt	12	Manganese	6	Utility Core	2		
+																								
+oceanic-climate-controller-processor-t1	Climate Controller Processor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Bloom Sediment	18	Argon	15	Chromite Ingot	10										
+oceanic-climate-controller-processor-t2	Climate Controller Processor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Bloom Sediment	22	Argon	18	Chromite Ingot	12	Hydrogen Cells	8								
+oceanic-climate-controller-processor-t3	Climate Controller Processor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Bloom Sediment	25	Argon	20	Chromite Ingot	15	Hydrogen Cells	12	Nitrogen Systems	6						
+oceanic-climate-controller-processor-t4	Climate Controller Processor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Bloom Sediment	30	Argon	25	Chromite Ingot	18	Hydrogen Cells	15	Nitrogen Systems	10	Cobalt	4				
+oceanic-climate-controller-processor-t5	Climate Controller Processor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Thermal Bloom Sediment	35	Argon	30	Chromite Ingot	22	Hydrogen Cells	18	Nitrogen Systems	12	Cobalt	8	Manganese	3		
+																								
+oceanic-emergency-suppressant-processor-t1	Emergency Suppressant Processor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	20	Chromite Ingot	12	Hydrogen Cells	8										
+oceanic-emergency-suppressant-processor-t2	Emergency Suppressant Processor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	25	Chromite Ingot	15	Hydrogen Cells	12	Nitrogen Systems	6								
+oceanic-emergency-suppressant-processor-t3	Emergency Suppressant Processor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	30	Chromite Ingot	18	Hydrogen Cells	15	Nitrogen Systems	10	Gas Stabilizer	4						
+oceanic-emergency-suppressant-processor-t4	Emergency Suppressant Processor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	35	Chromite Ingot	22	Hydrogen Cells	18	Nitrogen Systems	12	Gas Stabilizer	8	Cobalt	3				
+oceanic-emergency-suppressant-processor-t5	Emergency Suppressant Processor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Fluorine Gas	40	Chromite Ingot	25	Hydrogen Cells	20	Nitrogen Systems	15	Gas Stabilizer	12	Cobalt	6	Manganese	2		
+																								
+oceanic-structural-anchor-processor-t1	Structural Anchor Processor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese	20	Chromite Ingot	12	Hydrogen Cells	8										
+oceanic-structural-anchor-processor-t2	Structural Anchor Processor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese	25	Chromite Ingot	15	Hydrogen Cells	12	Nitrogen Systems	6								
+oceanic-structural-anchor-processor-t3	Structural Anchor Processor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese	30	Chromite Ingot	18	Hydrogen Cells	15	Nitrogen Systems	10	Gas Stabilizer	4						
+oceanic-structural-anchor-processor-t4	Structural Anchor Processor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese	35	Chromite Ingot	22	Hydrogen Cells	18	Nitrogen Systems	12	Gas Stabilizer	8	Cobalt	3				
+oceanic-structural-anchor-processor-t5	Structural Anchor Processor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Manganese	40	Chromite Ingot	25	Hydrogen Cells	20	Nitrogen Systems	15	Gas Stabilizer	12	Cobalt	6	Utility Core	2		
+																								
+oceanic-oxygen-systems-processor-t1	Oxygen Systems Processor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Oxygen	20	Chromite Ingot	12	Hydrogen Cells	8										
+oceanic-oxygen-systems-processor-t2	Oxygen Systems Processor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Oxygen	25	Chromite Ingot	15	Hydrogen Cells	12	Nitrogen Systems	6								
+oceanic-oxygen-systems-processor-t3	Oxygen Systems Processor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Oxygen	30	Chromite Ingot	18	Hydrogen Cells	15	Nitrogen Systems	10	Gas Stabilizer	4						
+oceanic-oxygen-systems-processor-t4	Oxygen Systems Processor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Oxygen	35	Chromite Ingot	22	Hydrogen Cells	18	Nitrogen Systems	12	Gas Stabilizer	8	Cobalt	3				
+oceanic-oxygen-systems-processor-t5	Oxygen Systems Processor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Oxygen	40	Chromite Ingot	25	Hydrogen Cells	20	Nitrogen Systems	15	Gas Stabilizer	12	Cobalt	6	Manganese	2		
+																								
+# T3 COMPONENT PROCESSORS																								
+oceanic-utility-core-processor-t1	Utility Core Processor	BUILDING	1	150	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Bathysphere Pearls	25	Chromite Ingot	18	Hydrogen Cells	12	Nitrogen Systems	8								
+oceanic-utility-core-processor-t2	Utility Core Processor	BUILDING	2	120	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Bathysphere Pearls	30	Chromite Ingot	22	Hydrogen Cells	15	Nitrogen Systems	12	Gas Stabilizer	6						
+oceanic-utility-core-processor-t3	Utility Core Processor	BUILDING	3	100	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Bathysphere Pearls	35	Chromite Ingot	25	Hydrogen Cells	18	Nitrogen Systems	15	Gas Stabilizer	10	Cobalt	4				
+oceanic-utility-core-processor-t4	Utility Core Processor	BUILDING	4	80	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Bathysphere Pearls	40	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	18	Gas Stabilizer	12	Cobalt	8	Manganese	3		
+oceanic-utility-core-processor-t5	Utility Core Processor	BUILDING	5	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Bathysphere Pearls	50	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	22	Gas Stabilizer	15	Cobalt	12	Manganese	6		
+																								
+oceanic-neural-networks-processor-t1	Neural Networks Processor	BUILDING	1	150	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Neural Coral Compounds	25	Chromite Ingot	18	Hydrogen Cells	12	Nitrogen Systems	8								
+oceanic-neural-networks-processor-t2	Neural Networks Processor	BUILDING	2	120	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Neural Coral Compounds	30	Chromite Ingot	22	Hydrogen Cells	15	Nitrogen Systems	12	Gas Stabilizer	6						
+oceanic-neural-networks-processor-t3	Neural Networks Processor	BUILDING	3	100	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Neural Coral Compounds	35	Chromite Ingot	25	Hydrogen Cells	18	Nitrogen Systems	15	Gas Stabilizer	10	Cobalt	4				
+oceanic-neural-networks-processor-t4	Neural Networks Processor	BUILDING	4	80	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Neural Coral Compounds	40	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	18	Gas Stabilizer	12	Cobalt	8	Manganese	3		
+oceanic-neural-networks-processor-t5	Neural Networks Processor	BUILDING	5	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Neural Coral Compounds	50	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	22	Gas Stabilizer	15	Cobalt	12	Manganese	6		
+																								
+oceanic-phase-stabilizers-processor-t1	Phase Stabilizers Processor	BUILDING	1	150	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Phase Shift Crystals	25	Chromite Ingot	18	Hydrogen Cells	12	Nitrogen Systems	8								
+oceanic-phase-stabilizers-processor-t2	Phase Stabilizers Processor	BUILDING	2	120	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Phase Shift Crystals	30	Chromite Ingot	22	Hydrogen Cells	15	Nitrogen Systems	12	Gas Stabilizer	6						
+oceanic-phase-stabilizers-processor-t3	Phase Stabilizers Processor	BUILDING	3	100	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Phase Shift Crystals	35	Chromite Ingot	25	Hydrogen Cells	18	Nitrogen Systems	15	Gas Stabilizer	10	Cobalt	4				
+oceanic-phase-stabilizers-processor-t4	Phase Stabilizers Processor	BUILDING	4	80	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Phase Shift Crystals	40	Chromite Ingot	30	Hydrogen Cells	22	Nitrogen Systems	18	Gas Stabilizer	12	Cobalt	8	Manganese	3		
+oceanic-phase-stabilizers-processor-t5	Phase Stabilizers Processor	BUILDING	5	60	Oceanic Planet	MUD;ONI;USTUR	Processing	1	Phase Shift Crystals	50	Chromite Ingot	35	Hydrogen Cells	28	Nitrogen Systems	22	Gas Stabilizer	15	Cobalt	12	Manganese	6		
+																								
+# RAW RESOURCE EXTRACTORS																								
+# T1 Resources: Abyssal Chromite, Biomass, Hydrogen, Nitrogen																								
+oceanic-abyssal-chromite-extractor-t1	Abyssal Chromite Extractor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	8	Hydrogen Cells	6												
+oceanic-abyssal-chromite-extractor-t2	Abyssal Chromite Extractor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	10	Hydrogen Cells	8	Bio Kelp	4										
+oceanic-abyssal-chromite-extractor-t3	Abyssal Chromite Extractor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Hydrogen Cells	10	Bio Kelp	6	Cobalt	3								
+oceanic-abyssal-chromite-extractor-t4	Abyssal Chromite Extractor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Hydrogen Cells	12	Bio Kelp	8	Cobalt	5	Manganese	2						
+oceanic-abyssal-chromite-extractor-t5	Abyssal Chromite Extractor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Hydrogen Cells	15	Bio Kelp	10	Cobalt	8	Manganese	5	Utility Core	2				
+																								
+oceanic-hydrogen-extractor-t1	Hydrogen Extractor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	8	Nitrogen Systems	6												
+oceanic-hydrogen-extractor-t2	Hydrogen Extractor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	10	Nitrogen Systems	8	Bio Kelp	4										
+oceanic-hydrogen-extractor-t3	Hydrogen Extractor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Nitrogen Systems	10	Bio Kelp	6	Cobalt	3								
+oceanic-hydrogen-extractor-t4	Hydrogen Extractor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Nitrogen Systems	12	Bio Kelp	8	Cobalt	5	Manganese	2						
+oceanic-hydrogen-extractor-t5	Hydrogen Extractor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Nitrogen Systems	15	Bio Kelp	10	Cobalt	8	Manganese	5	Utility Core	2				
+																								
+oceanic-nitrogen-extractor-t1	Nitrogen Extractor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	10	Hydrogen Cells	8												
+oceanic-nitrogen-extractor-t2	Nitrogen Extractor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Hydrogen Cells	10	Bio Kelp	4										
+oceanic-nitrogen-extractor-t3	Nitrogen Extractor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Hydrogen Cells	12	Bio Kelp	6	Cobalt	3								
+oceanic-nitrogen-extractor-t4	Nitrogen Extractor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Hydrogen Cells	15	Bio Kelp	8	Cobalt	5	Manganese	2						
+oceanic-nitrogen-extractor-t5	Nitrogen Extractor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	20	Hydrogen Cells	18	Bio Kelp	10	Cobalt	8	Manganese	5	Utility Core	2				
+																								
+# T2 Resources: Argon, Cobalt Ore, Fluorine Gas, Manganese Ore, Oxygen, Thermal Bloom Sediment																								
+oceanic-argon-extractor-t1	Argon Extractor	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Hydrogen Cells	10	Gas Stabilizer	8										
+oceanic-argon-extractor-t2	Argon Extractor	BUILDING	2	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Hydrogen Cells	12	Gas Stabilizer	10	Cobalt	4								
+oceanic-argon-extractor-t3	Argon Extractor	BUILDING	3	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Hydrogen Cells	15	Gas Stabilizer	12	Cobalt	6	Manganese	3						
+oceanic-argon-extractor-t4	Argon Extractor	BUILDING	4	65	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	20	Hydrogen Cells	18	Gas Stabilizer	15	Cobalt	8	Manganese	5	Utility Core	2				
+oceanic-argon-extractor-t5	Argon Extractor	BUILDING	5	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	25	Hydrogen Cells	20	Gas Stabilizer	18	Cobalt	12	Manganese	8	Utility Core	4	Neural Networks	1		
+																								
+oceanic-cobalt-ore-extractor-t1	Cobalt Ore Extractor	BUILDING	1	120	Oceanic Planet	ONI	Extraction	0	Chromite Ingot	12	Hydrogen Cells	10	Nitrogen Systems	8										
+oceanic-cobalt-ore-extractor-t2	Cobalt Ore Extractor	BUILDING	2	100	Oceanic Planet	ONI	Extraction	0	Chromite Ingot	15	Hydrogen Cells	12	Nitrogen Systems	10	Cobalt	4								
+oceanic-cobalt-ore-extractor-t3	Cobalt Ore Extractor	BUILDING	3	80	Oceanic Planet	ONI	Extraction	0	Chromite Ingot	18	Hydrogen Cells	15	Nitrogen Systems	12	Cobalt	6	Manganese	3						
+oceanic-cobalt-ore-extractor-t4	Cobalt Ore Extractor	BUILDING	4	65	Oceanic Planet	ONI	Extraction	0	Chromite Ingot	20	Hydrogen Cells	18	Nitrogen Systems	15	Cobalt	8	Manganese	5	Utility Core	2				
+oceanic-cobalt-ore-extractor-t5	Cobalt Ore Extractor	BUILDING	5	50	Oceanic Planet	ONI	Extraction	0	Chromite Ingot	25	Hydrogen Cells	20	Nitrogen Systems	18	Cobalt	12	Manganese	8	Utility Core	4	Neural Networks	1		
+																								
+oceanic-fluorine-gas-extractor-t1	Fluorine Gas Extractor	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Cobalt	8	Emergency Suppressant	6										
+oceanic-fluorine-gas-extractor-t2	Fluorine Gas Extractor	BUILDING	2	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Cobalt	10	Emergency Suppressant	8	Nitrogen Systems	4								
+oceanic-fluorine-gas-extractor-t3	Fluorine Gas Extractor	BUILDING	3	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Cobalt	12	Emergency Suppressant	10	Nitrogen Systems	6	Manganese	3						
+oceanic-fluorine-gas-extractor-t4	Fluorine Gas Extractor	BUILDING	4	65	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	20	Cobalt	15	Emergency Suppressant	12	Nitrogen Systems	8	Manganese	5	Utility Core	2				
+oceanic-fluorine-gas-extractor-t5	Fluorine Gas Extractor	BUILDING	5	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	25	Cobalt	18	Emergency Suppressant	15	Nitrogen Systems	12	Manganese	8	Utility Core	4	Neural Networks	1		
+																								
+oceanic-manganese-ore-extractor-t1	Manganese Ore Extractor	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Hydrogen Cells	10	Structural Anchor	8										
+oceanic-manganese-ore-extractor-t2	Manganese Ore Extractor	BUILDING	2	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Hydrogen Cells	12	Structural Anchor	10	Nitrogen Systems	4								
+oceanic-manganese-ore-extractor-t3	Manganese Ore Extractor	BUILDING	3	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Hydrogen Cells	15	Structural Anchor	12	Nitrogen Systems	6	Cobalt	3						
+oceanic-manganese-ore-extractor-t4	Manganese Ore Extractor	BUILDING	4	65	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	20	Hydrogen Cells	18	Structural Anchor	15	Nitrogen Systems	8	Cobalt	5	Utility Core	2				
+oceanic-manganese-ore-extractor-t5	Manganese Ore Extractor	BUILDING	5	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	25	Hydrogen Cells	20	Structural Anchor	18	Nitrogen Systems	12	Cobalt	8	Utility Core	4	Neural Networks	1		
+																								
+oceanic-oxygen-extractor-t1	Oxygen Extractor	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Hydrogen Cells	10	Oxygen Systems	8										
+oceanic-oxygen-extractor-t2	Oxygen Extractor	BUILDING	2	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Hydrogen Cells	12	Oxygen Systems	10	Nitrogen Systems	4								
+oceanic-oxygen-extractor-t3	Oxygen Extractor	BUILDING	3	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Hydrogen Cells	15	Oxygen Systems	12	Nitrogen Systems	6	Cobalt	3						
+oceanic-oxygen-extractor-t4	Oxygen Extractor	BUILDING	4	65	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	20	Hydrogen Cells	18	Oxygen Systems	15	Nitrogen Systems	8	Cobalt	5	Manganese	2				
+oceanic-oxygen-extractor-t5	Oxygen Extractor	BUILDING	5	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	25	Hydrogen Cells	20	Oxygen Systems	18	Nitrogen Systems	12	Cobalt	8	Manganese	5	Utility Core	2		
+																								
+oceanic-thermal-bloom-sediment-extractor-t1	Thermal Bloom Sediment Extractor	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	12	Climate Controller	8	Structural Anchor	10										
+oceanic-thermal-bloom-sediment-extractor-t2	Thermal Bloom Sediment Extractor	BUILDING	2	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	15	Climate Controller	10	Structural Anchor	12	Hydrogen Cells	4								
+oceanic-thermal-bloom-sediment-extractor-t3	Thermal Bloom Sediment Extractor	BUILDING	3	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	18	Climate Controller	12	Structural Anchor	15	Hydrogen Cells	6	Nitrogen Systems	3						
+oceanic-thermal-bloom-sediment-extractor-t4	Thermal Bloom Sediment Extractor	BUILDING	4	65	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	20	Climate Controller	15	Structural Anchor	18	Hydrogen Cells	8	Nitrogen Systems	5	Utility Core	2				
+oceanic-thermal-bloom-sediment-extractor-t5	Thermal Bloom Sediment Extractor	BUILDING	5	50	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Chromite Ingot	25	Climate Controller	18	Structural Anchor	22	Hydrogen Cells	12	Nitrogen Systems	8	Utility Core	4	Neural Networks	1		
+																								
+# T3 Resources: Bathysphere Pearls, Neural Coral Compounds, Phase Shift Crystals																								
+oceanic-bathysphere-pearls-extractor-t1	Bathysphere Pearls Extractor	BUILDING	1	180	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	18	Manganese	15	Nitrogen Systems	12										
+oceanic-bathysphere-pearls-extractor-t2	Bathysphere Pearls Extractor	BUILDING	2	150	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	20	Manganese	18	Nitrogen Systems	15	Utility Core	8								
+oceanic-bathysphere-pearls-extractor-t3	Bathysphere Pearls Extractor	BUILDING	3	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	25	Manganese	20	Nitrogen Systems	18	Utility Core	12	Neural Networks	6						
+oceanic-bathysphere-pearls-extractor-t4	Bathysphere Pearls Extractor	BUILDING	4	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	28	Manganese	25	Nitrogen Systems	20	Utility Core	15	Neural Networks	10	Phase Stabilizers	4				
+oceanic-bathysphere-pearls-extractor-t5	Bathysphere Pearls Extractor	BUILDING	5	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	35	Manganese	30	Nitrogen Systems	25	Utility Core	20	Neural Networks	15	Phase Stabilizers	8	Signal Modulator	3		
+																								
+oceanic-neural-coral-compounds-extractor-t1	Neural Coral Compounds Extractor	BUILDING	1	180	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	20	Manganese	18	Chromite Ingot	15										
+oceanic-neural-coral-compounds-extractor-t2	Neural Coral Compounds Extractor	BUILDING	2	150	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	25	Manganese	20	Chromite Ingot	18	Utility Core	8								
+oceanic-neural-coral-compounds-extractor-t3	Neural Coral Compounds Extractor	BUILDING	3	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	30	Manganese	25	Chromite Ingot	20	Utility Core	12	Neural Networks	6						
+oceanic-neural-coral-compounds-extractor-t4	Neural Coral Compounds Extractor	BUILDING	4	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	35	Manganese	30	Chromite Ingot	25	Utility Core	15	Neural Networks	10	Phase Stabilizers	4				
+oceanic-neural-coral-compounds-extractor-t5	Neural Coral Compounds Extractor	BUILDING	5	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	40	Manganese	35	Chromite Ingot	30	Utility Core	20	Neural Networks	15	Phase Stabilizers	8	Signal Modulator	3		
+																								
+oceanic-phase-shift-crystals-extractor-t1	Phase Shift Crystals Extractor	BUILDING	1	180	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	22	Manganese	20	Gas Stabilizer	18										
+oceanic-phase-shift-crystals-extractor-t2	Phase Shift Crystals Extractor	BUILDING	2	150	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	25	Manganese	22	Gas Stabilizer	20	Utility Core	8								
+oceanic-phase-shift-crystals-extractor-t3	Phase Shift Crystals Extractor	BUILDING	3	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	30	Manganese	25	Gas Stabilizer	22	Utility Core	12	Neural Networks	6						
+oceanic-phase-shift-crystals-extractor-t4	Phase Shift Crystals Extractor	BUILDING	4	100	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	35	Manganese	30	Gas Stabilizer	25	Utility Core	15	Neural Networks	10	Phase Stabilizers	4				
+oceanic-phase-shift-crystals-extractor-t5	Phase Shift Crystals Extractor	BUILDING	5	80	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	40	Manganese	35	Gas Stabilizer	30	Utility Core	20	Neural Networks	15	Phase Stabilizers	8	Signal Modulator	3		
+																								
+# T4-T5 Resources (Use existing advanced components + imports for T4+)																								
+oceanic-abyssal-energy-crystals-extractor-t1	Abyssal Energy Crystals Extractor	BUILDING	1	300	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	25	Manganese	20	Utility Core	18	Neural Networks	15								
+oceanic-abyssal-energy-crystals-extractor-t2	Abyssal Energy Crystals Extractor	BUILDING	2	250	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	30	Manganese	25	Utility Core	20	Neural Networks	18	Phase Stabilizers	12						
+oceanic-abyssal-energy-crystals-extractor-t3	Abyssal Energy Crystals Extractor	BUILDING	3	200	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	35	Manganese	30	Utility Core	25	Neural Networks	20	Phase Stabilizers	15	Signal Modulator	8				
+oceanic-abyssal-energy-crystals-extractor-t4	Abyssal Energy Crystals Extractor	BUILDING	4	160	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	40	Manganese	35	Utility Core	30	Neural Networks	25	Phase Stabilizers	20	Signal Modulator	12	EM Quantum Core	6		
+oceanic-abyssal-energy-crystals-extractor-t5	Abyssal Energy Crystals Extractor	BUILDING	5	120	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Cobalt	50	Manganese	40	Utility Core	35	Neural Networks	30	Phase Stabilizers	25	Signal Modulator	18	EM Quantum Core	10		
+																								
+oceanic-lunar-echo-crystals-extractor-t1	Lunar Echo Crystals Extractor	BUILDING	1	480	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Utility Core	35	Neural Networks	30	Phase Stabilizers	25	Signal Modulator	20								
+oceanic-lunar-echo-crystals-extractor-t2	Lunar Echo Crystals Extractor	BUILDING	2	400	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Utility Core	40	Neural Networks	35	Phase Stabilizers	30	Signal Modulator	25	EM Quantum Core	15						
+oceanic-lunar-echo-crystals-extractor-t3	Lunar Echo Crystals Extractor	BUILDING	3	320	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Utility Core	45	Neural Networks	40	Phase Stabilizers	35	Signal Modulator	30	EM Quantum Core	20	EM Bio Core	12				
+oceanic-lunar-echo-crystals-extractor-t4	Lunar Echo Crystals Extractor	BUILDING	4	250	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Utility Core	55	Neural Networks	50	Phase Stabilizers	40	Signal Modulator	35	EM Quantum Core	25	EM Bio Core	18	Lunar Defense Network	8		
+oceanic-lunar-echo-crystals-extractor-t5	Lunar Echo Crystals Extractor	BUILDING	5	200	Oceanic Planet	MUD;ONI;USTUR	Extraction	0	Utility Core	65	Neural Networks	60	Phase Stabilizers	50	Signal Modulator	45	EM Quantum Core	35	EM Bio Core	25	Lunar Defense Network	15		
+																								
+# FARM MODULES (Plant Extraction)																								
+oceanic-marine-bio-extract-extractor-t1	Marine Bio Extract Extractor	BUILDING	1	90	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	15	Hydrogen Cells	12	Bio Kelp	8										
+oceanic-marine-bio-extract-extractor-t2	Marine Bio Extract Extractor	BUILDING	2	75	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	18	Hydrogen Cells	15	Bio Kelp	10	Nitrogen Systems	4								
+oceanic-marine-bio-extract-extractor-t3	Marine Bio Extract Extractor	BUILDING	3	60	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	20	Hydrogen Cells	18	Bio Kelp	12	Nitrogen Systems	6	Cobalt	3						
+oceanic-marine-bio-extract-extractor-t4	Marine Bio Extract Extractor	BUILDING	4	50	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	25	Hydrogen Cells	20	Bio Kelp	15	Nitrogen Systems	8	Cobalt	5	Manganese	2				
+oceanic-marine-bio-extract-extractor-t5	Marine Bio Extract Extractor	BUILDING	5	40	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	30	Hydrogen Cells	25	Bio Kelp	18	Nitrogen Systems	12	Cobalt	8	Manganese	4	Utility Core	1		
+																								
+oceanic-bioluminous-algae-extractor-t1	Bioluminous Algae Extractor	BUILDING	1	120	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	20	Cobalt	15	Bio Kelp	10										
+oceanic-bioluminous-algae-extractor-t2	Bioluminous Algae Extractor	BUILDING	2	100	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	25	Cobalt	18	Bio Kelp	12	Hydrogen Cells	6								
+oceanic-bioluminous-algae-extractor-t3	Bioluminous Algae Extractor	BUILDING	3	80	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	30	Cobalt	20	Bio Kelp	15	Hydrogen Cells	8	Manganese	4						
+oceanic-bioluminous-algae-extractor-t4	Bioluminous Algae Extractor	BUILDING	4	65	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	35	Cobalt	25	Bio Kelp	18	Hydrogen Cells	12	Manganese	6	Utility Core	2				
+oceanic-bioluminous-algae-extractor-t5	Bioluminous Algae Extractor	BUILDING	5	50	Oceanic Planet	MUD;ONI;USTUR	Farm	0	Chromite Ingot	40	Cobalt	30	Bio Kelp	20	Hydrogen Cells	15	Manganese	10	Utility Core	4	Neural Networks	1		

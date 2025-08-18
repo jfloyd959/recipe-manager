@@ -1,0 +1,6 @@
+OutputID	OutputName	OutputType	OutputTier	ConstructionTime	PlanetTypes	Factions	ResourceType	ProductionSteps	Ingredient1	Quantity1	Ingredient2	Quantity2	Ingredient3	Quantity3	Ingredient4	Quantity4	Ingredient5	Quantity5	Ingredient6	Quantity6	Ingredient7	Quantity7	Ingredient8	Quantity8
+oceanic-central-hub-t1	Central Hub	BUILDING	1		Oceanic Planet	MUD;ONI;USTUR	Infrastructure		Auto-Built															
+oceanic-central-hub-t2	Central Hub	BUILDING	2	135	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Energy Core	24	Aerogel	23	Beam Interface Core	20	Blast Charges	21								
+oceanic-central-hub-t3	Central Hub	BUILDING	3	180	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Energy Core	29	Aerogel	28	Beam Interface Core	24	Blast Charges	26	Beryllium Matrix	15						
+oceanic-central-hub-t4	Central Hub	BUILDING	4	270	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Energy Core	35	Aerogel	34	Beam Interface Core	29	Blast Charges	32	Beryllium Matrix	18	Boron Composite	23				
+oceanic-central-hub-t5	Central Hub	BUILDING	5	360	Oceanic Planet	MUD;ONI;USTUR	Infrastructure	1	Abyssal Energy Core	42	Aerogel	41	Beam Interface Core	35	Blast Charges	39	Beryllium Matrix	22	Boron Composite	28	Control System Core	21 

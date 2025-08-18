@@ -1,0 +1,26 @@
+OutputID	OutputName	OutputType	OutputTier	ConstructionTime	PlanetTypes	Factions	ProductionSteps	Ingredient1	Quantity1	Ingredient2	Quantity2	Ingredient3	Quantity3	Ingredient4	Quantity4
+
+oceanic-bio-kelp	Bio Kelp	COMPONENT	1	30	Oceanic Planet	MUD;ONI;USTUR	1	Marine Bio Extract	15	Nitrogen	12			
+oceanic-hydrogen-cells	Hydrogen Cells	COMPONENT	1	30	Oceanic Planet	MUD;ONI;USTUR	1	Hydrogen	18	Nitrogen	10			
+oceanic-nitrogen-systems	Nitrogen Systems	COMPONENT	1	30	Oceanic Planet	MUD;ONI;USTUR	1	Nitrogen	20	Hydrogen	12			
+oceanic-oxygen-systems	Oxygen Systems	COMPONENT	2	45	Oceanic Planet	MUD;ONI;USTUR	1	Oxygen	20	Hydrogen	12	Nitrogen	8	
+oceanic-neural-networks	Neural Networks	COMPONENT	3	60	Oceanic Planet	MUD;ONI;USTUR	1	Neural Coral Compounds	25	Hydrogen	18	Nitrogen	12	Argon	8
+oceanic-phase-stabilizers	Phase Stabilizers	COMPONENT	3	60	Oceanic Planet	MUD;ONI;USTUR	1	Phase Shift Crystals	25	Hydrogen	18	Nitrogen	12	Argon	8
+volcanic-arco-blocks	Arco Blocks	COMPONENT	1	30	Volcanic Planet	MUD;ONI;USTUR	1	Arco	15	Thermal Regulator Stone	12			
+volcanic-thermal-control	Thermal Control	COMPONENT	1	30	Volcanic Planet	MUD;ONI;USTUR	1	Thermal Regulator Stone	18	Lumanite	10			
+volcanic-lumanite-cores	Lumanite Cores	COMPONENT	1	30	Volcanic Planet	MUD;ONI;USTUR	1	Lumanite	20	Arco	12			
+volcanic-hafnium-shields	Hafnium Shields	COMPONENT	2	45	Volcanic Planet	MUD;ONI;USTUR	1	Hafnium	20	Thermal Regulator Stone	12	Lumanite	8	
+volcanic-diamond-drill	Diamond Drill	COMPONENT	2	45	Volcanic Planet	MUD;ONI;USTUR	1	Diamond	22	Arco	15	Thermal Regulator Stone	8	
+volcanic-platinum-elements	Platinum Elements	COMPONENT	3	60	Volcanic Planet	MUD;ONI;USTUR	1	Platinum	25	Hafnium	18	Lumanite	12
+terrestrial-iron-brackets	Iron Brackets	COMPONENT	1	30	Terrestrial Planet	MUD;ONI;USTUR	1	Iron	18	Thermoplastic Resin	15			
+terrestrial-thermoplastic-panels	Thermoplastic Panels	COMPONENT	1	30	Terrestrial Planet	MUD;ONI;USTUR	1	Thermoplastic Resin	18	Iron	10			
+terrestrial-bio-fiber	Bio Fiber	COMPONENT	1	30	Terrestrial Planet	MUD;ONI;USTUR	1	Biomass	20	Iron	12			
+terrestrial-aluminum-sheets	Aluminum Sheets	COMPONENT	2	45	Terrestrial Planet	MUD;ONI;USTUR	1	Aluminum	20	Iron	15	Thermoplastic Resin	8	
+terrestrial-carbon-fiber	Carbon Fiber	COMPONENT	1	30	Terrestrial Planet	MUD;ONI;USTUR	1	Carbon	18	Iron	15	Thermoplastic Resin	10	
+terrestrial-silica-glass	Silica Glass	COMPONENT	1	30	Terrestrial Planet	MUD;ONI;USTUR	1	Silica	18	Iron	15	Thermoplastic Resin	10
+barren-arco-panels	Arco Panels	COMPONENT	1	30	Barren Planet	MUD;ONI;USTUR	1	Arco	15	Zinc	12			
+barren-metal-framework	Metal Framework	COMPONENT	1	30	Barren Planet	MUD;ONI;USTUR	1	Copper	18	Zinc	15	Tin	10	
+barren-krypton-systems	Krypton Systems	COMPONENT	1	30	Barren Planet	MUD;ONI;USTUR	1	Krypton	18	Copper	15			
+barren-composite-plating	Composite Plating	COMPONENT	2	45	Barren Planet	MUD;ONI;USTUR	1	Lithium	20	Manganese	15	Tin	12	
+barren-tungsten-framework	Tungsten Framework	COMPONENT	3	60	Barren Planet	MUD;ONI;USTUR	1	Tungsten	25	Vanadium	18	Arco	12	
+barren-resonium-matrix	Resonium Matrix	COMPONENT	5	90	Barren Planet	MUD;ONI;USTUR	1	Resonium	30	Tungsten	25	Lithium	20	

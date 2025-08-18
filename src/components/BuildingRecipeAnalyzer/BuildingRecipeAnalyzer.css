@@ -1,0 +1,428 @@
+.recipe-analyzer-container
+{
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.analyzer-header
+{
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.analyzer-header h2
+{
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.analyzer-header p
+{
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Data Status Indicator */
+.data-status
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.data-status.loaded
+{
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.data-status.not-loaded
+{
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+.status-icon
+{
+    font-size: 18px;
+    line-height: 1;
+}
+
+.status-text
+{
+    flex: 1;
+}
+
+.reload-button
+{
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 12px;
+}
+
+.reload-button:hover
+{
+    background: #0056b3;
+}
+
+.reload-button:disabled
+{
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Input Section */
+.input-section
+{
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-section h3
+{
+    color: #34495e;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.input-section textarea
+{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    resize: vertical;
+}
+
+.analyze-button
+{
+    margin-top: 15px;
+    padding: 12px 30px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.analyze-button:hover:not(:disabled)
+{
+    background: #2980b9;
+}
+
+.analyze-button:disabled
+{
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Results Section */
+.results-section
+{
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Validation Status */
+.validation-status
+{
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.validation-status.valid
+{
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.validation-status.invalid
+{
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.validation-status h3
+{
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.validation-status.valid h3
+{
+    color: #155724;
+}
+
+.validation-status.invalid h3
+{
+    color: #721c24;
+}
+
+.validation-status p
+{
+    margin: 0;
+    font-size: 14px;
+}
+
+.validation-status.valid p
+{
+    color: #155724;
+}
+
+.validation-status.invalid p
+{
+    color: #721c24;
+}
+
+/* Violations Summary */
+.violations-summary
+{
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.violations-summary h3
+{
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.violation-stats
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.violation-stat
+{
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+.violation-count
+{
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 5px;
+}
+
+.violation-label
+{
+    display: block;
+    font-size: 12px;
+    color: #6c757d;
+    text-transform: uppercase;
+}
+
+/* Banned Components List */
+.banned-components-list
+{
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.banned-components-list h4
+{
+    color: #856404;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.banned-components-list ul
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.banned-components-list li
+{
+    background: #ffeaa7;
+    color: #856404;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Statistics Section */
+.statistics-section
+{
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.statistics-section h3
+{
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.stats-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-item
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.stat-label
+{
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.stat-value
+{
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Tier Distribution */
+.tier-distribution
+{
+    margin-top: 20px;
+}
+
+.tier-distribution h4
+{
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.tier-bars
+{
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    height: 100px;
+}
+
+.tier-bar
+{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.tier-label
+{
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.tier-count
+{
+    background: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Export Section */
+.export-section
+{
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+}
+
+.export-button
+{
+    padding: 10px 25px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.export-button:hover
+{
+    background: #229954;
+}
+
+/* Responsive Design */
+@media (max-width: 768px)
+{
+    .violation-stats
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .tier-bars
+    {
+        height: 80px;
+    }
+}
