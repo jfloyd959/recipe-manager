@@ -426,8 +426,7 @@ export class BuildingRecipeGenerator {
             byTier: { 1: [], 2: [], 3: [], 4: [], 5: [] }
         };
 
-        console.log(`📊 Analyzing components for ${planetType} with ${nativeResourceList.length} native resource variations`);
-        console.log(`  Sample native resources:`, nativeResourceList.slice(0, 10));
+
 
         // Check each existing component for native buildability
         let checkedCount = 0;
@@ -445,7 +444,7 @@ export class BuildingRecipeGenerator {
                 if (doDetailedLog) {
                     const outputName = this.getRecipeOutputName(recipe);
                     const outputId = this.getRecipeOutputID(recipe);
-                    console.log(`  Checking component: ${outputName || outputId}`);
+
                     // Log ingredients
                     const ingredients = [];
                     for (let i = 1; i <= 8; i++) {
@@ -454,7 +453,7 @@ export class BuildingRecipeGenerator {
                             ingredients.push(ingredient);
                         }
                     }
-                    console.log(`    Ingredients:`, ingredients);
+
                 }
 
                 const isNative = this.isComponentNativeBuildable(recipe, nativeResourceList, new Set(), doDetailedLog);
@@ -534,7 +533,7 @@ export class BuildingRecipeGenerator {
             const isNative = this.isIngredientNative(ingredient, nativeResourceList);
 
             if (doLog) {
-                console.log(`      Ingredient "${ingredient}" native? ${isNative}`);
+
             }
 
             if (isNative) {
@@ -560,7 +559,7 @@ export class BuildingRecipeGenerator {
             if (!ingredientComponent) {
                 // Can't find this ingredient as a component either - can't make it
                 if (doLog) {
-                    console.log(`      ❌ Ingredient "${ingredient}" not found as component or native resource`);
+
                 }
                 return false;
             }
@@ -568,7 +567,7 @@ export class BuildingRecipeGenerator {
             // Recursively check if this component can be made with native resources
             if (!this.isComponentNativeBuildable(ingredientComponent, nativeResourceList, checkedComponents, false)) {
                 if (doLog) {
-                    console.log(`      ❌ Component "${ingredient}" cannot be made with native resources`);
+
                 }
                 return false;
             }
@@ -789,7 +788,7 @@ export class BuildingRecipeGenerator {
         } : null;
 
         // Select ingredients based on tier and rules
-        const ingredients = this.selectBuildingIngredients(
+        let ingredients = this.selectBuildingIngredients(
             planetType,
             buildingName,
             tier,
@@ -797,6 +796,18 @@ export class BuildingRecipeGenerator {
             category,
             prevRecipe
         );
+
+        // IMPORTANT: Replace raw resources with refined components in T2+ buildings
+        // This maintains build-up progression while using processed materials
+        ingredients = this.replaceRawResourcesWithRefinedComponents(ingredients, tier, planetType);
+
+        // CRITICAL: Validate and fix infrastructure ingredients to prevent tier violations
+        if (category === 'Infrastructure') {
+            const tierRange = this.calculateIngredientTierRange(resourceTier, tier, true);
+            ingredients = this.validateAndFixInfrastructureIngredients(
+                ingredients, tierRange, planetType, buildingName, tier, prevRecipe
+            );
+        }
 
         // Calculate construction time
         const constructionTime = this.calculateConstructionTime(category, tier, resourceTier);
@@ -806,6 +817,7 @@ export class BuildingRecipeGenerator {
             OutputName: buildingName,
             OutputType: 'BUILDING',
             OutputTier: tier,
+            BuildingResourceTier: category === 'Infrastructure' ? '' : resourceTier, // Add resource tier for non-infrastructure buildings
             ConstructionTime: constructionTime,
             PlanetTypes: planetType,
             Factions: 'MUD;ONI;USTUR',
@@ -819,6 +831,8 @@ export class BuildingRecipeGenerator {
             recipe[`Quantity${index + 1}`] = ing.quantity;
         });
 
+
+
         return recipe;
     }
 
@@ -828,25 +842,32 @@ export class BuildingRecipeGenerator {
     selectBootstrapIngredients(planetType, buildingType) {
         const ingredients = [];
 
-        // Get native T1 resources (raw materials only)
+        // Get ONLY T1 raw native resources for bootstrap
         const nativeResources = this.recipes.filter(r => {
             const outputType = this.getRecipeOutputType(r);
             const outputTier = this.getRecipeOutputTier(r);
             const planetTypes = r.PlanetTypes || r.planetTypes || '';
+            const outputName = this.getRecipeOutputName(r);
+
             return (outputType === 'BASIC RESOURCE' ||
                 outputType === 'BASIC ORGANIC RESOURCE' ||
                 outputType === 'RESOURCE') &&
                 outputTier <= 1 &&
-                planetTypes.includes(planetType);
+                planetTypes.includes(planetType) &&
+                this.isRawMaterial(outputName); // CRITICAL: Only raw materials
         });
 
-        // Select 2-3 raw materials
+        console.log(`  🔍 Found ${nativeResources.length} raw T1 materials for ${buildingType} on ${planetType}`);
+
+        // Select 2-3 raw materials only
         const selectedResources = nativeResources.slice(0, 3);
         selectedResources.forEach((resource, index) => {
+            const resourceName = this.getRecipeOutputName(resource);
             ingredients.push({
-                name: this.getRecipeOutputName(resource),
+                name: resourceName,
                 quantity: 25 - (index * 5) // 25, 20, 15
             });
+            console.log(`    ✅ Selected raw material: ${resourceName}`);
         });
 
         // If we don't have enough raw materials, log a warning
@@ -909,6 +930,10 @@ export class BuildingRecipeGenerator {
  * Calculate appropriate tier range for ingredients
  */
     calculateIngredientTierRange(resourceTier, buildingTier, isInfrastructure = false) {
+        // Ensure inputs are integers
+        resourceTier = parseInt(resourceTier) || 1;
+        buildingTier = parseInt(buildingTier) || 1;
+
         let minTier = 1;
         let maxTier = 1;
 
@@ -924,7 +949,7 @@ export class BuildingRecipeGenerator {
                 maxTier = Math.min(5, buildingTier + 1);
             }
 
-            return { min: minTier, max: maxTier };
+            return { minTier: minTier, maxTier: maxTier };
         }
 
         // CRITICAL RULE: For T1-T3 resources, ingredients CANNOT exceed resource tier
@@ -979,7 +1004,7 @@ export class BuildingRecipeGenerator {
             }
         }
 
-        return { min: minTier, max: maxTier };
+        return { minTier: minTier, maxTier: maxTier };
     }
 
     /**
@@ -1019,8 +1044,9 @@ export class BuildingRecipeGenerator {
             }
         }
 
-        // Processing buildings can use raw materials at T1
+        // Processing buildings can use raw materials at T1 ONLY
         if (category === 'Processing' && buildingTier === 1) {
+            console.log(`  🏭 T1 Processor ${buildingType} using raw materials (bootstrap)`);
             return this.selectBootstrapIngredients(planetType, buildingType);
         }
 
@@ -1028,14 +1054,27 @@ export class BuildingRecipeGenerator {
         const isInfrastructure = category === 'Infrastructure';
         const tierRange = this.calculateIngredientTierRange(resourceTier, buildingTier, isInfrastructure);
 
+        // Only log for infrastructure buildings to debug violations
+        if (category === 'Infrastructure') {
+            console.log(`🏗️ ${buildingType} T${buildingTier} - Tier range: T${tierRange.minTier}-T${tierRange.maxTier}`);
+        }
+
         // Build on previous tier recipe if available
         if (prevTierRecipe) {
-            // Maintain and scale existing ingredients
+            // Maintain and scale existing ingredients, but only if they fit current tier restrictions
             for (let i = 1; i <= 8; i++) {
                 const ingredientName = prevTierRecipe[`Ingredient${i}`];
                 const prevQuantity = prevTierRecipe[`Quantity${i}`];
 
                 if (ingredientName && prevQuantity) {
+                    // Check if this ingredient fits the current tier restrictions
+                    const ingredientComponent = this.recipes.find(r =>
+                        (this.getRecipeOutputName(r) === ingredientName || this.getRecipeOutputID(r) === ingredientName) &&
+                        this.getRecipeOutputType(r) === 'COMPONENT'
+                    );
+
+                    // Always carry over ingredients to maintain progression
+                    // The tier filtering will happen later in component selection
                     ingredients.push({
                         name: ingredientName,
                         quantity: Math.ceil(prevQuantity * 1.2) // 20% increase
@@ -1060,37 +1099,46 @@ export class BuildingRecipeGenerator {
             const availableInTierRange = [];
 
             this.availableComponents.forEach((comp, id) => {
-                const compTier = comp.OutputTier || comp.outputTier;
+                const compTier = parseInt(comp.OutputTier || comp.outputTier) || 1;
                 const compPlanet = comp.PlanetTypes || comp.planetTypes || '';
 
-                // Check if component is in tier range and compatible with planet
-                if (compTier >= tierRange.min && compTier <= tierRange.max) {
-                    // Check if it's planet-specific or universal
-                    if (compPlanet.includes(planetType) || compPlanet === '') {
-                        // Check if not already used
-                        const compName = comp.OutputName || comp.outputName;
-                        if (!ingredients.some(ing => ing.name === compName)) {
-                            // Check if banned for buildings - skip if banned
-                            if (!this.bannedBuildingComponents.has(compName)) {
-                                // Check theme suitability
-                                const nameLower = (compName || '').toLowerCase();
-                                const isUnsuitable = this.unsuitableThemes.some(theme =>
-                                    nameLower.includes(theme)
-                                );
+                // CRITICAL: STRICT tier enforcement - reject components outside range
+                if (compTier < tierRange.minTier || compTier > tierRange.maxTier) {
+                    return; // Skip this component - outside allowed tier range
+                }
 
-                                if (!isUnsuitable) {
-                                    // Prefer components from the preferred list
-                                    const isPreferred = this.preferredBuildingComponents.has(compName);
-                                    availableInTierRange.push({
-                                        component: comp,
-                                        isPreferred: isPreferred
-                                    });
-                                }
+
+
+                // Check if it's planet-specific or universal
+                if (compPlanet.includes(planetType) || compPlanet === '') {
+                    // Check if not already used
+                    const compName = comp.OutputName || comp.outputName;
+                    if (!ingredients.some(ing => ing.name === compName)) {
+                        // Check if banned for buildings - skip if banned
+                        if (!this.bannedBuildingComponents.has(compName)) {
+                            // Check theme suitability
+                            const nameLower = (compName || '').toLowerCase();
+                            const isUnsuitable = this.unsuitableThemes.some(theme =>
+                                nameLower.includes(theme)
+                            );
+
+                            if (!isUnsuitable) {
+                                // Prefer components from the preferred list
+                                const isPreferred = this.preferredBuildingComponents.has(compName);
+                                availableInTierRange.push({
+                                    component: comp,
+                                    isPreferred: isPreferred
+                                });
                             }
                         }
                     }
                 }
             });
+
+            // Only log component counts for infrastructure to debug violations
+            if (category === 'Infrastructure') {
+                console.log(`🏗️ ${buildingType} T${buildingTier} - Found ${availableInTierRange.length} components in range T${tierRange.minTier}-T${tierRange.maxTier}`);
+            }
 
             // Sort available components - prefer the preferred list
             availableInTierRange.sort((a, b) => {
@@ -1102,11 +1150,20 @@ export class BuildingRecipeGenerator {
             // Select from available components first
             const selectedFromAvailable = availableInTierRange
                 .slice(0, newIngredientsNeeded)
-                .map(item => ({
-                    name: item.component.OutputName || item.component.outputName,
-                    tier: item.component.OutputTier || item.component.outputTier,
-                    isNew: false
-                }));
+                .map(item => {
+                    const component = {
+                        name: item.component.OutputName || item.component.outputName,
+                        tier: parseInt(item.component.OutputTier || item.component.outputTier) || 1,
+                        isNew: false
+                    };
+
+                    // Log infrastructure component selections to debug violations
+                    if (category === 'Infrastructure') {
+                        console.log(`🏗️ Selected: ${component.name} T${component.tier} for ${buildingType} T${buildingTier}`);
+                    }
+
+                    return component;
+                });
 
             // Track reuse
             this.existingComponentsReused += selectedFromAvailable.length;
@@ -1115,7 +1172,8 @@ export class BuildingRecipeGenerator {
             const remainingNeeded = newIngredientsNeeded - selectedFromAvailable.length;
 
             if (remainingNeeded > 0) {
-                console.log(`  Need to create ${remainingNeeded} new components for ${buildingType} T${buildingTier}`);
+                console.log(`  🔧 Need to create ${remainingNeeded} new components for ${buildingType} T${buildingTier}`);
+                console.log(`  📋 Requirements: T${tierRange.minTier}-T${tierRange.maxTier}, ${planetType} native, ${category} suitable`);
 
                 // Create new planet-specific components
                 const newComponents = this.createNewPlanetComponents(
@@ -1158,6 +1216,120 @@ export class BuildingRecipeGenerator {
         }
 
         return ingredients;
+    }
+
+    /**
+     * Validate and fix infrastructure ingredients to prevent tier violations while maintaining progression
+     */
+    validateAndFixInfrastructureIngredients(ingredients, tierRange, planetType, buildingType, buildingTier, prevTierRecipe = null) {
+        const validatedIngredients = [];
+        const prevTierIngredients = new Set();
+
+        // If we have a previous tier recipe, collect its ingredients to maintain
+        if (prevTierRecipe) {
+            for (let i = 1; i <= 8; i++) {
+                const ingredientName = prevTierRecipe[`Ingredient${i}`];
+                if (ingredientName && ingredientName !== 'Auto-Built') {
+                    prevTierIngredients.add(ingredientName);
+                }
+            }
+        }
+
+        ingredients.forEach((ingredient, index) => {
+            // Check if this ingredient is from a previous tier (must be maintained for progression)
+            const isFromPreviousTier = prevTierIngredients.has(ingredient.name);
+
+            if (isFromPreviousTier) {
+                // Always keep ingredients from previous tiers to maintain build-up progression
+                validatedIngredients.push(ingredient);
+                return;
+            }
+
+            // For new ingredients, check if it's a component and validate tier
+            const ingredientComponent = this.recipes.find(r =>
+                (this.getRecipeOutputName(r) === ingredient.name || this.getRecipeOutputID(r) === ingredient.name) &&
+                this.getRecipeOutputType(r) === 'COMPONENT'
+            );
+
+            if (ingredientComponent) {
+                const ingredientTier = this.getRecipeOutputTier(ingredientComponent);
+
+                // For new ingredients, only add if they fit the tier range
+                if (ingredientTier >= tierRange.minTier && ingredientTier <= tierRange.maxTier) {
+                    validatedIngredients.push(ingredient);
+                } else {
+                    // Find a suitable replacement for new ingredients that don't fit
+                    console.log(`🏗️ Replacing new ingredient ${ingredient.name} T${ingredientTier} (outside T${tierRange.minTier}-T${tierRange.maxTier}) for ${buildingType} T${buildingTier}`);
+
+                    const replacement = this.findSuitableReplacement(ingredient, tierRange, planetType);
+                    if (replacement) {
+                        console.log(`🏗️ Replacement: ${replacement.name} T${replacement.tier}`);
+                        validatedIngredients.push({
+                            name: replacement.name,
+                            quantity: ingredient.quantity
+                        });
+                    } else {
+                        // No suitable replacement found, create a new component
+                        console.log(`🏗️ No replacement found, creating new component for ${buildingType} T${buildingTier}`);
+                        const newComponent = this.createNewPlanetComponents(planetType, 'Infrastructure', 1, tierRange)[0];
+                        if (newComponent) {
+                            validatedIngredients.push({
+                                name: newComponent.name,
+                                quantity: ingredient.quantity
+                            });
+                        }
+                    }
+                }
+            } else {
+                // Raw material or unknown ingredient - keep it
+                validatedIngredients.push(ingredient);
+            }
+        });
+
+        return validatedIngredients;
+    }
+
+    /**
+     * Find a suitable replacement component within the tier range
+     */
+    findSuitableReplacement(originalIngredient, tierRange, planetType) {
+        // Look for components in the correct tier range that are suitable for buildings
+        const suitableComponents = [];
+
+        this.availableComponents.forEach((comp, id) => {
+            const compTier = parseInt(comp.OutputTier || comp.outputTier) || 1;
+            const compPlanet = comp.PlanetTypes || comp.planetTypes || '';
+            const compName = comp.OutputName || comp.outputName;
+
+            // Check if component is in tier range and planet compatible
+            if (compTier >= tierRange.minTier && compTier <= tierRange.maxTier) {
+                if (compPlanet.includes(planetType) || compPlanet === '') {
+                    if (!this.bannedBuildingComponents.has(compName)) {
+                        const nameLower = (compName || '').toLowerCase();
+                        const isUnsuitable = this.unsuitableThemes.some(theme =>
+                            nameLower.includes(theme)
+                        );
+
+                        if (!isUnsuitable) {
+                            suitableComponents.push({
+                                name: compName,
+                                tier: compTier,
+                                isPreferred: this.preferredBuildingComponents.has(compName)
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        // Sort by preference and tier (prefer lower tiers and preferred components)
+        suitableComponents.sort((a, b) => {
+            if (a.isPreferred && !b.isPreferred) return -1;
+            if (!a.isPreferred && b.isPreferred) return 1;
+            return a.tier - b.tier; // Prefer lower tiers
+        });
+
+        return suitableComponents[0] || null;
     }
 
     /**
@@ -1248,7 +1420,8 @@ export class BuildingRecipeGenerator {
      * Select compatible components from analysis
      */
     selectCompatibleComponents(componentAnalysis, tierRange, count, exclude = []) {
-        const [minTier, maxTier] = tierRange;
+        const minTier = tierRange.minTier || tierRange.min || tierRange[0];
+        const maxTier = tierRange.maxTier || tierRange.max || tierRange[1];
         const selected = [];
         const excludeNames = new Set(exclude);
         const excludeIds = new Set(exclude.map(name => this.toKebabCase(name)));
@@ -1468,21 +1641,21 @@ export class BuildingRecipeGenerator {
         const prefixNames = (categoryNames[category] && categoryNames[category][planetPrefix]) ||
             ['Generic'];
 
-        console.log(`  Creating ${count} new ${category} components for ${planetType} in tier range ${tierRange.min}-${tierRange.max}`);
+        console.log(`  Creating ${count} new ${category} components for ${planetType} in tier range ${tierRange.minTier}-${tierRange.maxTier}`);
 
         for (let i = 0; i < count; i++) {
             // Select tier for this component - prefer lower tiers for better availability
             // For single tier range, use that tier
-            let tier = tierRange.min;
-            if (tierRange.max > tierRange.min) {
+            let tier = tierRange.minTier;
+            if (tierRange.maxTier > tierRange.minTier) {
                 // Distribute across available tiers, but bias toward lower tiers
                 if (i === 0) {
-                    tier = tierRange.min; // First component at min tier
+                    tier = tierRange.minTier; // First component at min tier
                 } else if (i === count - 1 && count > 1) {
-                    tier = Math.min(tierRange.max, tierRange.min + 1); // Last component at min+1 or max
+                    tier = Math.min(tierRange.maxTier, tierRange.minTier + 1); // Last component at min+1 or max
                 } else {
                     // Middle components distributed
-                    tier = Math.min(tierRange.max, tierRange.min + Math.floor(i / 2));
+                    tier = Math.min(tierRange.maxTier, tierRange.minTier + Math.floor(i / 2));
                 }
             }
 
@@ -1914,7 +2087,7 @@ export class BuildingRecipeGenerator {
      * Get the output tier of a recipe, handling both formats
      */
     getRecipeOutputTier(recipe) {
-        return recipe.OutputTier || recipe.outputTier || 1;
+        return parseInt(recipe.OutputTier || recipe.outputTier) || 1;
     }
 
     /**
@@ -1945,5 +2118,270 @@ export class BuildingRecipeGenerator {
             return recipe.ingredients[index - 1].quantity || 0;
         }
         return 0;
+    }
+
+    /**
+     * Check if a material is a raw resource (not processed)
+     */
+    isRawMaterial(materialName) {
+        if (!materialName) return false;
+
+        const nameLower = materialName.toLowerCase();
+
+        // Raw materials include ores, gases, crystals, and basic resources
+        return nameLower.includes('ore') ||
+            nameLower.includes('crystal') ||
+            nameLower.includes('gas') ||
+            ['biomass', 'hydrogen', 'nitrogen', 'arco', 'germanium', 'carbon',
+                'lumanite', 'krypton', 'methane', 'neodymium', 'diamond'].includes(nameLower);
+    }
+
+    /**
+     * Check if a material is a processed component
+     */
+    isProcessedComponent(materialName) {
+        if (!materialName) return false;
+        return !this.isRawMaterial(materialName) &&
+            this.availableComponents.has(materialName);
+    }
+
+    /**
+     * Validate a generated recipe for tier and bootstrap violations
+     */
+    validateRecipe(recipe, planetType) {
+        const violations = [];
+        const category = recipe.ResourceType;
+        const buildingTier = recipe.OutputTier;
+
+        // Determine resource tier for this building
+        let resourceTier = buildingTier; // Default for infrastructure
+        if (category === 'Processing' || category === 'Extraction' || category === 'Farm') {
+            // For resource-specific buildings, we need to extract the resource tier
+            // This is complex to determine from the recipe alone, so we'll use building tier as fallback
+            resourceTier = buildingTier;
+        }
+
+        // Check tier violations
+        for (let i = 1; i <= 8; i++) {
+            const ingredient = recipe[`Ingredient${i}`];
+            if (!ingredient) continue;
+
+            const ingredientTier = this.getComponentTier(ingredient);
+            if (!ingredientTier) continue;
+
+            // Calculate allowed tier range for this building
+            const isInfrastructure = category === 'Infrastructure';
+            const tierRange = this.calculateIngredientTierRange(resourceTier, buildingTier, isInfrastructure);
+
+            if (ingredientTier < tierRange.minTier || ingredientTier > tierRange.maxTier) {
+                violations.push(`Tier violation: ${ingredient} (T${ingredientTier}) outside allowed range T${tierRange.minTier}-T${tierRange.maxTier}`);
+            }
+        }
+
+        // Check bootstrap violations for T1 infrastructure
+        if (category === 'Infrastructure' && buildingTier === 1) {
+            const buildingName = recipe.OutputName;
+            const buildingConfig = this.buildingCategories.Infrastructure[buildingName];
+
+            // Only check bootstrap buildings (not Central Hub or Cultivation Hub which are auto-built)
+            if (buildingConfig?.bootstrap === true) {
+                for (let i = 1; i <= 8; i++) {
+                    const ingredient = recipe[`Ingredient${i}`];
+                    if (!ingredient) continue;
+
+                    if (!this.isRawMaterial(ingredient)) {
+                        violations.push(`Bootstrap violation: T1 ${buildingName} using processed component ${ingredient}`);
+                    }
+                }
+            }
+        }
+
+        return violations;
+    }
+
+    /**
+     * Get component tier from name
+     */
+    getComponentTier(componentName) {
+        if (!componentName) return null;
+
+        // Find component in available components
+        const comp = Array.from(this.availableComponents.values()).find(c =>
+            (c.OutputName || c.outputName) === componentName
+        );
+
+        if (comp) {
+            return comp.OutputTier || comp.outputTier;
+        }
+
+        // Check if it's a raw material from recipes
+        const rawMaterial = this.recipes.find(r =>
+            this.getRecipeOutputName(r) === componentName
+        );
+
+        if (rawMaterial) {
+            return this.getRecipeOutputTier(rawMaterial);
+        }
+
+        return null;
+    }
+
+    /**
+     * Replace raw resources with refined components in T2+ buildings
+     * Maintains build-up progression while using refined materials
+     */
+    replaceRawResourcesWithRefinedComponents(ingredients, buildingTier, planetType) {
+        if (buildingTier <= 1) {
+            return ingredients; // T1 can use raw materials
+        }
+
+        const refinedIngredients = [];
+
+        ingredients.forEach(ingredient => {
+            const rawResourceName = ingredient.name;
+
+            // Check if this is a raw resource that should be refined
+            const shouldRefine = this.shouldRawResourceBeRefined(rawResourceName);
+
+            if (shouldRefine) {
+                // Find the refined component equivalent
+                const refinedComponent = this.findRefinedComponentEquivalent(rawResourceName, planetType);
+
+                if (refinedComponent) {
+                    console.log(`  🔄 Replacing raw resource "${rawResourceName}" with refined "${refinedComponent}" in T${buildingTier} building`);
+                    refinedIngredients.push({
+                        name: refinedComponent,
+                        quantity: ingredient.quantity
+                    });
+                } else {
+                    // Keep original if no refined equivalent found
+                    console.log(`  ⚠️ No refined equivalent found for "${rawResourceName}", keeping original`);
+                    refinedIngredients.push(ingredient);
+                }
+            } else {
+                // Keep non-refinable resources (crystals, gases, etc.)
+                refinedIngredients.push(ingredient);
+            }
+        });
+
+        return refinedIngredients;
+    }
+
+    /**
+     * Determine if a raw resource should be refined (ores should be, crystals/gases may not need to be)
+     */
+    shouldRawResourceBeRefined(resourceName) {
+        const resourceLower = resourceName.toLowerCase();
+
+        // Always refine ores
+        if (resourceLower.includes('ore') || resourceLower.includes('chromite')) {
+            return true;
+        }
+
+        // Don't refine crystals (they're already refined forms)
+        if (resourceLower.includes('crystal') || resourceLower.includes('diamond') ||
+            resourceLower.includes('ruby') || resourceLower.includes('sapphire') ||
+            resourceLower.includes('quartz') || resourceLower.includes('garnet') ||
+            resourceLower.includes('topaz') || resourceLower.includes('peridot') ||
+            resourceLower.includes('opal')) {
+            return false;
+        }
+
+        // Don't refine gases (they're already in usable form)
+        if (resourceLower.includes('gas') || resourceLower.includes('argon') ||
+            resourceLower.includes('hydrogen') || resourceLower.includes('nitrogen') ||
+            resourceLower.includes('oxygen') || resourceLower.includes('xenon') ||
+            resourceLower.includes('krypton') || resourceLower.includes('neon')) {
+            return false;
+        }
+
+        // Don't refine special materials that are already in refined form
+        if (resourceLower.includes('arco') || resourceLower.includes('lumanite') ||
+            resourceLower.includes('germanium') || resourceLower.includes('silicon crystal') ||
+            resourceLower.includes('thermal regulator stone')) {
+            return false;
+        }
+
+        // Don't refine organic materials (they're processed differently)
+        if (resourceLower.includes('biomass') || resourceLower.includes('resin') ||
+            resourceLower.includes('amber')) {
+            return false;
+        }
+
+        // Refine everything else (mainly ores and basic metals)
+        return true;
+    }
+
+    /**
+     * Find the refined component equivalent for a raw resource
+     */
+    findRefinedComponentEquivalent(rawResourceName, planetType) {
+        // Common ore to component mappings
+        const oreToComponentMap = {
+            'Iron Ore': 'Iron',
+            'Copper Ore': 'Copper',
+            'Silver Ore': 'Silver',
+            'Gold Ore': 'Gold',
+            'Aluminum Ore': 'Aluminum',
+            'Titanium Ore': 'Titanium',
+            'Chromium Ore': 'Chromium',
+            'Cobalt Ore': 'Cobalt',
+            'Manganese Ore': 'Manganese',
+            'Zinc Ore': 'Zinc',
+            'Tin Ore': 'Tin',
+            'Lithium Ore': 'Lithium',
+            'Tungsten Ore': 'Tungsten',
+            'Vanadium Ore': 'Vanadium',
+            'Hafnium Ore': 'Hafnium',
+            'Tantalum Ore': 'Tantalum',
+            'Rhenium Ore': 'Rhenium',
+            'Osmium Ore': 'Osmium',
+            'Palladium Ore': 'Palladium',
+            'Platinum Ore': 'Platinum',
+            'Iridium Ore': 'Iridium',
+            'Rhodium Ore': 'Rhodium',
+            'Ruthenium Ore': 'Ruthenium',
+            'Resonium Ore': 'Resonium',
+            'Abyssal Chromite': 'Chromite Ingot'
+        };
+
+        // First try direct mapping
+        const directMapping = oreToComponentMap[rawResourceName];
+        if (directMapping) {
+            // Check if this component exists in our recipes
+            const component = this.recipes.find(r =>
+                (this.getRecipeOutputName(r) === directMapping || this.getRecipeOutputID(r) === directMapping) &&
+                this.getRecipeOutputType(r) === 'COMPONENT'
+            );
+            if (component) {
+                return directMapping;
+            }
+        }
+
+        // Try to find component with similar name
+        const baseName = rawResourceName.replace(/ Ore$/, '').replace(/Ore$/, '');
+        const componentCandidates = this.recipes.filter(r => {
+            const outputType = this.getRecipeOutputType(r);
+            const outputName = this.getRecipeOutputName(r);
+            return outputType === 'COMPONENT' &&
+                (outputName.includes(baseName) || outputName === baseName);
+        });
+
+        if (componentCandidates.length > 0) {
+            // Prefer components that are native to this planet
+            const nativeComponent = componentCandidates.find(r => {
+                const planetTypes = r.PlanetTypes || r.planetTypes || '';
+                return planetTypes.includes(planetType) || planetTypes === '';
+            });
+
+            if (nativeComponent) {
+                return this.getRecipeOutputName(nativeComponent);
+            }
+
+            // Otherwise use the first candidate
+            return this.getRecipeOutputName(componentCandidates[0]);
+        }
+
+        return null; // No refined equivalent found
     }
 } 

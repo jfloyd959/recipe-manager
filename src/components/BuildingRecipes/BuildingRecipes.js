@@ -179,7 +179,7 @@ const BuildingRecipes = () => {
 
         // Headers
         const headers = [
-            'OutputID', 'OutputName', 'OutputType', 'OutputTier',
+            'OutputID', 'OutputName', 'OutputType', 'OutputTier', 'BuildingResourceTier',
             'ConstructionTime', 'PlanetTypes', 'Factions', 'ResourceType', 'ProductionSteps'
         ];
 
@@ -420,6 +420,7 @@ const BuildingRecipes = () => {
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>Tier</th>
+                                    <th>Resource Tier</th>
                                     <th>Planet</th>
                                     <th>Time</th>
                                     <th>Ingredients</th>
@@ -432,6 +433,7 @@ const BuildingRecipes = () => {
                                         <td>{recipe.OutputName}</td>
                                         <td>{recipe.ResourceType}</td>
                                         <td>T{recipe.OutputTier}</td>
+                                        <td>{recipe.BuildingResourceTier ? `T${recipe.BuildingResourceTier}` : '-'}</td>
                                         <td>{recipe.PlanetTypes}</td>
                                         <td>{recipe.ConstructionTime}m</td>
                                         <td className="ingredients-cell">

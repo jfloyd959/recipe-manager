@@ -106,25 +106,46 @@ const BuildingRecipeAnalyzer = () => {
         const processorMatch = buildingName.match(/^(.+?)\s+Processor$/);
 
         if (extractorMatch || processorMatch) {
-            const resourceName = extractorMatch ? extractorMatch[1] : processorMatch[1];
+            let resourceName = extractorMatch ? extractorMatch[1] : processorMatch[1];
+
+            // Remove planet prefix (e.g., "oceanic-cobalt" → "cobalt")
+            resourceName = resourceName.replace(/^[a-z]+-/, '');
+
+            // Convert kebab-case to proper case and add common suffixes
+            resourceName = resourceName.split('-').map(word =>
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+
+            // Try common resource name patterns
+            const resourcePatterns = [
+                resourceName + ' Ore',      // "Cobalt" → "Cobalt Ore"
+                resourceName,               // "Biomass" → "Biomass"
+                resourceName + ' Gas',      // "Fluorine" → "Fluorine Gas"
+                resourceName + ' Crystals', // "Abyssal Energy" → "Abyssal Energy Crystals"
+                'Abyssal ' + resourceName,  // "Chromite" → "Abyssal Chromite"
+            ];
 
             // Find the resource in master recipes
             if (!masterRecipes || !Array.isArray(masterRecipes)) {
                 return null;
             }
-            const resource = masterRecipes.find(r => {
-                const name = r.OutputName || r.outputName || '';
-                const type = r.OutputType || r.outputType || '';
-                return name === resourceName &&
-                    (type === 'RESOURCE' || type === 'BASIC RESOURCE' ||
-                        type === 'BASIC ORGANIC RESOURCE');
-            });
 
-            if (resource) {
-                return parseInt(resource.OutputTier || resource.outputTier || 1);
+            for (const pattern of resourcePatterns) {
+                const resource = masterRecipes.find(r => {
+                    const name = r.OutputName || r.outputName || '';
+                    const type = r.OutputType || r.outputType || '';
+                    return name === pattern &&
+                        (type === 'RESOURCE' || type === 'BASIC RESOURCE' ||
+                            type === 'BASIC ORGANIC RESOURCE');
+                });
+
+                if (resource) {
+                    console.log(`Found resource: ${pattern} (T${resource.OutputTier || resource.outputTier})`);
+                    return parseInt(resource.OutputTier || resource.outputTier || 1);
+                }
             }
 
-            // Default tiers for common resources
+            // Default tiers for common resources if not found
             if (resourceName.includes('Ore') || resourceName.includes('Gas')) return 1;
             if (resourceName.includes('Crystal')) return 2;
             if (resourceName.includes('Energy')) return 3;
