@@ -91,7 +91,15 @@ export class BuildingRecipeGenerator {
             // Defense systems
             'Shield Generator',
             'Defense Matrix',
-            'Countermeasure System'
+            'Countermeasure System',
+
+            // User-requested banned components (production steps violations)
+            'Electronics',
+            'Dispersal Mechanism',
+            'Dispersal Gas Mix',
+            'Dimensional Stabilizer',
+            'Command Module',
+            'Energy Focuser'
         ]);
 
         // Preferred components for buildings
@@ -103,10 +111,16 @@ export class BuildingRecipeGenerator {
             'Barrier Material',
             'Bio Framework',
             'Bio Stabilizer',
+            'Framework',
+            'Structural Shell',
+            'Structural Joint',
+            'Load Bearing Beams',
+            'Foundation Anchor',
 
-            // Basic processed materials
+            // Basic processed materials (refined versions)
             'Aluminum',
             'Boron',
+            'Chromite',
             'Chromite Ingot',
             'Cobalt',
             'Copper',
@@ -116,6 +130,14 @@ export class BuildingRecipeGenerator {
             'Manganese',
             'Tin',
             'Zinc',
+            'Silver',
+            'Gold',
+            'Titanium',
+            'Germanium Ingot',
+            'Platinum',
+            'Tungsten',
+            'Heavy Alloy',
+            'Steel',
 
             // Building systems
             'Utility Core',
@@ -125,6 +147,11 @@ export class BuildingRecipeGenerator {
             'Command Module',
             'Coupling Interface',
             'Boron Composite',
+            'Control Circuit',
+            'Sensor Array',
+            'Electronics',
+            'Processing Core',
+            'Monitoring Circuits',
 
             // Power/Energy (non-weapon)
             'Capacitor Matrix Core',
@@ -133,7 +160,45 @@ export class BuildingRecipeGenerator {
             'Advanced Sensor Grid',
             'Chisenic Processor',
             'Coupling Control Core',
-            'Fuel Primer'
+            'Fuel Primer',
+            'Energy Connector',
+            'Field Coils',
+            'Generator Coils',
+
+            // Thermal/Environmental
+            'Heat Distribution Grid',
+            'Heat Exchange Coils',
+            'Heat Dissipator',
+            'Thermal Catalyst',
+            'Heat Sensor',
+            'Temperature Sensor',
+            'Heat Circulation Pipes',
+
+            // Utility/Support
+            'Protective Coating',
+            'Reactive Coating',
+            'Emergency Suppressant',
+            'Emergency Transmitter',
+            'Medical Nanites',
+            'Repair Kit',
+            'Utility Conduit',
+            'Processing Matrix',
+            'Transfer Lines',
+            'Pump Assembly',
+
+            // Advanced components
+            'Exotic Matter Core',
+            'Crystal Matrix',
+            'Current Limiter',
+            'Flow Controller',
+            'Dimensional Stabilizer',
+            'Core Stabilizer',
+            'Kinetic Stabilizer',
+            'Abyssal Energy Core',
+            'Deployment Interface',
+            'Electromagnetic Resonator',
+            'EM Bio Core',
+            'EM Quantum Core'
         ]);
 
         // Validate recipes array
@@ -220,6 +285,10 @@ export class BuildingRecipeGenerator {
             'shield', 'defense', 'countermeasure', 'decoy', 'flare',
             'propulsion', 'thrust', 'engine', 'drive', 'warp', 'jump'
         ];
+
+        this.newComponents = [];
+        this.buildingRecipes = [];
+        this.processedComponentsGlobal = new Set(); // Track which components have processors across all planets
     }
 
     /**
@@ -601,30 +670,68 @@ export class BuildingRecipeGenerator {
      * Generate Processor Buildings for components
      */
     generateProcessorBuildings(planetType, componentAnalysis) {
-        const recipes = [];
-        const nativeResources = this.planetNativeResources[planetType];
+        const processors = [];
 
-        // Basic processors for T1 components (bootstrap exception)
+        // Get basic processors (bootstrap, planet-specific)
         const basicProcessors = this.getBasicProcessorsNeeded(planetType, componentAnalysis);
-        basicProcessors.forEach(processor => {
-            const processorRecipes = this.generateProgressiveBuildingFamily(
-                processor.name, planetType, 'Processing', componentAnalysis,
-                { bootstrap: true, targetResource: processor.resource }
+        console.log(`📊 Generating ${basicProcessors.length} basic processors for ${planetType}`);
+
+        basicProcessors.forEach(proc => {
+            const family = this.generateProgressiveBuildingFamily(
+                proc.name,
+                planetType,
+                'Processing',
+                componentAnalysis,
+                {
+                    targetResource: proc.resource,
+                    bootstrap: proc.bootstrap,
+                    planetSpecific: proc.planetSpecific
+                }
             );
-            recipes.push(...processorRecipes);
+            processors.push(...family);
         });
 
-        // Advanced processors for higher tier components
+        // Get advanced processors (universal)
         const advancedProcessors = this.getAdvancedProcessorsNeeded(planetType, componentAnalysis);
-        advancedProcessors.forEach(processor => {
-            const processorRecipes = this.generateProgressiveBuildingFamily(
-                processor.name, planetType, 'Processing', componentAnalysis,
-                { bootstrap: false, targetResource: processor.resource }
+        console.log(`📊 Generating ${advancedProcessors.length} advanced processors for ${planetType}`);
+
+        advancedProcessors.forEach(proc => {
+            const family = this.generateProgressiveBuildingFamily(
+                proc.name,
+                planetType,
+                'Processing',
+                componentAnalysis,
+                {
+                    targetResource: proc.resource,
+                    bootstrap: proc.bootstrap,
+                    planetSpecific: proc.planetSpecific
+                }
             );
-            recipes.push(...processorRecipes);
+            processors.push(...family);
         });
 
-        return recipes;
+        // Check for orphaned processors (only on the last planet when generating all)
+        const orphanedProcessors = this.getOrphanedProcessors(planetType);
+        if (orphanedProcessors.length > 0) {
+            console.log(`📊 Generating ${orphanedProcessors.length} orphaned processors for ${planetType}`);
+
+            orphanedProcessors.forEach(proc => {
+                const family = this.generateProgressiveBuildingFamily(
+                    proc.name,
+                    planetType,
+                    'Processing',
+                    componentAnalysis,
+                    {
+                        targetResource: proc.resource,
+                        bootstrap: proc.bootstrap,
+                        planetSpecific: proc.planetSpecific
+                    }
+                );
+                processors.push(...family);
+            });
+        }
+
+        return processors;
     }
 
     /**
@@ -632,44 +739,56 @@ export class BuildingRecipeGenerator {
      */
     generateExtractorBuildings(planetType, componentAnalysis) {
         const recipes = [];
-        const nativeResources = this.planetNativeResources[planetType];
 
-        if (!nativeResources) {
-            console.warn(`No native resources defined for ${planetType}`);
-            return recipes;
-        }
+        // Get all basic resources available on this planet
+        const eligibleResources = this.recipes.filter(r => {
+            if (!r) return false;
 
-        // Generate extractors for each native resource
-        Object.entries(nativeResources).forEach(([tierKey, resources]) => {
-            if (!resources || !Array.isArray(resources) || resources.length === 0) {
-                return; // Skip empty or invalid resource arrays
-            }
+            const outputType = this.getRecipeOutputType(r);
+            const planetTypes = r.PlanetTypes || r.planetTypes || '';
+            const outputName = this.getRecipeOutputName(r) || '';
 
-            const tier = parseInt(tierKey.substring(1));
-            resources.forEach(resourceId => {
-                if (!resourceId) return; // Skip undefined/null resources
+            // Must be a basic resource and available on this planet
+            return (outputType === 'BASIC RESOURCE' ||
+                outputType === 'BASIC ORGANIC RESOURCE' ||
+                outputType === 'RESOURCE' ||
+                outputType === 'Raw Resource') &&
+                planetTypes.includes(planetType) &&
+                outputName !== '';
+        });
 
-                const resource = this.recipes.find(r => {
-                    if (!r) return false;
-                    const outputName = this.getRecipeOutputName(r);
-                    const outputId = this.getRecipeOutputID(r);
-                    const outputType = this.getRecipeOutputType(r);
+        console.log(`⛏️ Found ${eligibleResources.length} eligible resources for extractors on ${planetType}`);
 
-                    return (this.toKebabCase(outputName) === resourceId ||
-                        this.toKebabCase(outputId) === resourceId) &&
-                        outputType === 'BASIC RESOURCE';
-                });
+        // Create extractors for each resource
+        eligibleResources.forEach(resource => {
+            const resourceName = this.getRecipeOutputName(resource);
+            const resourceTier = parseInt(this.getRecipeOutputTier(resource) || '1');
 
-                if (resource) {
-                    const resourceName = this.getRecipeOutputName(resource);
-                    const extractorName = `${resourceName} Extractor`;
-                    const extractorRecipes = this.generateProgressiveBuildingFamily(
-                        extractorName, planetType, 'Extraction', componentAnalysis,
-                        { targetResource: resource, resourceTier: tier }
-                    );
-                    recipes.push(...extractorRecipes);
+            // Determine if this needs planet-specific variants for bootstrap
+            // Only T1 resources (BuildingResourceTier 1) can have bootstrap
+            const needsBootstrap = resourceTier === 1;
+
+            // Generate extractor name
+            const extractorName = resourceName.includes('Extractor') ?
+                resourceName : `${resourceName} Extractor`;
+
+            // If bootstrap is needed and resource is on multiple planets, create planet-specific variant
+            const planetTypes = (resource.PlanetTypes || resource.planetTypes || '').split(';').map(p => p.trim());
+            const isMultiPlanet = planetTypes.length > 1;
+
+            const finalExtractorName = needsBootstrap && isMultiPlanet ?
+                `${this.getPlanetPrefix(planetType)}-${this.toKebabCase(extractorName)}` :
+                extractorName;
+
+            const extractorRecipes = this.generateProgressiveBuildingFamily(
+                finalExtractorName, planetType, 'Extraction', componentAnalysis,
+                {
+                    targetResource: resource,
+                    bootstrap: needsBootstrap,
+                    planetSpecific: needsBootstrap && isMultiPlanet
                 }
-            });
+            );
+            recipes.push(...extractorRecipes);
         });
 
         return recipes;
@@ -713,19 +832,23 @@ export class BuildingRecipeGenerator {
         const baseName = this.toKebabCase(buildingName);
 
         // Recipe accumulator for build-up progression
-        let cumulativeIngredients = [];
+        let previousTierRecipe = null;
 
         for (let tier = 1; tier <= 5; tier++) {
             const recipe = this.generateSingleBuildingRecipe(
                 buildingName, planetType, category, tier,
-                componentAnalysis, config, cumulativeIngredients
+                componentAnalysis, config, previousTierRecipe
             );
 
             if (recipe) {
                 recipes.push(recipe);
 
-                // Update cumulative ingredients for next tier
-                cumulativeIngredients = this.extractIngredientsFromRecipe(recipe);
+                // Store the recipe with its tier and ingredients for next iteration
+                previousTierRecipe = {
+                    tier: tier,
+                    ingredients: this.extractIngredientsFromRecipe(recipe),
+                    bootstrap: config.bootstrap
+                };
             }
         }
 
@@ -733,105 +856,71 @@ export class BuildingRecipeGenerator {
     }
 
     /**
-     * Generate a single building recipe for a specific tier
+     * Generate a single building recipe with proper tier progression
      */
-    generateSingleBuildingRecipe(buildingName, planetType, category, tier, componentAnalysis, config, previousIngredients) {
+    generateSingleBuildingRecipe(buildingName, planetType, category, tier, componentAnalysis, config, previousTierRecipe) {
+        const baseName = buildingName.replace(/-t\d+$/, '');
         const planetPrefix = this.getPlanetPrefix(planetType);
-        const buildingId = `${planetPrefix}-${this.toKebabCase(buildingName)}-t${tier}`;
+        const buildingId = config.planetSpecific ?
+            `${planetPrefix}-${this.toKebabCase(baseName)}-t${tier}` :
+            `${this.toKebabCase(baseName)}-t${tier}`;
 
-        // Special case: Central Hub and Cultivation Hub T1 are auto-built (come with claim stake)
-        if ((buildingName === 'Central Hub' || buildingName === 'Cultivation Hub') && tier === 1) {
-            return {
-                OutputID: buildingId,
-                OutputName: buildingName,
-                OutputType: 'BUILDING',
-                OutputTier: tier,
-                ConstructionTime: 0,
-                PlanetTypes: planetType,
-                Factions: 'MUD;ONI;USTUR',
-                ResourceType: category,
-                ProductionSteps: 0,
-                Ingredient1: 'Auto-Built',
-                Quantity1: 0
-            };
+        // Get resource tier from target resource if available
+        let resourceTier = 1;
+        if (config.targetResource) {
+            resourceTier = parseInt(this.getRecipeOutputTier(config.targetResource) || '1');
+        } else if (config.resourceTier) {
+            resourceTier = config.resourceTier;
         }
 
-        // For infrastructure buildings, the resource tier should match the building tier
-        // since they don't target a specific resource
-        // For processing buildings, get the tier from the target resource
-        let resourceTier = config.resourceTier || tier;
+        const constructionTime = this.calculateConstructionTime(category, tier, resourceTier);
 
-        // If this is a processing building with a target resource, use that resource's tier
-        if (category === 'Processing' && config.targetResource) {
-            const targetResourceTier = this.getRecipeOutputTier(config.targetResource);
-            resourceTier = parseInt(targetResourceTier) || 1;
-            console.log(`  📊 Processing ${this.getRecipeOutputName(config.targetResource)} (T${resourceTier}) with building T${tier}`);
-        }
-
-        // Get previous tier recipe for build-up progression
-        const prevRecipe = previousIngredients.length > 0 ? {
-            // Convert ingredient array back to recipe format
-            Ingredient1: previousIngredients[0]?.name,
-            Quantity1: previousIngredients[0]?.quantity,
-            Ingredient2: previousIngredients[1]?.name,
-            Quantity2: previousIngredients[1]?.quantity,
-            Ingredient3: previousIngredients[2]?.name,
-            Quantity3: previousIngredients[2]?.quantity,
-            Ingredient4: previousIngredients[3]?.name,
-            Quantity4: previousIngredients[3]?.quantity,
-            Ingredient5: previousIngredients[4]?.name,
-            Quantity5: previousIngredients[4]?.quantity,
-            Ingredient6: previousIngredients[5]?.name,
-            Quantity6: previousIngredients[5]?.quantity,
-            Ingredient7: previousIngredients[6]?.name,
-            Quantity7: previousIngredients[6]?.quantity
-        } : null;
-
-        // Select ingredients based on tier and rules
-        let ingredients = this.selectBuildingIngredients(
-            planetType,
-            buildingName,
-            tier,
-            resourceTier,
-            category,
-            prevRecipe
-        );
-
-        // IMPORTANT: Replace raw resources with refined components in T2+ buildings
-        // This maintains build-up progression while using processed materials
-        ingredients = this.replaceRawResourcesWithRefinedComponents(ingredients, tier, planetType);
-
-        // CRITICAL: Validate and fix infrastructure ingredients to prevent tier violations
-        if (category === 'Infrastructure') {
-            const tierRange = this.calculateIngredientTierRange(resourceTier, tier, true);
-            ingredients = this.validateAndFixInfrastructureIngredients(
-                ingredients, tierRange, planetType, buildingName, tier, prevRecipe
+        // Select appropriate ingredients based on tier and category
+        let ingredients = [];
+        if (tier === 1 && (category === 'Infrastructure' || config.bootstrap)) {
+            // T1 infrastructure and bootstrap buildings use raw materials
+            ingredients = this.selectBuildingIngredients(
+                planetType, baseName, tier, resourceTier, category, previousTierRecipe
+            );
+        } else {
+            // All other buildings use processed components
+            ingredients = this.selectBuildingIngredients(
+                planetType, baseName, tier, resourceTier, category, previousTierRecipe
             );
         }
 
-        // Calculate construction time
-        const constructionTime = this.calculateConstructionTime(category, tier, resourceTier);
-
+        // Build the recipe object
         const recipe = {
             OutputID: buildingId,
-            OutputName: buildingName,
+            OutputName: baseName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
             OutputType: 'BUILDING',
-            OutputTier: tier,
-            BuildingResourceTier: category === 'Infrastructure' ? '' : resourceTier, // Add resource tier for non-infrastructure buildings
-            ConstructionTime: constructionTime,
+            OutputTier: tier.toString(),
+            BuildingResourceTier: resourceTier.toString(), // Add BuildingResourceTier
+            ConstructionTime: tier === 1 && category === 'Infrastructure' &&
+                (baseName.includes('central-hub') || baseName.includes('cultivation-hub')) ?
+                '' : constructionTime.toString(),
             PlanetTypes: planetType,
             Factions: 'MUD;ONI;USTUR',
             ResourceType: category,
-            ProductionSteps: category === 'Extraction' || category === 'Farm' ? 0 : 1
+            ProductionSteps: category === 'Processing' ? '1' : ''
         };
 
-        // Add ingredients to recipe
-        ingredients.forEach((ing, index) => {
-            recipe[`Ingredient${index + 1}`] = ing.name;
-            recipe[`Quantity${index + 1}`] = ing.quantity;
-        });
+        // Add ingredients
+        if (tier === 1 && category === 'Infrastructure' &&
+            (baseName.includes('central-hub') || baseName.includes('cultivation-hub'))) {
+            recipe.Ingredient1 = 'Auto-Built';
+        } else {
+            ingredients.forEach((ing, idx) => {
+                recipe[`Ingredient${idx + 1}`] = ing.name;
+                recipe[`Quantity${idx + 1}`] = ing.quantity.toString();
+            });
+        }
 
-
+        // Fill remaining ingredient slots with empty strings
+        for (let i = ingredients.length + 1; i <= 8; i++) {
+            recipe[`Ingredient${i}`] = '';
+            recipe[`Quantity${i}`] = '';
+        }
 
         return recipe;
     }
@@ -1027,66 +1116,67 @@ export class BuildingRecipeGenerator {
      * Select appropriate building ingredients
      */
     selectBuildingIngredients(planetType, buildingType, buildingTier, resourceTier, category, prevTierRecipe = null) {
-        const ingredients = [];
+        // Calculate the allowed tier range for ingredients
+        const tierRange = this.calculateIngredientTierRange(resourceTier, buildingTier);
 
-        // Infrastructure buildings have special rules
-        if (category === 'Infrastructure') {
-            // Check if this building has bootstrap enabled (all except Central Hub and Cultivation Hub)
-            const buildingConfig = this.buildingCategories.Infrastructure[buildingType];
+        console.log(`📦 Selecting ingredients for ${buildingType} T${buildingTier} (Resource T${resourceTier})`);
+        console.log(`  Allowed ingredient tier range: T${tierRange.minTier}-T${tierRange.maxTier}`);
 
-            if (buildingTier === 1 && buildingConfig?.bootstrap === true) {
-                // T1 infrastructure with bootstrap uses raw materials
-                // This includes: Processing Hub, Extraction Hub, Storage Hub, Farm Hub, Power Plant, Crew Quarters
-                return this.selectBootstrapIngredients(planetType, buildingType);
-            } else if (buildingTier === 2 && prevTierRecipe && buildingConfig?.bootstrap === true) {
-                // T2 infrastructure with bootstrap REPLACES raw materials with processed components
-                return this.selectT2InfrastructureIngredients(planetType, buildingType);
-            }
-        }
-
-        // Processing buildings can use raw materials at T1 ONLY
-        if (category === 'Processing' && buildingTier === 1) {
-            console.log(`  🏭 T1 Processor ${buildingType} using raw materials (bootstrap)`);
+        // Special handling for infrastructure T1 buildings (bootstrap)
+        if (category === 'Infrastructure' && buildingTier === 1) {
+            console.log(`  🏗️ T1 Infrastructure ${buildingType} using raw materials (bootstrap)`);
             return this.selectBootstrapIngredients(planetType, buildingType);
         }
 
-        // Determine ingredient tier range
-        const isInfrastructure = category === 'Infrastructure';
-        const tierRange = this.calculateIngredientTierRange(resourceTier, buildingTier, isInfrastructure);
+        // Processing buildings can use raw materials at T1 ONLY if they're BuildingResourceTier 1
+        if (category === 'Processing' && buildingTier === 1 && resourceTier === 1) {
+            // Check if this processor has bootstrap enabled (planet-specific variant)
+            const hasBootstrap = prevTierRecipe?.bootstrap ||
+                buildingType.includes(this.getPlanetPrefix(planetType));
 
-        // Only log for infrastructure buildings to debug violations
-        if (category === 'Infrastructure') {
-            console.log(`🏗️ ${buildingType} T${buildingTier} - Tier range: T${tierRange.minTier}-T${tierRange.maxTier}`);
+            if (hasBootstrap) {
+                console.log(`  🏭 T1 Processor ${buildingType} using raw materials (bootstrap)`);
+                return this.selectBootstrapIngredients(planetType, buildingType);
+            }
         }
 
-        // Build on previous tier recipe if available
-        if (prevTierRecipe) {
-            // Maintain and scale existing ingredients, but only if they fit current tier restrictions
-            for (let i = 1; i <= 8; i++) {
-                const ingredientName = prevTierRecipe[`Ingredient${i}`];
-                const prevQuantity = prevTierRecipe[`Quantity${i}`];
+        // Extraction buildings can use raw materials at T1 ONLY if they're BuildingResourceTier 1
+        if (category === 'Extraction' && buildingTier === 1 && resourceTier === 1) {
+            console.log(`  ⛏️ T1 Extractor ${buildingType} using raw materials (bootstrap)`);
+            return this.selectBootstrapIngredients(planetType, buildingType);
+        }
 
-                if (ingredientName && prevQuantity) {
-                    // Check if this ingredient fits the current tier restrictions
-                    const ingredientComponent = this.recipes.find(r =>
-                        (this.getRecipeOutputName(r) === ingredientName || this.getRecipeOutputID(r) === ingredientName) &&
-                        this.getRecipeOutputType(r) === 'COMPONENT'
-                    );
+        // Farm buildings can use raw materials at T1 ONLY if they're BuildingResourceTier 1 or 2
+        if (category === 'Farm' && buildingTier === 1 && resourceTier <= 2) {
+            console.log(`  🌱 T1 Farm ${buildingType} using raw materials (bootstrap)`);
+            return this.selectBootstrapIngredients(planetType, buildingType);
+        }
 
-                    // Always carry over ingredients to maintain progression
-                    // The tier filtering will happen later in component selection
-                    ingredients.push({
-                        name: ingredientName,
-                        quantity: Math.ceil(prevQuantity * 1.2) // 20% increase
-                    });
-                }
-            }
+        const ingredients = [];
+
+        // CRITICAL: If we have a previous tier recipe, carry forward its ingredients with increased quantities
+        if (prevTierRecipe && prevTierRecipe.ingredients && prevTierRecipe.ingredients.length > 0) {
+            console.log(`  📋 Building upon previous tier recipe with ${prevTierRecipe.ingredients.length} ingredients`);
+
+            // Carry forward all previous ingredients with scaled quantities
+            prevTierRecipe.ingredients.forEach((prevIng, index) => {
+                // Scale quantity based on tier progression (15-20% increase per tier)
+                const scaleFactor = 1 + (0.15 + Math.random() * 0.05) * (buildingTier - (prevTierRecipe.tier || 1));
+                const newQuantity = Math.ceil(prevIng.quantity * scaleFactor);
+
+                ingredients.push({
+                    name: prevIng.name,
+                    quantity: newQuantity
+                });
+            });
+
+            console.log(`  ✅ Carried forward ${ingredients.length} ingredients with scaled quantities`);
         }
 
         // Analyze existing components for compatibility
         const componentAnalysis = this.analyzeExistingComponents(planetType);
 
-        // Determine how many new ingredients to add
+        // Determine how many new ingredients to add (only add NEW slots, don't replace existing)
         const currentIngredientCount = ingredients.length;
         const targetIngredientCount = Math.min(
             2 + buildingTier,
@@ -1111,7 +1201,7 @@ export class BuildingRecipeGenerator {
 
                 // Check if it's planet-specific or universal
                 if (compPlanet.includes(planetType) || compPlanet === '') {
-                    // Check if not already used
+                    // Check if not already used in current recipe
                     const compName = comp.OutputName || comp.outputName;
                     if (!ingredients.some(ing => ing.name === compName)) {
                         // Check if banned for buildings - skip if banned
@@ -1140,11 +1230,34 @@ export class BuildingRecipeGenerator {
                 console.log(`🏗️ ${buildingType} T${buildingTier} - Found ${availableInTierRange.length} components in range T${tierRange.minTier}-T${tierRange.maxTier}`);
             }
 
-            // Sort available components - prefer the preferred list
+            // Sort available components - prefer tier-matched and diverse components
             availableInTierRange.sort((a, b) => {
+                const aName = a.component.OutputName || a.component.outputName;
+                const bName = b.component.OutputName || b.component.outputName;
+                const aTier = parseInt(a.component.OutputTier || a.component.outputTier) || 1;
+                const bTier = parseInt(b.component.OutputTier || b.component.outputTier) || 1;
+
+                // Special case: Prioritize Framework for T2+ resource tier buildings (non-bootstrap)
+                const isT2Plus = buildingTier >= 2 && resourceTier >= 2;
+                const aIsFramework = aName === 'Framework';
+                const bIsFramework = bName === 'Framework';
+
+                if (isT2Plus && aIsFramework && !bIsFramework) return -1;
+                if (isT2Plus && !aIsFramework && bIsFramework) return 1;
+
+                // Prioritize components that match the building's resource tier
+                const tierDiffA = Math.abs(aTier - resourceTier);
+                const tierDiffB = Math.abs(bTier - resourceTier);
+
+                if (tierDiffA < tierDiffB) return -1;
+                if (tierDiffA > tierDiffB) return 1;
+
+                // Regular preferred component sorting
                 if (a.isPreferred && !b.isPreferred) return -1;
                 if (!a.isPreferred && b.isPreferred) return 1;
-                return 0;
+
+                // Add some randomness for variety
+                return Math.random() - 0.5;
             });
 
             // Select from available components first
@@ -1157,9 +1270,10 @@ export class BuildingRecipeGenerator {
                         isNew: false
                     };
 
-                    // Log infrastructure component selections to debug violations
-                    if (category === 'Infrastructure') {
-                        console.log(`🏗️ Selected: ${component.name} T${component.tier} for ${buildingType} T${buildingTier}`);
+                    // Log component selections, with special note for Framework
+                    if (category === 'Infrastructure' || component.name === 'Framework') {
+                        const frameworkNote = component.name === 'Framework' ? ' 🏗️ FRAMEWORK!' : '';
+                        console.log(`🏗️ Selected: ${component.name} T${component.tier} for ${buildingType} T${buildingTier}${frameworkNote}`);
                     }
 
                     return component;
@@ -1173,14 +1287,22 @@ export class BuildingRecipeGenerator {
 
             if (remainingNeeded > 0) {
                 console.log(`  🔧 Need to create ${remainingNeeded} new components for ${buildingType} T${buildingTier}`);
-                console.log(`  📋 Requirements: T${tierRange.minTier}-T${tierRange.maxTier}, ${planetType} native, ${category} suitable`);
+
+                // Determine if native support is required based on new rules
+                const requiresNativeSupport = this.shouldRequireNativeSupport(
+                    category, buildingTier, resourceTier
+                );
+
+                const supportText = requiresNativeSupport ? 'native support required' : 'any resources allowed';
+                console.log(`  📋 Requirements: T${tierRange.minTier}-T${tierRange.maxTier}, ${planetType} ${supportText}, ${category} suitable`);
 
                 // Create new planet-specific components
                 const newComponents = this.createNewPlanetComponents(
                     planetType,
                     tierRange,
                     category,
-                    remainingNeeded
+                    remainingNeeded,
+                    requiresNativeSupport
                 );
 
                 // Add new components as ingredients
@@ -1271,7 +1393,8 @@ export class BuildingRecipeGenerator {
                     } else {
                         // No suitable replacement found, create a new component
                         console.log(`🏗️ No replacement found, creating new component for ${buildingType} T${buildingTier}`);
-                        const newComponent = this.createNewPlanetComponents(planetType, 'Infrastructure', 1, tierRange)[0];
+                        const requiresNativeSupport = this.shouldRequireNativeSupport('Infrastructure', buildingTier, buildingTier);
+                        const newComponent = this.createNewPlanetComponents(planetType, tierRange, 'Infrastructure', 1, requiresNativeSupport)[0];
                         if (newComponent) {
                             validatedIngredients.push({
                                 name: newComponent.name,
@@ -1465,20 +1588,30 @@ export class BuildingRecipeGenerator {
     /**
      * Create a recipe for a new planet-specific component
      */
-    createComponentRecipe(planetType, componentName, componentTier) {
+    createComponentRecipe(planetType, componentName, componentTier, requiresNativeSupport = true) {
         const componentId = `${planetType.toLowerCase()}-${this.toKebabCase(componentName)}`;
 
-        // Get native resources for this planet
-        const nativeResources = this.recipes.filter(r => {
-            const outputType = this.getRecipeOutputType(r);
-            const planetTypes = r.PlanetTypes || r.planetTypes || '';
-            return outputType === 'RESOURCE' &&
-                planetTypes.includes(planetType);
-        });
+        // Get appropriate resources based on native support requirement
+        let availableResources;
+        if (requiresNativeSupport) {
+            // Get native resources for this planet
+            availableResources = this.recipes.filter(r => {
+                const outputType = this.getRecipeOutputType(r);
+                const planetTypes = r.PlanetTypes || r.planetTypes || '';
+                return outputType === 'RESOURCE' &&
+                    planetTypes.includes(planetType);
+            });
+        } else {
+            // Use any available resources (not limited to native)
+            availableResources = this.recipes.filter(r => {
+                const outputType = this.getRecipeOutputType(r);
+                return outputType === 'RESOURCE';
+            });
+        }
 
-        // Group native resources by tier
+        // Group available resources by tier
         const resourcesByTier = {};
-        nativeResources.forEach(resource => {
+        availableResources.forEach(resource => {
             const tier = this.getRecipeOutputTier(resource);
             if (!resourcesByTier[tier]) {
                 resourcesByTier[tier] = [];
@@ -1538,8 +1671,9 @@ export class BuildingRecipeGenerator {
 
         // If we still don't have enough ingredients, add from any available tier
         if (ingredients.length === 0) {
-            console.warn(`⚠️ No native resources found for ${componentName} T${componentTier} on ${planetType}`);
-            // Fallback: use any available native resources
+            const resourceTypeLabel = requiresNativeSupport ? 'native' : 'available';
+            console.warn(`⚠️ No ${resourceTypeLabel} resources found for ${componentName} T${componentTier} on ${planetType}`);
+            // Fallback: use any available resources
             for (let tier = 1; tier <= 5 && ingredientCount < 2; tier++) {
                 if (resourcesByTier[tier] && resourcesByTier[tier].length > 0) {
                     const resource = resourcesByTier[tier][0];
@@ -1579,9 +1713,22 @@ export class BuildingRecipeGenerator {
     }
 
     /**
+     * Determine if native support is required based on new rules
+     */
+    shouldRequireNativeSupport(category, buildingTier, resourceTier) {
+        // Infrastructure buildings: only T1 requires native support (using raw materials)
+        if (category === 'Infrastructure') {
+            return buildingTier === 1;
+        }
+
+        // Resource-processing buildings: only T1-T2 resources AND T1-T3 building tiers require native support
+        return resourceTier <= 2 && buildingTier <= 3;
+    }
+
+    /**
      * Create new planet-specific components when needed
      */
-    createNewPlanetComponents(planetType, tierRange, category, count = 1) {
+    createNewPlanetComponents(planetType, tierRange, category, count = 1, requiresNativeSupport = true) {
         const components = [];
         const planetPrefix = planetType.toLowerCase();
 
@@ -1688,12 +1835,13 @@ export class BuildingRecipeGenerator {
             const componentName = baseName.trim();
             const componentId = `${planetPrefix}-${this.toKebabCase(componentName)}`;
 
-            console.log(`  Creating new component: ${componentName} (T${tier})`);
+            console.log(`  Creating new component: ${componentName} (T${tier}) - Native support required: ${requiresNativeSupport}`);
 
             const componentRecipe = this.createComponentRecipe(
                 planetType,
                 componentName,
-                tier
+                tier,
+                requiresNativeSupport
             );
 
             // Add to global tracking with unique key
@@ -1842,53 +1990,290 @@ export class BuildingRecipeGenerator {
     }
 
     /**
-     * Get basic processors needed for a planet
+     * Get basic processors needed for a planet (bootstrap)
+     * These are planet-specific versions for T1 components whose raw materials are ALL native
      */
     getBasicProcessorsNeeded(planetType, componentAnalysis) {
         const processors = [];
         const nativeResources = this.planetNativeResources[planetType];
 
-        // Identify ores and basic resources that need processing
-        const ores = [...(nativeResources.t1 || []), ...(nativeResources.t2 || [])]
-            .filter(r => r && (r.includes('-ore') || r.includes('chromite')));
+        // Get all native raw resources for this planet
+        const allNativeRaw = new Set([
+            ...(nativeResources.t1 || []),
+            ...(nativeResources.t2 || []),
+            ...(nativeResources.t3 || []),
+            ...(nativeResources.t4 || []),
+            ...(nativeResources.t5 || [])
+        ]);
 
-        ores.forEach(ore => {
-            const resource = this.recipes.find(r => {
-                if (!r) return false;
-                const outputName = this.getRecipeOutputName(r);
-                const outputId = this.getRecipeOutputID(r);
-                return this.toKebabCase(outputName) === ore ||
-                    this.toKebabCase(outputId) === ore;
-            });
+        // Find T1 components with ≤2 production steps that:
+        // 1. Are available on this planet
+        // 2. Have ALL ingredients as native raw materials
+        const eligibleComponents = this.recipes.filter(r => {
+            if (!r) return false;
 
-            if (resource) {
-                const resourceName = this.getRecipeOutputName(resource);
-                const processorName = resourceName.replace(' Ore', '').replace('Abyssal ', '') + ' Processor';
-                processors.push({
-                    name: processorName,
-                    resource: resource
-                });
+            const outputType = this.getRecipeOutputType(r);
+            const productionSteps = parseInt(r.ProductionSteps || r.productionSteps || '0');
+            const outputTier = parseInt(this.getRecipeOutputTier(r) || '1');
+            const planetTypes = (r.PlanetTypes || r.planetTypes || '').split(';').map(p => p.trim());
+
+            // Must be a T1 component with ≤2 production steps available on this planet
+            if (outputType !== 'COMPONENT' || productionSteps > 2 || outputTier !== 1) {
+                return false;
             }
+
+            // Must be available on this planet
+            if (!planetTypes.includes(planetType)) {
+                return false;
+            }
+
+            // For bootstrap, production steps must be 1 (raw to component directly)
+            if (productionSteps !== 1) {
+                return false;
+            }
+
+            // Check if ALL ingredients are native raw materials
+            for (let i = 1; i <= 8; i++) {
+                const ingredient = r[`Ingredient${i}`] || r[`ingredient${i}`];
+                if (ingredient) {
+                    const ingredientLower = ingredient.toLowerCase().replace(/\s+/g, '-');
+                    let found = false;
+
+                    // Check if it's a native raw material
+                    for (const native of allNativeRaw) {
+                        if (native.toLowerCase().replace(/\s+/g, '-') === ingredientLower ||
+                            native.toLowerCase() === ingredient.toLowerCase()) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        return false; // Non-native ingredient found
+                    }
+                }
+            }
+
+            return true; // All ingredients are native
+        });
+
+        console.log(`🔧 Found ${eligibleComponents.length} T1 components eligible for bootstrap on ${planetType}`);
+
+        // Create planet-specific processor for each eligible component
+        eligibleComponents.forEach(component => {
+            const componentName = this.getRecipeOutputName(component);
+            processors.push({
+                name: `${componentName} Processor`,
+                resource: component,
+                planetSpecific: true,
+                bootstrap: true
+            });
         });
 
         return processors;
     }
 
     /**
-     * Get advanced processors needed for a planet
+     * Get advanced processors needed (components that should be processed on this planet)
      */
     getAdvancedProcessorsNeeded(planetType, componentAnalysis) {
         const processors = [];
+        const processedComponents = new Set(); // Track which components we've already created processors for locally
+        const bootstrapComponents = new Set(); // Track components that already have bootstrap processors
 
-        // Add processors for each new component created
-        this.globalNewComponents.forEach(comp => {
-            if (comp.PlanetTypes === planetType) {
+        // First, get the list of bootstrap components so we don't duplicate them
+        const basicProcessors = this.getBasicProcessorsNeeded(planetType, componentAnalysis);
+        basicProcessors.forEach(proc => {
+            const componentName = this.getRecipeOutputName(proc.resource);
+            bootstrapComponents.add(componentName);
+            this.processedComponentsGlobal.add(componentName); // Track globally
+        });
+
+        // Get components with ≤2 production steps that are available on this planet
+        const eligibleComponents = this.recipes.filter(r => {
+            if (!r) return false;
+
+            const outputType = this.getRecipeOutputType(r);
+            const productionSteps = parseInt(r.ProductionSteps || r.productionSteps || '0');
+            const outputName = this.getRecipeOutputName(r) || '';
+            const planetTypes = (r.PlanetTypes || r.planetTypes || '').split(';').map(p => p.trim());
+
+            // Must be a component with ≤2 production steps
+            if (outputType !== 'COMPONENT' || productionSteps > 2 || outputName === '') {
+                return false;
+            }
+
+            // Skip if already has a bootstrap processor
+            if (bootstrapComponents.has(outputName)) {
+                return false;
+            }
+
+            // Must be available on this planet
+            if (!planetTypes.includes(planetType)) {
+                return false;
+            }
+
+            return true;
+        });
+
+        console.log(`🔧 Found ${eligibleComponents.length} components with ≤2 production steps available on ${planetType}`);
+
+        // For each component, determine if this planet should get the processor
+        eligibleComponents.forEach(component => {
+            const componentName = this.getRecipeOutputName(component);
+
+            // Skip if we've already processed this component locally
+            if (processedComponents.has(componentName)) {
+                return;
+            }
+
+            const planetTypes = (component.PlanetTypes || component.planetTypes || '').split(';').map(p => p.trim());
+
+            // Determine if this planet should get the processor
+            // Priority: 1) Only planet, 2) Planet with most native ingredients, 3) First planet alphabetically for consistency
+            let shouldGetProcessor = false;
+
+            if (planetTypes.length === 1 && planetTypes[0] === planetType) {
+                // This is the only planet that can make this component
+                shouldGetProcessor = true;
+            } else {
+                // Check if this planet has the most native ingredients
+                const nativeRes = this.planetNativeResources[planetType];
+                if (!nativeRes) {
+                    shouldGetProcessor = false;
+                } else {
+                    // Count native ingredients for this planet
+                    let nativeCount = 0;
+                    const allNative = [
+                        ...(nativeRes.t1 || []),
+                        ...(nativeRes.t2 || []),
+                        ...(nativeRes.t3 || []),
+                        ...(nativeRes.t4 || []),
+                        ...(nativeRes.t5 || [])
+                    ];
+
+                    // Check each ingredient
+                    for (let i = 1; i <= 8; i++) {
+                        const ingredient = component[`Ingredient${i}`] || component[`ingredient${i}`];
+                        if (ingredient) {
+                            if (allNative.some(n => n.toLowerCase() === ingredient.toLowerCase())) {
+                                nativeCount++;
+                            }
+                        }
+                    }
+
+                    // Compare with other planets
+                    let maxNativeCount = nativeCount;
+                    let bestPlanet = planetType;
+
+                    planetTypes.forEach(planet => {
+                        if (planet === planetType) return;
+
+                        const otherNativeRes = this.planetNativeResources[planet];
+                        if (!otherNativeRes) return;
+
+                        let otherNativeCount = 0;
+                        const otherAllNative = [
+                            ...(otherNativeRes.t1 || []),
+                            ...(otherNativeRes.t2 || []),
+                            ...(otherNativeRes.t3 || []),
+                            ...(otherNativeRes.t4 || []),
+                            ...(otherNativeRes.t5 || [])
+                        ];
+
+                        for (let i = 1; i <= 8; i++) {
+                            const ingredient = component[`Ingredient${i}`] || component[`ingredient${i}`];
+                            if (ingredient) {
+                                if (otherAllNative.some(n => n.toLowerCase() === ingredient.toLowerCase())) {
+                                    otherNativeCount++;
+                                }
+                            }
+                        }
+
+                        if (otherNativeCount > maxNativeCount) {
+                            maxNativeCount = otherNativeCount;
+                            bestPlanet = planet;
+                        } else if (otherNativeCount === maxNativeCount && planet < bestPlanet) {
+                            // Alphabetical tiebreaker for consistency
+                            bestPlanet = planet;
+                        }
+                    });
+
+                    shouldGetProcessor = (bestPlanet === planetType);
+                }
+            }
+
+            // Add processor if this planet should get it
+            if (shouldGetProcessor) {
                 processors.push({
-                    name: `${comp.OutputName} Processor`,
-                    resource: comp
+                    name: `${componentName} Processor`,
+                    resource: component,
+                    planetSpecific: false, // Not a bootstrap processor
+                    bootstrap: false
                 });
+                processedComponents.add(componentName);
+                this.processedComponentsGlobal.add(componentName); // Track globally
             }
         });
+
+        console.log(`🏭 Assigning ${processors.length} processors to ${planetType}`);
+        return processors;
+    }
+
+    /**
+     * Get orphaned processors (components that haven't been assigned to any planet yet)
+     * This is used as a fallback when generating for all planets to ensure complete coverage
+     */
+    getOrphanedProcessors(planetType) {
+        const processors = [];
+
+        // Only run this check for the last planet in alphabetical order to avoid duplication
+        const allPlanets = Object.keys(this.planetNativeResources).sort();
+        if (planetType !== allPlanets[allPlanets.length - 1]) {
+            return processors;
+        }
+
+        console.log(`🔍 Checking for orphaned processors on ${planetType} (final planet)`);
+
+        // Find all components with ≤2 production steps that haven't been processed
+        const orphanedComponents = this.recipes.filter(r => {
+            if (!r) return false;
+
+            const outputType = this.getRecipeOutputType(r);
+            const productionSteps = parseInt(r.ProductionSteps || r.productionSteps || '0');
+            const outputName = this.getRecipeOutputName(r) || '';
+
+            // Must be a component with ≤2 production steps
+            if (outputType !== 'COMPONENT' || productionSteps > 2 || outputName === '') {
+                return false;
+            }
+
+            // Check if it's been processed globally
+            if (this.processedComponentsGlobal.has(outputName)) {
+                return false;
+            }
+
+            return true;
+        });
+
+        if (orphanedComponents.length > 0) {
+            console.log(`⚠️ Found ${orphanedComponents.length} orphaned components without processors`);
+
+            // Assign orphaned components to the current (last) planet as a fallback
+            orphanedComponents.forEach(component => {
+                const componentName = this.getRecipeOutputName(component);
+                console.log(`  📌 Assigning orphaned processor for ${componentName} to ${planetType}`);
+
+                processors.push({
+                    name: `${componentName} Processor`,
+                    resource: component,
+                    planetSpecific: false,
+                    bootstrap: false
+                });
+
+                this.processedComponentsGlobal.add(componentName);
+            });
+        }
 
         return processors;
     }
@@ -1995,71 +2380,95 @@ export class BuildingRecipeGenerator {
      * Main generation method - generates all building recipes for a planet
      */
     generatePlanetBuildingRecipes(planetType) {
-        console.log(`\n${'='.repeat(60)}`);
-        console.log(`🌍 Generating recipes for ${planetType}`);
-        console.log(`${'='.repeat(60)}`);
+        console.log(`\n🌍 Generating building recipes for ${planetType}...`);
 
-        // Track stats BEFORE processing this planet (for delta calculation)
-        const planetStats = {
-            newComponentsCreatedCount: this.globalNewComponents.size,
-            existingComponentsReusedCount: this.existingComponentsReused
-        };
-
-        const buildingRecipes = [];
-        const nativeResources = this.planetNativeResources[planetType];
-
-        if (!nativeResources) {
-            console.error(`Unknown planet type: ${planetType}`);
-            return { recipes: [], newComponents: [] };
+        // Initialize planet resources if not already done
+        if (Object.keys(this.planetNativeResources).length === 0) {
+            this.initializePlanetResources();
         }
 
-        // Phase 1: Analyze existing components for reuse
+        // Build native resource list for this planet
+        const nativeResourceList = this.buildNativeResourceList(planetType);
+
+        // Analyze existing components for compatibility
         const componentAnalysis = this.analyzeExistingComponents(planetType);
 
-        // Phase 2: Generate Infrastructure Buildings
-        const infrastructureRecipes = this.generateInfrastructureBuildings(
-            planetType, componentAnalysis
-        );
-        buildingRecipes.push(...infrastructureRecipes);
+        // Generate different building categories
+        const infrastructure = this.generateInfrastructureBuildings(planetType, componentAnalysis);
+        const processors = this.generateProcessorBuildings(planetType, componentAnalysis);
+        const extractors = this.generateExtractorBuildings(planetType, componentAnalysis);
+        const farms = this.generateFarmModuleBuildings(planetType, componentAnalysis);
 
-        // Phase 3: Generate Processor Buildings
-        const processorRecipes = this.generateProcessorBuildings(
-            planetType, componentAnalysis
-        );
-        buildingRecipes.push(...processorRecipes);
+        // Combine all recipes
+        const allRecipes = [
+            ...infrastructure,
+            ...processors,
+            ...extractors,
+            ...farms
+        ];
 
-        // Phase 4: Generate Extractor Buildings
-        const extractorRecipes = this.generateExtractorBuildings(
-            planetType, componentAnalysis
-        );
-        buildingRecipes.push(...extractorRecipes);
+        // Store recipes for this planet
+        this.buildingRecipes.push(...allRecipes);
 
-        // Phase 5: Generate Farm Module Buildings for BASIC ORGANIC RESOURCES
-        const farmRecipes = this.generateFarmModuleBuildings(
-            planetType, componentAnalysis
-        );
-        buildingRecipes.push(...farmRecipes);
+        console.log(`✅ Generated ${allRecipes.length} building recipes for ${planetType}`);
+        console.log(`  - Infrastructure: ${infrastructure.length}`);
+        console.log(`  - Processors: ${processors.length}`);
+        console.log(`  - Extractors: ${extractors.length}`);
+        console.log(`  - Farms: ${farms.length}`);
 
-        console.log(`✨ Generated ${buildingRecipes.length} building recipes for ${planetType}`);
-        console.log(`  Reused ${this.existingComponentsReused} existing components`);
-        console.log(`  Created ${this.globalNewComponents.size} new components`);
+        return allRecipes;
+    }
 
-        // Calculate stats for this planet
-        const newComponentsForPlanet = this.globalNewComponents.size - planetStats.newComponentsCreatedCount;
-        const reusedForPlanet = this.existingComponentsReused - planetStats.existingComponentsReusedCount;
+    /**
+     * Generate recipes for all planets
+     */
+    generateAllPlanetRecipes() {
+        console.log('🌌 Starting generation for ALL planets...');
 
-        console.log(`\n📊 ${planetType} Generation Complete:`);
-        console.log(`  Buildings created: ${buildingRecipes.length}`);
-        console.log(`  New components created: ${newComponentsForPlanet}`);
-        console.log(`  Existing components reused: ${reusedForPlanet}`);
+        // Reset global tracking for fresh generation
+        this.resetGlobalTracking();
 
-        const totalComponents = newComponentsForPlanet + reusedForPlanet;
-        const reuseRate = totalComponents > 0
-            ? Math.round((reusedForPlanet / totalComponents) * 100)
-            : 0;
-        console.log(`  Component reuse rate: ${reuseRate}%`);
+        // Initialize planet resources if not already done
+        if (Object.keys(this.planetNativeResources).length === 0) {
+            this.initializePlanetResources();
+        }
 
-        return buildingRecipes;
+        const allPlanets = Object.keys(this.planetNativeResources).sort();
+        const allRecipes = [];
+
+        allPlanets.forEach(planetType => {
+            const planetRecipes = this.generatePlanetBuildingRecipes(planetType);
+            allRecipes.push(...planetRecipes);
+        });
+
+        // Report on global processor coverage
+        const totalComponentsWithProcessors = this.processedComponentsGlobal.size;
+        const allEligibleComponents = this.recipes.filter(r => {
+            const outputType = this.getRecipeOutputType(r);
+            const productionSteps = parseInt(r.ProductionSteps || r.productionSteps || '0');
+            return outputType === 'COMPONENT' && productionSteps <= 2;
+        }).length;
+
+        console.log('\n📊 Global Processor Coverage Report:');
+        console.log(`  Total eligible components (≤2 steps): ${allEligibleComponents}`);
+        console.log(`  Components with processors: ${totalComponentsWithProcessors}`);
+        console.log(`  Coverage: ${((totalComponentsWithProcessors / allEligibleComponents) * 100).toFixed(1)}%`);
+
+        if (totalComponentsWithProcessors < allEligibleComponents) {
+            console.log(`  ⚠️ Missing processors for ${allEligibleComponents - totalComponentsWithProcessors} components`);
+        } else {
+            console.log(`  ✅ All eligible components have processors!`);
+        }
+
+        return allRecipes;
+    }
+
+    /**
+     * Reset global tracking for a new generation session
+     */
+    resetGlobalTracking() {
+        this.processedComponentsGlobal.clear();
+        console.log('🔄 Reset global processor tracking');
     }
 
     /**
@@ -2325,6 +2734,7 @@ export class BuildingRecipeGenerator {
             'Aluminum Ore': 'Aluminum',
             'Titanium Ore': 'Titanium',
             'Chromium Ore': 'Chromium',
+            'Chromite Ore': 'Chromite',
             'Cobalt Ore': 'Cobalt',
             'Manganese Ore': 'Manganese',
             'Zinc Ore': 'Zinc',
@@ -2342,7 +2752,9 @@ export class BuildingRecipeGenerator {
             'Rhodium Ore': 'Rhodium',
             'Ruthenium Ore': 'Ruthenium',
             'Resonium Ore': 'Resonium',
-            'Abyssal Chromite': 'Chromite Ingot'
+            'Abyssal Chromite': 'Chromite Ingot',
+            // Add germanium refinement
+            'Germanium': 'Germanium Ingot'
         };
 
         // First try direct mapping

@@ -1,0 +1,412 @@
+.component-metrics-analyzer
+{
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.metrics-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #444;
+}
+
+.metrics-header h3
+{
+    color: #00ff88;
+    margin: 0;
+    font-size: 18px;
+}
+
+.metrics-controls
+{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.metrics-controls select
+{
+    padding: 6px 10px;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-size: 12px;
+    flex: 1;
+    min-width: 120px;
+}
+
+.metrics-controls button
+{
+    padding: 6px 12px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.metrics-controls button:hover
+{
+    background: #444;
+}
+
+.export-btn
+{
+    background: #00ff88 !important;
+    color: #000 !important;
+    border: none !important;
+}
+
+.export-btn:hover
+{
+    background: #00cc66 !important;
+}
+
+/* No components message */
+.no-components
+{
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Metrics list */
+.metrics-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Metric card */
+.metric-card
+{
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.metric-card:hover
+{
+    border-color: #444;
+}
+
+.metric-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.metric-basic
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.metric-basic h4
+{
+    color: #fff;
+    margin: 0;
+    font-size: 16px;
+}
+
+.tier-badge
+{
+    background: #444;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Metric scores */
+.metric-scores
+{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.difficulty-score,
+.utilization-score
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 4px;
+    min-width: 70px;
+}
+
+.score-label
+{
+    font-size: 10px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+}
+
+.score-value
+{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+.chain-info
+{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: #888;
+    font-size: 12px;
+}
+
+.expand-btn
+{
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+/* Metric details */
+.metric-details
+{
+    padding: 20px;
+    background: #0a0a0a;
+    border-top: 1px solid #333;
+}
+
+.detail-section
+{
+    margin-bottom: 20px;
+}
+
+.detail-section:last-child
+{
+    margin-bottom: 0;
+}
+
+.detail-section h5
+{
+    color: #00ff88;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* Factors grid */
+.factors-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.factor
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background: #1a1a1a;
+    border-radius: 4px;
+}
+
+.factor-label
+{
+    color: #888;
+    font-size: 12px;
+}
+
+.factor-value
+{
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Recipe chain visualization */
+.recipe-chain
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.no-chain
+{
+    color: #666;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.tier-group
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tier-label
+{
+    background: #333;
+    color: #888;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+.tier-components
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+}
+
+.chain-component
+{
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.chain-component.COMPONENT
+{
+    border-color: #00ff88;
+}
+
+.chain-component.BASIC.RESOURCE,
+.chain-component.RESOURCE
+{
+    border-color: #4488ff;
+}
+
+.comp-name
+{
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.comp-type
+{
+    color: #666;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+/* Usage list */
+.usage-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.usage-item
+{
+    padding: 6px 10px;
+    background: #1a1a1a;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 13px;
+}
+
+.usage-type
+{
+    color: #666;
+    font-size: 11px;
+}
+
+.usage-more
+{
+    color: #888;
+    font-style: italic;
+    font-size: 12px;
+    padding: 6px 10px;
+}
+
+/* Planets list */
+.planets-list
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.planet-tag
+{
+    background: #333;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 768px)
+{
+    .metric-header
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .metric-scores
+    {
+        flex-wrap: wrap;
+    }
+
+    .metrics-controls
+    {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .metrics-controls select,
+    .metrics-controls button
+    {
+        flex: 1;
+        min-width: 100px;
+    }
+}

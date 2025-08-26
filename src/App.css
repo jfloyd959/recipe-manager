@@ -1,21 +1,27 @@
-.App {
+.App
+{
   min-height: 100vh;
   background-color: #0a0a0a;
   color: #e0e0e0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.main-content {
-  padding: 20px;
+.main-content
+{
+  padding: 10px;
   min-height: calc(100vh - 60px);
-}
-
-/* Global styles */
-* {
+  width: 100%;
   box-sizing: border-box;
 }
 
-button {
+/* Global styles */
+*
+{
+  box-sizing: border-box;
+}
+
+button
+{
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   color: white;
   border: none;
@@ -26,13 +32,15 @@ button {
   transition: all 0.3s ease;
 }
 
-button:hover {
+button:hover
+{
   background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(42, 82, 152, 0.3);
 }
 
-button:disabled {
+button:disabled
+{
   background: #333;
   color: #666;
   cursor: not-allowed;
@@ -42,7 +50,8 @@ button:disabled {
 
 input,
 select,
-textarea {
+textarea
+{
   background: #1a1a1a;
   border: 1px solid #333;
   color: #e0e0e0;
@@ -53,13 +62,15 @@ textarea {
 
 input:focus,
 select:focus,
-textarea:focus {
+textarea:focus
+{
   outline: none;
   border-color: #2a5298;
   box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.2);
 }
 
-.card {
+.card
+{
   background: #1a1a1a;
   border: 1px solid #333;
   border-radius: 8px;
@@ -68,34 +79,42 @@ textarea:focus {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.status-complete {
+.status-complete
+{
   color: #4caf50;
 }
 
-.status-partial {
+.status-partial
+{
   color: #ff9800;
 }
 
-.status-missing {
+.status-missing
+{
   color: #f44336;
 }
 
-.tier-1 {
+.tier-1
+{
   border-left: 4px solid #4caf50;
 }
 
-.tier-2 {
+.tier-2
+{
   border-left: 4px solid #8bc34a;
 }
 
-.tier-3 {
+.tier-3
+{
   border-left: 4px solid #ff9800;
 }
 
-.tier-4 {
+.tier-4
+{
   border-left: 4px solid #ff5722;
 }
 
-.tier-5 {
+.tier-5
+{
   border-left: 4px solid #e91e63;
 }

@@ -1,0 +1,649 @@
+/* Global box-sizing for this component */
+.preferred-resource-selector *,
+.preferred-resource-selector *::before,
+.preferred-resource-selector *::after
+{
+    box-sizing: border-box;
+}
+
+/* Main container */
+.preferred-resource-selector
+{
+    padding: 10px;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.preferred-resource-selector h2
+{
+    color: #00ff88;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* Side Panel Layout */
+.selector-main-container
+{
+    display: flex;
+    gap: 15px;
+    height: calc(100vh - 180px);
+    min-height: 500px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Left Panel - Resources */
+.resources-panel
+{
+    flex: 1.5;
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+}
+
+/* Right Panel - Details */
+.details-panel
+{
+    flex: 0.8;
+    min-width: 300px;
+    max-width: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 10px;
+    border-left: 2px solid #333;
+}
+
+/* Scrollbar styling */
+.resources-panel::-webkit-scrollbar,
+.details-panel::-webkit-scrollbar
+{
+    width: 8px;
+}
+
+.resources-panel::-webkit-scrollbar-track,
+.details-panel::-webkit-scrollbar-track
+{
+    background: #1a1a1a;
+}
+
+.resources-panel::-webkit-scrollbar-thumb,
+.details-panel::-webkit-scrollbar-thumb
+{
+    background: #444;
+    border-radius: 4px;
+}
+
+.resources-panel::-webkit-scrollbar-thumb:hover,
+.details-panel::-webkit-scrollbar-thumb:hover
+{
+    background: #555;
+}
+
+/* Selection Criteria */
+.selection-criteria
+{
+    background: #2a2a2a;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.criteria-row
+{
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.criteria-item
+{
+    flex: 1;
+}
+
+.criteria-item label
+{
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.criteria-item select
+{
+    width: 100%;
+    padding: 8px;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+.criteria-item select:focus
+{
+    outline: none;
+    border-color: #00ff88;
+}
+
+/* Filter Row */
+.filter-row
+{
+    margin-bottom: 15px;
+}
+
+.filter-row label
+{
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.filter-buttons
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 5px;
+}
+
+.filter-buttons button
+{
+    padding: 6px 8px;
+    background: #333;
+    color: #888;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.filter-buttons button:hover
+{
+    background: #444;
+    color: #fff;
+}
+
+.filter-buttons button.active
+{
+    background: #00ff88;
+    color: #000;
+    border-color: #00ff88;
+}
+
+/* Options Row */
+.options-row
+{
+    display: flex;
+    align-items: center;
+}
+
+.options-row label
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.options-row input[type="checkbox"]
+{
+    cursor: pointer;
+}
+
+/* Resources Section */
+.resources-section
+{
+    margin-bottom: 20px;
+}
+
+.resources-section h3
+{
+    color: #00ff88;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.info-box
+{
+    background: #1a3a1a;
+    border: 1px solid #00ff88;
+    color: #00ff88;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+/* Resources Grid - Updated for better space usage */
+.resources-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Resource Card */
+.resource-card
+{
+    background: #2a2a2a;
+    border: 2px solid #333;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.resource-card:hover
+{
+    background: #333;
+    border-color: #444;
+    transform: translateY(-2px);
+}
+
+.resource-card.selected
+{
+    background: #1a3a1a;
+    border-color: #00ff88;
+}
+
+.resource-card.preferred
+{
+    border-color: #ffaa00;
+}
+
+.resource-card.selected.preferred
+{
+    background: linear-gradient(135deg, #1a3a1a 0%, #3a2a1a 100%);
+}
+
+.resource-name
+{
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preferred-badge
+{
+    color: #ffaa00;
+    font-size: 16px;
+}
+
+.resource-details
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.resource-tier
+{
+    background: #444;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.resource-type
+{
+    color: #888;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.resource-planet
+{
+    margin-top: 5px;
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+
+/* New Component Card */
+.resource-card.new-component
+{
+    background: #2a2a3a;
+    border-color: #4444ff;
+}
+
+.resource-card.new-component:hover
+{
+    background: #3a3a4a;
+}
+
+.new-badge
+{
+    background: #4444ff;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.new-reason
+{
+    margin-top: 8px;
+    font-size: 11px;
+    color: #aaa;
+    font-style: italic;
+}
+
+.new-components-warning
+{
+    background: #3a3a1a;
+    border: 1px solid #ffaa00;
+    color: #ffaa00;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+/* Selected Section - Now in right panel */
+.selected-section
+{
+    background: #2a2a2a;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.selected-section h3
+{
+    color: #00ff88;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.selected-list
+{
+    margin-bottom: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.selected-item
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.selected-item span
+{
+    color: #fff;
+    font-size: 13px;
+}
+
+.selected-item button
+{
+    padding: 4px 8px;
+    background: #ff4444;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.selected-item button:hover
+{
+    background: #ff6666;
+}
+
+/* Action Buttons */
+.action-buttons
+{
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.action-buttons button
+{
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.save-btn
+{
+    background: #00ff88;
+    color: #000;
+}
+
+.save-btn:hover
+{
+    background: #00cc66;
+}
+
+.export-btn
+{
+    background: #4488ff;
+    color: #fff;
+}
+
+.export-btn:hover
+{
+    background: #3366cc;
+}
+
+.clear-btn
+{
+    background: #ff4444;
+    color: #fff;
+}
+
+.clear-btn:hover
+{
+    background: #cc3333;
+}
+
+/* Saved Preferences */
+.saved-preferences
+{
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.saved-preferences h3
+{
+    color: #00ff88;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.preferences-list
+{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.preference-item
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.preference-info
+{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.preference-info strong
+{
+    color: #fff;
+    font-size: 13px;
+}
+
+.preference-count
+{
+    color: #888;
+    font-size: 11px;
+}
+
+.preference-actions
+{
+    display: flex;
+    gap: 5px;
+}
+
+.preference-actions button
+{
+    padding: 5px 10px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.preference-actions button:hover
+{
+    background: #444;
+}
+
+.preference-actions button:last-child
+{
+    background: #ff4444;
+    border-color: #ff4444;
+}
+
+.preference-actions button:last-child:hover
+{
+    background: #cc3333;
+}
+
+/* Metrics Section - Now in right panel */
+.metrics-section
+{
+    margin-top: 20px;
+}
+
+.metrics-toggle
+{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.metrics-toggle-btn
+{
+    padding: 10px 20px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.metrics-toggle-btn:hover
+{
+    background: #444;
+    border-color: #00ff88;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px)
+{
+    .resources-grid
+    {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .details-panel
+    {
+        min-width: 280px;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 1200px)
+{
+    .selector-main-container
+    {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .resources-panel,
+    .details-panel
+    {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+        max-height: none;
+        padding: 0;
+    }
+
+    .details-panel
+    {
+        border-left: none;
+        border-top: 2px solid #333;
+        margin-top: 15px;
+        padding-top: 15px;
+    }
+}
+
+@media (max-width: 768px)
+{
+    .resources-grid
+    {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    .criteria-row
+    {
+        flex-direction: column;
+    }
+
+    .filter-buttons
+    {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

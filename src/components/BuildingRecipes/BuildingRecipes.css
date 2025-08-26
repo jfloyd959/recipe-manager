@@ -26,6 +26,43 @@
     font-size: 14px;
 }
 
+/* Tab Navigation */
+.tab-navigation
+{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0;
+}
+
+.tab-button
+{
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #666;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: -2px;
+}
+
+.tab-button:hover
+{
+    color: #333;
+    background: #f8f9fa;
+}
+
+.tab-button.active
+{
+    color: #00ff88;
+    border-bottom-color: #00ff88;
+    background: transparent;
+}
+
 /* Configuration Panel */
 .config-panel
 {
@@ -300,6 +337,32 @@
     background: #c8e6c9;
     cursor: not-allowed;
     color: #a5d6a7;
+}
+
+.send-to-tracker-btn
+{
+    background: linear-gradient(135deg, #00ff88, #00cc66) !important;
+    color: #000 !important;
+    font-weight: 600;
+}
+
+.send-to-tracker-btn:hover:not(:disabled)
+{
+    background: linear-gradient(135deg, #00cc66, #00aa55) !important;
+    transform: translateY(-2px);
+}
+
+.send-to-tracker-btn
+{
+    background: linear-gradient(135deg, #00ff88, #00cc66) !important;
+    color: #000 !important;
+    font-weight: 600;
+}
+
+.send-to-tracker-btn:hover:not(:disabled)
+{
+    background: linear-gradient(135deg, #00cc66, #00aa55) !important;
+    transform: translateY(-2px);
 }
 
 /* Generated Recipes Display */
@@ -586,4 +649,18 @@
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+/* Send to Tracker Button */
+.send-to-tracker-btn
+{
+    background: linear-gradient(135deg, #00ff88, #00cc66) !important;
+    color: #000 !important;
+    font-weight: 600;
+}
+
+.send-to-tracker-btn:hover:not(:disabled)
+{
+    background: linear-gradient(135deg, #00cc66, #00aa55) !important;
+    transform: translateY(-2px);
 }

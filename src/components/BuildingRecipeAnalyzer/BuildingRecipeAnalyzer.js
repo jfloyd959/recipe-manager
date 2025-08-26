@@ -326,6 +326,7 @@ const BuildingRecipeAnalyzer = () => {
 
                 // Check tier restrictions
                 const isInfrastructure = INFRASTRUCTURE_TYPES.has(buildingName);
+                const buildingResourceTier = recipe.BuildingResourceTier ? parseInt(recipe.BuildingResourceTier) : null;
 
                 if (isInfrastructure) {
                     // Infrastructure buildings should use components matching building tier
@@ -364,6 +365,23 @@ const BuildingRecipeAnalyzer = () => {
                             });
                         }
                     }
+                }
+
+                // ENHANCED: Check that component tiers don't exceed building resource tier for ALL buildings
+                if (buildingResourceTier) {
+                    ingredients.forEach(ing => {
+                        const componentTier = getComponentTier(ing.name);
+                        if (componentTier && componentTier > buildingResourceTier) {
+                            violations.tierViolations.push({
+                                building: recipe.OutputID,
+                                buildingTier,
+                                buildingResourceTier,
+                                component: ing.name,
+                                componentTier,
+                                reason: `Component T${componentTier} exceeds building resource tier T${buildingResourceTier}`
+                            });
+                        }
+                    });
                 }
             });
 
@@ -483,7 +501,10 @@ const BuildingRecipeAnalyzer = () => {
         if (analysisResults.violations.tierViolations.length > 0) {
             report += '=== TIER VIOLATIONS ===\n';
             analysisResults.violations.tierViolations.forEach(v => {
-                report += `  ${v.building}: ${v.reason}\n`;
+                const resourceTierInfo = v.buildingResourceTier ? ` (Building Resource T${v.buildingResourceTier})` : '';
+                const buildingTierInfo = v.buildingTier ? ` [Building T${v.buildingTier}]` : '';
+                const componentInfo = v.componentTier ? ` - Component: ${v.component} T${v.componentTier}` : '';
+                report += `  ${v.building}${buildingTierInfo}${resourceTierInfo}: ${v.reason}${componentInfo}\n`;
             });
             report += '\n';
         }

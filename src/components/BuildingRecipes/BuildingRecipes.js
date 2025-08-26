@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useRecipes } from '../../context/RecipeContext';
 import { BuildingRecipeGenerator } from './BuildingRecipeGenerator';
+import PreferredResourceSelector from '../PreferredResourceSelector/PreferredResourceSelector';
+import NewComponentTracker from '../NewComponentTracker/NewComponentTracker';
 import './BuildingRecipes.css';
 
 const BuildingRecipes = () => {
     const { state } = useRecipes();
     const { recipes } = state;
 
+    const [activeTab, setActiveTab] = useState('generator');
     const [generatedRecipes, setGeneratedRecipes] = useState([]);
     const [newComponents, setNewComponents] = useState([]);
     const [analysisReport, setAnalysisReport] = useState(null);
@@ -239,6 +242,48 @@ const BuildingRecipes = () => {
     };
 
     /**
+     * Send new components to the tracker
+     */
+    const sendToTracker = () => {
+        if (newComponents.length === 0) {
+            alert('No new components to track');
+            return;
+        }
+
+        // Get existing tracked components
+        const existing = localStorage.getItem('newComponentsTracking');
+        const trackedComponents = existing ? JSON.parse(existing) : [];
+
+        // Add new components with tracking metadata
+        const toAdd = newComponents.map(comp => ({
+            ...comp,
+            id: Date.now() + Math.random(),
+            dateAdded: new Date().toISOString(),
+            status: 'proposed',
+            notes: `Generated for ${selectedPlanet || 'All Planets'} building recipes`
+        }));
+
+        // Merge with existing, avoiding duplicates
+        const merged = [...trackedComponents];
+        let addedCount = 0;
+        toAdd.forEach(newComp => {
+            if (!merged.some(c => c.OutputID === newComp.OutputID)) {
+                merged.push(newComp);
+                addedCount++;
+            }
+        });
+
+        // Save back to localStorage
+        localStorage.setItem('newComponentsTracking', JSON.stringify(merged));
+
+        if (addedCount > 0) {
+            alert(`Added ${addedCount} new components to tracker. Switch to "New Component Tracker" tab to view.`);
+        } else {
+            alert('All components are already being tracked.');
+        }
+    };
+
+    /**
      * Clear all generated data
      */
     const clearBuildingRecipes = () => {
@@ -265,230 +310,268 @@ const BuildingRecipes = () => {
                 <p>Automated generation following tier rules and bootstrap logic</p>
             </div>
 
-            {/* Configuration Panel */}
-            <div className="config-panel">
-                <h3>Generation Configuration</h3>
-                <div className="config-controls">
-                    <div className="config-item">
-                        <label>
-                            Planet Type:
-                            <select
-                                value={selectedPlanet}
-                                onChange={(e) => setSelectedPlanet(e.target.value)}
-                            >
-                                <option value="">Select Planet</option>
-                                <option value="All Planets">All Planets</option>
-                                {planets.map(planet => (
-                                    <option key={planet} value={planet}>{planet}</option>
-                                ))}
-                            </select>
-                        </label>
-                    </div>
-
-                    <div className="config-item">
-                        <label>
-                            Native Tier Maximum:
-                            <input
-                                type="number"
-                                min="1"
-                                max="5"
-                                value={generatorConfig.nativeTierMax}
-                                onChange={(e) => updateConfig('nativeTierMax', parseInt(e.target.value))}
-                            />
-                        </label>
-                        <small>Buildings up to this tier must be buildable with native resources</small>
-                    </div>
-
-                    <div className="config-item">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={generatorConfig.minimizeNewComponents}
-                                onChange={(e) => updateConfig('minimizeNewComponents', e.target.checked)}
-                            />
-                            Minimize New Components
-                        </label>
-                        <small>Prioritize reusing existing components</small>
-                    </div>
-                </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="action-buttons">
+            {/* Tab Navigation */}
+            <div className="tab-navigation">
                 <button
-                    onClick={generateBuildingRecipes}
-                    disabled={!selectedPlanet}
-                    className="primary-button"
+                    className={`tab-button ${activeTab === 'generator' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('generator')}
                 >
-                    Generate for {selectedPlanet || 'Selected Planet'}
+                    Recipe Generator
                 </button>
                 <button
-                    onClick={clearBuildingRecipes}
-                    className="secondary-button"
+                    className={`tab-button ${activeTab === 'preferences' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('preferences')}
                 >
-                    Clear All
+                    Preferred Resources
+                </button>
+                <button
+                    className={`tab-button ${activeTab === 'tracker' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('tracker')}
+                >
+                    New Component Tracker
                 </button>
             </div>
 
-            {/* Analysis Report */}
-            {analysisReport && (
-                <div className="analysis-report">
-                    <h3>Generation Analysis Report</h3>
-                    <div className="report-stats">
-                        {analysisReport.planetType && (
-                            <div className="stat-item">
-                                <span className="stat-label">Planet:</span>
-                                <span className="stat-value">{analysisReport.planetType}</span>
+            {/* Tab Content */}
+            {activeTab === 'generator' ? (
+                <>
+                    {/* Configuration Panel */}
+                    <div className="config-panel">
+                        <h3>Generation Configuration</h3>
+                        <div className="config-controls">
+                            <div className="config-item">
+                                <label>
+                                    Planet Type:
+                                    <select
+                                        value={selectedPlanet}
+                                        onChange={(e) => setSelectedPlanet(e.target.value)}
+                                    >
+                                        <option value="">Select Planet</option>
+                                        <option value="All Planets">All Planets</option>
+                                        {planets.map(planet => (
+                                            <option key={planet} value={planet}>{planet}</option>
+                                        ))}
+                                    </select>
+                                </label>
                             </div>
-                        )}
-                        <div className="stat-item">
-                            <span className="stat-label">Total Buildings:</span>
-                            <span className="stat-value">{analysisReport.totalBuildings}</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">New Components Created:</span>
-                            <span className="stat-value">{analysisReport.totalNewComponents || newComponents.length}</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Existing Components Reused:</span>
-                            <span className="stat-value">{analysisReport.existingComponentsReused || 0}</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Component Reuse Rate:</span>
-                            <span className="stat-value highlight">{analysisReport.overallReuseRate || analysisReport.reuseRate || '0%'}</span>
+
+                            <div className="config-item">
+                                <label>
+                                    Native Tier Maximum:
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="5"
+                                        value={generatorConfig.nativeTierMax}
+                                        onChange={(e) => updateConfig('nativeTierMax', parseInt(e.target.value))}
+                                    />
+                                </label>
+                                <small>Buildings up to this tier must be buildable with native resources</small>
+                            </div>
+
+                            <div className="config-item">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={generatorConfig.minimizeNewComponents}
+                                        onChange={(e) => updateConfig('minimizeNewComponents', e.target.checked)}
+                                    />
+                                    Minimize New Components
+                                </label>
+                                <small>Prioritize reusing existing components</small>
+                            </div>
                         </div>
                     </div>
 
-                    {analysisReport.byPlanet && (
-                        <div className="planet-breakdown">
-                            <h4>Breakdown by Planet</h4>
-                            <table className="breakdown-table">
-                                <thead>
-                                    <tr>
-                                        <th>Planet</th>
-                                        <th>Buildings</th>
-                                        <th>New Components</th>
-                                        <th>Reused Components</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {Object.entries(analysisReport.byPlanet).map(([planet, stats]) => (
-                                        <tr key={planet}>
-                                            <td>{planet}</td>
-                                            <td>{stats.buildingCount}</td>
-                                            <td>{stats.newComponents}</td>
-                                            <td>{stats.reusedComponents}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                    {/* Action Buttons */}
+                    <div className="action-buttons">
+                        <button
+                            onClick={generateBuildingRecipes}
+                            disabled={!selectedPlanet}
+                            className="primary-button"
+                        >
+                            Generate for {selectedPlanet || 'Selected Planet'}
+                        </button>
+                        <button
+                            onClick={clearBuildingRecipes}
+                            className="secondary-button"
+                        >
+                            Clear All
+                        </button>
+                    </div>
+
+                    {/* Analysis Report */}
+                    {analysisReport && (
+                        <div className="analysis-report">
+                            <h3>Generation Analysis Report</h3>
+                            <div className="report-stats">
+                                {analysisReport.planetType && (
+                                    <div className="stat-item">
+                                        <span className="stat-label">Planet:</span>
+                                        <span className="stat-value">{analysisReport.planetType}</span>
+                                    </div>
+                                )}
+                                <div className="stat-item">
+                                    <span className="stat-label">Total Buildings:</span>
+                                    <span className="stat-value">{analysisReport.totalBuildings}</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">New Components Created:</span>
+                                    <span className="stat-value">{analysisReport.totalNewComponents || newComponents.length}</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Existing Components Reused:</span>
+                                    <span className="stat-value">{analysisReport.existingComponentsReused || 0}</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Component Reuse Rate:</span>
+                                    <span className="stat-value highlight">{analysisReport.overallReuseRate || analysisReport.reuseRate || '0%'}</span>
+                                </div>
+                            </div>
+
+                            {analysisReport.byPlanet && (
+                                <div className="planet-breakdown">
+                                    <h4>Breakdown by Planet</h4>
+                                    <table className="breakdown-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Planet</th>
+                                                <th>Buildings</th>
+                                                <th>New Components</th>
+                                                <th>Reused Components</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {Object.entries(analysisReport.byPlanet).map(([planet, stats]) => (
+                                                <tr key={planet}>
+                                                    <td>{planet}</td>
+                                                    <td>{stats.buildingCount}</td>
+                                                    <td>{stats.newComponents}</td>
+                                                    <td>{stats.reusedComponents}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
                         </div>
                     )}
-                </div>
-            )}
 
-            {/* Export Options */}
-            {(generatedRecipes.length > 0 || newComponents.length > 0) && (
-                <div className="export-section">
-                    <h3>Export Options</h3>
-                    <div className="export-buttons">
-                        <button
-                            onClick={exportBuildingRecipesToCSV}
-                            disabled={generatedRecipes.length === 0}
-                        >
-                            Export Building Recipes (.tsv)
-                        </button>
-                        <button
-                            onClick={exportNewComponentsToCSV}
-                            disabled={newComponents.length === 0}
-                        >
-                            Export New Components (.tsv)
-                        </button>
-                    </div>
-                </div>
-            )}
+                    {/* Export Options */}
+                    {(generatedRecipes.length > 0 || newComponents.length > 0) && (
+                        <div className="export-section">
+                            <h3>Export Options</h3>
+                            <div className="export-buttons">
+                                <button
+                                    onClick={exportBuildingRecipesToCSV}
+                                    disabled={generatedRecipes.length === 0}
+                                >
+                                    Export Building Recipes (.tsv)
+                                </button>
+                                <button
+                                    onClick={exportNewComponentsToCSV}
+                                    disabled={newComponents.length === 0}
+                                >
+                                    Export New Components (.tsv)
+                                </button>
+                                <button
+                                    onClick={sendToTracker}
+                                    disabled={newComponents.length === 0}
+                                    className="send-to-tracker-btn"
+                                >
+                                    Send to Component Tracker
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
-            {/* Generated Recipes Display */}
-            {generatedRecipes.length > 0 && (
-                <div className="generated-recipes">
-                    <h3>Generated Building Recipes ({generatedRecipes.length})</h3>
-                    <div className="recipe-list">
-                        <table className="recipe-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Tier</th>
-                                    <th>Resource Tier</th>
-                                    <th>Planet</th>
-                                    <th>Time</th>
-                                    <th>Ingredients</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {generatedRecipes.slice(0, 50).map((recipe, index) => (
-                                    <tr key={index}>
-                                        <td>{recipe.OutputID}</td>
-                                        <td>{recipe.OutputName}</td>
-                                        <td>{recipe.ResourceType}</td>
-                                        <td>T{recipe.OutputTier}</td>
-                                        <td>{recipe.BuildingResourceTier ? `T${recipe.BuildingResourceTier}` : '-'}</td>
-                                        <td>{recipe.PlanetTypes}</td>
-                                        <td>{recipe.ConstructionTime}m</td>
-                                        <td className="ingredients-cell">
-                                            {[1, 2, 3, 4, 5, 6, 7, 8].map(i =>
-                                                recipe[`Ingredient${i}`] ?
-                                                    `${recipe[`Ingredient${i}`]} (${recipe[`Quantity${i}`]})` :
-                                                    null
-                                            ).filter(Boolean).join(', ')}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        {generatedRecipes.length > 50 && (
-                            <p className="more-recipes">...and {generatedRecipes.length - 50} more recipes</p>
-                        )}
-                    </div>
-                </div>
-            )}
+                    {/* Generated Recipes Display */}
+                    {generatedRecipes.length > 0 && (
+                        <div className="generated-recipes">
+                            <h3>Generated Building Recipes ({generatedRecipes.length})</h3>
+                            <div className="recipe-list">
+                                <table className="recipe-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Tier</th>
+                                            <th>Resource Tier</th>
+                                            <th>Planet</th>
+                                            <th>Time</th>
+                                            <th>Ingredients</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {generatedRecipes.slice(0, 50).map((recipe, index) => (
+                                            <tr key={index}>
+                                                <td>{recipe.OutputID}</td>
+                                                <td>{recipe.OutputName}</td>
+                                                <td>{recipe.ResourceType}</td>
+                                                <td>T{recipe.OutputTier}</td>
+                                                <td>{recipe.BuildingResourceTier ? `T${recipe.BuildingResourceTier}` : '-'}</td>
+                                                <td>{recipe.PlanetTypes}</td>
+                                                <td>{recipe.ConstructionTime}m</td>
+                                                <td className="ingredients-cell">
+                                                    {[1, 2, 3, 4, 5, 6, 7, 8].map(i =>
+                                                        recipe[`Ingredient${i}`] ?
+                                                            `${recipe[`Ingredient${i}`]} (${recipe[`Quantity${i}`]})` :
+                                                            null
+                                                    ).filter(Boolean).join(', ')}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                {generatedRecipes.length > 50 && (
+                                    <p className="more-recipes">...and {generatedRecipes.length - 50} more recipes</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
 
-            {/* New Components Display */}
-            {newComponents.length > 0 && (
-                <div className="new-components">
-                    <h3>New Components Created ({newComponents.length})</h3>
-                    <div className="component-list">
-                        <table className="component-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Tier</th>
-                                    <th>Planet</th>
-                                    <th>Recipe</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {newComponents.map((comp, index) => (
-                                    <tr key={index}>
-                                        <td>{comp.OutputID}</td>
-                                        <td>{comp.OutputName}</td>
-                                        <td>T{comp.OutputTier}</td>
-                                        <td>{comp.PlanetTypes}</td>
-                                        <td className="ingredients-cell">
-                                            {[1, 2, 3, 4].map(i =>
-                                                comp[`Ingredient${i}`] ?
-                                                    `${comp[`Ingredient${i}`]} (${comp[`Quantity${i}`]})` :
-                                                    null
-                                            ).filter(Boolean).join(' + ')}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    {/* New Components Display */}
+                    {newComponents.length > 0 && (
+                        <div className="new-components">
+                            <h3>New Components Created ({newComponents.length})</h3>
+                            <div className="component-list">
+                                <table className="component-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Tier</th>
+                                            <th>Planet</th>
+                                            <th>Recipe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {newComponents.map((comp, index) => (
+                                            <tr key={index}>
+                                                <td>{comp.OutputID}</td>
+                                                <td>{comp.OutputName}</td>
+                                                <td>T{comp.OutputTier}</td>
+                                                <td>{comp.PlanetTypes}</td>
+                                                <td className="ingredients-cell">
+                                                    {[1, 2, 3, 4].map(i =>
+                                                        comp[`Ingredient${i}`] ?
+                                                            `${comp[`Ingredient${i}`]} (${comp[`Quantity${i}`]})` :
+                                                            null
+                                                    ).filter(Boolean).join(' + ')}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+                </>
+            ) : activeTab === 'preferences' ? (
+                <PreferredResourceSelector />
+            ) : (
+                <NewComponentTracker />
             )}
         </div>
     );
