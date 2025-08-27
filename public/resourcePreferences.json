@@ -1,0 +1,3674 @@
+{
+    "preferences": [
+        {
+            "planet": "Dark Planet",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-graphene",
+                    "name": "Graphene",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "current-limiter",
+                    "name": "Current Limiter",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "scaling-interface",
+                    "name": "Scaling Interface",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "chisenic-processor",
+                    "name": "Chisenic Processor",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "processing-control-core",
+                    "name": "Processing Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "em-quantum-core",
+                    "name": "EM Quantum Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-processor",
+                    "name": "Quantum Processor",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-energy-substrate",
+                    "name": "Energy Substrate",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-drive-matrix",
+                    "name": "Quantum Drive Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "quantum-interface-core",
+                    "name": "Quantum Interface Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "fusion-energy-core",
+                    "name": "Fusion Energy Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "energy-network-core",
+                    "name": "Energy Network Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "beryllium-matrix",
+                    "name": "Beryllium Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "living-metal-network",
+                    "name": "Living Metal Network",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Dark Planet",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-graphene",
+                    "name": "Graphene",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-cobalt",
+                    "name": "Cobalt",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "current-limiter",
+                    "name": "Current Limiter",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reactive-coating",
+                    "name": "Reactive Coating",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "scaling-interface",
+                    "name": "Scaling Interface",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "chisenic-processor",
+                    "name": "Chisenic Processor",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "processing-control-core",
+                    "name": "Processing Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "storage-control-core",
+                    "name": "Storage Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "emp-matrix-core",
+                    "name": "EMP Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "em-quantum-core",
+                    "name": "EM Quantum Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-processor",
+                    "name": "Quantum Processor",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-energy-substrate",
+                    "name": "Energy Substrate",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "Dark Planet",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-graphene",
+                    "name": "Graphene",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "field-coils",
+                    "name": "Field Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-cobalt",
+                    "name": "Cobalt",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-silver",
+                    "name": "Silver",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "current-limiter",
+                    "name": "Current Limiter",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reactive-coating",
+                    "name": "Reactive Coating",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "scaling-interface",
+                    "name": "Scaling Interface",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "chisenic-processor",
+                    "name": "Chisenic Processor",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "defense-crystal-array",
+                    "name": "Defense Crystal Array",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "processing-control-core",
+                    "name": "Processing Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "storage-control-core",
+                    "name": "Storage Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "emp-matrix-core",
+                    "name": "EMP Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Dark Planet",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-graphene",
+                    "name": "Graphene",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hydrocarbon",
+                    "name": "Hydrocarbon",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "field-coils",
+                    "name": "Field Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "field-harmonizer",
+                    "name": "Field Harmonizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-compound",
+                    "name": "Explosive Compound",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "dimensional-stabilizer",
+                    "name": "Dimensional Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-cobalt",
+                    "name": "Cobalt",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-silver",
+                    "name": "Silver",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "current-limiter",
+                    "name": "Current Limiter",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reactive-coating",
+                    "name": "Reactive Coating",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "fuel-primer",
+                    "name": "Fuel Primer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "gas-stabilizer",
+                    "name": "Gas Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "Dark Planet",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-graphene",
+                    "name": "Graphene",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hydrocarbon",
+                    "name": "Hydrocarbon",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "field-coils",
+                    "name": "Field Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "field-harmonizer",
+                    "name": "Field Harmonizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-compound",
+                    "name": "Explosive Compound",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-core",
+                    "name": "Explosive Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "dimensional-stabilizer",
+                    "name": "Dimensional Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "radiation-blocker",
+                    "name": "Radiation Blocker",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "foundation-anchor",
+                    "name": "Foundation Anchor",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "subspace-coils",
+                    "name": "Subspace Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "resistive-coils",
+                    "name": "Resistive Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "System Asteroid Belt",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-framework-1",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "scaling-interface",
+                    "name": "Scaling Interface",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "titanium-framework",
+                    "name": "Titanium Framework",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "mega-framework-core",
+                    "name": "Mega Framework Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "super-conductor",
+                    "name": "Super Conductor",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "strontium-weapon-core",
+                    "name": "Strontium Weapon Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "asteroid-mining-matrix",
+                    "name": "Asteroid Mining Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "zero-g-construction-core",
+                    "name": "Zero-G Construction Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "space-grade-fabricator",
+                    "name": "Space-Grade Fabricator",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "System Asteroid Belt",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-framework-1",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-hafnium",
+                    "name": "Hafnium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "scaling-interface",
+                    "name": "Scaling Interface",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "titanium-framework",
+                    "name": "Titanium Framework",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "kinetic-stabilizer-core",
+                    "name": "Kinetic Stabilizer Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "mega-framework-core",
+                    "name": "Mega Framework Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "System Asteroid Belt",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-framework-1",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "storage-matrix",
+                    "name": "Storage Matrix",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-hafnium",
+                    "name": "Hafnium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "scaling-interface",
+                    "name": "Scaling Interface",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "titanium-framework",
+                    "name": "Titanium Framework",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "sublight-matrix-core",
+                    "name": "Sublight Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "System Asteroid Belt",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "alloy-frame",
+                    "name": "Alloy Frame",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-framework-1",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "storage-matrix",
+                    "name": "Storage Matrix",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "utility-interface",
+                    "name": "Utility Interface",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-hafnium",
+                    "name": "Hafnium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "System Asteroid Belt",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tin",
+                    "name": "Tin",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "alloy-frame",
+                    "name": "Alloy Frame",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-framework-1",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "base-structure",
+                    "name": "Base Structure",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-power-source",
+                    "name": "Power Source",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "energy-cells",
+                    "name": "Energy Cells",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Gas Giant",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "gas-circulation-system",
+                    "name": "Gas Circulation System",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-boron",
+                    "name": "Boron",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "fuel-atomizer",
+                    "name": "Fuel Atomizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "grid-controller",
+                    "name": "Grid Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "gas-stabilizer",
+                    "name": "Gas Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "propulsion-gas-mix",
+                    "name": "Propulsion Gas Mix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fuel-control-core",
+                    "name": "Fuel Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "cooling-network-hub",
+                    "name": "Cooling Network Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "component-energy-substrate",
+                    "name": "Energy Substrate",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "service-management-core",
+                    "name": "Service Management Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-drive-matrix",
+                    "name": "Quantum Drive Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "gas-giant-atmospheric-processor",
+                    "name": "Gas Giant Atmospheric Processor",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "xenon-fusion-core",
+                    "name": "Xenon Fusion Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "planetary-gas-harvester",
+                    "name": "Planetary Gas Harvester",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "methane-cracking-matrix",
+                    "name": "Methane Cracking Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Gas Giant",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "gas-circulation-system",
+                    "name": "Gas Circulation System",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-core",
+                    "name": "Explosive Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-boron",
+                    "name": "Boron",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "fuel-atomizer",
+                    "name": "Fuel Atomizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "grid-controller",
+                    "name": "Grid Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "gas-stabilizer",
+                    "name": "Gas Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "propulsion-gas-mix",
+                    "name": "Propulsion Gas Mix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fuel-control-core",
+                    "name": "Fuel Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "cooling-network-hub",
+                    "name": "Cooling Network Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "medical-hub-core",
+                    "name": "Medical Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "component-energy-substrate",
+                    "name": "Energy Substrate",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "power-management-core",
+                    "name": "Power Management Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "service-management-core",
+                    "name": "Service Management Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "Gas Giant",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "germanium-ingot",
+                    "name": "Germanium Ingot",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gas-circulation-system",
+                    "name": "Gas Circulation System",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-core",
+                    "name": "Explosive Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-boron",
+                    "name": "Boron",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-silver",
+                    "name": "Silver",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "fuel-atomizer",
+                    "name": "Fuel Atomizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "grid-controller",
+                    "name": "Grid Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "gas-stabilizer",
+                    "name": "Gas Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "propulsion-gas-mix",
+                    "name": "Propulsion Gas Mix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fuel-control-core",
+                    "name": "Fuel Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "cooling-network-hub",
+                    "name": "Cooling Network Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "medical-hub-core",
+                    "name": "Medical Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "passenger-hub-core",
+                    "name": "Passenger Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Gas Giant",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "germanium-ingot",
+                    "name": "Germanium Ingot",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "inert-gas-canisters",
+                    "name": "Inert Gas Canisters",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hydrocarbon",
+                    "name": "Hydrocarbon",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gas-circulation-system",
+                    "name": "Gas Circulation System",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "freeze-dispersal-unit",
+                    "name": "Freeze Dispersal Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "blast-charges",
+                    "name": "Blast Charges",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-core",
+                    "name": "Explosive Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-boron",
+                    "name": "Boron",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-silver",
+                    "name": "Silver",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-scandium",
+                    "name": "Scandium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "fuel-atomizer",
+                    "name": "Fuel Atomizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "grid-controller",
+                    "name": "Grid Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "gas-stabilizer",
+                    "name": "Gas Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "interference-shield",
+                    "name": "Interference Shield",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "Gas Giant",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "subspace-coils",
+                    "name": "Subspace Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "germanium-ingot",
+                    "name": "Germanium Ingot",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "inert-gas-canisters",
+                    "name": "Inert Gas Canisters",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hydrocarbon",
+                    "name": "Hydrocarbon",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "incendiary-mix",
+                    "name": "Incendiary Mix",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gas-circulation-system",
+                    "name": "Gas Circulation System",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "freeze-dispersal-unit",
+                    "name": "Freeze Dispersal Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "blast-charges",
+                    "name": "Blast Charges",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "impact-charges",
+                    "name": "Impact Charges",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-core",
+                    "name": "Explosive Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "thermal-charges",
+                    "name": "Thermal Charges",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "subwarp-drive-matrix",
+                    "name": "Subwarp Drive Matrix",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Oceanic Planet",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "thermal-catalyst",
+                    "name": "Thermal Catalyst",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "steel",
+                    "name": "Steel",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "sensor-hub-core",
+                    "name": "Sensor Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "abyssal-energy-core",
+                    "name": "Abyssal Energy Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "control-system-core",
+                    "name": "Control System Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "super-conductor",
+                    "name": "Super Conductor",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "energy-network-core",
+                    "name": "Energy Network Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "em-bio-core",
+                    "name": "EM Bio Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "lunar-energy-matrix",
+                    "name": "Lunar Energy Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "living-metal-network",
+                    "name": "Living Metal Network",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Oceanic Planet",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "thermal-catalyst",
+                    "name": "Thermal Catalyst",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "steel",
+                    "name": "Steel",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "sensor-hub-core",
+                    "name": "Sensor Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "sublight-matrix-core",
+                    "name": "Sublight Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "abyssal-energy-core",
+                    "name": "Abyssal Energy Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "control-system-core",
+                    "name": "Control System Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-radiation-absorber",
+                    "name": "Radiation Absorber",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "super-conductor",
+                    "name": "Super Conductor",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Oceanic Planet",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "ground-plate",
+                    "name": "Ground Plate",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "medical-nanites",
+                    "name": "Medical Nanites",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "utility-conduit",
+                    "name": "Utility Conduit",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "steel",
+                    "name": "Steel",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "sensor-hub-core",
+                    "name": "Sensor Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "sublight-matrix-core",
+                    "name": "Sublight Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Oceanic Planet",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "chromite",
+                    "name": "Chromite",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper-wire",
+                    "name": "Copper Wire",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "fire-suppressant",
+                    "name": "Fire Suppressant",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "medical-nanites",
+                    "name": "Medical Nanites",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-repair-kit-1",
+                    "name": "Repair Kit",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "utility-conduit",
+                    "name": "Utility Conduit",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "thermal-catalyst",
+                    "name": "Thermal Catalyst",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "Oceanic Planet",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "chromite",
+                    "name": "Chromite",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-copper-wire",
+                    "name": "Copper Wire",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "fire-suppressant",
+                    "name": "Fire Suppressant",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "explosive-compound",
+                    "name": "Explosive Compound",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "pyrotechnic-material",
+                    "name": "Pyrotechnic Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "ground-plate",
+                    "name": "Ground Plate",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hologram-generator",
+                    "name": "Hologram Generator",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Ice Giant",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "kinetic-stabilizer",
+                    "name": "Kinetic Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reinforcement-lattice",
+                    "name": "Reinforcement Lattice",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "capacitor-matrix-core",
+                    "name": "Capacitor Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "energy-crystal-matrix",
+                    "name": "Energy Crystal Matrix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "thermal-core-assembly",
+                    "name": "Thermal Core Assembly",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "capacity-control-core",
+                    "name": "Capacity Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "mega-framework-core",
+                    "name": "Mega Framework Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "utility-matrix",
+                    "name": "Utility Matrix",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "hicenium-lattice",
+                    "name": "Hicenium Lattice",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-drive-matrix",
+                    "name": "Quantum Drive Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "quantum-interface-core",
+                    "name": "Quantum Interface Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "energy-network-core",
+                    "name": "Energy Network Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "resonium-kinetic-core",
+                    "name": "Resonium Kinetic Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Ice Giant",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "kinetic-stabilizer",
+                    "name": "Kinetic Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-aluminum",
+                    "name": "Aluminum",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reinforcement-lattice",
+                    "name": "Reinforcement Lattice",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "capacitor-matrix-core",
+                    "name": "Capacitor Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "energy-crystal-matrix",
+                    "name": "Energy Crystal Matrix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "thermal-core-assembly",
+                    "name": "Thermal Core Assembly",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "capacity-control-core",
+                    "name": "Capacity Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "kinetic-stabilizer-core",
+                    "name": "Kinetic Stabilizer Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "mega-framework-core",
+                    "name": "Mega Framework Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "power-management-core",
+                    "name": "Power Management Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "utility-matrix",
+                    "name": "Utility Matrix",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "Ice Giant",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "kinetic-stabilizer",
+                    "name": "Kinetic Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-aluminum",
+                    "name": "Aluminum",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reinforcement-lattice",
+                    "name": "Reinforcement Lattice",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "structural-brace",
+                    "name": "Structural Brace",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "temperature-regulator",
+                    "name": "Temperature Regulator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "capacitor-matrix-core",
+                    "name": "Capacitor Matrix Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "energy-crystal-matrix",
+                    "name": "Energy Crystal Matrix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "thermal-core-assembly",
+                    "name": "Thermal Core Assembly",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "warp-control-core",
+                    "name": "Warp Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "cooling-network-hub",
+                    "name": "Cooling Network Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Ice Giant",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "chromite",
+                    "name": "Chromite",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "germanium-ingot",
+                    "name": "Germanium Ingot",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "inert-gas-canisters",
+                    "name": "Inert Gas Canisters",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "proximity-detector",
+                    "name": "Proximity Detector",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "pulse-generator",
+                    "name": "Pulse Generator",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-aluminum",
+                    "name": "Aluminum",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "reinforcement-lattice",
+                    "name": "Reinforcement Lattice",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "safety-buffer",
+                    "name": "Safety Buffer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "structural-brace",
+                    "name": "Structural Brace",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "temperature-regulator",
+                    "name": "Temperature Regulator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "utility-conduit",
+                    "name": "Utility Conduit",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "Ice Giant",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "chromite",
+                    "name": "Chromite",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "germanium-ingot",
+                    "name": "Germanium Ingot",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "inert-gas-canisters",
+                    "name": "Inert Gas Canisters",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hydrocarbon",
+                    "name": "Hydrocarbon",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "impact-charges",
+                    "name": "Impact Charges",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "proximity-detector",
+                    "name": "Proximity Detector",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "pulse-generator",
+                    "name": "Pulse Generator",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "rapid-cycle-timer",
+                    "name": "Rapid Cycle Timer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "hologram-generator",
+                    "name": "Hologram Generator",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "repair-protocol",
+                    "name": "Repair Protocol",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Barren Planet",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tantalum",
+                    "name": "Tantalum",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-lithium",
+                    "name": "Lithium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "structural-brace",
+                    "name": "Structural Brace",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "mine-control-core",
+                    "name": "Mine Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "tungsten-core",
+                    "name": "Tungsten Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "suppression-hub-core",
+                    "name": "Suppression Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "mega-framework-core",
+                    "name": "Mega Framework Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "power-management-core",
+                    "name": "Power Management Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "component-resonium",
+                    "name": "Resonium",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "resonium-kinetic-core",
+                    "name": "Resonium Kinetic Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "resonium-utility-matrix",
+                    "name": "Resonium Utility Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "advanced-defense-core",
+                    "name": "Advanced Defense Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "titan-scale-framework",
+                    "name": "Titan Scale Framework",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "processing-platform-core",
+                    "name": "Processing Platform Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Barren Planet",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tantalum",
+                    "name": "Tantalum",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "targeting-array",
+                    "name": "Targeting Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-lithium",
+                    "name": "Lithium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "structural-brace",
+                    "name": "Structural Brace",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "mine-control-core",
+                    "name": "Mine Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "flare-control-core",
+                    "name": "Flare Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "tungsten-core",
+                    "name": "Tungsten Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "suppression-hub-core",
+                    "name": "Suppression Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "mega-framework-core",
+                    "name": "Mega Framework Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "kinetic-stabilizer-core",
+                    "name": "Kinetic Stabilizer Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "power-management-core",
+                    "name": "Power Management Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "Barren Planet",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tantalum",
+                    "name": "Tantalum",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "targeting-array",
+                    "name": "Targeting Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-lithium",
+                    "name": "Lithium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "pressure-relief",
+                    "name": "Pressure Relief",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "structural-brace",
+                    "name": "Structural Brace",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "mine-control-core",
+                    "name": "Mine Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "resource-hub-core",
+                    "name": "Resource Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "flare-control-core",
+                    "name": "Flare Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "tungsten-core",
+                    "name": "Tungsten Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "suppression-hub-core",
+                    "name": "Suppression Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "medical-hub-core",
+                    "name": "Medical Hub Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Barren Planet",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tantalum",
+                    "name": "Tantalum",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "rhenium",
+                    "name": "Rhenium",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "targeting-array",
+                    "name": "Targeting Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-lithium",
+                    "name": "Lithium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "coupling-interface",
+                    "name": "Coupling Interface",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "pressure-relief",
+                    "name": "Pressure Relief",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-boron",
+                    "name": "Boron",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-hafnium",
+                    "name": "Hafnium",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "structural-brace",
+                    "name": "Structural Brace",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "safety-buffer",
+                    "name": "Safety Buffer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "temperature-regulator",
+                    "name": "Temperature Regulator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "Barren Planet",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tantalum",
+                    "name": "Tantalum",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "rhenium",
+                    "name": "Rhenium",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "targeting-array",
+                    "name": "Targeting Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tank-shell",
+                    "name": "Tank Shell",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-sensor",
+                    "name": "Heat Sensor",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "resistive-coils",
+                    "name": "Resistive Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "subspace-coils",
+                    "name": "Subspace Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "thermal-charges",
+                    "name": "Thermal Charges",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "scatter-pattern-generator",
+                    "name": "Scatter Pattern Generator",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Volcanic Planet",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "thermal-control-unit",
+                    "name": "Thermal Control Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-manganese",
+                    "name": "Manganese",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "flare-control-core",
+                    "name": "Flare Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "energy-management-hub",
+                    "name": "Energy Management Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fuel-control-core",
+                    "name": "Fuel Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "component-iridium",
+                    "name": "Iridium",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "fire-control-core",
+                    "name": "Fire Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-processor",
+                    "name": "Quantum Processor",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "fusion-energy-core",
+                    "name": "Fusion Energy Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "energy-network-core",
+                    "name": "Energy Network Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "rhodium-power-core",
+                    "name": "Rhodium Power Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "thermal-fusion-matrix",
+                    "name": "Thermal Fusion Matrix",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Volcanic Planet",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "thermal-control-unit",
+                    "name": "Thermal Control Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "core-stabilizer",
+                    "name": "Core Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "component-manganese",
+                    "name": "Manganese",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "flare-control-core",
+                    "name": "Flare Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "energy-management-hub",
+                    "name": "Energy Management Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fuel-control-core",
+                    "name": "Fuel Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "thermal-core-assembly",
+                    "name": "Thermal Core Assembly",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "component-iridium",
+                    "name": "Iridium",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "fire-control-core",
+                    "name": "Fire Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "quantum-processor",
+                    "name": "Quantum Processor",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "Volcanic Planet",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "thermal-control-unit",
+                    "name": "Thermal Control Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-circulation-pipes",
+                    "name": "Heat Circulation Pipes",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "core-stabilizer",
+                    "name": "Core Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-manganese",
+                    "name": "Manganese",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-cobalt",
+                    "name": "Cobalt",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "flare-control-core",
+                    "name": "Flare Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "energy-management-hub",
+                    "name": "Energy Management Hub",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fuel-control-core",
+                    "name": "Fuel Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "thermal-core-assembly",
+                    "name": "Thermal Core Assembly",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Volcanic Planet",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "thermal-control-unit",
+                    "name": "Thermal Control Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-circulation-pipes",
+                    "name": "Heat Circulation Pipes",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "core-stabilizer",
+                    "name": "Core Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "exotic-matter-core",
+                    "name": "Exotic Matter Core",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-dissipator",
+                    "name": "Heat Dissipator",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-manganese",
+                    "name": "Manganese",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "component-cobalt",
+                    "name": "Cobalt",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "climate-controller",
+                    "name": "Climate Controller",
+                    "type": "COMPONENT",
+                    "tier": 2
+                },
+                {
+                    "id": "bio-stabilizer",
+                    "name": "Bio Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 2
+                }
+            ]
+        },
+        {
+            "planet": "Volcanic Planet",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "barrier-material",
+                    "name": "Barrier Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "insulation-material",
+                    "name": "Insulation Material",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "thermal-control-unit",
+                    "name": "Thermal Control Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-circulation-pipes",
+                    "name": "Heat Circulation Pipes",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "energy-cells",
+                    "name": "Energy Cells",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "core-stabilizer",
+                    "name": "Core Stabilizer",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "power-source",
+                    "name": "Power Source",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "utility-interface",
+                    "name": "Utility Interface",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Terrestrial Planet",
+            "buildingResourceTier": 5,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gold",
+                    "name": "Gold",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "processing-control-core",
+                    "name": "Processing Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "coordination-matrix",
+                    "name": "Coordination Matrix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fire-control-core",
+                    "name": "Fire Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "capacity-control-core",
+                    "name": "Capacity Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "utility-matrix",
+                    "name": "Utility Matrix",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "structural-control-array",
+                    "name": "Structural Control Array",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "adaptive-utility-core",
+                    "name": "Adaptive Utility Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "processing-platform-core",
+                    "name": "Processing Platform Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "storage-platform-core",
+                    "name": "Storage Platform Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                },
+                {
+                    "id": "utility-integration-core",
+                    "name": "Utility Integration Core",
+                    "type": "COMPONENT",
+                    "tier": 5
+                }
+            ]
+        },
+        {
+            "planet": "Terrestrial Planet",
+            "buildingResourceTier": 4,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gold",
+                    "name": "Gold",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "processing-control-core",
+                    "name": "Processing Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "coordination-matrix",
+                    "name": "Coordination Matrix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "fire-control-core",
+                    "name": "Fire Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "capacity-control-core",
+                    "name": "Capacity Control Core",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "utility-matrix",
+                    "name": "Utility Matrix",
+                    "type": "COMPONENT",
+                    "tier": 4
+                },
+                {
+                    "id": "structural-control-array",
+                    "name": "Structural Control Array",
+                    "type": "COMPONENT",
+                    "tier": 4
+                }
+            ]
+        },
+        {
+            "planet": "Terrestrial Planet",
+            "buildingResourceTier": 3,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gold",
+                    "name": "Gold",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "storage-matrix",
+                    "name": "Storage Matrix",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "gold-contacts",
+                    "name": "Gold Contacts",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "processing-control-core",
+                    "name": "Processing Control Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "coordination-matrix",
+                    "name": "Coordination Matrix",
+                    "type": "COMPONENT",
+                    "tier": 3
+                },
+                {
+                    "id": "utility-core",
+                    "name": "Utility Core",
+                    "type": "COMPONENT",
+                    "tier": 3
+                }
+            ]
+        },
+        {
+            "planet": "Terrestrial Planet",
+            "buildingResourceTier": 2,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "alloy-frame",
+                    "name": "Alloy Frame",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heat-exchange-coils",
+                    "name": "Heat Exchange Coils",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "protective-coating",
+                    "name": "Protective Coating",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "thermal-control-unit",
+                    "name": "Thermal Control Unit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "sensor-array",
+                    "name": "Sensor Array",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "control-circuit",
+                    "name": "Control Circuit",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "storage-matrix",
+                    "name": "Storage Matrix",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "utility-interface",
+                    "name": "Utility Interface",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        },
+        {
+            "planet": "Terrestrial Planet",
+            "buildingResourceTier": 1,
+            "buildingTier": 1,
+            "resources": [
+                {
+                    "id": "iron",
+                    "name": "Iron",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "copper",
+                    "name": "Copper",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "zinc",
+                    "name": "Zinc",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "tin",
+                    "name": "Tin",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "alloy-frame",
+                    "name": "Alloy Frame",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "heavy-alloy",
+                    "name": "Heavy Alloy",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "framework",
+                    "name": "Framework",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "structural-joint",
+                    "name": "Structural Joint",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "load-bearing-beams",
+                    "name": "Load Bearing Beams",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "base-structure",
+                    "name": "Base Structure",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "power-source",
+                    "name": "Power Source",
+                    "type": "COMPONENT",
+                    "tier": 1
+                },
+                {
+                    "id": "energy-cells",
+                    "name": "Energy Cells",
+                    "type": "COMPONENT",
+                    "tier": 1
+                }
+            ]
+        }
+    ]
+}

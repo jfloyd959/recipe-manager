@@ -1,0 +1,39 @@
+building_id,building_name,category,tier,minimum_stake_tier,slots,power,crew_capacity,crew_required,storage,comes_with_stake,can_remove,required_tags,added_tags,construction_time_seconds,deconstruction_time_seconds,special_data
+central-hub-t1,Central Hub T1,hub,1,1,0,100,4,1,1000,true,false,,"central-hub,extraction-capable,processing-capable",0,0,
+central-hub-t2,Central Hub T2,hub,2,2,0,150,6,2,2000,true,false,,"central-hub,extraction-capable,processing-capable",0,0,
+central-hub-t3,Central Hub T3,hub,3,3,0,200,8,3,3000,true,false,,"central-hub,extraction-capable,processing-capable",0,0,
+central-hub-t4,Central Hub T4,hub,4,4,0,250,10,4,4000,true,false,,"central-hub,extraction-capable,processing-capable",0,0,
+central-hub-t5,Central Hub T5,hub,5,5,0,300,12,5,5000,true,false,,"central-hub,extraction-capable,processing-capable",0,0,
+extractor-t1,Extractor T1,extractor,1,1,8,-25,0,1,0,false,true,central-hub,extractor,1800,900,"tier_1_rate:0.02,tier_2_rate:0.010,tier_3_rate:0.007,tier_4_rate:0.005,tier_5_rate:0.004"
+extractor-t2,Extractor T2,extractor,2,1,64,-100,0,8,0,false,true,central-hub,extractor,3600,1800,"tier_1_rate:0.15,tier_2_rate:0.076,tier_3_rate:0.051,tier_4_rate:0.038,tier_5_rate:0.030"
+extractor-t3,Extractor T3,extractor,3,2,216,-200,0,27,0,false,true,central-hub,extractor,7200,3600,"tier_1_rate:0.64,tier_2_rate:0.320,tier_3_rate:0.213,tier_4_rate:0.160,tier_5_rate:0.128"
+extractor-t4,Extractor T4,extractor,4,3,512,-400,0,64,0,false,true,central-hub,extractor,14400,7200,"tier_1_rate:1.95,tier_2_rate:0.977,tier_3_rate:0.651,tier_4_rate:0.488,tier_5_rate:0.391"
+extractor-t5,Extractor T5,extractor,5,4,1000,-800,0,125,0,false,true,central-hub,extractor,28800,14400,"tier_1_rate:4.86,tier_2_rate:2.430,tier_3_rate:1.620,tier_4_rate:1.215,tier_5_rate:0.972"
+processor-t1,Processor T1,processor,1,1,8,-30,0,1,0,false,true,central-hub,processor,1800,900,"jobs_per_second:1,rate_0080:0.577,rate_0040:0.288,rate_0027:0.192,rate_0020:0.144,rate_0016:0.115"
+processor-t2,Processor T2,processor,2,1,64,-120,0,8,0,false,true,central-hub,processor,3600,1800,"jobs_per_second:8,rate_0080:3.034,rate_0040:1.517,rate_0027:1.011,rate_0020:0.759,rate_0016:0.607"
+processor-t3,Processor T3,processor,3,2,216,-250,0,27,0,false,true,central-hub,processor,7200,3600,"jobs_per_second:32,rate_0080:11.921,rate_0040:5.960,rate_0027:3.974,rate_0020:2.980,rate_0016:2.384"
+processor-t4,Processor T4,processor,4,3,512,-500,0,64,0,false,true,central-hub,processor,14400,7200,"jobs_per_second:98,rate_0080:37.791,rate_0040:18.896,rate_0027:12.597,rate_0020:9.448,rate_0016:7.558"
+processor-t5,Processor T5,processor,5,4,1000,-1000,0,125,0,false,true,central-hub,processor,28800,14400,"jobs_per_second:243,rate_0080:93.951,rate_0040:46.975,rate_0027:31.317,rate_0020:23.488,rate_0016:18.790"
+crew-quarters-t1,Crew Quarters T1,crew,1,1,4,-10,5,0,0,false,true,central-hub,crew-housing,1800,900,
+crew-quarters-t2,Crew Quarters T2,crew,2,1,32,-25,40,0,0,false,true,central-hub,crew-housing,3600,1800,
+crew-quarters-t3,Crew Quarters T3,crew,3,2,108,-50,135,0,0,false,true,central-hub,crew-housing,7200,3600,
+crew-quarters-t4,Crew Quarters T4,crew,4,3,256,-100,320,0,0,false,true,central-hub,crew-housing,14400,7200,
+crew-quarters-t5,Crew Quarters T5,crew,5,4,500,-200,625,0,0,false,true,central-hub,crew-housing,28800,14400,
+storage-hub-t1,Storage Hub T1,storage,1,1,4,-5,0,1,2500,false,true,central-hub,storage,1800,900,
+storage-hub-t2,Storage Hub T2,storage,2,1,32,-15,0,3,7500,false,true,central-hub,storage,3600,1800,
+storage-hub-t3,Storage Hub T3,storage,3,2,108,-30,0,5,15000,false,true,central-hub,storage,7200,3600,
+storage-hub-t4,Storage Hub T4,storage,4,3,256,-60,0,8,30000,false,true,central-hub,storage,14400,7200,
+storage-hub-t5,Storage Hub T5,storage,5,4,500,-120,0,11,60000,false,true,central-hub,storage,28800,14400,
+power-plant-t1,Power Plant T1,power,1,1,4,250,0,1,0,false,true,central-hub,power-generation,1800,900,
+power-plant-t2,Power Plant T2,power,2,1,32,650,0,3,0,false,true,central-hub,power-generation,3600,1800,
+power-plant-t3,Power Plant T3,power,3,2,108,1300,0,5,0,false,true,central-hub,power-generation,7200,3600,
+power-plant-t4,Power Plant T4,power,4,3,256,2600,0,8,0,false,true,central-hub,power-generation,14400,7200,
+power-plant-t5,Power Plant T5,power,5,4,500,5200,0,11,0,false,true,central-hub,power-generation,28800,14400,
+
+# CLAIM STAKE DEFINITIONS
+stake_id,stake_name,tier,total_slots,max_extractors,max_processors,max_crew_quarters,max_storage_hubs,max_power_plants,fully_loaded_crew_req,default_building
+claim-stake-t1,Claim Stake T1,1,32,4.0,4.0,8.0,8.0,8.0,4,central-hub-t1
+claim-stake-t2,Claim Stake T2,2,243,3.8,3.8,7.6,7.6,7.6,30,central-hub-t2
+claim-stake-t3,Claim Stake T3,3,1024,4.7,4.7,9.5,9.5,9.5,128,central-hub-t3
+claim-stake-t4,Claim Stake T4,4,3125,6.1,6.1,12.2,12.2,12.2,391,central-hub-t4
+claim-stake-t5,Claim Stake T5,5,7776,7.8,7.8,15.6,15.6,15.6,972,central-hub-t5

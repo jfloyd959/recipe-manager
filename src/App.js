@@ -15,6 +15,7 @@ import RecipeComplexityAnalyzer from './components/RecipeComplexityAnalyzer/Reci
 import ProgressiveComplexityDashboard from './components/ProgressiveComplexityDashboard/ProgressiveComplexityDashboard';
 import ProgressiveComplexityAnalyzer from './components/ProgressiveComplexityAnalyzer/ProgressiveComplexityAnalyzer';
 import Navbar from './components/Layout/Navbar';
+import DataCreator from './components/DataCreator/DataCreator';
 import './App.css';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
               <Route path="/complexity-analyzer" element={<RecipeComplexityAnalyzer />} />
               <Route path="/progressive-system" element={<ProgressiveComplexityDashboard />} />
               <Route path="/progressive-analyzer" element={<ProgressiveComplexityAnalyzer />} />
+              <Route path="/data-creator" element={<DataCreator />} />
             </Routes>
           </main>
         </div>

@@ -233,14 +233,15 @@ export class BuildingRecipeGenerator {
         // Building categories and their bootstrap rules
         this.buildingCategories = {
             'Infrastructure': {
-                'Central Hub': { bootstrap: false, t1AutoBuilt: true },
-                'Cultivation Hub': { bootstrap: false, t1AutoBuilt: true }, // Also auto-built with claim stake
-                'Processing Hub': { bootstrap: true },
-                'Extraction Hub': { bootstrap: true },
-                'Storage Hub': { bootstrap: true },
-                'Farm Hub': { bootstrap: true },
-                'Power Plant': { bootstrap: true },
-                'Crew Quarters': { bootstrap: true }
+                'Central Hub': { bootstrap: false, t1AutoBuilt: true, planetVariants: true },
+                'Cultivation Hub': { bootstrap: false, t1AutoBuilt: true, planetVariants: true },
+                'Processing Hub': { bootstrap: true, planetVariants: true },
+                'Extraction Hub': { bootstrap: true, planetVariants: true },
+                'Storage Hub': { bootstrap: true, planetVariants: true },
+                'Farm Hub': { bootstrap: true, planetVariants: true },
+                'Power Plant': { bootstrap: true, planetVariants: true },
+                'Crew Quarters': { bootstrap: true, planetVariants: true },
+                'Storage Module': { bootstrap: true, planetVariants: false }  // New storage modules
             },
             'Processing': {
                 basic: { bootstrap: true }, // Basic component processors
@@ -652,15 +653,28 @@ export class BuildingRecipeGenerator {
         const recipes = [];
         const hubs = [
             'Central Hub', 'Cultivation Hub', 'Processing Hub', 'Extraction Hub',
-            'Storage Hub', 'Farm Hub', 'Power Plant', 'Crew Quarters'
+            'Storage Hub', 'Farm Hub', 'Power Plant', 'Crew Quarters', 'Storage Module'
         ];
 
         hubs.forEach(hubName => {
             const hubConfig = this.buildingCategories.Infrastructure[hubName];
-            const hubRecipes = this.generateProgressiveBuildingFamily(
-                hubName, planetType, 'Infrastructure', componentAnalysis, hubConfig
-            );
-            recipes.push(...hubRecipes);
+
+            // Generate planet-specific variant if configured
+            if (hubConfig && hubConfig.planetVariants) {
+                const planetPrefix = this.getPlanetPrefix(planetType);
+                const planetSpecificName = `${planetPrefix.charAt(0).toUpperCase() + planetPrefix.slice(1)} ${hubName}`;
+
+                const hubRecipes = this.generateProgressiveBuildingFamily(
+                    planetSpecificName, planetType, 'Infrastructure', componentAnalysis, hubConfig
+                );
+                recipes.push(...hubRecipes);
+            } else {
+                // Generate standard variant (for Storage Module)
+                const hubRecipes = this.generateProgressiveBuildingFamily(
+                    hubName, planetType, 'Infrastructure', componentAnalysis, hubConfig
+                );
+                recipes.push(...hubRecipes);
+            }
         });
 
         return recipes;
@@ -685,7 +699,9 @@ export class BuildingRecipeGenerator {
                 {
                     targetResource: proc.resource,
                     bootstrap: proc.bootstrap,
-                    planetSpecific: proc.planetSpecific
+                    planetSpecific: proc.planetSpecific,
+                    // For processors, use the resource's actual planets
+                    resourcePlanetTypes: proc.resource ? (proc.resource.PlanetTypes || proc.resource.planetTypes) : null
                 }
             );
             processors.push(...family);
@@ -704,7 +720,9 @@ export class BuildingRecipeGenerator {
                 {
                     targetResource: proc.resource,
                     bootstrap: proc.bootstrap,
-                    planetSpecific: proc.planetSpecific
+                    planetSpecific: proc.planetSpecific,
+                    // For processors, use the resource's actual planets
+                    resourcePlanetTypes: proc.resource ? (proc.resource.PlanetTypes || proc.resource.planetTypes) : null
                 }
             );
             processors.push(...family);
@@ -716,6 +734,13 @@ export class BuildingRecipeGenerator {
             console.log(`📊 Generating ${orphanedProcessors.length} orphaned processors for ${planetType}`);
 
             orphanedProcessors.forEach(proc => {
+                // Check if already processed globally (safety check)
+                const componentName = this.getRecipeOutputName(proc.resource);
+                if (this.processedComponentsGlobal.has(componentName)) {
+                    console.log(`  ⚠️ Skipping orphaned ${componentName} Processor - already processed`);
+                    return;
+                }
+
                 const family = this.generateProgressiveBuildingFamily(
                     proc.name,
                     planetType,
@@ -724,7 +749,9 @@ export class BuildingRecipeGenerator {
                     {
                         targetResource: proc.resource,
                         bootstrap: proc.bootstrap,
-                        planetSpecific: proc.planetSpecific
+                        planetSpecific: proc.planetSpecific,
+                        // For processors, use the resource's actual planets
+                        resourcePlanetTypes: proc.resource ? (proc.resource.PlanetTypes || proc.resource.planetTypes) : null
                     }
                 );
                 processors.push(...family);
@@ -739,6 +766,11 @@ export class BuildingRecipeGenerator {
      */
     generateExtractorBuildings(planetType, componentAnalysis) {
         const recipes = [];
+
+        // Track globally processed extractors to avoid duplicates
+        if (!this.processedExtractorsGlobal) {
+            this.processedExtractorsGlobal = new Set();
+        }
 
         // Get all basic resources available on this planet
         const eligibleResources = this.recipes.filter(r => {
@@ -772,23 +804,41 @@ export class BuildingRecipeGenerator {
             const extractorName = resourceName.includes('Extractor') ?
                 resourceName : `${resourceName} Extractor`;
 
-            // If bootstrap is needed and resource is on multiple planets, create planet-specific variant
+            // Check if resource is on multiple planets
             const planetTypes = (resource.PlanetTypes || resource.planetTypes || '').split(';').map(p => p.trim());
             const isMultiPlanet = planetTypes.length > 1;
 
-            const finalExtractorName = needsBootstrap && isMultiPlanet ?
-                `${this.getPlanetPrefix(planetType)}-${this.toKebabCase(extractorName)}` :
-                extractorName;
+            // Check if we've already processed this extractor globally
+            if (this.processedExtractorsGlobal.has(extractorName)) {
+                console.log(`  ⏭️ Skipping ${extractorName} on ${planetType} - already created elsewhere`);
+                return;
+            }
+
+            // For multi-planet resources, only create the extractor on the first planet alphabetically
+            // to avoid duplicates. The extractor will be available on all planets where the resource exists.
+            if (isMultiPlanet) {
+                const firstPlanet = planetTypes.sort()[0];
+                if (planetType !== firstPlanet) {
+                    // Skip this extractor on non-primary planets to avoid duplicates
+                    console.log(`  ⏭️ Skipping ${extractorName} on ${planetType} - will be created on ${firstPlanet}`);
+                    return;
+                }
+            }
 
             const extractorRecipes = this.generateProgressiveBuildingFamily(
-                finalExtractorName, planetType, 'Extraction', componentAnalysis,
+                extractorName, planetType, 'Extraction', componentAnalysis,
                 {
                     targetResource: resource,
                     bootstrap: needsBootstrap,
-                    planetSpecific: needsBootstrap && isMultiPlanet
+                    planetSpecific: false, // Extractors are not planet-specific
+                    // For extractors, use all planets where resource is available
+                    resourcePlanetTypes: resource.PlanetTypes || resource.planetTypes
                 }
             );
             recipes.push(...extractorRecipes);
+
+            // Mark this extractor as processed globally
+            this.processedExtractorsGlobal.add(extractorName);
         });
 
         return recipes;
@@ -799,6 +849,11 @@ export class BuildingRecipeGenerator {
      */
     generateFarmModuleBuildings(planetType, componentAnalysis) {
         const recipes = [];
+
+        // Track globally processed farms to avoid duplicates
+        if (!this.processedFarmsGlobal) {
+            this.processedFarmsGlobal = new Set();
+        }
 
         // Find all BASIC ORGANIC RESOURCES for this planet
         const organicResources = this.recipes.filter(r => {
@@ -813,11 +868,41 @@ export class BuildingRecipeGenerator {
             const resourceName = this.getRecipeOutputName(resource);
             const farmName = `${resourceName} Farm`;
             const resourceTier = parseInt(this.getRecipeOutputTier(resource)) || 1;
+
+            // Check if we've already processed this farm globally
+            if (this.processedFarmsGlobal.has(farmName)) {
+                console.log(`  ⏭️ Skipping ${farmName} on ${planetType} - already created elsewhere`);
+                return;
+            }
+
+            // Check if resource is on multiple planets
+            const planetTypes = (resource.PlanetTypes || resource.planetTypes || '').split(';').map(p => p.trim());
+            const isMultiPlanet = planetTypes.length > 1;
+
+            // For multi-planet resources, only create the farm on the first planet alphabetically
+            if (isMultiPlanet) {
+                const firstPlanet = planetTypes.sort()[0];
+                if (planetType !== firstPlanet) {
+                    // Skip this farm on non-primary planets to avoid duplicates
+                    console.log(`  ⏭️ Skipping ${farmName} on ${planetType} - will be created on ${firstPlanet}`);
+                    return;
+                }
+            }
+
             const farmRecipes = this.generateProgressiveBuildingFamily(
                 farmName, planetType, 'Farm', componentAnalysis,
-                { targetResource: resource, resourceTier }
+                {
+                    targetResource: resource,
+                    resourceTier,
+                    planetSpecific: false, // Farms are not planet-specific
+                    // For farms, use all planets where resource is available
+                    resourcePlanetTypes: resource.PlanetTypes || resource.planetTypes
+                }
             );
             recipes.push(...farmRecipes);
+
+            // Mark this farm as processed globally
+            this.processedFarmsGlobal.add(farmName);
         });
 
         return recipes;
@@ -861,9 +946,22 @@ export class BuildingRecipeGenerator {
     generateSingleBuildingRecipe(buildingName, planetType, category, tier, componentAnalysis, config, previousTierRecipe) {
         const baseName = buildingName.replace(/-t\d+$/, '');
         const planetPrefix = this.getPlanetPrefix(planetType);
-        const buildingId = config.planetSpecific ?
-            `${planetPrefix}-${this.toKebabCase(baseName)}-t${tier}` :
-            `${this.toKebabCase(baseName)}-t${tier}`;
+
+        // Always include planet prefix for buildings that are planet-specific
+        // This includes Storage Module and any building without planet already in the name
+        let buildingId;
+        const needsPlanetPrefix = baseName.toLowerCase().includes('storage module') ||
+            config.planetSpecific ||
+            config.forcePlanetPrefix ||
+            (!baseName.toLowerCase().includes(planetPrefix.toLowerCase()) &&
+                this.buildingCategories.Infrastructure[baseName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')]);
+
+        if (needsPlanetPrefix && !baseName.toLowerCase().includes(planetPrefix.toLowerCase())) {
+            // Only add prefix if not already in the name
+            buildingId = `${planetPrefix}-${this.toKebabCase(baseName)}-t${tier}`;
+        } else {
+            buildingId = `${this.toKebabCase(baseName)}-t${tier}`;
+        }
 
         // Get resource tier from target resource if available
         let resourceTier = 1;
@@ -890,6 +988,24 @@ export class BuildingRecipeGenerator {
         }
 
         // Build the recipe object
+        // For extractors and processors, use the resource's planet types UNLESS they are planet-specific
+        // For infrastructure and planet-specific processors, use the current planet type only
+        let planetTypesForBuilding = planetType;
+
+        // If it's planet-specific (like bootstrap processors), only use current planet
+        if (config.planetSpecific || config.bootstrap) {
+            planetTypesForBuilding = planetType;
+        } else if (config.resourcePlanetTypes) {
+            // Use the resource's actual planet types for non-planet-specific extractors/processors
+            planetTypesForBuilding = config.resourcePlanetTypes;
+        } else if (config.targetResource && (category === 'Extraction' || category === 'Processing')) {
+            // If we have a target resource and it's an extractor/processor, use the resource's planets
+            const resourcePlanets = config.targetResource.PlanetTypes || config.targetResource.planetTypes;
+            if (resourcePlanets) {
+                planetTypesForBuilding = resourcePlanets;
+            }
+        }
+
         const recipe = {
             OutputID: buildingId,
             OutputName: baseName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
@@ -899,7 +1015,7 @@ export class BuildingRecipeGenerator {
             ConstructionTime: tier === 1 && category === 'Infrastructure' &&
                 (baseName.includes('central-hub') || baseName.includes('cultivation-hub')) ?
                 '' : constructionTime.toString(),
-            PlanetTypes: planetType,
+            PlanetTypes: planetTypesForBuilding,
             Factions: 'MUD;ONI;USTUR',
             ResourceType: category,
             ProductionSteps: category === 'Processing' ? '1' : ''
@@ -2062,11 +2178,14 @@ export class BuildingRecipeGenerator {
         // Create planet-specific processor for each eligible component
         eligibleComponents.forEach(component => {
             const componentName = this.getRecipeOutputName(component);
+            // For bootstrap processors, create planet-specific variant
+            const planetPrefix = this.getPlanetPrefix(planetType);
             processors.push({
-                name: `${componentName} Processor`,
+                name: `${planetPrefix.charAt(0).toUpperCase() + planetPrefix.slice(1)} ${componentName} Processor`,
                 resource: component,
                 planetSpecific: true,
-                bootstrap: true
+                bootstrap: true,
+                forcePlanetPrefix: true  // Force planet prefix in OutputID
             });
         });
 
@@ -2205,6 +2324,12 @@ export class BuildingRecipeGenerator {
 
             // Add processor if this planet should get it
             if (shouldGetProcessor) {
+                // Check if this has already been processed globally to avoid duplicates
+                if (this.processedComponentsGlobal.has(componentName)) {
+                    console.log(`  ⚠️ Skipping ${componentName} Processor - already assigned to another planet`);
+                    return;
+                }
+
                 processors.push({
                     name: `${componentName} Processor`,
                     resource: component,
@@ -2468,7 +2593,9 @@ export class BuildingRecipeGenerator {
      */
     resetGlobalTracking() {
         this.processedComponentsGlobal.clear();
-        console.log('🔄 Reset global processor tracking');
+        this.processedExtractorsGlobal = new Set();
+        this.processedFarmsGlobal = new Set();
+        console.log('🔄 Reset global tracking for processors, extractors, and farms');
     }
 
     /**

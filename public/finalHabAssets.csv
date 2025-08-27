@@ -1,0 +1,22 @@
+OutputID,OutputName,OutputType,OutputTier,ConstructionTime,PlanetTypes,Factions,ProductionSteps,Ingredient1,Quantity1,Ingredient2,Quantity2,Ingredient3,Quantity3,Ingredient4,Quantity4,Ingredient5,Quantity5,Ingredient6,Quantity6,Ingredient7,Quantity7,Ingredient8,Quantity8,Ingredient9,Quantity9,CompletionStatus,InternalRecipeID,NOT_USED
+hab-cargo-storage-t1,Hab Cargo Storage T1,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,4,Cargo Container,1,Structural Foundation,1,,,,,,,,,,,,,,,complete,,FALSE
+hab-cargo-storage-t2,Hab Cargo Storage T2,HAB_ASSETS,2,300,All Types,MUD;ONI;USTUR,5,Hab Cargo Storage T1,1,Cargo Container,1,Structural Foundation,1,Safety Interlock,1,,,,,,,,,,,complete,,FALSE
+hab-cargo-storage-t3,Hab Cargo Storage T3,HAB_ASSETS,3,1500,All Types,MUD;ONI;USTUR,6,Hab Cargo Storage T2,1,Cargo Container,1,Structural Foundation,1,Safety Interlock,1,Storage Coordination System,1,,,,,,,,,complete,,FALSE
+hab-cargo-storage-t4,Hab Cargo Storage T4,HAB_ASSETS,4,7500,All Types,MUD;ONI;USTUR,7,Hab Cargo Storage T3,1,Cargo Container,1,Structural Foundation,1,Safety Interlock,1,Storage Coordination System,1,Structural Reinforcement Grid,1,,,,,,,complete,,FALSE
+hab-cargo-storage-t5,Hab Cargo Storage T5,HAB_ASSETS,5,37500,All Types,MUD;ONI;USTUR,9,Hab Cargo Storage T4,1,Cargo Container,1,Structural Foundation,1,Safety Interlock,1,Storage Coordination System,1,Structural Reinforcement Grid,1,Architectural Framework,1,,,,,complete,,FALSE
+hab-t1,Hab T1,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,5,Habitat Module,1,Environmental Control,1,,,,,,,,,,,,,,,complete,,FALSE
+hab-t2,Hab T2,HAB_ASSETS,2,300,All Types,MUD;ONI;USTUR,6,Hab T1,1,Habitat Module,1,Environmental Control,1,Safety Interlock,1,,,,,,,,,,,complete,,FALSE
+hab-t3,Hab T3,HAB_ASSETS,3,1500,All Types,MUD;ONI;USTUR,7,Hab T2,1,Habitat Module,1,Environmental Control,1,Safety Interlock,1,Life Support Coordination,1,Drywater,1,,,,,,,complete,,FALSE
+hab-t4,Hab T4,HAB_ASSETS,4,7500,All Types,MUD;ONI;USTUR,8,Hab T3,1,Habitat Module,1,Environmental Control,1,Safety Interlock,1,Life Support Coordination,1,Structural Reinforcement Grid,1,Drywater,1,,,,,complete,,FALSE
+hab-t5,Hab T5,HAB_ASSETS,5,37500,All Types,MUD;ONI;USTUR,9,Hab T4,1,Habitat Module,1,Environmental Control,1,Safety Interlock,1,Life Support Coordination,1,Structural Reinforcement Grid,1,Drywater,1,Architectural Framework,,,,complete,,FALSE
+hab-crafting-station-xxs,Hab Crafting Station XXS,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,5,Material Processor,1,Industrial Control Matrix,1,,,,,,,,,,,,,,,complete,,FALSE
+hab-crafting-station-xs,Hab Crafting Station XS,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,6,Hab Crafting Station XXS,1,Material Processor,1,Industrial Control Matrix,1,Safety Interlock,1,,,,,,,,,,,complete,,FALSE
+hab-crafting-station-s,Hab Crafting Station S,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,7,Hab Crafting Station XS,1,Material Processor,1,Industrial Control Matrix,1,Safety Interlock,1,Structural Foundation,1,,,,,,,,,complete,,FALSE
+hab-crafting-station-m,Hab Crafting Station M,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,8,Hab Crafting Station S,1,Material Processor,1,Industrial Control Matrix,1,Safety Interlock,1,Structural Foundation,1,Structural Reinforcement Grid,1,,,,,,,complete,,FALSE
+hab-landing-pad-xxs,Hab Landing Pad XXS,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,4,Structural Foundation,1,Docking Clamp,1,,,,,,,,,,,,,,,complete,,FALSE
+hab-landing-pad-xs,Hab Landing Pad XS,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,5,Hab Landing Pad XXS,1,Structural Foundation,1,Docking Clamp,1,Safety Interlock,1,,,,,,,,,,,complete,,FALSE
+hab-landing-pad-s,Hab Landing Pad S,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,6,Hab Landing Pad XS,1,Structural Foundation,1,Docking Clamp,1,Safety Interlock,1,Fuel Storage Tank,1,,,,,,,,,complete,,FALSE
+hab-landing-pad-m,Hab Landing Pad M,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,7,Hab Landing Pad S,1,Structural Foundation,1,Docking Clamp,1,Safety Interlock,1,Fuel Storage Tank,1,Structural Reinforcement Grid,1,,,,,,,complete,,FALSE
+hab-interior-paint,Hab Interior Paint,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,5,Material Processor,1,Environmental Control,1,,,,,,,,,,,,,,,complete,,FALSE
+hab-exterior-paint,Hab Exterior Paint,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,4,Material Processor,1,Protective Layer,1,,,,,,,,,,,,,,,complete,,FALSE
+hab-pet-house,Hab Pet House,HAB_ASSETS,1,60,All Types,MUD;ONI;USTUR,5,Habitat Module,1,Environmental Control,1,,,,,,,,,,,,,,,complete,,FALSE

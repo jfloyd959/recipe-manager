@@ -31,6 +31,14 @@ const BuildingRecipes = () => {
         'System Asteroid Belt'
     ];
 
+    // Building categories for filtering/display
+    const buildingCategories = {
+        'Hubs': ['Central Hub', 'Cultivation Hub', 'Processing Hub', 'Extraction Hub', 'Storage Hub', 'Farm Hub'],
+        'Infrastructure': ['Power Plant', 'Crew Quarters', 'Storage Module'],
+        'Processing': ['Processor'],
+        'Extraction': ['Extractor', 'Extraction']
+    };
+
     const toKebabCase = (str) => {
         if (!str) return '';
         return str.toString()

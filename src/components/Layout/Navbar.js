@@ -11,14 +11,15 @@ const Navbar = () => {
         { path: '/editor', label: 'Recipe Editor', icon: '✏️' },
         { path: '/buildings', label: 'Buildings', icon: '🏗️' },
         { path: '/building-recipes', label: 'Building Recipes', icon: '🍳' },
-        { path: '/recipe-analyzer', label: 'Recipe Analyzer', icon: '🔬' },
+        { path: '/recipe-analyzer', label: 'Recipe Analyzer', icon: '🔧' },
         { path: '/production-chains', label: 'Production Chains', icon: '🏭' },
         { path: '/resource-balancer', label: 'Resource Balancer', icon: '🎯' },
         { path: '/dependencies', label: 'Dependencies', icon: '🔗' },
         { path: '/complete-system', label: 'Complete System', icon: '🚀' },
         { path: '/complexity-analyzer', label: 'Complexity Analyzer', icon: '🔍' },
         { path: '/progressive-system', label: 'Progressive System', icon: '⚡' },
-        { path: '/progressive-analyzer', label: 'Progressive Analyzer', icon: '📈' }
+        { path: '/progressive-analyzer', label: 'Progressive Analyzer', icon: '📈' },
+        { path: '/data-creator', label: 'Data Creator', icon: '🏗️' }
     ];
 
     return (
