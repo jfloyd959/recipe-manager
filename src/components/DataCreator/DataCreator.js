@@ -242,6 +242,9 @@ const DataCreator = () => {
             return id;
         };
 
+        // Add fuel as a universal basic resource
+        addResource('Fuel', 'BASIC RESOURCE', 1);
+
         // Process components first (they define basic resources)
         components.forEach(comp => {
             if (comp.OutputName && comp.OutputType) {
@@ -412,6 +415,13 @@ const DataCreator = () => {
 
                     resourceExtractionRate = rawResourcesForPlanet;
 
+                    // Add fuel consumption for central hub (negative value)
+                    // Fuel consumption increases with tier
+                    const fuelConsumptionRates = [0.01, 0.025, 0.05, 0.1, 0.2]; // T1-T5
+                    resourceRate = {
+                        'fuel': -(fuelConsumptionRates[tier - 1] || 0.01)
+                    };
+
                     if (buildingId.includes('cultivation-hub')) {
                         addedTags = ['cultivation-hub', 'cultivation-stake-only', 'organic-focused'];
                         // Cultivation hub ALSO enables the four main hubs (same as central hub)
@@ -461,6 +471,11 @@ const DataCreator = () => {
                     if (planetType) {
                         requiredTags.push(`${planetType}-planet`);
                     }
+
+                    // Processing hub consumes a small amount of fuel for operations
+                    resourceRate = {
+                        'fuel': -(0.005 * tier)  // Small fuel consumption that scales with tier
+                    };
 
                     addedTags = ['processing-hub', 'enables-processors'];
                     if (tier > 1) requiredTags.push(`processing-hub-t${tier - 1}`);
@@ -594,11 +609,53 @@ const DataCreator = () => {
                         requiredTags = ['enables-processors'];
                     }
 
-                    // Add processing rate
+                    // Find the recipe that this processor handles
+                    // Look for a component recipe that outputs the resource this processor makes
                     if (resourceName) {
-                        const baseRate = valueRef && valueRef.special_data ?
-                            parseFloat(valueRef.special_data.split(',')[0].split(':')[1]) : 1;
-                        resourceRate = { [resourceName]: baseRate * Math.pow(2, tier - 1) };
+                        // Find the component that matches what this processor produces
+                        const matchingComponent = componentsData.find(comp => {
+                            const compName = comp.OutputName ?
+                                comp.OutputName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') : '';
+                            return compName === resourceName;
+                        });
+
+                        if (matchingComponent) {
+                            // Build the resourceRate with negative inputs and positive output
+                            resourceRate = {};
+
+                            // Add all ingredients as negative values (consumed)
+                            for (let i = 1; i <= 9; i++) {
+                                const ingredient = matchingComponent[`Ingredient${i}`];
+                                const quantity = matchingComponent[`Quantity${i}`];
+                                if (ingredient && quantity) {
+                                    const ingredientId = ingredient.toLowerCase()
+                                        .replace(/\s+/g, '-')
+                                        .replace(/[^a-z0-9-]/g, '');
+                                    // Negative value for consumed resources
+                                    resourceRate[ingredientId] = -(parseInt(quantity) || 1);
+                                }
+                            }
+
+                            // Add the output as a positive value (produced)
+                            // The output quantity is typically 1 unless specified
+                            resourceRate[resourceName] = 1;
+
+                            // Scale rates based on tier and processing speed from special_data
+                            const baseJobsPerSecond = valueRef && valueRef.special_data ?
+                                parseFloat(valueRef.special_data.split(',')[0].split(':')[1]) : 1;
+                            const jobsPerSecond = baseJobsPerSecond * Math.pow(2, tier - 1);
+
+                            // Apply the jobs per second rate to all resource rates
+                            Object.keys(resourceRate).forEach(key => {
+                                resourceRate[key] = resourceRate[key] * jobsPerSecond;
+                            });
+                        } else {
+                            // Fallback for processors without matching recipes
+                            // This might be a special processor like food processor
+                            const baseRate = valueRef && valueRef.special_data ?
+                                parseFloat(valueRef.special_data.split(',')[0].split(':')[1]) : 1;
+                            resourceRate = { [resourceName]: baseRate * Math.pow(2, tier - 1) };
+                        }
 
                         // Require a tag that the claim stake will provide if this resource can be processed
                         requiredTags.push(`enables-${resourceName}-processing`);
@@ -649,6 +706,14 @@ const DataCreator = () => {
                     if (planetType) {
                         requiredTags.push(`${planetType}-planet`);
                     }
+
+                    // Add fuel consumption for power plants (negative value)
+                    // Power plants consume fuel proportional to their power generation
+                    // Roughly 1 fuel per 100 power units
+                    const fuelConsumption = power / 100;
+                    resourceRate = {
+                        'fuel': -fuelConsumption
+                    };
 
                     addedTags = ['power-generation'];
                     if (tier > 1) requiredTags.push(`power-plant-t${tier - 1}`);
