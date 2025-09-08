@@ -174,8 +174,9 @@ const BuildingRecipes = () => {
      * Export generated building recipes to CSV/TSV
      */
     const exportBuildingRecipesToCSV = () => {
+        console.log('Export button clicked. Generated recipes count:', generatedRecipes.length);
         if (generatedRecipes.length === 0) {
-            alert('No recipes to export. Generate recipes first.');
+            alert('No recipes to export. Please generate recipes first by selecting a planet and clicking "Generate Building Recipes".');
             return;
         }
 
@@ -211,15 +212,111 @@ const BuildingRecipes = () => {
         });
 
         const csvContent = rows.join('\n');
+        console.log('CSV content length:', csvContent.length);
+        console.log('First few lines:', csvContent.substring(0, 500));
+
         const blob = new Blob([csvContent], { type: 'text/tab-separated-values' });
+        console.log('Blob created:', blob.size, 'bytes');
+
         const url = URL.createObjectURL(blob);
+        console.log('Blob URL created:', url);
+
         const link = document.createElement('a');
         link.href = url;
-        link.download = `building_recipes_${selectedPlanet ? toKebabCase(selectedPlanet) : 'all'}.tsv`;
+        const filename = `building_recipes_${selectedPlanet ? toKebabCase(selectedPlanet) : 'all'}.tsv`;
+        link.download = filename;
+        console.log('Download filename:', filename);
+
         document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        console.log('Link added to DOM, triggering click...');
+
+        try {
+            link.click();
+            console.log('Click triggered successfully');
+        } catch (error) {
+            console.error('Click failed, trying fallback:', error);
+            // Fallback method
+            const event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            link.dispatchEvent(event);
+        }
+
+        // Give the browser a moment to process the download
+        setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            console.log('Export process completed, cleanup done');
+        }, 100);
+    };
+
+    /**
+     * Copy building recipes to clipboard as TSV
+     */
+    const copyBuildingRecipesToClipboard = async () => {
+        console.log('Copy button clicked. Generated recipes count:', generatedRecipes.length);
+        if (generatedRecipes.length === 0) {
+            alert('No recipes to copy. Please generate recipes first by selecting a planet and clicking "Generate Building Recipes".');
+            return;
+        }
+
+        const escapeCSVValue = (value) => {
+            if (value === null || value === undefined) return '';
+            const stringValue = value.toString();
+            if (stringValue.includes('\t') || stringValue.includes('\n') || stringValue.includes('\r')) {
+                return `"${stringValue.replace(/"/g, '""')}"`;
+            }
+            return stringValue;
+        };
+
+        // Headers
+        const headers = [
+            'OutputID', 'OutputName', 'OutputType', 'OutputTier', 'BuildingResourceTier',
+            'ConstructionTime', 'PlanetTypes', 'Factions', 'ResourceType', 'ProductionSteps'
+        ];
+
+        // Add ingredient headers
+        for (let i = 1; i <= 8; i++) {
+            headers.push(`Ingredient${i}`, `Quantity${i}`);
+        }
+
+        // Build TSV content
+        const rows = [headers.join('\t')];
+
+        generatedRecipes.forEach(recipe => {
+            const row = [];
+            headers.forEach(header => {
+                row.push(escapeCSVValue(recipe[header] || ''));
+            });
+            rows.push(row.join('\t'));
+        });
+
+        const tsvContent = rows.join('\n');
+
+        try {
+            await navigator.clipboard.writeText(tsvContent);
+            alert(`Successfully copied ${generatedRecipes.length} building recipes to clipboard as TSV format!`);
+            console.log('TSV content copied to clipboard successfully');
+        } catch (error) {
+            console.error('Failed to copy to clipboard:', error);
+            // Fallback: show content in a modal or textarea for manual copy
+            const textarea = document.createElement('textarea');
+            textarea.value = tsvContent;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert(`Successfully copied ${generatedRecipes.length} building recipes to clipboard as TSV format!`);
+            } catch (fallbackError) {
+                console.error('Fallback copy also failed:', fallbackError);
+                alert('Copy failed. Please check browser permissions or try the download option.');
+            }
+            document.body.removeChild(textarea);
+        }
     };
 
     /**
@@ -473,8 +570,18 @@ const BuildingRecipes = () => {
                                 <button
                                     onClick={exportBuildingRecipesToCSV}
                                     disabled={generatedRecipes.length === 0}
+                                    className={generatedRecipes.length === 0 ? 'disabled-export' : 'enabled-export'}
+                                    title={generatedRecipes.length === 0 ? 'Generate recipes first to enable export' : `Export ${generatedRecipes.length} building recipes`}
                                 >
-                                    Export Building Recipes (.tsv)
+                                    📄 Export Building Recipes (.tsv) {generatedRecipes.length > 0 && `(${generatedRecipes.length})`}
+                                </button>
+                                <button
+                                    onClick={copyBuildingRecipesToClipboard}
+                                    disabled={generatedRecipes.length === 0}
+                                    className={generatedRecipes.length === 0 ? 'disabled-export' : 'enabled-export copy-btn'}
+                                    title={generatedRecipes.length === 0 ? 'Generate recipes first to enable copy' : `Copy ${generatedRecipes.length} building recipes to clipboard`}
+                                >
+                                    📋 Copy Building Recipes (TSV) {generatedRecipes.length > 0 && `(${generatedRecipes.length})`}
                                 </button>
                                 <button
                                     onClick={exportNewComponentsToCSV}

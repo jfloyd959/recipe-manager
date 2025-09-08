@@ -139,11 +139,6 @@ biomass-extractor-t2,Biomass Extractor,BUILDING,2,1,75,Oceanic Planet,MUD;ONI;US
 biomass-extractor-t3,Biomass Extractor,BUILDING,3,1,60,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,35,Copper,28,Copper,22,Alloy Frame,25,Heat Sensor,23,,,,
 biomass-extractor-t4,Biomass Extractor,BUILDING,4,1,50,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,41,Bio Stabilizer,34,Copper,26,Alloy Frame,30,Heat Sensor,28,Temperature Sensor,25,,
 biomass-extractor-t5,Biomass Extractor,BUILDING,5,1,40,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,49,Bio Stabilizer,41,Copper,31,Alloy Frame,36,Heat Sensor,34,Temperature Sensor,30,Copper,27
-biomass-farm-t1,Biomass Farm,BUILDING,1,1,90,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite Ore,25,Copper,20,Copper Ore,15,,,,,,,,
-biomass-farm-t2,Biomass Farm,BUILDING,2,1,75,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,30,Copper,24,Copper,18,Alloy Frame,21,,,,,,
-biomass-farm-t3,Biomass Farm,BUILDING,3,1,60,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,35,Copper,28,Copper,22,Alloy Frame,25,Heat Sensor,23,,,,
-biomass-farm-t4,Biomass Farm,BUILDING,4,1,50,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,41,Bio Stabilizer,34,Copper,26,Alloy Frame,30,Heat Sensor,28,Temperature Sensor,25,,
-biomass-farm-t5,Biomass Farm,BUILDING,5,1,40,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,49,Bio Stabilizer,41,Copper,31,Alloy Frame,36,Heat Sensor,34,Temperature Sensor,30,Copper,27
 copper-ore-extractor-t1,Copper Ore Extractor,BUILDING,1,1,90,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite Ore,25,Copper,20,Copper Ore,15,,,,,,,,
 copper-ore-extractor-t2,Copper Ore Extractor,BUILDING,2,1,75,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,30,Copper,24,Copper,18,Kinetic Stabilizer,21,,,,,,
 copper-ore-extractor-t3,Copper Ore Extractor,BUILDING,3,1,60,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,35,Copper,29,Copper,22,Kinetic Stabilizer,25,Alloy Frame,23,,,,
@@ -739,11 +734,6 @@ methane-extractor-t2,Methane Extractor,BUILDING,2,2,75,Gas Giant; Ice Giant; Dar
 methane-extractor-t3,Methane Extractor,BUILDING,3,2,60,Gas Giant; Ice Giant; Dark Planet,MUD;ONI;USTUR,Extraction,,Fuel Primer,34,Hydrocarbon,29,Boron Composite,24,Advanced Sensor Grid,22,Current Limiter,21,,,,
 methane-extractor-t4,Methane Extractor,BUILDING,4,2,50,Gas Giant; Ice Giant; Dark Planet,MUD;ONI;USTUR,Extraction,,Fuel Primer,40,Hydrocarbon,35,Boron Composite,29,Advanced Sensor Grid,26,Current Limiter,25,Climate Controller,23,,
 methane-extractor-t5,Methane Extractor,BUILDING,5,2,40,Gas Giant; Ice Giant; Dark Planet,MUD;ONI;USTUR,Extraction,,Fuel Primer,47,Hydrocarbon,42,Boron Composite,34,Advanced Sensor Grid,31,Current Limiter,30,Climate Controller,27,Reactive Coating,25
-nanosil-extractor-t1,Nanosil Extractor,BUILDING,1,3,180,System Asteroid Belt; Dark Planet,MUD;ONI;USTUR,Extraction,,Steel,21,Chisenic Processor,18,Capacitor Matrix Core,15,,,,,,,,
-nanosil-extractor-t2,Nanosil Extractor,BUILDING,2,3,150,System Asteroid Belt; Dark Planet,MUD;ONI;USTUR,Extraction,,Steel,25,Chisenic Processor,22,Capacitor Matrix Core,18,Deployment Interface,17,,,,,,
-nanosil-extractor-t3,Nanosil Extractor,BUILDING,3,3,120,System Asteroid Belt; Dark Planet,MUD;ONI;USTUR,Extraction,,Steel,30,Chisenic Processor,27,Capacitor Matrix Core,22,Deployment Interface,21,EMP Matrix Core,19,,,,
-nanosil-extractor-t4,Nanosil Extractor,BUILDING,4,3,100,System Asteroid Belt; Dark Planet,MUD;ONI;USTUR,Extraction,,Steel,36,Chisenic Processor,32,Capacitor Matrix Core,26,Deployment Interface,25,EMP Matrix Core,23,Neon Buffer,21,,
-nanosil-extractor-t5,Nanosil Extractor,BUILDING,5,3,80,System Asteroid Belt; Dark Planet,MUD;ONI;USTUR,Extraction,,Steel,42,Chisenic Processor,38,Capacitor Matrix Core,31,Deployment Interface,30,EMP Matrix Core,27,Neon Buffer,25,Processing Control Core,23
 radiant-dust-extractor-t1,Radiant Dust Extractor,BUILDING,1,2,90,Dark Planet,MUD;ONI;USTUR,Extraction,,Cobalt,23,Thermal Catalyst,20,Climate Controller,17,,,,,,,,
 radiant-dust-extractor-t2,Radiant Dust Extractor,BUILDING,2,2,75,Dark Planet,MUD;ONI;USTUR,Extraction,,Cobalt,28,Thermal Catalyst,24,Climate Controller,20,Coupling Interface,19,,,,,,
 radiant-dust-extractor-t3,Radiant Dust Extractor,BUILDING,3,2,60,Dark Planet,MUD;ONI;USTUR,Extraction,,Cobalt,33,Thermal Catalyst,28,Climate Controller,24,Coupling Interface,23,Emergency Transmitter,21,,,,

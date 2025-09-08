@@ -53,7 +53,7 @@ lumanite,Lumanite,BASIC RESOURCE,1,,Volcanic Planet; Dark Planet; Ice Giant,MUD;
 lunar-echo-crystals,Lunar Echo Crystals,BASIC RESOURCE,5,,Oceanic Planet,MUD;ONI;USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
 manganese-ore,Manganese Ore,BASIC RESOURCE,2,,System Asteroid Belt; Volcanic Planet; Gas Giant,MUD;ONI;USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
 methane,Methane,BASIC RESOURCE,2,,Gas Giant; Ice Giant; Dark Planet,MUD;ONI;USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
-nanosil,Nanosil,BASIC RESOURCE,3,,System Asteroid Belt; Dark Planet,USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
+nanosil,Nanosil,BASIC RESOURCE,3,,System Asteroid Belt; Dark Planet,USTUR,,,,,,,,,,,,,,,,,,,,,,,,1,FALSE
 neodymium,Neodymium,BASIC RESOURCE,1,,System Asteroid Belt; Volcanic Planet,MUD;ONI;USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
 neon,Neon,BASIC RESOURCE,3,,Dark Planet;Gas Giant,MUD;ONI;USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
 neural-coral-compounds,Neural Coral Compounds,BASIC RESOURCE,3,,Oceanic Planet,MUD;ONI;USTUR,,,,,,,,,,,,,,,,,,,,,,,,0,FALSE
@@ -108,18 +108,18 @@ component-aerogel,Aerogel,COMPONENT,3,2,Gas Giant;Ice Giant;System Asteroid Belt
 alloy-frame,Alloy Frame,COMPONENT,1,,Barren Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Iron,1,Tin,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-aluminum,Aluminum,COMPONENT,2,,Barren Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Aluminum Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 ammo-control-core,Ammo Control Core,COMPONENT,3,,Barren Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Tungsten Core,1,Vanadium Alloy,1,,,,,,,,,,,,,,,complete,,3,FALSE
-assembly-control-matrix,Assembly Control Matrix,COMPONENT,5,,Dark Planet;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Living Metal Network,1,Quantum Interface Core,1,Zirconium Control Hub,1,,,,,,,,,,,,,complete,,4,FALSE
+assembly-control-matrix,Assembly Control Matrix,COMPONENT,5,,Dark Planet;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Living Metal Network,1,Quantum Interface Core,1,Zirconium Control Hub,1,,,,,,,,,,,,,complete,,4,FALSE
 barrier-material,Barrier Material,COMPONENT,1,,Barren Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Silica,2,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
 base-structure,Base Structure,COMPONENT,1,,Ice Giant;Oceanic Planet;Terrestrial Planet,MUD;ONI;USTUR,,,,Tin,2,Silicon Crystal,1,,,,,,,,,,,,,,,complete,,2,FALSE
 beam-emitter,Beam Emitter,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Ruby Crystals,1,Silver,1,,,,,,,,,,,,,,,complete,,2,FALSE
-beam-interface-core,Beam Interface Core,COMPONENT,3,,Dark Planet;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Platinum Grid,1,Signal Modulator,1,Glowstone Crystals,1,,,,,,,,,,,,,complete,,3,FALSE
+beam-interface-core,Beam Interface Core,COMPONENT,3,,Dark Planet;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Platinum Grid,1,Signal Modulator,1,Glowstone Crystals,1,,,,,,,,,,,,,complete,,3,FALSE
 beryllium-matrix,Beryllium Matrix,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet,MUD;ONI;USTUR,,,,Beryllium Crystals,1,Utility Core,1,,,,,,,,,,,,,,,complete,,2,FALSE
 bio-stabilizer,Bio Stabilizer,COMPONENT,2,,Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Amber Resin,1,Quartz Crystals,1,,,,,,,,,,,,,,,complete,,1,FALSE
-bioluminescent-interface,Bioluminescent Interface,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Biolumite,1,Neural Interface,1,,,,,,,,,,,,,,,complete,,3,FALSE
+bioluminescent-interface,Bioluminescent Interface,COMPONENT,5,,Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Biolumite,1,Neural Interface,1,,,,,,,,,,,,,,,complete,,3,FALSE
 blast-charges,Blast Charges,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Germanium Ingot,1,Hydrogen,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-boron,Boron,COMPONENT,2,,Barren Planet;Gas Giant,MUD;ONI;USTUR,,,,Boron Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 boron-composite,Boron Composite,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Boron,1,Argon,1,,,,,,,,,,,,,,,complete,,2,FALSE
-capacitor-matrix-core,Capacitor Matrix Core,COMPONENT,3,,Dark Planet;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Energy Crystal Matrix,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
+capacitor-matrix-core,Capacitor Matrix Core,COMPONENT,3,,Dark Planet;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Energy Crystal Matrix,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
 capacity-control-core,Capacity Control Core,COMPONENT,4,,Ice Giant;Terrestrial Planet,MUD;ONI;USTUR,,,,Zirconium Control Hub,1,Utility Matrix,1,,,,,,,,,,,,,,,complete,,3,FALSE
 chisenic-processor,Chisenic Processor,COMPONENT,3,,Dark Planet;Terrestrial Planet,ONI,,,,Raw Chisenic,1,Gold,1,,,,,,,,,,,,,,,complete,,2,FALSE
 chromite,Chromite,COMPONENT,1,,Dark Planet;Ice Giant;Oceanic Planet,MUD;ONI;USTUR,,,,Chromite Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -128,14 +128,14 @@ component-cobalt,Cobalt,COMPONENT,2,,Dark Planet;Volcanic Planet,ONI,,,,Cobalt O
 command-module,Command Module,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Processing Core,1,Monitoring Circuits,1,,,,,,,,,,,,,,,complete,,4,FALSE
 control-circuit,Control Circuit,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Silicon Wafers,1,Copper Wire,1,,,,,,,,,,,,,,,complete,,3,FALSE
 control-interface,Control Interface,COMPONENT,1,,Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Quartz Crystals,1,Copper Wire,1,,,,,,,,,,,,,,,complete,,3,FALSE
-control-system-core,Control System Core,COMPONENT,4,,Dark Planet;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Electromagnetic Resonator,1,Dodiline Matrix,1,EM Quantum Core,1,,,,,,,,,,,,,complete,,4,FALSE
+control-system-core,Control System Core,COMPONENT,4,,Dark Planet;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Electromagnetic Resonator,1,Dodiline Matrix,1,EM Quantum Core,1,,,,,,,,,,,,,complete,,4,FALSE
 coolant-circulator,Coolant Circulator,COMPONENT,2,,Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Argon,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 cooling-network-hub,Cooling Network Hub,COMPONENT,3,,Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Propulsion Gas Mix,1,Cryogenic Core,1,,,,,,,,,,,,,,,complete,,2,FALSE
 coordination-matrix,Coordination Matrix,COMPONENT,3,,Dark Planet;Oceanic Planet;Terrestrial Planet,MUD;ONI;USTUR,,,,Utility Core,1,Gold Contacts,1,Viscovite Crystals,1,,,,,,,,,,,,,complete,,3,FALSE
 component-copper,Copper,COMPONENT,1,1,Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Copper Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 component-copper-wire,Copper Wire,COMPONENT,1,4,Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Copper,1,,,,,,,,,,,,,,,,,complete,,2,FALSE
 core-stabilizer,Core Stabilizer,COMPONENT,1,,System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Zinc,1,Silica,2,,,,,,,,,,,,,,,complete,,2,FALSE
-coupling-control-core,Coupling Control Core,COMPONENT,3,,Dark Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Titanium Framework,1,Gold Contacts,1,,,,,,,,,,,,,,,complete,,3,FALSE
+coupling-control-core,Coupling Control Core,COMPONENT,3,,System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Titanium Framework,1,Gold Contacts,1,,,,,,,,,,,,,,,complete,,3,FALSE
 coupling-interface,Coupling Interface,COMPONENT,2,,Barren Planet;Dark Planet,MUD;ONI;USTUR,,,,Lithium,1,,,,,,,,,,,,,,,,,complete,,2,FALSE
 cryogenic-catalyst,Cryogenic Catalyst,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet,MUD;ONI;USTUR,,,,Hydrogen,3,Krypton,2,,,,,,,,,,,,,,,complete,,1,FALSE
 cryogenic-core,Cryogenic Core,COMPONENT,3,,Ice Giant,MUD;ONI;USTUR,,,,Cryo Formation Crystals,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -153,11 +153,11 @@ dimensional-stabilizer,Dimensional Stabilizer,COMPONENT,1,,Dark Planet;Ice Giant
 dispersal-gas-mix,Dispersal Gas Mix,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet,MUD;ONI;USTUR,,,,Hydrogen,1,Krypton,1,,,,,,,,,,,,,,,complete,,1,FALSE
 dispersal-mechanism,Dispersal Mechanism,COMPONENT,1,,Gas Giant;Ice Giant;Terrestrial Planet,MUD;ONI;USTUR,,,,Nitrogen,1,Krypton,1,,,,,,,,,,,,,,,complete,,1,FALSE
 dodiline-matrix,Dodiline Matrix,COMPONENT,4,,Volcanic Planet,USTUR,,,,Dodiline Crystals,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-drive-assembly-core,Drive Assembly Core,COMPONENT,5,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Jasphorus Propulsion Core,1,Quantum Drive Matrix,1,Quantum Processor,1,Navigation Control Core,1,,,,,,,,,,,complete,,5,FALSE
+drive-assembly-core,Drive Assembly Core,COMPONENT,5,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Jasphorus Propulsion Core,1,Quantum Drive Matrix,1,Quantum Processor,1,Navigation Control Core,1,,,,,,,,,,,complete,,5,FALSE
 dysprosium-shield,Dysprosium Shield,COMPONENT,4,,Terrestrial Planet,MUD;ONI;USTUR,,,,Dysprosium,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 component-electromagnet,Electromagnet,COMPONENT,2,16,Barren Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Copper Wire,4,Magnet,1,,,,,,,,,,,,,,,complete,,3,FALSE
 electromagnetic-barrier,Electromagnetic Barrier,COMPONENT,2,,Barren Planet;Dark Planet;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Topaz Crystals,1,Cobalt,1,,,,,,,,,,,,,,,complete,,2,FALSE
-electromagnetic-resonator,Electromagnetic Resonator,COMPONENT,4,,Dark Planet;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Abyssal Energy Crystals,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
+electromagnetic-resonator,Electromagnetic Resonator,COMPONENT,4,,Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Abyssal Energy Crystals,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
 component-electronics,Electronics,COMPONENT,1,14,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Copper,1,Polymer,1,,,,,,,,,,,,,,,complete,,3,FALSE
 em-bio-core,EM Bio Core,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet,MUD;ONI;USTUR,,,,Biolumite,1,Signal Modulator,1,,,,,,,,,,,,,,,complete,,2,FALSE
 em-quantum-core,EM Quantum Core,COMPONENT,4,,Dark Planet;Oceanic Planet,MUD;ONI;USTUR,,,,Quantum Computational Substrate,1,Signal Modulator,1,,,,,,,,,,,,,,,complete,,2,FALSE
@@ -166,16 +166,16 @@ em-weapon-interface,EM Weapon Interface,COMPONENT,3,,Volcanic Planet,MUD,,,,Cinn
 emergency-matrix-core,Emergency Matrix Core,COMPONENT,3,,Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Luminous Shield Matrix,1,Utility Core,1,Glowstone Crystals,1,,,,,,,,,,,,,complete,,2,FALSE
 emergency-suppressant,Emergency Suppressant,COMPONENT,2,,Gas Giant;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Fluorine Gas,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 emergency-transmitter,Emergency Transmitter,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;Terrestrial Planet,MUD;ONI;USTUR,,,,Silver,1,Oxygen,1,,,,,,,,,,,,,,,complete,,2,FALSE
-emp-matrix-core,EMP Matrix Core,COMPONENT,3,,Dark Planet;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Signal Modulator,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
+emp-matrix-core,EMP Matrix Core,COMPONENT,3,,Dark Planet;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Signal Modulator,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
 energy-absorption-core,Energy Absorption Core,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Ruby Crystals,1,Silver,1,,,,,,,,,,,,,,,complete,,2,FALSE
 energy-burst-controller,Energy Burst Controller,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Sodium Crystals,1,Silicon Wafers,1,,,,,,,,,,,,,,,complete,,3,FALSE
 energy-cells,Energy Cells,COMPONENT,1,,Barren Planet;Dark Planet;Gas Giant;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Sodium Crystals,1,Plastic Components,1,,,,,,,,,,,,,,,complete,,2,FALSE
 energy-connector,Energy Connector,COMPONENT,2,,Gas Giant;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Scandium,1,Garnet Crystals,1,,,,,,,,,,,,,,,complete,,2,FALSE
 energy-crystal-matrix,Energy Crystal Matrix,COMPONENT,3,,Dark Planet;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Sapphire Crystals,1,Platinum,1,Raw Chisenic,1,,,,,,,,,,,,,complete,,2,FALSE
 energy-focuser,Energy Focuser,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Optical Components,1,Sodium Crystals,1,,,,,,,,,,,,,,,complete,,2,FALSE
-energy-management-hub,Energy Management Hub,COMPONENT,3,,Dark Planet;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Platinum Grid,1,Energy Crystal Matrix,1,Glowstone Crystals,1,,,,,,,,,,,,,complete,,3,FALSE
+energy-management-hub,Energy Management Hub,COMPONENT,3,,Dark Planet;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Platinum Grid,1,Energy Crystal Matrix,1,Glowstone Crystals,1,,,,,,,,,,,,,complete,,3,FALSE
 energy-modulator,Energy Modulator,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Sodium Crystals,1,Quartz Crystals,1,,,,,,,,,,,,,,,complete,,1,FALSE
-energy-network-core,Energy Network Core,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Fusion Energy Core,1,Lunar Energy Matrix,1,Abyssal Energy Core,1,Rhodium Power Core,1,,,,,,,,,,,complete,,4,FALSE
+energy-network-core,Energy Network Core,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Fusion Energy Core,1,Lunar Energy Matrix,1,Abyssal Energy Core,1,Rhodium Power Core,1,,,,,,,,,,,complete,,4,FALSE
 component-energy-substrate,Energy Substrate,COMPONENT,4,6,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Graphene,1,Polymer,2,,,,,,,,,,,,,,,complete,,3,FALSE
 exotic-matter-core,Exotic Matter Core,COMPONENT,1,,Dark Planet;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Chromite,1,Lumanite,1,,,,,,,,,,,,,,,complete,,2,FALSE
 explosive-compound,Explosive Compound,COMPONENT,1,,Dark Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Biomass,1,Carbon,1,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -192,10 +192,10 @@ foundation-anchor,Foundation Anchor,COMPONENT,1,,Dark Planet;System Asteroid Bel
 component-framework-1,Framework,COMPONENT,1,18,Barren Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Iron,2,,,,,,,,,,,,,,,,,complete,,2,FALSE
 freeze-dispersal-unit,Freeze Dispersal Unit,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Nitrogen,2,Sodium Crystals,1,,,,,,,,,,,,,,,complete,,1,FALSE
 fuel-atomizer,Fuel Atomizer,COMPONENT,2,,Gas Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Scandium,1,,,,,,,,,,,,,,,,,complete,,2,FALSE
-fuel-control-core,Fuel Control Core,COMPONENT,3,,Dark Planet;Gas Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Propulsion Gas Mix,1,Platinum Grid,1,,,,,,,,,,,,,,,complete,,3,FALSE
+fuel-control-core,Fuel Control Core,COMPONENT,3,,Gas Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Propulsion Gas Mix,1,Platinum Grid,1,,,,,,,,,,,,,,,complete,,3,FALSE
 fuel-injector,Fuel Injector,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Rhenium,1,Hydrogen,2,,,,,,,,,,,,,,,complete,,2,FALSE
 fuel-primer,Fuel Primer,COMPONENT,2,,Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Methane,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-fusion-energy-core,Fusion Energy Core,COMPONENT,5,,Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Fusion Catalyst Deposits,1,Platinum Grid,1,,,,,,,,,,,,,,,complete,,3,FALSE
+fusion-energy-core,Fusion Energy Core,COMPONENT,5,,Dark Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Fusion Catalyst Deposits,1,Platinum Grid,1,,,,,,,,,,,,,,,complete,,3,FALSE
 fusion-weapon-core,Fusion Weapon Core,COMPONENT,5,,Barren Planet;Dark Planet,MUD;ONI;USTUR,,,,Fusion Catalyst Deposits,1,Tungsten Core,1,,,,,,,,,,,,,,,complete,,3,FALSE
 gas-circulation-system,Gas Circulation System,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Nitrogen,1,Neodymium Magnets,1,,,,,,,,,,,,,,,complete,,3,FALSE
 gas-stabilizer,Gas Stabilizer,COMPONENT,2,,Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Argon,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -215,7 +215,7 @@ heat-distribution-grid,Heat Distribution Grid,COMPONENT,1,,Barren Planet;Oceanic
 heat-exchange-coils,Heat Exchange Coils,COMPONENT,1,,Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Copper,3,Thermoplastic Resin,1,,,,,,,,,,,,,,,complete,,2,FALSE
 heat-sensor,Heat Sensor,COMPONENT,1,,Barren Planet;Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Thermal Regulator Stone,1,Quartz Crystals,1,,,,,,,,,,,,,,,complete,,1,FALSE
 heavy-alloy,Heavy Alloy,COMPONENT,1,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Iron,1,Chromite,1,,,,,,,,,,,,,,,complete,,2,FALSE
-hicenium-lattice,Hicenium Lattice,COMPONENT,4,,Dark Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Hicenium Crystals,1,Titanium Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
+hicenium-lattice,Hicenium Lattice,COMPONENT,4,,Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Hicenium Crystals,1,Titanium Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
 hologram-generator,Hologram Generator,COMPONENT,1,,Ice Giant;Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Optical Components,1,Tritium,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-hydrocarbon,Hydrocarbon,COMPONENT,1,2,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Carbon,2,Hydrogen,2,,,,,,,,,,,,,,,complete,,1,FALSE
 ignition-core,Ignition Core,COMPONENT,2,,Barren Planet;Gas Giant;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Aluminum,1,Rochinol,1,,,,,,,,,,,,,,,complete,,2,FALSE
@@ -239,7 +239,7 @@ kinetic-opal-core,Kinetic Opal Core,COMPONENT,5,,Barren Planet;System Asteroid B
 kinetic-projectiles,Kinetic Projectiles,COMPONENT,1,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Chromite,1,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
 kinetic-stabilizer,Kinetic Stabilizer,COMPONENT,1,,Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Chromite,1,Zinc,1,,,,,,,,,,,,,,,complete,,2,FALSE
 kinetic-stabilizer-core,Kinetic Stabilizer Core,COMPONENT,4,,Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Iridium,1,Zirconium,1,,,,,,,,,,,,,,,complete,,2,FALSE
-kinetic-support-matrix,Kinetic Support Matrix,COMPONENT,4,,Dark Planet;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Hicenium Lattice,1,Kinetic Stabilizer Core,1,,,,,,,,,,,,,,,complete,,4,FALSE
+kinetic-support-matrix,Kinetic Support Matrix,COMPONENT,4,,Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Hicenium Lattice,1,Kinetic Stabilizer Core,1,,,,,,,,,,,,,,,complete,,4,FALSE
 launch-control-core,Launch Control Core,COMPONENT,4,,Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Ochre Weapon Frame,1,Rhodium Weapon Matrix,1,,,,,,,,,,,,,,,complete,,3,FALSE
 launch-platform-core,Launch Platform Core,COMPONENT,5,,Barren Planet;Dark Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Weapon Synchronization Matrix,1,Fire Control Core,1,Launch Control Core,1,Weapon Targeting Core,1,,,,,,,,,,,complete,,5,FALSE
 launch-rails,Launch Rails,COMPONENT,1,,Barren Planet;Gas Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Arco,1,Copper,1,,,,,,,,,,,,,,,complete,,2,FALSE
@@ -247,7 +247,7 @@ life-support-hub,Life Support Hub,COMPONENT,3,,Barren Planet;Gas Giant;Ice Giant
 lifting-mechanism,Lifting Mechanism,COMPONENT,1,,Barren Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Iron,1,Neodymium Magnets,2,,,,,,,,,,,,,,,complete,,3,FALSE
 lightning-rod,Lightning Rod,COMPONENT,1,,Barren Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Iron,1,Rhenium,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-lithium,Lithium,COMPONENT,2,,Barren Planet;Dark Planet,MUD;ONI;USTUR,,,,Lithium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-living-metal-network,Living Metal Network,COMPONENT,5,,Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Living Metal Symbionts,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
+living-metal-network,Living Metal Network,COMPONENT,5,,Dark Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Living Metal Symbionts,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
 load-bearing-beams,Load Bearing Beams,COMPONENT,1,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Chromite,2,Iron,3,,,,,,,,,,,,,,,complete,,2,FALSE
 loader-assembly,Loader Assembly,COMPONENT,1,,Dark Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Osmium,2,Tin,1,,,,,,,,,,,,,,,complete,,2,FALSE
 luminous-shield-matrix,Luminous Shield Matrix,COMPONENT,3,,Volcanic Planet,ONI,,,,Glowstone Crystals,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -261,16 +261,16 @@ component-manganese,Manganese,COMPONENT,2,,Gas Giant;System Asteroid Belt;Volcan
 matter-containment,Matter Containment,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Volcanic Planet,MUD;ONI;USTUR,,,,Xenon,1,Diamond,1,,,,,,,,,,,,,,,complete,,1,FALSE
 medical-hub-core,Medical Hub Core,COMPONENT,3,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Vanadium Alloy,1,Neon Buffer,1,,,,,,,,,,,,,,,complete,,3,FALSE
 medical-nanites,Medical Nanites,COMPONENT,2,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Diamond,1,Oxygen,1,,,,,,,,,,,,,,,complete,,1,FALSE
-mega-framework-core,Mega Framework Core,COMPONENT,4,,Dark Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Hicenium Lattice,2,Zirconium Framework,1,,,,,,,,,,,,,,,complete,,4,FALSE
+mega-framework-core,Mega Framework Core,COMPONENT,4,,Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Hicenium Lattice,2,Zirconium Framework,1,,,,,,,,,,,,,,,complete,,4,FALSE
 mine-control-core,Mine Control Core,COMPONENT,3,,Barren Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,EM Weapon Interface,1,Vanadium Alloy,1,,,,,,,,,,,,,,,complete,,3,FALSE
 mining-interface,Mining Interface,COMPONENT,1,,Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Quartz Crystals,2,Copper,1,,,,,,,,,,,,,,,complete,,2,FALSE
 monitoring-circuits,Monitoring Circuits,COMPONENT,1,,Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Quartz Crystals,1,Copper,1,,,,,,,,,,,,,,,complete,,2,FALSE
 multidrive-core,Multi-Drive Core,COMPONENT,2,,Barren Planet;Gas Giant;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Aluminum,1,Manganese,1,,,,,,,,,,,,,,,complete,,2,FALSE
 nanomaterial-base,Nanomaterial Base,COMPONENT,1,,Dark Planet;Gas Giant;Ice Giant;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Carbon,1,Germanium Ingot,1,,,,,,,,,,,,,,,complete,,2,FALSE
-navigation-control-core,Navigation Control Core,COMPONENT,4,,Dark Planet;Ice Giant;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Quantum Processor,1,Zirconium Control Hub,1,Ochre Ingot,1,,,,,,,,,,,,,complete,,4,FALSE
+navigation-control-core,Navigation Control Core,COMPONENT,4,,Dark Planet;Ice Giant;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Quantum Processor,1,Zirconium Control Hub,1,Ochre Ingot,1,,,,,,,,,,,,,complete,,4,FALSE
 neodymium-magnets,Neodymium Magnets,COMPONENT,1,,Barren Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Neodymium,1,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
 neon-buffer,Neon Buffer,COMPONENT,3,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Neon,1,Aluminum,1,,,,,,,,,,,,,,,complete,,2,FALSE
-neural-interface,Neural Interface,COMPONENT,3,,Dark Planet;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Neural Coral Compounds,1,Palladium,1,Nanosil,1,,,,,,,,,,,,,complete,,2,FALSE
+neural-interface,Neural Interface,COMPONENT,3,,Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Neural Coral Compounds,1,Palladium,1,Nanosil,1,,,,,,,,,,,,,complete,,2,FALSE
 ochre-ingot,Ochre Ingot,COMPONENT,4,,Terrestrial Planet,USTUR,,,,Ochre Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 ochre-weapon-frame,Ochre Weapon Frame,COMPONENT,4,,Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Ochre Ingot,1,Iridium,1,,,,,,,,,,,,,,,complete,,2,FALSE
 opal-defense-matrix,Opal Defense Matrix,COMPONENT,5,,Barren Planet;Dark Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Black Opal,1,Defense Crystal Array,1,,,,,,,,,,,,,,,complete,,2,FALSE
@@ -279,15 +279,15 @@ opal-weapon-core,Opal Weapon Core,COMPONENT,5,,Barren Planet;Dark Planet,MUD;ONI
 optical-components,Optical Components,COMPONENT,1,,Ice Giant;Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Silicon Crystal,1,Garnet Crystals,1,,,,,,,,,,,,,,,complete,,1,FALSE
 osmium,Osmium,COMPONENT,1,,Dark Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Osmium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 component-palladium,Palladium,COMPONENT,3,,Volcanic Planet,MUD;ONI;USTUR,,,,Palladium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-palladium-conductor,Palladium Conductor,COMPONENT,3,,Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Palladium,1,Nanosil,1,,,,,,,,,,,,,,,complete,,2,FALSE
+palladium-conductor,Palladium Conductor,COMPONENT,3,,Volcanic Planet,MUD;ONI;USTUR,,,,Palladium,1,Nanosil,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-particle-accelerator,Particle Accelerator,COMPONENT,5,,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Strange Emitter,1,Super Conductor,1,,,,,,,,,,,,,,,complete,,4,FALSE
-passenger-hub-core,Passenger Hub Core,COMPONENT,3,,Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Titanium Framework,1,Oxygen,1,,,,,,,,,,,,,,,complete,,3,FALSE
+passenger-hub-core,Passenger Hub Core,COMPONENT,3,,Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Titanium Framework,1,Oxygen,1,,,,,,,,,,,,,,,complete,,3,FALSE
 phase-drive-core,Phase Drive Core,COMPONENT,3,,Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Phase Shift Crystals,1,Platinum,1,,,,,,,,,,,,,,,complete,,2,FALSE
 photon-emitters,Photon Emitters,COMPONENT,1,,Dark Planet;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Lumanite,2,Silicon Crystal,1,,,,,,,,,,,,,,,complete,,1,FALSE
 plasma-cell,Plasma Cell,COMPONENT,3,,Volcanic Planet,MUD;ONI;USTUR,,,,Plasma Containment Minerals,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 plastic-components,Plastic Components,COMPONENT,1,,Dark Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Thermoplastic Resin,1,Carbon,1,,,,,,,,,,,,,,,complete,,1,FALSE
 component-platinum,Platinum,COMPONENT,3,,Volcanic Planet,MUD;ONI;USTUR,,,,Platinum Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-platinum-grid,Platinum Grid,COMPONENT,3,,Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Platinum,1,Nanosil,1,,,,,,,,,,,,,,,complete,,2,FALSE
+platinum-grid,Platinum Grid,COMPONENT,3,,Volcanic Planet,MUD;ONI;USTUR,,,,Platinum,1,Nanosil,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-polymer,Polymer,COMPONENT,1,4,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Hydrocarbon,1,,,,,,,,,,,,,,,,,complete,,2,FALSE
 power-distribution-hub,Power Distribution Hub,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Copper,1,Silver,1,,,,,,,,,,,,,,,complete,,2,FALSE
 power-management-core,Power Management Core,COMPONENT,4,,Dark Planet;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Abyssal Energy Core,1,Rhodium Power Core,1,,,,,,,,,,,,,,,complete,,4,FALSE
@@ -297,11 +297,11 @@ precision-detonator,Precision Detonator,COMPONENT,2,,Gas Giant;Ice Giant;Oceanic
 pressure-relief,Pressure Relief,COMPONENT,2,,Barren Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Aluminum,1,Thermodyne,1,,,,,,,,,,,,,,,complete,,2,FALSE
 pressure-wave-generator,Pressure Wave Generator,COMPONENT,1,,Barren Planet;Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Osmium,1,Thermal Regulator Stone,1,,,,,,,,,,,,,,,complete,,2,FALSE
 processing-chamber,Processing Chamber,COMPONENT,1,,Dark Planet;Ice Giant;Oceanic Planet,MUD;ONI;USTUR,,,,Chromite,1,Silicon Crystal,1,,,,,,,,,,,,,,,complete,,2,FALSE
-processing-control-core,Processing Control Core,COMPONENT,3,,Dark Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Chisenic Processor,1,Neural Interface,1,,,,,,,,,,,,,,,complete,,3,FALSE
+processing-control-core,Processing Control Core,COMPONENT,3,,Dark Planet;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Chisenic Processor,1,Neural Interface,1,,,,,,,,,,,,,,,complete,,3,FALSE
 processing-core,Processing Core,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Silicon Wafers,1,Tritium,1,,,,,,,,,,,,,,,complete,,3,FALSE
-processing-integration-core,Processing Integration Core,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,EM Bio Core,1,Living Metal Network,1,Quantum Interface Core,1,Electromagnetic Resonator,1,Dodiline Matrix,1,,,,,,,,,complete,,4,FALSE
+processing-integration-core,Processing Integration Core,COMPONENT,5,,Dark Planet;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,EM Bio Core,1,Living Metal Network,1,Quantum Interface Core,1,Electromagnetic Resonator,1,Dodiline Matrix,1,,,,,,,,,complete,,4,FALSE
 processing-matrix,Processing Matrix,COMPONENT,2,,Dark Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Cobalt,1,Copper,1,,,,,,,,,,,,,,,complete,,2,FALSE
-processing-platform-core,Processing Platform Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Utility Integration Core,1,Assembly Control Matrix,1,Service Management Core,1,,,,,,,,,,,,,complete,,5,FALSE
+processing-platform-core,Processing Platform Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Utility Integration Core,1,Assembly Control Matrix,1,Service Management Core,1,,,,,,,,,,,,,complete,,5,FALSE
 projection-matrix,Projection Matrix,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Silica,1,Processing Core,1,,,,,,,,,,,,,,,complete,,4,FALSE
 propulsion-gas-mix,Propulsion Gas Mix,COMPONENT,3,,Gas Giant,MUD,,,,Tenon Gas,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 protective-coating,Protective Coating,COMPONENT,1,,System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Thermoplastic Resin,1,Zinc,1,,,,,,,,,,,,,,,complete,,2,FALSE
@@ -311,7 +311,7 @@ pump-assembly,Pump Assembly,COMPONENT,1,,Barren Planet;Dark Planet;System Astero
 pyrotechnic-material,Pyrotechnic Material,COMPONENT,1,,Barren Planet;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Biomass,1,Thermal Regulator Stone,1,,,,,,,,,,,,,,,complete,,1,FALSE
 quantum-drive-matrix,Quantum Drive Matrix,COMPONENT,5,,Dark Planet;Gas Giant;Ice Giant,MUD;ONI;USTUR,,,,Quantum Particle,1,Propulsion Gas Mix,1,,,,,,,,,,,,,,,complete,,2,FALSE
 quantum-interface-core,Quantum Interface Core,COMPONENT,5,,Dark Planet;Ice Giant,MUD;ONI;USTUR,,,,Quantum Particle,1,Viscovite Crystals,1,,,,,,,,,,,,,,,complete,,1,FALSE
-quantum-processor,Quantum Processor,COMPONENT,4,,Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Quantum Computational Substrate,1,Platinum Grid,1,,,,,,,,,,,,,,,complete,,3,FALSE
+quantum-processor,Quantum Processor,COMPONENT,4,,Dark Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Quantum Computational Substrate,1,Platinum Grid,1,,,,,,,,,,,,,,,complete,,3,FALSE
 component-radiation-absorber,Radiation Absorber,COMPONENT,4,48,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Crystal Lattice,1,Energy Substrate,1,,,,,,,,,,,,,,,complete,,4,FALSE
 radiation-blocker,Radiation Blocker,COMPONENT,1,,Dark Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Osmium,3,Zinc,2,,,,,,,,,,,,,,,complete,,2,FALSE
 rapid-cycle-timer,Rapid Cycle Timer,COMPONENT,1,,Barren Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Quartz Crystals,2,Neodymium Magnets,1,,,,,,,,,,,,,,,complete,,3,FALSE
@@ -323,7 +323,7 @@ replication-catalyst,Replication Catalyst,COMPONENT,1,,Ice Giant;Oceanic Planet;
 resin-sealant,Resin Sealant,COMPONENT,2,,Terrestrial Planet;Volcanic Planet,USTUR,,,,Amber Resin,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
 resistive-coils,Resistive Coils,COMPONENT,1,,Barren Planet;Dark Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Carbon,2,Rhenium,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-resonium,Resonium,COMPONENT,5,,Barren Planet,MUD,,,,Resonium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-resonium-kinetic-core,Resonium Kinetic Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Resonium,1,Hicenium Lattice,1,,,,,,,,,,,,,,,complete,,4,FALSE
+resonium-kinetic-core,Resonium Kinetic Core,COMPONENT,5,,Barren Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Resonium,1,Hicenium Lattice,1,,,,,,,,,,,,,,,complete,,4,FALSE
 resonium-utility-matrix,Resonium Utility Matrix,COMPONENT,5,,Barren Planet;Ice Giant;Terrestrial Planet,MUD;ONI;USTUR,,,,Resonium,1,Utility Matrix,1,,,,,,,,,,,,,,,complete,,2,FALSE
 resource-hub-core,Resource Hub Core,COMPONENT,3,,Barren Planet;Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Utility Core,1,Vanadium Alloy,1,,,,,,,,,,,,,,,complete,,3,FALSE
 rhenium,Rhenium,COMPONENT,1,,Barren Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Rhenium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -338,7 +338,7 @@ scatter-pattern-generator,Scatter Pattern Generator,COMPONENT,1,,Barren Planet;D
 security-lock,Security Lock,COMPONENT,2,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Hafnium Alloy,1,Boron Composite,1,,,,,,,,,,,,,,,complete,,3,FALSE
 sensor-array,Sensor Array,COMPONENT,1,,Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Silica,1,Copper,2,,,,,,,,,,,,,,,complete,,2,FALSE
 sensor-elements,Sensor Elements,COMPONENT,1,,System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Silica,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-sensor-hub-core,Sensor Hub Core,COMPONENT,3,,Dark Planet;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Neural Interface,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
+sensor-hub-core,Sensor Hub Core,COMPONENT,3,,Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Neural Interface,1,Palladium Conductor,1,,,,,,,,,,,,,,,complete,,3,FALSE
 service-management-core,Service Management Core,COMPONENT,4,,Ice Giant;Terrestrial Planet,MUD;ONI;USTUR,,,,Utility Matrix,1,Zirconium Control Hub,1,,,,,,,,,,,,,,,complete,,3,FALSE
 shield-framework,Shield Framework,COMPONENT,1,,Barren Planet;Gas Giant;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Arco,1,Iron,2,,,,,,,,,,,,,,,complete,,2,FALSE
 shield-generator,Shield Generator,COMPONENT,1,,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Lumanite,3,Hydrogen,1,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -353,18 +353,18 @@ spray-nozzles,Spray Nozzles,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;Terr
 stabilization-field,Stabilization Field,COMPONENT,2,,Barren Planet;Dark Planet,MUD;ONI;USTUR,,,,Lithium,1,,,,,,,,,,,,,,,,,complete,,2,FALSE
 component-steel,Steel,COMPONENT,3,4,Barren Planet;Dark Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Carbon,2,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
 storage-control-core,Storage Control Core,COMPONENT,3,,Dark Planet;Terrestrial Planet,ONI,,,,Chisenic Processor,2,,,,,,,,,,,,,,,,,complete,,3,FALSE
-storage-hub-core,Storage Hub Core,COMPONENT,3,,Dark Planet;Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Bathysphere Pearls,1,Titanium Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
+storage-hub-core,Storage Hub Core,COMPONENT,3,,Oceanic Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Bathysphere Pearls,1,Titanium Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
 storage-matrix,Storage Matrix,COMPONENT,1,,Dark Planet;Ice Giant;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Lumanite,1,Plastic Components,1,,,,,,,,,,,,,,,complete,,2,FALSE
 storage-platform-core,Storage Platform Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;Terrestrial Planet,MUD;ONI;USTUR,,,,Resonium Utility Matrix,1,Beryllium Matrix,1,Capacity Control Core,1,Storage Control Core,1,,,,,,,,,,,complete,,4,FALSE
 component-strange-emitter,Strange Emitter,COMPONENT,5,6,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Lumanite,4,Polymer,2,,,,,,,,,,,,,,,complete,,3,FALSE
 strontium-kinetic-matrix,Strontium Kinetic Matrix,COMPONENT,5,,System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Strontium Crystals,1,Kinetic Amplifier,1,,,,,,,,,,,,,,,complete,,3,FALSE
 strontium-weapon-core,Strontium Weapon Core,COMPONENT,5,,System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Strontium Crystals,1,Rhodium Weapon Matrix,1,,,,,,,,,,,,,,,complete,,3,FALSE
 structural-anchor,Structural Anchor,COMPONENT,2,,Barren Planet;Gas Giant;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Manganese,1,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
-structural-brace,Structural Brace,COMPONENT,2,,Barren Planet;Dark Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Aluminum,1,Titanium Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
+structural-brace,Structural Brace,COMPONENT,2,,Barren Planet;Ice Giant;System Asteroid Belt,MUD;ONI;USTUR,,,,Aluminum,1,Titanium Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
 structural-control-array,Structural Control Array,COMPONENT,4,,Ice Giant;Terrestrial Planet,MUD;ONI;USTUR,,,,Zirconium Framework,1,Kinetic Amplifier,1,Ochre Ingot,1,,,,,,,,,,,,,complete,,3,FALSE
 structural-joint,Structural Joint,COMPONENT,1,,Barren Planet;Gas Giant;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Arco,1,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
 structural-shell,Structural Shell,COMPONENT,1,,Barren Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Alloy Frame,1,Insulation Material,1,,,,,,,,,,,,,,,complete,,3,FALSE
-sublight-matrix-core,Sublight Matrix Core,COMPONENT,3,,Dark Planet;Gas Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Titanium Framework,1,Phase Drive Core,1,Tenon Gas,1,,,,,,,,,,,,,complete,,3,FALSE
+sublight-matrix-core,Sublight Matrix Core,COMPONENT,3,,Gas Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Titanium Framework,1,Phase Drive Core,1,Tenon Gas,1,,,,,,,,,,,,,complete,,3,FALSE
 subspace-coils,Subspace Coils,COMPONENT,1,,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Arco,2,Lumanite,1,,,,,,,,,,,,,,,complete,,1,FALSE
 subwarp-drive-matrix,Subwarp Drive Matrix,COMPONENT,1,,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Sodium Crystals,2,Tritium,1,,,,,,,,,,,,,,,complete,,2,FALSE
 component-super-conductor,Super Conductor,COMPONENT,5,8,Dark Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Copper Wire,5,Graphene,2,,,,,,,,,,,,,,,complete,,3,FALSE
@@ -386,7 +386,7 @@ tin,Tin,COMPONENT,1,,Oceanic Planet;Terrestrial Planet,MUD;ONI;USTUR,,,,Tin Ore,
 titan-scale-framework,Titan Scale Framework,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Kinetic Beryllium Core,1,Kinetic Opal Core,1,Resonium Kinetic Core,1,Strontium Kinetic Matrix,1,,,,,,,,,,,complete,,5,FALSE
 titan-support-core,Titan Support Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Titan Scale Framework,1,Mega Framework Core,1,Structural Control Array,1,,,,,,,,,,,,,complete,,6,FALSE
 component-titanium,Titanium,COMPONENT,4,1,System Asteroid Belt,MUD;ONI;USTUR,,,,Titanium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-titanium-framework,Titanium Framework,COMPONENT,3,,Dark Planet;System Asteroid Belt,MUD;ONI;USTUR,,,,Titanium,1,Nanosil,1,,,,,,,,,,,,,,,complete,,2,FALSE
+titanium-framework,Titanium Framework,COMPONENT,3,,System Asteroid Belt,MUD;ONI;USTUR,,,,Titanium,1,Nanosil,1,,,,,,,,,,,,,,,complete,,2,FALSE
 tow-cable,Tow Cable,COMPONENT,1,,Barren Planet;Gas Giant;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Arco,3,Iron,1,,,,,,,,,,,,,,,complete,,2,FALSE
 transfer-lines,Transfer Lines,COMPONENT,1,,Dark Planet;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Tin,1,Plastic Components,1,,,,,,,,,,,,,,,complete,,2,FALSE
 transmission-unit,Transmission Unit,COMPONENT,1,,Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Copper Wire,1,Krypton,1,,,,,,,,,,,,,,,complete,,3,FALSE
@@ -395,7 +395,7 @@ component-tungsten,Tungsten,COMPONENT,3,,Barren Planet,MUD;ONI;USTUR,,,,Tungsten
 tungsten-core,Tungsten Core,COMPONENT,3,,Barren Planet,MUD;ONI;USTUR,,,,Tungsten,1,,,,,,,,,,,,,,,,,complete,,2,FALSE
 utility-conduit,Utility Conduit,COMPONENT,2,,Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Peridot Crystals,1,Oxygen,1,,,,,,,,,,,,,,,complete,,1,FALSE
 utility-core,Utility Core,COMPONENT,3,,Oceanic Planet,MUD;ONI;USTUR,,,,Bathysphere Pearls,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
-utility-integration-core,Utility Integration Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Beryllium Matrix,1,Bioluminescent Interface,1,Adaptive Utility Core,1,Opal Utility Matrix,1,Resonium Utility Matrix,1,,,,,,,,,complete,,4,FALSE
+utility-integration-core,Utility Integration Core,COMPONENT,5,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Beryllium Matrix,1,Bioluminescent Interface,1,Adaptive Utility Core,1,Opal Utility Matrix,1,Resonium Utility Matrix,1,,,,,,,,,complete,,4,FALSE
 utility-interface,Utility Interface,COMPONENT,1,,Barren Planet;Dark Planet;Ice Giant;Oceanic Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Silicon Crystal,1,Tantalum,1,,,,,,,,,,,,,,,complete,,2,FALSE
 utility-matrix,Utility Matrix,COMPONENT,4,,Ice Giant;Terrestrial Planet,MUD;ONI;USTUR,,,,Hicenium Crystals,1,Dysprosium,1,,,,,,,,,,,,,,,complete,,1,FALSE
 component-vanadium,Vanadium,COMPONENT,3,,Barren Planet,MUD;ONI;USTUR,,,,Vanadium Ore,1,,,,,,,,,,,,,,,,,complete,,1,FALSE
@@ -983,7 +983,7 @@ radiation-control-system,Radiation Control System,INGREDIENT,3,180,Barren Planet
 radiation-shield,Radiation Shield,INGREDIENT,1,60,Barren Planet;Dark Planet;Gas Giant;System Asteroid Belt;Terrestrial Planet,MUD;ONI;USTUR,,,,Radiation Blocker,1,Shield Framework,1,,,,,,,,,,,,,,,complete,,3,FALSE
 radiator-assembly,Radiator Assembly,INGREDIENT,2,120,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Heat Dissipator,1,Coolant Circulator,1,Alloy Frame,1,,,,,,,,,,,,,complete,,3,FALSE
 rapidfire-controller,Rapidfire Controller,INGREDIENT,1,60,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Rapid Cycle Timer,1,Energy Burst Controller,1,,,,,,,,,,,,,,,complete,,4,FALSE
-reinforcement-matrix,Reinforcement Matrix,INGREDIENT,2,120,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Reinforcement Lattice,1,Structural Brace,1,Joint Connectors,1,,,,,,,,,,,,,complete,,4,FALSE
+reinforcement-matrix,Reinforcement Matrix,INGREDIENT,2,120,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Reinforcement Lattice,1,Structural Brace,1,Joint Connectors,1,,,,,,,,,,,,,complete,,4,FALSE
 repair-nanobots,Repair Nanobots,INGREDIENT,1,60,Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Volcanic Planet,MUD;ONI;USTUR,,,,Nanomaterial Base,1,Repair Protocol,1,,,,,,,,,,,,,,,complete,,3,FALSE
 resource-processing-hub,Resource Processing Hub,INGREDIENT,3,180,Barren Planet;Dark Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Resource Hub Core,1,Extraction Beam,1,Magnetic Clamp,1,,,,,,,,,,,,,complete,,4,FALSE
 safety-interlock,Safety Interlock,INGREDIENT,2,120,Barren Planet;Gas Giant;Ice Giant;Oceanic Planet;System Asteroid Belt;Terrestrial Planet;Volcanic Planet,MUD;ONI;USTUR,,,,Interlock Mechanism,1,Safety Buffer,1,Monitoring Circuits,1,,,,,,,,,,,,,complete,,3,FALSE

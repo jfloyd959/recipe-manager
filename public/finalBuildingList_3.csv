@@ -139,11 +139,6 @@ biomass-extractor-t2,Biomass Extractor,BUILDING,2,1,75,Oceanic Planet,MUD;ONI;US
 biomass-extractor-t3,Biomass Extractor,BUILDING,3,1,60,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,35,Copper,28,Copper,22,Alloy Frame,25,Heat Sensor,23,,,,
 biomass-extractor-t4,Biomass Extractor,BUILDING,4,1,50,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,41,Bio Stabilizer,34,Copper,26,Alloy Frame,30,Heat Sensor,28,Temperature Sensor,25,,
 biomass-extractor-t5,Biomass Extractor,BUILDING,5,1,40,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,49,Bio Stabilizer,41,Copper,31,Alloy Frame,36,Heat Sensor,34,Temperature Sensor,30,Copper,27
-biomass-farm-t1,Biomass Farm,BUILDING,1,1,90,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite Ore,25,Copper,20,Copper Ore,15,,,,,,,,
-biomass-farm-t2,Biomass Farm,BUILDING,2,1,75,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,30,Copper,24,Copper,18,Alloy Frame,21,,,,,,
-biomass-farm-t3,Biomass Farm,BUILDING,3,1,60,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,35,Copper,28,Copper,22,Alloy Frame,25,Heat Sensor,23,,,,
-biomass-farm-t4,Biomass Farm,BUILDING,4,1,50,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,41,Bio Stabilizer,34,Copper,26,Alloy Frame,30,Heat Sensor,28,Temperature Sensor,25,,
-biomass-farm-t5,Biomass Farm,BUILDING,5,1,40,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,49,Bio Stabilizer,41,Copper,31,Alloy Frame,36,Heat Sensor,34,Temperature Sensor,30,Copper,27
 copper-ore-extractor-t1,Copper Ore Extractor,BUILDING,1,1,90,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite Ore,25,Copper,20,Copper Ore,15,,,,,,,,
 copper-ore-extractor-t2,Copper Ore Extractor,BUILDING,2,1,75,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,30,Copper,24,Copper,18,Kinetic Stabilizer,21,,,,,,
 copper-ore-extractor-t3,Copper Ore Extractor,BUILDING,3,1,60,Oceanic Planet,MUD;ONI;USTUR,Extraction,,Chromite,35,Copper,29,Copper,22,Kinetic Stabilizer,25,Alloy Frame,23,,,,

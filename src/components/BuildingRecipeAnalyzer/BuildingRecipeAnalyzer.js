@@ -742,6 +742,36 @@ const BuildingRecipeAnalyzer = () => {
         URL.revokeObjectURL(url);
     };
 
+    const copyFixedToClipboard = async () => {
+        if (!fixedRecipes) {
+            alert('No fixed recipes to copy. Please analyze recipes first.');
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(fixedRecipes);
+            alert('Successfully copied fixed recipes to clipboard as TSV format!');
+            console.log('Fixed recipes copied to clipboard successfully');
+        } catch (error) {
+            console.error('Failed to copy to clipboard:', error);
+            // Fallback method
+            const textarea = document.createElement('textarea');
+            textarea.value = fixedRecipes;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert('Successfully copied fixed recipes to clipboard as TSV format!');
+            } catch (fallbackError) {
+                console.error('Fallback copy also failed:', fallbackError);
+                alert('Copy failed. Please check browser permissions or try the download option.');
+            }
+            document.body.removeChild(textarea);
+        }
+    };
+
     // Redistribute recipes evenly across planets and remove duplicates
     const redistributeRecipes = () => {
         if (!recipeInput.trim()) {
@@ -1046,7 +1076,10 @@ const BuildingRecipeAnalyzer = () => {
                             {showFixed ? 'Hide' : 'Show'} Fixed Recipes
                         </button>
                         <button onClick={downloadFixed} className="download-btn">
-                            Download Fixed Recipes (TSV)
+                            📄 Download Fixed Recipes (TSV)
+                        </button>
+                        <button onClick={copyFixedToClipboard} className="copy-btn">
+                            📋 Copy Fixed Recipes (TSV)
                         </button>
                         {(analysisResults.stats.planetImbalance || analysisResults.stats.duplicateCount > 0) && (
                             <>

@@ -2378,6 +2378,636 @@ const ResourceBalancer = () => {
         document.body.removeChild(link);
     };
 
+    // Component to Ingredient Usage Analysis Export
+    const exportComponentToIngredientAnalysis = () => {
+        console.log('Generating Component to Ingredient Usage Analysis...');
+
+        // Get all components and ingredients from the data
+        const components = allRecipes.filter(recipe =>
+            (recipe.OutputType || recipe.outputType || recipe.type) === 'COMPONENT'
+        );
+
+        const ingredients = allRecipes.filter(recipe =>
+            (recipe.OutputType || recipe.outputType || recipe.type) === 'INGREDIENT'
+        );
+
+        // Build component usage map
+        const componentUsageMap = new Map();
+
+        // Initialize all components in the map
+        components.forEach(component => {
+            const componentName = component.OutputName || component.outputName || component.name;
+            componentUsageMap.set(componentName, {
+                component: component,
+                usedInIngredients: [],
+                usedInComponents: [],
+                totalUses: 0,
+                tier: component.OutputTier || component.outputTier || component.tier || 1,
+                functionalPurpose: component.FunctionalPurpose || component.functionalPurpose || '',
+                usageCategory: component.UsageCategory || component.usageCategory || ''
+            });
+        });
+
+        // Create a helper function to normalize component names for matching
+        const normalizeComponentName = (name) => {
+            if (!name) return '';
+            return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        };
+
+        // Create a lookup map for normalized component names
+        const normalizedComponentMap = new Map();
+        componentUsageMap.forEach((usage, componentName) => {
+            const normalized = normalizeComponentName(componentName);
+            normalizedComponentMap.set(normalized, componentName);
+        });
+
+        // Track component usage in ingredients
+        ingredients.forEach(ingredient => {
+            const ingredientName = ingredient.OutputName || ingredient.outputName || ingredient.name;
+
+            // Use the processed ingredients array instead of individual Ingredient1, Ingredient2 fields
+            const ingredientsList = ingredient.ingredients || [];
+
+            ingredientsList.forEach(ing => {
+                const ingredientComponent = ing.name;
+                const quantity = ing.quantity || 1;
+
+                if (ingredientComponent) {
+                    // Try exact match first
+                    let matchedComponentName = null;
+                    if (componentUsageMap.has(ingredientComponent)) {
+                        matchedComponentName = ingredientComponent;
+                    } else {
+                        // Try normalized match
+                        const normalizedIngredient = normalizeComponentName(ingredientComponent);
+                        if (normalizedComponentMap.has(normalizedIngredient)) {
+                            matchedComponentName = normalizedComponentMap.get(normalizedIngredient);
+                        }
+                    }
+
+                    if (matchedComponentName) {
+                        const usage = componentUsageMap.get(matchedComponentName);
+
+                        // Check if this ingredient is already in the list to avoid duplicates
+                        const existingIndex = usage.usedInIngredients.findIndex(existing =>
+                            existing.name === ingredientName
+                        );
+
+                        if (existingIndex >= 0) {
+                            // Update existing entry - don't add to total again
+                            const oldQuantity = usage.usedInIngredients[existingIndex].quantity;
+                            const newQuantity = Math.max(oldQuantity, quantity);
+                            usage.usedInIngredients[existingIndex].quantity = newQuantity;
+                            // Adjust total uses (remove old, add new)
+                            usage.totalUses = usage.totalUses - oldQuantity + newQuantity;
+                        } else {
+                            // Add new entry
+                            usage.usedInIngredients.push({
+                                name: ingredientName,
+                                quantity: quantity,
+                                tier: ingredient.OutputTier || ingredient.outputTier || ingredient.tier || 1,
+                                constructionTime: ingredient.ConstructionTime || ingredient.constructionTime || 0
+                            });
+                            usage.totalUses += quantity;
+                        }
+                    }
+                }
+            });
+        });
+
+        // Track component usage in other components
+        components.forEach(component => {
+            const componentName = component.OutputName || component.outputName || component.name;
+
+            // Use the processed ingredients array instead of individual Ingredient1, Ingredient2 fields
+            const ingredientsList = component.ingredients || [];
+
+            ingredientsList.forEach(ing => {
+                const ingredientComponent = ing.name;
+                const quantity = ing.quantity || 1;
+
+                if (ingredientComponent) {
+                    // Try exact match first
+                    let matchedComponentName = null;
+                    if (componentUsageMap.has(ingredientComponent)) {
+                        matchedComponentName = ingredientComponent;
+                    } else {
+                        // Try normalized match
+                        const normalizedIngredient = normalizeComponentName(ingredientComponent);
+                        if (normalizedComponentMap.has(normalizedIngredient)) {
+                            matchedComponentName = normalizedComponentMap.get(normalizedIngredient);
+                        }
+                    }
+
+                    if (matchedComponentName) {
+                        const usage = componentUsageMap.get(matchedComponentName);
+
+                        // Check if this component is already in the list to avoid duplicates
+                        const existingIndex = usage.usedInComponents.findIndex(existing =>
+                            existing.name === componentName
+                        );
+
+                        if (existingIndex >= 0) {
+                            // Update existing entry - don't add to total again
+                            const oldQuantity = usage.usedInComponents[existingIndex].quantity;
+                            const newQuantity = Math.max(oldQuantity, quantity);
+                            usage.usedInComponents[existingIndex].quantity = newQuantity;
+                            // Adjust total uses (remove old, add new)
+                            usage.totalUses = usage.totalUses - oldQuantity + newQuantity;
+                        } else {
+                            // Add new entry
+                            usage.usedInComponents.push({
+                                name: componentName,
+                                quantity: quantity,
+                                tier: component.OutputTier || component.outputTier || component.tier || 1
+                            });
+                            usage.totalUses += quantity;
+                        }
+                    }
+                }
+            });
+        });
+
+        // Generate markdown report
+        let markdownContent = `# Component to Ingredient Production Paths Analysis\n\n`;
+        markdownContent += `Generated on: ${new Date().toISOString()}\n\n`;
+
+        // Debug information
+        markdownContent += `## Debug Information\n\n`;
+        markdownContent += `- Total Components Found: ${components.length}\n`;
+        markdownContent += `- Total Ingredients Found: ${ingredients.length}\n`;
+
+        // Show sample component names
+        markdownContent += `\n**Sample Component Names:**\n`;
+        components.slice(0, 5).forEach(comp => {
+            const name = comp.OutputName || comp.outputName || comp.name;
+            markdownContent += `- "${name}"\n`;
+        });
+
+        // Show sample ingredient names and their ingredients
+        markdownContent += `\n**Sample Ingredients and Their Components:**\n`;
+        ingredients.slice(0, 5).forEach(ing => {
+            const name = ing.OutputName || ing.outputName || ing.name;
+            markdownContent += `- **${name}** uses:\n`;
+
+            const ingredientsList = ing.ingredients || [];
+            if (ingredientsList.length > 0) {
+                ingredientsList.forEach(ingredient => {
+                    markdownContent += `  - "${ingredient.name}" x${ingredient.quantity}\n`;
+                });
+            } else {
+                markdownContent += `  - (No ingredients found)\n`;
+            }
+        });
+
+        // Show matching debug info
+        markdownContent += `\n**Component Matching Debug:**\n`;
+        let matchCount = 0;
+        let totalChecked = 0;
+        ingredients.slice(0, 3).forEach(ing => {
+            const name = ing.OutputName || ing.outputName || ing.name;
+            markdownContent += `- **${name}** ingredient matching:\n`;
+
+            const ingredientsList = ing.ingredients || [];
+            ingredientsList.forEach(ingredient => {
+                const ingredientComponent = ingredient.name;
+                if (ingredientComponent) {
+                    totalChecked++;
+                    const exactMatch = componentUsageMap.has(ingredientComponent);
+                    const normalizedIngredient = normalizeComponentName(ingredientComponent);
+                    const normalizedMatch = normalizedComponentMap.has(normalizedIngredient);
+
+                    markdownContent += `  - "${ingredientComponent}" -> Exact: ${exactMatch}, Normalized: ${normalizedMatch}\n`;
+                    if (exactMatch || normalizedMatch) matchCount++;
+                }
+            });
+        });
+        markdownContent += `- **Total matches found: ${matchCount}/${totalChecked}**\n`;
+
+        markdownContent += `\n## Summary\n\n`;
+        markdownContent += `- Total Components Analyzed: ${components.length}\n`;
+        markdownContent += `- Total Ingredients Analyzed: ${ingredients.length}\n`;
+
+        // Count components by usage
+        const usedComponents = Array.from(componentUsageMap.values()).filter(c => c.totalUses > 0);
+        const unusedComponents = Array.from(componentUsageMap.values()).filter(c => c.totalUses === 0);
+
+        markdownContent += `- Components Used in Production: ${usedComponents.length}\n`;
+        markdownContent += `- Components Not Used: ${unusedComponents.length}\n\n`;
+
+        // Sort components by total usage (descending)
+        const sortedComponents = Array.from(componentUsageMap.entries())
+            .sort(([, a], [, b]) => b.totalUses - a.totalUses);
+
+        markdownContent += `## Component Usage Analysis\n\n`;
+        markdownContent += `### Most Used Components\n\n`;
+
+        // Top 20 most used components
+        const topComponents = sortedComponents.slice(0, 20);
+        topComponents.forEach(([name, usage], index) => {
+            markdownContent += `${index + 1}. **${name}** (${usage.totalUses} total uses)\n`;
+            markdownContent += `   - Tier: T${usage.tier}\n`;
+            if (usage.functionalPurpose) {
+                markdownContent += `   - Purpose: ${usage.functionalPurpose}\n`;
+            }
+            if (usage.usageCategory) {
+                markdownContent += `   - Category: ${usage.usageCategory}\n`;
+            }
+            markdownContent += `   - Used in ${usage.usedInIngredients.length} ingredients, ${usage.usedInComponents.length} components\n\n`;
+        });
+
+        markdownContent += `## Detailed Component Usage Breakdown\n\n`;
+
+        // Detailed breakdown for all components with usage
+        usedComponents.forEach(usage => {
+            const componentName = usage.component.OutputName || usage.component.outputName || usage.component.name;
+            markdownContent += `### ${componentName}\n\n`;
+            markdownContent += `**Component Details:**\n`;
+            markdownContent += `- Tier: T${usage.tier}\n`;
+            markdownContent += `- Total Uses: ${usage.totalUses}\n`;
+            if (usage.functionalPurpose) {
+                markdownContent += `- Functional Purpose: ${usage.functionalPurpose}\n`;
+            }
+            if (usage.usageCategory) {
+                markdownContent += `- Usage Category: ${usage.usageCategory}\n`;
+            }
+
+            // Show component recipe
+            markdownContent += `\n**Component Recipe:**\n`;
+            for (let i = 1; i <= 9; i++) {
+                const ingredient = usage.component[`Ingredient${i}`];
+                const quantity = usage.component[`Quantity${i}`];
+                if (ingredient && quantity) {
+                    markdownContent += `- ${ingredient} x${quantity}\n`;
+                }
+            }
+
+            if (usage.usedInIngredients.length > 0) {
+                markdownContent += `\n**Used in Ingredients (${usage.usedInIngredients.length}):**\n`;
+                usage.usedInIngredients
+                    .sort((a, b) => b.quantity - a.quantity)
+                    .forEach(ing => {
+                        markdownContent += `- **${ing.name}** (T${ing.tier}) - Uses ${ing.quantity}x`;
+                        if (ing.constructionTime) {
+                            markdownContent += ` - Construction Time: ${ing.constructionTime}s`;
+                        }
+                        markdownContent += `\n`;
+                    });
+            }
+
+            if (usage.usedInComponents.length > 0) {
+                markdownContent += `\n**Used in Other Components (${usage.usedInComponents.length}):**\n`;
+                usage.usedInComponents
+                    .sort((a, b) => b.quantity - a.quantity)
+                    .forEach(comp => {
+                        markdownContent += `- **${comp.name}** (T${comp.tier}) - Uses ${comp.quantity}x\n`;
+                    });
+            }
+
+            markdownContent += `\n---\n\n`;
+        });
+
+        // Unused components section
+        if (unusedComponents.length > 0) {
+            markdownContent += `## Unused Components (${unusedComponents.length})\n\n`;
+            markdownContent += `These components are not used in any ingredient or component recipes:\n\n`;
+
+            unusedComponents
+                .sort((a, b) => {
+                    const tierDiff = a.tier - b.tier;
+                    if (tierDiff !== 0) return tierDiff;
+
+                    const nameA = a.component.OutputName || a.component.outputName || a.component.name || '';
+                    const nameB = b.component.OutputName || b.component.outputName || b.component.name || '';
+                    return nameA.localeCompare(nameB);
+                })
+                .forEach(usage => {
+                    const componentName = usage.component.OutputName || usage.component.outputName || usage.component.name;
+                    markdownContent += `- **${componentName}** (T${usage.tier})`;
+                    if (usage.functionalPurpose) {
+                        markdownContent += ` - ${usage.functionalPurpose}`;
+                    }
+                    markdownContent += `\n`;
+                });
+        }
+
+        // Production chain statistics
+        markdownContent += `\n## Production Chain Statistics\n\n`;
+        markdownContent += `### Components by Tier Usage\n\n`;
+
+        const tierStats = {};
+        for (let tier = 1; tier <= 5; tier++) {
+            const tierComponents = usedComponents.filter(c => c.tier == tier);
+            const totalTierUses = tierComponents.reduce((sum, c) => sum + c.totalUses, 0);
+            tierStats[tier] = { count: tierComponents.length, totalUses: totalTierUses };
+
+            markdownContent += `**Tier ${tier}:** ${tierComponents.length} components, ${totalTierUses} total uses\n`;
+        }
+
+        // Export the markdown file
+        const blob = new Blob([markdownContent], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `component-to-ingredient-analysis-${new Date().toISOString().split('T')[0]}.md`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        console.log('Component to Ingredient Analysis exported successfully');
+    };
+
+    // Basic Resource Usage Analysis Export
+    const exportBasicResourceUsageAnalysis = () => {
+        console.log('Generating Basic Resource Usage Analysis...');
+
+        // Get all basic resources and what uses them
+        const basicResources = allRecipes.filter(recipe => {
+            const outputType = (recipe.OutputType || recipe.outputType || recipe.type || '').toUpperCase();
+            return outputType === 'BASIC RESOURCE' || outputType === 'BASIC ORGANIC RESOURCE';
+        });
+
+        const allOtherRecipes = allRecipes.filter(recipe => {
+            const outputType = (recipe.OutputType || recipe.outputType || recipe.type || '').toUpperCase();
+            return outputType !== 'BASIC RESOURCE' && outputType !== 'BASIC ORGANIC RESOURCE';
+        });
+
+        // Build basic resource usage map
+        const resourceUsageMap = new Map();
+
+        // Initialize all basic resources in the map
+        basicResources.forEach(resource => {
+            const resourceName = resource.OutputName || resource.outputName || resource.name;
+            resourceUsageMap.set(resourceName, {
+                resource: resource,
+                usedInComponents: [],
+                usedInIngredients: [],
+                usedInOthers: [],
+                totalUses: 0,
+                tier: resource.OutputTier || resource.outputTier || resource.tier || 1,
+                functionalPurpose: resource.FunctionalPurpose || resource.functionalPurpose || '',
+                planetTypes: resource.PlanetTypes || resource.planetTypes || '',
+                factions: resource.Factions || resource.factions || ''
+            });
+        });
+
+        // Create a helper function to normalize resource names for matching
+        const normalizeResourceName = (name) => {
+            if (!name) return '';
+            return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        };
+
+        // Create a lookup map for normalized resource names
+        const normalizedResourceMap = new Map();
+        resourceUsageMap.forEach((usage, resourceName) => {
+            const normalized = normalizeResourceName(resourceName);
+            normalizedResourceMap.set(normalized, resourceName);
+        });
+
+        // Track basic resource usage in all other recipes
+        allOtherRecipes.forEach(recipe => {
+            const recipeName = recipe.OutputName || recipe.outputName || recipe.name;
+            const recipeType = recipe.OutputType || recipe.outputType || recipe.type || 'UNKNOWN';
+
+            // Use the processed ingredients array
+            const ingredientsList = recipe.ingredients || [];
+
+            ingredientsList.forEach(ing => {
+                const ingredientResource = ing.name;
+                const quantity = ing.quantity || 1;
+
+                if (ingredientResource) {
+                    // Try exact match first
+                    let matchedResourceName = null;
+                    if (resourceUsageMap.has(ingredientResource)) {
+                        matchedResourceName = ingredientResource;
+                    } else {
+                        // Try normalized match
+                        const normalizedIngredient = normalizeResourceName(ingredientResource);
+                        if (normalizedResourceMap.has(normalizedIngredient)) {
+                            matchedResourceName = normalizedResourceMap.get(normalizedIngredient);
+                        }
+                    }
+
+                    if (matchedResourceName) {
+                        const usage = resourceUsageMap.get(matchedResourceName);
+
+                        // Categorize by recipe type
+                        let targetArray;
+                        if (recipeType === 'COMPONENT') {
+                            targetArray = usage.usedInComponents;
+                        } else if (recipeType === 'INGREDIENT') {
+                            targetArray = usage.usedInIngredients;
+                        } else {
+                            targetArray = usage.usedInOthers;
+                        }
+
+                        // Check if this recipe is already in the list to avoid duplicates
+                        const existingIndex = targetArray.findIndex(existing =>
+                            existing.name === recipeName
+                        );
+
+                        if (existingIndex >= 0) {
+                            // Update existing entry - don't add to total again
+                            const oldQuantity = targetArray[existingIndex].quantity;
+                            const newQuantity = Math.max(oldQuantity, quantity);
+                            targetArray[existingIndex].quantity = newQuantity;
+                            // Adjust total uses (remove old, add new)
+                            usage.totalUses = usage.totalUses - oldQuantity + newQuantity;
+                        } else {
+                            // Add new entry
+                            targetArray.push({
+                                name: recipeName,
+                                quantity: quantity,
+                                tier: recipe.OutputTier || recipe.outputTier || recipe.tier || 1,
+                                type: recipeType,
+                                constructionTime: recipe.ConstructionTime || recipe.constructionTime || 0
+                            });
+                            usage.totalUses += quantity;
+                        }
+                    }
+                }
+            });
+        });
+
+        // Generate markdown report
+        let markdownContent = `# Basic Resource Usage Analysis\n\n`;
+        markdownContent += `Generated on: ${new Date().toISOString()}\n\n`;
+
+        // Debug information
+        markdownContent += `## Debug Information\n\n`;
+        markdownContent += `- Total Basic Resources Found: ${basicResources.length}\n`;
+        markdownContent += `- Total Other Recipes Analyzed: ${allOtherRecipes.length}\n`;
+
+        // Show sample resource names
+        markdownContent += `\n**Sample Basic Resource Names:**\n`;
+        basicResources.slice(0, 10).forEach(res => {
+            const name = res.OutputName || res.outputName || res.name;
+            const type = res.OutputType || res.outputType || res.type;
+            markdownContent += `- "${name}" (${type})\n`;
+        });
+
+        markdownContent += `\n## Summary\n\n`;
+        markdownContent += `- Total Basic Resources Analyzed: ${basicResources.length}\n`;
+        markdownContent += `- Total Recipes Using Resources: ${allOtherRecipes.length}\n`;
+
+        // Count resources by usage
+        const usedResources = Array.from(resourceUsageMap.values()).filter(r => r.totalUses > 0);
+        const unusedResources = Array.from(resourceUsageMap.values()).filter(r => r.totalUses === 0);
+
+        markdownContent += `- Basic Resources Used in Production: ${usedResources.length}\n`;
+        markdownContent += `- Basic Resources Not Used: ${unusedResources.length}\n\n`;
+
+        // Sort resources by total usage (descending)
+        const sortedResources = Array.from(resourceUsageMap.entries())
+            .sort(([, a], [, b]) => b.totalUses - a.totalUses);
+
+        markdownContent += `## Resource Usage Analysis\n\n`;
+        markdownContent += `### Most Used Basic Resources\n\n`;
+
+        // Top 20 most used resources
+        const topResources = sortedResources.slice(0, 20);
+        topResources.forEach(([name, usage], index) => {
+            markdownContent += `${index + 1}. **${name}** (${usage.totalUses} total uses)\n`;
+            markdownContent += `   - Tier: T${usage.tier}\n`;
+            markdownContent += `   - Type: ${usage.resource.OutputType || usage.resource.outputType || usage.resource.type}\n`;
+            if (usage.functionalPurpose) {
+                markdownContent += `   - Purpose: ${usage.functionalPurpose}\n`;
+            }
+            if (usage.planetTypes) {
+                markdownContent += `   - Planets: ${usage.planetTypes}\n`;
+            }
+            markdownContent += `   - Used in ${usage.usedInComponents.length} components, ${usage.usedInIngredients.length} ingredients, ${usage.usedInOthers.length} others\n\n`;
+        });
+
+        markdownContent += `## Detailed Resource Usage Breakdown\n\n`;
+
+        // Detailed breakdown for all resources with usage
+        usedResources.forEach(usage => {
+            const resourceName = usage.resource.OutputName || usage.resource.outputName || usage.resource.name;
+            markdownContent += `### ${resourceName}\n\n`;
+            markdownContent += `**Resource Details:**\n`;
+            markdownContent += `- Type: ${usage.resource.OutputType || usage.resource.outputType || usage.resource.type}\n`;
+            markdownContent += `- Tier: T${usage.tier}\n`;
+            markdownContent += `- Total Uses: ${usage.totalUses}\n`;
+            if (usage.functionalPurpose) {
+                markdownContent += `- Functional Purpose: ${usage.functionalPurpose}\n`;
+            }
+            if (usage.planetTypes) {
+                markdownContent += `- Planet Types: ${usage.planetTypes}\n`;
+            }
+            if (usage.factions) {
+                markdownContent += `- Factions: ${usage.factions}\n`;
+            }
+
+            if (usage.usedInComponents.length > 0) {
+                markdownContent += `\n**Used in Components (${usage.usedInComponents.length}):**\n`;
+                usage.usedInComponents
+                    .sort((a, b) => b.quantity - a.quantity)
+                    .forEach(comp => {
+                        markdownContent += `- **${comp.name}** (T${comp.tier}) - Uses ${comp.quantity}x`;
+                        if (comp.constructionTime) {
+                            markdownContent += ` - Construction Time: ${comp.constructionTime}s`;
+                        }
+                        markdownContent += `\n`;
+                    });
+            }
+
+            if (usage.usedInIngredients.length > 0) {
+                markdownContent += `\n**Used in Ingredients (${usage.usedInIngredients.length}):**\n`;
+                usage.usedInIngredients
+                    .sort((a, b) => b.quantity - a.quantity)
+                    .forEach(ing => {
+                        markdownContent += `- **${ing.name}** (T${ing.tier}) - Uses ${ing.quantity}x`;
+                        if (ing.constructionTime) {
+                            markdownContent += ` - Construction Time: ${ing.constructionTime}s`;
+                        }
+                        markdownContent += `\n`;
+                    });
+            }
+
+            if (usage.usedInOthers.length > 0) {
+                markdownContent += `\n**Used in Other Recipes (${usage.usedInOthers.length}):**\n`;
+                usage.usedInOthers
+                    .sort((a, b) => b.quantity - a.quantity)
+                    .forEach(other => {
+                        markdownContent += `- **${other.name}** (${other.type}, T${other.tier}) - Uses ${other.quantity}x`;
+                        if (other.constructionTime) {
+                            markdownContent += ` - Construction Time: ${other.constructionTime}s`;
+                        }
+                        markdownContent += `\n`;
+                    });
+            }
+
+            markdownContent += `\n---\n\n`;
+        });
+
+        // Unused resources section
+        if (unusedResources.length > 0) {
+            markdownContent += `## Unused Basic Resources (${unusedResources.length})\n\n`;
+            markdownContent += `These basic resources are not used in any recipes:\n\n`;
+
+            unusedResources
+                .sort((a, b) => {
+                    const tierDiff = a.tier - b.tier;
+                    if (tierDiff !== 0) return tierDiff;
+
+                    const nameA = a.resource.OutputName || a.resource.outputName || a.resource.name || '';
+                    const nameB = b.resource.OutputName || b.resource.outputName || b.resource.name || '';
+                    return nameA.localeCompare(nameB);
+                })
+                .forEach(usage => {
+                    const resourceName = usage.resource.OutputName || usage.resource.outputName || usage.resource.name;
+                    const resourceType = usage.resource.OutputType || usage.resource.outputType || usage.resource.type;
+                    markdownContent += `- **${resourceName}** (${resourceType}, T${usage.tier})`;
+                    if (usage.functionalPurpose) {
+                        markdownContent += ` - ${usage.functionalPurpose}`;
+                    }
+                    markdownContent += `\n`;
+                });
+        }
+
+        // Production chain statistics
+        markdownContent += `\n## Production Chain Statistics\n\n`;
+        markdownContent += `### Resources by Tier Usage\n\n`;
+
+        for (let tier = 1; tier <= 5; tier++) {
+            const tierResources = usedResources.filter(r => r.tier == tier);
+            const totalTierUses = tierResources.reduce((sum, r) => sum + r.totalUses, 0);
+
+            markdownContent += `**Tier ${tier}:** ${tierResources.length} resources, ${totalTierUses} total uses\n`;
+        }
+
+        markdownContent += `\n### Usage by Recipe Type\n\n`;
+        let totalComponentUses = 0;
+        let totalIngredientUses = 0;
+        let totalOtherUses = 0;
+
+        usedResources.forEach(usage => {
+            totalComponentUses += usage.usedInComponents.reduce((sum, comp) => sum + comp.quantity, 0);
+            totalIngredientUses += usage.usedInIngredients.reduce((sum, ing) => sum + ing.quantity, 0);
+            totalOtherUses += usage.usedInOthers.reduce((sum, other) => sum + other.quantity, 0);
+        });
+
+        markdownContent += `- **Components:** ${totalComponentUses} total uses\n`;
+        markdownContent += `- **Ingredients:** ${totalIngredientUses} total uses\n`;
+        markdownContent += `- **Other Recipes:** ${totalOtherUses} total uses\n`;
+
+        // Export the markdown file
+        const blob = new Blob([markdownContent], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `basic-resource-usage-analysis-${new Date().toISOString().split('T')[0]}.md`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        console.log('Basic Resource Usage Analysis exported successfully');
+    };
+
     // Multi-pool production chain analysis export
     const exportMultiPoolAnalysis = (selectedPoolNames) => {
         console.log(`Exporting production chain analysis for: ${selectedPoolNames.join(', ')}`);
@@ -3169,6 +3799,12 @@ const ResourceBalancer = () => {
                     </button>
                     <button className="btn-warning" onClick={exportBalancingReport}>
                         📋 Export Balancing Report
+                    </button>
+                    <button className="btn-success" onClick={exportComponentToIngredientAnalysis}>
+                        🔗 Component Usage Analysis (MD)
+                    </button>
+                    <button className="btn-success" onClick={exportBasicResourceUsageAnalysis}>
+                        ⛏️ Basic Resource Usage Analysis (MD)
                     </button>
                     <button className="btn-info" onClick={() => generateClaimStakeTierReport().catch(err => console.error('Report generation failed:', err))}>
                         🏗️ Claim Stake Tier Report
